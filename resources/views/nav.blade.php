@@ -306,7 +306,7 @@
                     <li>
                         <h1 class="logo-wrapper">
                             <a href="{{ url('/') }}" class="brand-logo darken-1">
-                                <img style="width:160px;height:60px;margin-left:20px" src="{{ asset('images') }}/logo.png" alt="ETEC Social">
+                                <img src="{{ asset('images') }}/logo.png" alt="ETEC Social">
                             </a>
                             <span class="logo-text">ETEC Social</span>
                         </h1>

@@ -4,9 +4,9 @@ ETEC Social
 @stop
 
 @section('style')
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="/css/asset.css" type="text/css" rel="stylesheet" media="screen,projection">
 <link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="/js/plugins/fullcalendar/css/fullcalendar.min.css" type="text/css" rel="stylesheet">
 @stop
 
@@ -318,9 +318,10 @@ Cada graduação tem características e perfis próprios. Listamos todas as enge
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top:25px">
+    <div class="container">
+    <div class="row">
         <div class="col s12 m4">
-            <div class="card red lighten-2 white-text" style="margin-left:12px;width:-12px;height:275px">
+            <div class="card red lighten-2 white-text" style="min-height:250px">
                 <div class="card-content">
                     <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')" onmouseout="javascript:$('#icon-edit-status').hide('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                     <div class="divider"></div>
@@ -347,21 +348,21 @@ Cada graduação tem características e perfis próprios. Listamos todas as enge
             <div id="profile-page-wall-share" class="row">
                 <div class="col s12">
                     <ul class="tabs tab-profile z-depth-1 light-blue" style="width:100%;">
-                        <li class="tab col s4"><a class="white-text waves-light "><i class="mdi-editor-border-color"></i> Publicar</a></li>
+                        <li class="tab col s4"><a class="white-text waves-light ">Postar conteúdos</a></li>
                     </ul>
-                    <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12  grey lighten-4">
+                    <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12 grey lighten-4">
                         <div class="row">
                             <div class="col s2">
-                                <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width:100px">
+                                <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
                             </div>
                             <div class="input-field col s5">
-                                <input name="titulo" placeholder="Assunto" spellcheck="true" autocomplete="off" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
+                                <input name="titulo" placeholder="Assunto (título)" spellcheck="true" autocomplete="off" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
                             </div>
                             <div class="input-field col s5">
-                                <input name="tags" placeholder="Tags" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
+                                <input name="tags" placeholder="tags (opcional)" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
                             </div>
                             <div class="input-field col s10">
-                                <input name="publicacao" placeholder="Sua publicação" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom">
+                                <textarea name="publicacao" placeholder="Poste um resumo, cite um autor, compartilhe algum conhecimento" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
                             </div>
                         </div>
                         <div class="row">
@@ -406,6 +407,7 @@ Cada graduação tem características e perfis próprios. Listamos todas as enge
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
     <div id="card-widgets" class="seaction">

@@ -543,8 +543,13 @@ ul.side-nav .collapsible-header {
 }
 .sidebar-collapse {
     position: absolute;
-    left: -170px;
-    top: -45px;
+    left: -160px;
+    top: -46px;
+    box-shadow: none;
+}
+
+.sidebar-collapse:hover {
+    box-shadow: none;
 }
 
 ul.side-nav.leftside-navigation {
@@ -1575,7 +1580,7 @@ tr.group:hover {
     margin:0px;
 }
 .blog ul.card-action-buttons{
-    margin: -20px 10px 0px 0px;
+    margin: -45px 10px 0px 0px;
     text-align: right;
 }
 .blog ul.card-action-buttons li{
@@ -1583,7 +1588,7 @@ tr.group:hover {
     padding-left: 5px;
 }
 .blog .card .card-content{
-    padding: 5px 10px 5px 10px;
+    padding: 10px 10px 5px 10px;
 }
 .blog .card .card-content .card-title,
 .blog .card .card-reveal .card-title {
