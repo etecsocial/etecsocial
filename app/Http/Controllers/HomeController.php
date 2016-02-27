@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Auth::login(User::find(1), true);
+       //Auth::login(User::find(1), true);
         
         if (Auth::check()) {
             return $this->feed();
@@ -41,7 +41,7 @@ class HomeController extends Controller
             $user = 'false';
         }
 
-        return view('home.home', [
+        return view('home.newhome', [
             'user'      => $user,
             'cadastro'  => Input::has('cadastro')
         ]);

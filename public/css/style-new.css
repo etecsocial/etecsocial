@@ -1,0 +1,31 @@
+#index .section {
+	background: url('../images/background-login.jpg') no-repeat center center / cover;
+	padding-bottom: 50px;
+	color: #000;
+}
+
+#index-frase .section {
+	background: url('../images/background-frase.jpg') no-repeat center center / cover;
+	color: #fff;
+	padding: 50px 0;
+	font-weight: bold;
+}
+
+#site-features p {
+	font-size: 16px;
+}
+
+.text-justify {
+	text-align: justify;
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+	margin-top: 0
+}
