@@ -18,10 +18,10 @@ class Kernel extends HttpKernel
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
 
     // appending custom middleware 
-  //  \App\Http\Middleware\HttpsProtocol::class,
-    \App\Http\Middleware\EncryptCookies::class,
-    \App\Http\Middleware\HTMLminify::class,
-        // \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\EncryptCookies::class,
+    // \App\Http\Middleware\HttpsProtocol::class,
+    // \App\Http\Middleware\HTMLminify::class,
+    // \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**

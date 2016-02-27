@@ -1,16 +1,5 @@
 <?php
 
-/*
-  |--------------------------------------------------------------------------
-  | Application Routes
-  |--------------------------------------------------------------------------
-  |
-  | Here is where you can register all of the routes for an application.
-  | It's a breeze. Simply tell Laravel the URIs it should respond to
-  | and give it the controller to call when that URI is requested.
-  |
- */
-
 Route::group(array('domain' => 'etec.localhost'), function()
 {
     //AUTH
@@ -23,13 +12,11 @@ Route::group(array('domain' => 'etec.localhost'), function()
     Route::get('/', 'HomeController@index');
     //AGENDA
     Route::get('/agenda', 'AgendaController@index');
-    
-//PESQUISA
-    Route::get('/busca/{termo}', 'PesquisaController@index');    
-//GRUPO
-    
-    Route::get('/grupo/{groupname}', 'GrupoController@index');
+    //PESQUISA
+    Route::get('/busca/{termo}', 'PesquisaController@index');
+    //GRUPO
     Route::get('/grupos', 'GrupoController@listar');
+    Route::get('/grupo/{groupname}', 'GrupoController@index');
     //TAREFA
     Route::get('/tarefas', 'TarefaController@index');
     //TAGS
@@ -41,7 +28,6 @@ Route::group(array('domain' => 'etec.localhost'), function()
     //PERFIL
     Route::get('/{username}', 'PerfilController@index');
     Route::get('/perfil/editar', 'PerfilController@update');
-    
     //AJAX
     Route::group(['prefix' => 'ajax'], function () {
         //CONTA
@@ -50,22 +36,26 @@ Route::group(array('domain' => 'etec.localhost'), function()
         Route::get('/agenda', 'AgendaController@api');
         Route::resource('/agenda', 'AgendaController');
         //CONTA
-        Route::get('/cadastro/escolas', 'ContaController@consultarEscola');
-        Route::get('/cadastro/turmas', 'ContaController@consultarTurma');
+        Route::group(['prefix' => 'cadastro'], function () {
+            Route::get('/escolas', 'ContaController@consultarEscola');
+            Route::get('/turmas', 'ContaController@consultarTurma');
+        });
         //MENSAGEM
-        Route::post('/chat/enviar', 'ChatController@enviar');
-        Route::post('/chat/abrir', 'ChatController@abrir');
-        Route::post('/chat/channel', 'ChatController@channel');
+        Route::group(['prefix' => 'chat'], function () {
+            Route::post('/enviar', 'ChatController@enviar');
+            Route::post('/abrir', 'ChatController@abrir');
+            Route::post('/channel', 'ChatController@channel');
+        });
          //PESQUISAR
         Route::get('/buscar', 'PesquisaController@buscaRapida');
         //STATUS
         Route::post('/status', 'PerfilController@status');
         //NEWPOST
         Route::post('/newpost', 'HomeController@newpost');
-        Route::post("/perfil/newpost", 'PerfilController@newpost');
+        Route::post('/perfil/newpost', 'PerfilController@newpost');
         //MOREPOST
         Route::post('/morepost', 'HomeController@morepost');
-        Route::post("/perfil/morepost", 'PerfilController@morepost');
+        Route::post('/perfil/morepost', 'PerfilController@morepost');
         //POST
         Route::resource('/post', 'PostController', ['except' => ['index', 'create', 'edit']]);
         //REPOST
@@ -74,7 +64,7 @@ Route::group(array('domain' => 'etec.localhost'), function()
         Route::post('/post/favoritar', 'PostController@favoritar');
         //COMENTARIO
         Route::resource('/comentario', 'ComentarioController', ['except' => ['index', 'create', 'edit']]);
-    Route::resource('/discussao', 'DiscussaoController', ['except' => ['index', 'create', 'edit']]);
+        Route::resource('/discussao', 'DiscussaoController', ['except' => ['index', 'create', 'edit']]);
         Route::resource('/pergunta', 'PerguntaController', ['except' => ['index', 'create', 'edit']]);
         //TAREFA
         Route::post('/tarefas', 'TarefaController@store');
@@ -89,32 +79,28 @@ Route::group(array('domain' => 'etec.localhost'), function()
         //AGENDA
         Route::get('/agenda', 'AgendaController@api');
         //NOTIFICACAO
-        Route::get('/notificacao/makeread', 'NotificacaoController@makeread');
-        Route::post('/notificacao/new', 'NotificacaoController@newnoti');
-        Route::post('/notificacao/channel', 'NotificacaoController@channel');
-                //GRUPO
-        Route::post('/grupo/criar', 'GrupoController@criar');
-        Route::post('/grupo/addAlunoDir', 'GrupoController@addAlunoDir');
-        Route::post('/grupo/addProfGrupo', 'GrupoController@addProfGrupo');
-        Route::post('/grupo/removeAlunoGrupo', 'GrupoController@removeAlunoGrupo');
-        Route::post('/grupo/discussao/delete', 'GrupoController@delDisc');
-        Route::post('/grupo/pergunta/delete', 'GrupoController@delPerg');
-        Route::post('/grupo/discussao', 'GrupoController@setDisc');
-        Route::post('/grupo/pergunta', 'GrupoController@setPerg');
-        Route::post('/grupo/material', 'GrupoController@setMat');
-        Route::post('/grupo/edit', 'GrupoController@edit');
-        Route::post('/grupo/sair', 'GrupoController@sair');
-        Route::post('/grupo/excluir', 'GrupoController@excluir');
-        //DENÃšNCIA
-        Route::post('/grupo/denuncia/create', 'DenunciaController@createDenunciaGrupo');
-        Route::post('/grupo/denuncia/analisa', 'DenunciaController@analisaDenunciaGrupo');
+        Route::group(['prefix' => 'notificacao'], function () {
+            Route::get('/makeread', 'NotificacaoController@makeread');
+            Route::post('/new', 'NotificacaoController@newnoti');
+            Route::post('/channel', 'NotificacaoController@channel');
+        });
+        //GRUPO
+        Route::group(['prefix' => 'grupo'], function () {
+            Route::post('/criar', 'GrupoController@criar');
+            Route::post('/edit', 'GrupoController@edit');
+            Route::post('/sair', 'GrupoController@sair');
+            Route::post('/excluir', 'GrupoController@excluir');
+            Route::post('/discussao', 'GrupoController@setDisc');
+            Route::post('/pergunta', 'GrupoController@setPerg');
+            Route::post('/material', 'GrupoController@setMat');
+            Route::post('/addAlunoDir', 'GrupoController@addAlunoDir');
+            Route::post('/addProfGrupo', 'GrupoController@addProfGrupo');
+            Route::post('/removeAlunoGrupo', 'GrupoController@removeAlunoGrupo');
+            Route::post('/discussao/delete', 'GrupoController@delDisc');
+            Route::post('/pergunta/delete', 'GrupoController@delPerg');
+            //DENUNCIA
+            Route::post('/denuncia/create', 'DenunciaController@createDenunciaGrupo');
+            Route::post('/denuncia/analisa', 'DenunciaController@analisaDenunciaGrupo');
+        });
     });
-});
-
-Route::group(array('domain' => 'projeto.etecsocial.com.br'), function()
-{
-    //PROJETO
-    Route::get('/', 'ProjetoController@index');
-    //CONTATO
-    Route::post('/sendmail', 'ProjetoController@sendmail');
 });
