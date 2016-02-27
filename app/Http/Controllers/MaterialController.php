@@ -25,7 +25,6 @@ class DiscussaoController extends Controller {
      */
 
     public function store(Request $request) {
-        Carbon::setLocale('pt_BR');
         if ($request->comentario == '') {
             return 'empty';
         }
@@ -47,7 +46,6 @@ class DiscussaoController extends Controller {
      * @return Response
      */
     public function destroy($id_comentario) {
-        Carbon::setLocale('pt_BR');
         if(ComentarioDiscussao::where('id', $id_comentario)->delete()){
             return Response::json(['status' => true, 'id' => $id_comentario]);
         }

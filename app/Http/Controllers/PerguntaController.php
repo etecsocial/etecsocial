@@ -26,7 +26,6 @@ class PerguntaController extends Controller {
      * @return Response
      */
     public function store(Request $request) {
-        Carbon::setLocale('pt_BR');
         if ($request->comentario == '') {
             return 'empty';
         }

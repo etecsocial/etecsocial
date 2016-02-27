@@ -47,10 +47,7 @@ class HomeController extends Controller
         ]);
     }
     
-    public function feed($id = 0) 
-    {   
-        Carbon::setLocale('pt_BR');
-        
+    public function feed($id = 0) {   
         $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->limit(9)
@@ -59,8 +56,6 @@ class HomeController extends Controller
                 ->where('amizades.aceitou', 1)
                 ->where('amizades.id_user2', Auth::user()->id)
                 ->get();
-        
-        Carbon::setLocale('pt_BR');
         
         $tasks = DB::table('tarefas')
                 ->select(['desc', 'data', 'checked', 'id'])
@@ -78,9 +73,7 @@ class HomeController extends Controller
     }
     
     public function newpost(Request $request) 
-    {
-        Carbon::setLocale('pt_BR');
-        
+    {        
         $posts = DB::table('posts')
                 ->join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
@@ -96,7 +89,6 @@ class HomeController extends Controller
     
     public function morepost(Request $request) 
     {
-        Carbon::setLocale('pt_BR');
         $n = 9 - $request->tamanho % 9;
                 
         $posts = DB::table('posts')
