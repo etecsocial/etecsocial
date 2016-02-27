@@ -5,22 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Auth;
-use DB;
-use App\User;
-use Carbon\Carbon;
-use Response;
-use App\Grupo;
-use Input;
+use App\ComentarioDiscussao;
+use App\ComentarioPergunta;
+use App\Notificacao;
 use App\GrupoAtiv;
 use App\GrupoUsuario;
 use App\GrupoDiscussao;
 use App\GrupoPergunta;
 use App\GrupoMaterial;
 use App\GrupoSaiu;
-use App\ComentarioDiscussao;
-use App\ComentarioPergunta;
-use App\Notificacao;
+use App\Grupo;
+use App\User;
+use Response;
+use Input;
+use Auth;
+use DB;
+
+use Carbon\Carbon;
 
 class GrupoController extends Controller {
 
@@ -33,46 +34,46 @@ class GrupoController extends Controller {
      *
      * @2015 ETEC Social.
      */
-    public $extensionMidia = array('flv', 'FLV', 'mp4', 'MP4', 'jpg', 'JPG', 'png', 'PNG', 'gif');
-    public $extensionDocs = array('pdf', 'txt', 'doc', 'docx', 'pptx', 'xls');
-    public $MidiaDestinationPath = "midia/grupos";
-    public $DocsDestinationPath = "docs/grupos";
+    public $extensionMidia = ['flv', 'FLV', 'mp4', 'MP4', 'jpg', 'JPG', 'png', 'PNG', 'gif'];
+    public $extensionDocs = ['pdf', 'txt', 'doc', 'docx', 'pptx', 'xls'];
+    public $MidiaDestinationPath = 'midia/grupos';
+    public $DocsDestinationPath = 'docs/grupos';
 
     public function listar() {
         Carbon::setLocale('pt_BR');
-        $grupos = GrupoUsuario::where("id_user", Auth::user()->id)
+        $grupos = GrupoUsuario::where('id_user', Auth::user()->id)
                 ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
                 ->get();
 
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
-                ->where("amizades.aceitou", 1)
-                ->where("users.id", "!=", Auth::user()->id)
-                ->select([ 'users.id', 'users.nome', 'users.info_academica'])
-                ->where("amizades.id_user2", Auth::user()->id)
+                ->where('amizades.aceitou', 1)
+                ->where('users.id', "!=", Auth::user()->id)
+                ->select(['users.id', 'users.nome', 'users.info_academica'])
+                ->where('amizades.id_user2', Auth::user()->id)
                 ->get();
 
-        $professores = User::where("tipo", 2)->get();
+        $professores = User::where('tipo', 2)->get();
 
         return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores]);
     }
 
     public function index($groupname) {
         Carbon::setLocale('pt_BR');
-        if ($grupo = Grupo::where("url", $groupname)->first()) {//Verifica se o grupo existe
+        if ($grupo = Grupo::where('url', $groupname)->first()) {//Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {//Verifica se é expirado
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {//Verifica se o usuário é integrante e não está banido
-                    return view("grupo.grupo", $dados = $this->getGroupData($grupo));
+                    return view('grupo.grupo', $dados = $this->getGroupData($grupo));
                 } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {//Verifica se o usuário é banido, já que a seleção anterior falhou
-                    return view("grupo.grupo", $this->getGroupDataBan($grupo)); //Retorna a view com os dados
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo)); //Retorna a view com os dados
                 } else {//O usuário não é integrante do grupo
                     return abort(404);
                 }
             } else {//O grupo expirou.
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
-                    return view("grupo.grupo", $dados = $this->getGroupDataExp($grupo));
+                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo));
                 } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {
 
-                    return view("grupo.grupo", $this->getGroupDataBan($grupo));
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo));
                 } else {//USUÁRIO NAO ESTÁ NO GRUPO
                     return abort(404);
                 }
@@ -90,7 +91,7 @@ class GrupoController extends Controller {
         Carbon::setLocale('pt_BR');
         if (($request->nome) and ( $request->url) and ( $request->assunto)) {
             if (Grupo::where('url', $request->url)->first()) {
-                return Response::json([ "status" => 3]);
+                return Response::json([ 'status' => 3]);
             }
             $grupo = new Grupo;
             $grupo->nome = $request->nome;
@@ -104,7 +105,7 @@ class GrupoController extends Controller {
                 if ($request->expiracao >= \Carbon\Carbon::today()) {
                     $grupo->expiracao = $request->expiracao;
                 } else {
-                    return Response::json([ "status" => 2]);
+                    return Response::json([ 'status' => 2]);
                 }
             }
 
@@ -113,11 +114,11 @@ class GrupoController extends Controller {
                 $grupoUsuario->id_grupo = $grupo->id;
                 $grupoUsuario->id_user = $grupo->id_criador;
                 $grupoUsuario->is_admin = 1;
-                return $grupoUsuario->save() ? Response::json([ "status" => 1]) : Response::json([ "status" => 0]);
+                return $grupoUsuario->save() ? Response::json([ 'status' => 1]) : Response::json([ 'status' => 0]);
             } else {
-                return Response::json([ "status" => 0]);
+                return Response::json(['status' => 0]);
             }
-        }return Response::json([ "status" => 4]);
+        }return Response::json(['status' => 4]);
     }
 
     /**
@@ -155,9 +156,9 @@ class GrupoController extends Controller {
                     'action' => '/grupo/' . Grupo::verGrupo($request->id_grupo)->url
                 ]);
                 $this->IncParticipante($request->id_grupo);
-                return Response::json([ "response" => 1]);
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json(['response' => 1]);
+            }return Response::json(['response' => 2]);
+        }return Response::json(['response' => 3]);
     }
 
 //    public function addProfDir(Request $request) { //CRIA A NOTIFICAÇÃO PARA O PROFESSOR
@@ -166,8 +167,8 @@ class GrupoController extends Controller {
 //        $add->id_user = $request->id_prof;
 //        if ($add->save()) {
 //            $this->IncParticipante($request->id_grupo);
-//            return Response::json([ "response" => 1]);
-//        }return Response::json([ "response" => 0]);
+//            return Response::json([ 'response' => 1]);
+//        }return Response::json([ 'response' => 0]);
 //    }
 
     public function addProfGrupo(Request $request) {   //SALVA NO DB APÓS CONFIRMAÇÃO (ou nao)
@@ -177,9 +178,9 @@ class GrupoController extends Controller {
             $add->id_user = $request->id_professor;
             if ($add->save()) {
                 $this->IncParticipante($request->id_grupo);
-                return Response::json([ "response" => 1]);
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json(['response' => 1]);
+            }return Response::json(['response' => 2]);
+        }return Response::json(['response' => 3]);
     }
 
     public function removeAlunoGrupo(Request $request) { // Remove o aluno do grupo
@@ -191,14 +192,14 @@ class GrupoController extends Controller {
                     'id_rem' => $request->id_aluno,
                     'id_dest' => $request->id_aluno,
                     'data' => time(),
-                    'texto' => "Você foi banido do grupo '" . Grupo::verGrupo($request->id_grupo)->nome . "' pelo administrador.",
+                    'texto' => 'Você foi banido do grupo "' . Grupo::verGrupo($request->id_grupo)->nome . '" pelo administrador.',
                     'is_post' => false,
                     'action' => '/grupo/' . Grupo::verGrupo($request->id_grupo)->url
                 ]);
                 $this->decParticipante($request->id_grupo);
-                return Response::json([ "response" => 1]);
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json(['response' => 1]);
+            }return Response::json(['response' => 2]);
+        }return Response::json(['response' => 3]);
     }
 
     public function setDisc(Request $request) {
@@ -224,32 +225,32 @@ class GrupoController extends Controller {
                 'id_rem' => Auth::user()->id,
                 'id_dest' => $id_dest->id_user,
                 'data' => time(),
-                'texto' => "Iniciou uma discussão no grupo '" . Grupo::verGrupo($request->idgrupo)->nome . "'",
+                'texto' => 'Iniciou uma discussão no grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
                 'is_post' => false,
                 'action' => '/grupo/' . Grupo::verGrupo($request->idgrupo)->url
             ]);
         }
-        return Response::json([ "disc" => $disc]);
+        return Response::json(['disc' => $disc]);
     }
 
     public function delDisc(Request $request) {
         if (GrupoDiscussao::where('id', $request->id_discussao)->first()) {
             if (GrupoDiscussao::where('id', $request->id_discussao)->delete()) {
                 $this->decDiscussao($request->id_grupo);
-                return Response::json([ "response" => 1, "id" => $request->id_discussao]); //passa junto o id da discussao para dar o fadeOut na view.
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json([ 'response' => 1, 'id' => $request->id_discussao]); //passa junto o id da discussao para dar o fadeOut na view.
+            }return Response::json([ 'response' => 2]);
+        }return Response::json([ 'response' => 3]);
     }
 
     public function newDisc(Request $request) {
         Carbon::setLocale('pt_BR');
 
         $discussoes = GrupoDiscussao::orderBy('created_at', 'desc')
-                ->where("id", ">", $request->id)
+                ->where('id', '>', $request->id)
                 ->get();
         $grupo = Grupo::where('id', $discussoes->id_grupo)->get();
 
-        return view('grupo.novaDiscussao', [ 'discussoes' => $discussoes, 'grupo' => $grupo]);
+        return view('grupo.novaDiscussao', ['discussoes' => $discussoes, 'grupo' => $grupo]);
     }
 
     public function setPerg(Request $request) {
@@ -273,7 +274,7 @@ class GrupoController extends Controller {
                 'id_rem' => Auth::user()->id,
                 'id_dest' => $id_dest->id_user,
                 'data' => time(),
-                'texto' => "Perguntou no grupo '" . Grupo::verGrupo($request->idgrupo)->nome . "'",
+                'texto' => 'Perguntou no grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
                 'is_post' => false,
                 'action' => '/grupo/' . Grupo::verGrupo($request->idgrupo)->url
             ]);
@@ -285,16 +286,16 @@ class GrupoController extends Controller {
         if (GrupoPergunta::where('id', $request->id_pergunta)->first()) {
             if (GrupoPergunta::where('id', $request->id_pergunta)->delete()) {
                 $this->decPergunta($request->id_grupo);
-                return Response::json([ "response" => 1, "id" => $request->id_pergunta]); //passa junto o id da pergunta para dar o fadeOut na view.
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json([ 'response' => 1, 'id' => $request->id_pergunta]); //passa junto o id da pergunta para dar o fadeOut na view.
+            }return Response::json([ 'response' => 2]);
+        }return Response::json([ 'response' => 3]);
     }
 
     public function setMat(Request $request) {
 
         //if (($request->nomeCam) or ( $request->nomeMid) or ( $request->nomeDoc)) {
 
-        if (($request->caminho) or ( $request->documento) or ( $request->midia)) {
+        if (($request->caminho) || ($request->documento) || ($request->midia)) {
 
             $mat = new GrupoMaterial;
             $mat->id_grupo = $request->id_grupo;
@@ -307,7 +308,7 @@ class GrupoController extends Controller {
                     $mat->nome = $request->nomeMid;
                     $mat->tipo = 'midia';
                 } else {
-                    return Response::json([ "response" => 4]);
+                    return Response::json([ 'response' => 4]);
                 }
             } elseif (Input::hasFile('documento')) {
                 $ext = Input::file('documento')->getClientOriginalExtension();
@@ -317,7 +318,7 @@ class GrupoController extends Controller {
                     $mat->nome = $request->nomeDoc;
                     $mat->tipo = 'documento';
                 } else {
-                    return Response::json([ "response" => 4]);
+                    return Response::json([ 'response' => 4]);
                 }
             } elseif ($request->caminho) {
                 $mat->nome = $request->nomeEnd;
@@ -336,14 +337,14 @@ class GrupoController extends Controller {
                         'id_rem' => Auth::user()->id,
                         'id_dest' => $id_dest->id_user,
                         'data' => time(),
-                        'texto' => "Adicionou um material no grupo '" . Grupo::verGrupo($request->idgrupo)->nome . "'",
+                        'texto' => 'Adicionou um material no grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
                         'is_post' => false,
                         'action' => '/grupo/' . Grupo::verGrupo($request->idgrupo)->url
                     ]);
                 }
-                return Response::json([ "response" => 1]);
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json([ 'response' => 1]);
+            }return Response::json([ 'response' => 2]);
+        }return Response::json([ 'response' => 3]);
     }
 
     public function edit(Request $request) {
@@ -357,7 +358,7 @@ class GrupoController extends Controller {
                 Grupo::where('id', $request->idgrupo)->update(array('url' => $request->url));
                 $update = true;
             } else {
-                return Response::json([ "status" => 3]);
+                return Response::json([ 'status' => 3]);
             }
         }
         if ($request->expiracao) {
@@ -375,12 +376,12 @@ class GrupoController extends Controller {
                     'id_rem' => Auth::user()->id,
                     'id_dest' => $id_dest->id_user,
                     'data' => time(),
-                    'texto' => "Editou algumas informações do grupo '" . Grupo::verGrupo($request->idgrupo)->nome . "'",
+                    'texto' => 'Editou algumas informações do grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
                     'is_post' => false,
                     'action' => '/grupo/' . Grupo::verGrupo($request->idgrupo)->url
                 ]);
-            }Response::json([ "status" => 1]);
-        }Response::json([ "status" => 0]);
+            }Response::json(['status' => 1]);
+        }Response::json(['status' => 0]);
     }
 
     public function getGroupData($grupo) {
@@ -398,10 +399,10 @@ class GrupoController extends Controller {
                 ->get();
 
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
-                ->where("amizades.aceitou", 1)
-                ->where("users.id", "!=", Auth::user()->id)
-                ->select([ 'users.id', 'users.nome', 'users.info_academica'])
-                ->where("amizades.id_user2", Auth::user()->id)
+                ->where('amizades.aceitou', 1)
+                ->where('users.id', '!=', Auth::user()->id)
+                ->select(['users.id', 'users.nome', 'users.info_academica'])
+                ->where('amizades.id_user2', Auth::user()->id)
                 ->get();
 
         $amigos_nao_int = array();
@@ -410,7 +411,6 @@ class GrupoController extends Controller {
                 $amigos_nao_int[] = $amigo;
             }
         }
-
 
         $alunos = User::where('tipo', 1)->get();
         $alunos_int = array();
@@ -435,9 +435,7 @@ class GrupoController extends Controller {
             }
         }
 
-
-
-        $professores = User::where("tipo", 2)->get();
+        $professores = User::where('tipo', 2)->get();
         $professores_int = array();
         foreach ($professores as $professor) {
             if (GrupoUsuario::where('id_user', $professor->id)->where('id_grupo', $grupo->id)->first()) {
@@ -458,11 +456,21 @@ class GrupoController extends Controller {
                 ->first();
 
         return ([
-            "atv" => $integrante->is_admin ? $this->getAtiv($grupo->id) : null,
-            "grupo" => $grupo,
-            "banido" => 0,
+            'atv' => $integrante->is_admin ? $this->getAtiv($grupo->id) : null,
+            'grupo' => $grupo,
+            'banido' => 0,
             'info' => $info,
-            'alunos_int' => $alunos_int, 'alunos_nao_int' => $alunos_nao_int, 'integrantes' => $integrantes, 'discussoes' => $discussoes, 'materiais' => $materiais, 'integranteEu' => $integrante, 'amigos' => $amigos, 'amigos_nao_int' => $amigos_nao_int, 'professores_int' => $professores_int, 'professores_nao_int' => $professores_nao_int, 'perguntas' => $perguntas]);
+            'alunos_int' => $alunos_int, 
+            'alunos_nao_int' => $alunos_nao_int, 
+            'integrantes' => $integrantes, 
+            'discussoes' => $discussoes, 
+            'materiais' => $materiais, 
+            'integranteEu' => $integrante, 
+            'amigos' => $amigos, 
+            'amigos_nao_int' => $amigos_nao_int, 
+            'professores_int' => $professores_int, 
+            'professores_nao_int' => $professores_nao_int, 
+            'perguntas' => $perguntas]);
     }
 
     public function getGroupDataExp($grupo) {
@@ -488,7 +496,7 @@ class GrupoController extends Controller {
         }
 
 
-        $professores = User::where("tipo", 2)->get();
+        $professores = User::where('tipo', 2)->get();
         $professores_int = array();
         foreach ($professores as $professor) {
             if (GrupoUsuario::where('id_user', $professor->id)->where('id_grupo', $grupo->id)->first()) {
@@ -501,11 +509,17 @@ class GrupoController extends Controller {
                 ->first();
 
         return ([
-            "grupo" => $grupo,
-            "banido" => 0,
-            "expirado" => 1,
+            'grupo' => $grupo,
+            'banido' => 0,
+            'expirado' => 1,
             'info' => $info,
-            'alunos_int' => $alunos_int, 'integrantes' => $integrantes, 'discussoes' => $discussoes, 'materiais' => $materiais, 'integranteEu' => $integrante, 'professores_int' => $professores_int, 'perguntas' => $perguntas]);
+            'alunos_int' => $alunos_int, 
+            'integrantes' => $integrantes, 
+            'discussoes' => $discussoes, 
+            'materiais' => $materiais, 
+            'integranteEu' => $integrante, 
+            'professores_int' => $professores_int, 
+            'perguntas' => $perguntas]);
     }
 
     public function getGroupDataBan($grupo) {
@@ -514,11 +528,13 @@ class GrupoController extends Controller {
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
+
         $perguntas = GrupoPergunta::where('id_grupo', $grupo->id)
                 ->where('id_autor', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
+
         $materiais = GrupoMaterial::where('id_grupo', $grupo->id)
                 ->where('id_autor', Auth::user()->id)
                 ->orderBy('created_at', 'desc')
@@ -526,10 +542,10 @@ class GrupoController extends Controller {
                 ->get();
 
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
-                ->where("amizades.aceitou", 1)
-                ->where("users.id", "!=", Auth::user()->id)
-                ->select([ 'users.id', 'users.nome', 'users.info_academica'])
-                ->where("amizades.id_user2", Auth::user()->id)
+                ->where('amizades.aceitou', 1)
+                ->where('users.id', '!=', Auth::user()->id)
+                ->select(['users.id', 'users.nome', 'users.info_academica'])
+                ->where('amizades.id_user2', Auth::user()->id)
                 ->get();
 
         $amigos_nao_int = array();
@@ -553,7 +569,15 @@ class GrupoController extends Controller {
             }
         }
 
-        return (["banido" => 1, "professores_nao_int" => $professores_nao_int, "alunos_nao_int" => $alunos_nao_int, "mat" => $materiais, "discussoes" => $discussoes, "perguntas" => $perguntas, "grupo" => $grupo]);
+        return ([
+            'banido' => 1, 
+            'professores_nao_int' => $professores_nao_int, 
+            'alunos_nao_int' => $alunos_nao_int, 
+            'mat' => $materiais, 
+            'discussoes' => $discussoes, 
+            'perguntas' => $perguntas, 
+            'grupo' => $grupo
+            ]);
     }
 
     public function sair(Request $request) {
@@ -577,15 +601,14 @@ class GrupoController extends Controller {
                         'data' => Carbon::today()->timestamp,
                         'texto' => $texto
                     ])) {
-                return Response::json([ "response" => 1]);
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => false]);
+                return Response::json(['response' => 1]);
+            }return Response::json(['response' => 2]);
+        }return Response::json(['response' => false]);
     }
 
     public function excluir(Request $request) {
-
         if ((GrupoUsuario::where('id_grupo', $request->idgrupo)->delete()) and ( Grupo::where('id', $request->idgrupo)->delete())) {
-            return Response::json([ "status" => true]);
+            return Response::json([ 'status' => true]);
         } else {
             return false;
         }
@@ -621,6 +644,7 @@ class GrupoController extends Controller {
         return $atv;
     }
 
+    // @TODO: dá para simplificar em um só método esses daqui:
     public function IncParticipante($id) {
         Grupo::where('id', $id)->increment('num_participantes');
     }

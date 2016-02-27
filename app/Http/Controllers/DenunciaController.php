@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Response;
-use DB;
-use Auth;
 use App\DenunciaGrupo;
 use App\GrupoPergunta;
 use App\GrupoUsuario;
 use App\GrupoDiscussao;
 use App\User;
 use App\Post;
+use Response;
+use Auth;
+use DB;
 use Carbon\Carbon;
 
 class DenunciaController extends Controller {
@@ -38,9 +38,9 @@ class DenunciaController extends Controller {
             $denuncia->id_autor_pub = $request->id_autor_pub;
             $denuncia->data = \Carbon\Carbon::today();
             if ($denuncia->save()) {
-                return Response::json([ "response" => 1]);
-            }return Response::json([ "response" => 2]);
-        }return Response::json([ "response" => 3]);
+                return Response::json([ 'response' => 1]);
+            }return Response::json([ 'response' => 2]);
+        }return Response::json([ 'response' => 3]);
     }
 
     public function analisaDenunciaGrupo(Request $request) {
@@ -68,9 +68,9 @@ class DenunciaController extends Controller {
                         ->where('tipo', $request->tipo_pub)
                         ->update(array('visto' => 1))) {
             if (isset($a)) {
-                return Response::json([ "response" => 1, "id" => $request->id_pub, "tipo" => $request->tipo_pub, "id_user" => $request->id_autor_pub]);
-            }return Response::json([ "response" => 1]);
-        }return Response::json([ "response" => 2]);
+                return Response::json([ 'response' => 1, 'id' => $request->id_pub, 'tipo' => $request->tipo_pub, 'id_user' => $request->id_autor_pub]);
+            }return Response::json([ 'response' => 1]);
+        }return Response::json([ 'response' => 2]);
     }
 
 //    public function store(Request $request) {

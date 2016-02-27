@@ -19,10 +19,9 @@ use App\User;
 
 class PostController extends Controller
 {  
-    public $extensionImages = array('jpg', 'JPG', 'png', 'PNG');
-    public $extensionVideos = array('flv', 'FLV', 'mp4', 'MP4');
-    
-    public $destinationPath = "midia/posts";
+    public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
+    public $extensionVideos = ['flv', 'FLV', 'mp4', 'MP4'];
+    public $destinationPath = 'midia/posts';
 
     /**
      * Middleware @Auth.
@@ -77,10 +76,10 @@ class PostController extends Controller
          $post = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->orderBy('created_at', 'desc')
-                ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
-                ->where("amizades.aceitou", 1)
-                ->where("amizades.id_user2", Auth::user()->id)
-                ->where("posts.id", $id)
+                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                ->where('amizades.aceitou', 1)
+                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('posts.id', $id)
                 ->first();
          
          return view('post.post', [ 'post' => $post ]);
@@ -95,7 +94,7 @@ class PostController extends Controller
     public function update($id, Request $request)
     {
         $post = Post::where('id', $id)->first();
-        if(isset($request->titulo)) $post->titulo = $request->titulo; else $post->titulo = "Sem título";
+        if(isset($request->titulo)) $post->titulo = $request->titulo; else $post->titulo = 'Sem título';
         $post->publicacao = $request->publicacao;
         $post->is_publico = $request->has('publico');
         $post->save();
@@ -127,7 +126,7 @@ class PostController extends Controller
 
         try {
             DB::table('favoritos')
-                    ->insert([ "id_post" => $request->id_post, "id_user" => Auth::user()->id]);
+                    ->insert(['id_post' => $request->id_post, 'id_user' => Auth::user()->id]);
             
             $post->num_favoritos += 1;
             $post->save();
@@ -136,7 +135,7 @@ class PostController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 DB::table('favoritos')
-                        ->where([ "id_post" => $request->id_post, "id_user" => Auth::user()->id])
+                        ->where(['id_post' => $request->id_post, 'id_user' => Auth::user()->id])
                         ->delete();
                 
                 $post->num_favoritos -= 1;
@@ -157,7 +156,7 @@ class PostController extends Controller
         if (in_array($ext, $this->extensionVideos)) {
             $post->is_video = true;
         } else {
-            return "Erro ao adicionar mídia";
+            return 'Erro ao adicionar mídia';
         }
       
         Input::file('midia')->move($this->destinationPath, md5($post->id));
@@ -168,7 +167,7 @@ class PostController extends Controller
     
     public function addTags($tags, $id_post) 
     {
-        $array = str_replace('#', '', explode(" ", $tags));
+        $array = str_replace('#', '', explode(' ', $tags));
         
         $n = (count($array) > 3) ? 3 : count($array);
         
@@ -182,10 +181,10 @@ class PostController extends Controller
     public function addIcon($tags, $post) 
    {
         foreach($tags as $tag) {
-            if ((strtolower($tag) == "duvida") OR ($tag == "Dúvida") OR ($tag == "dúvida")) {
+            if ((strtolower($tag) == 'duvida') || ($tag == 'Dúvida') || ($tag == 'dúvida')) {
                 $post->url_midia = 'images/place-help.jpg';
             } else
-            if (strtolower($tag) == "link") { 
+            if (strtolower($tag) == 'link') { 
                 $post->url_midia = 'images/place-link.jpg';
             } else {
                 $post->url_midia = 'images/place-post.jpg';
@@ -214,6 +213,6 @@ class PostController extends Controller
         $post2->user_repost = $post1->id_user;
         $post2->save();
         
-        return Response::json([ "id" => $post2->id, "num" => $post1->num_reposts ]);
+        return Response::json(['id' => $post2->id, 'num' => $post1->num_reposts ]);
     }
 }

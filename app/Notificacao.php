@@ -29,10 +29,6 @@ class Notificacao extends Model
      }
      
      public static function count() {
-        $not = Notificacao::where([ 'id_dest' => Auth::user()->id, 'visto' => 0 ])->orderBy('data', 'desc')->count();
-        
-     
-        
-        return $not;
+        return Notificacao::where([ 'id_dest' => Auth::user()->id, 'visto' => 0 ])->orderBy('data', 'desc')->count();
      }
 }

@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Response;
-
 use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
-
-use Auth;
-
 use App\Comentario;
 use App\Post;
 use App\Notificacao;
+use Response;
+use Auth;
 
 use Carbon\Carbon;
 
@@ -47,7 +43,7 @@ class ComentarioController extends Controller
                 'id_rem' => Auth::user()->id,
                 'id_dest' => $post->id_user,
                 'data' => time(),
-                'texto' =>  "Comentou sua publicação",
+                'texto' =>  'Comentou sua publicação',
                 'is_post' => true,
                 'action' => '/post/' . $request->id_post,
             ]);
@@ -59,10 +55,10 @@ class ComentarioController extends Controller
 
     public function destroy($id_comentario)
     {
-        $comentario = Comentario::where('id', $id_comentario)->first();
+        $comentario = Comentario::where('id', $id_comentario)->limit(1)->first();
         
         if (Auth::user()->id === $comentario->id_user) {
-            $post = Post::where("id", $comentario->id_post)->first();
+            $post = Post::where('id', $comentario->id_post)->limit(1)->first();
             $post->num_comentarios -= 1;
             $post->save();
             

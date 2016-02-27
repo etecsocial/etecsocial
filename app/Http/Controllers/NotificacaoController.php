@@ -41,9 +41,7 @@ class NotificacaoController extends Controller
            'id_rem'=> Auth::user()->id,
            'id_dest' => $id_dest,
            'data' => Carbon::today()->timestamp,
-           'texto'=>$texto
-            
-               
+           'texto'=>$texto               
         ]);
     }
 
@@ -109,11 +107,9 @@ class NotificacaoController extends Controller
                 ->get();
         
          
-        return view("notificacao.new", ['nots' => $not ]);
+        return view('notificacao.new', ['nots' => $not ]);
     }
-    
-    
-    
+        
     
     public function makeRead() {
        Notificacao::where([ 'id_dest' => Auth::user()->id, 'visto' => 0 ])->update([ 'visto' => 1 ]);

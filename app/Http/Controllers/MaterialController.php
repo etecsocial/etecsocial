@@ -26,10 +26,9 @@ class DiscussaoController extends Controller {
 
     public function store(Request $request) {
         Carbon::setLocale('pt_BR');
-        if ($request->comentario == "") {
+        if ($request->comentario == '') {
             return 'empty';
         }
-
 
         ComentarioDiscussao::create([
             'id_discussao' => $request->id_discussao,
@@ -38,12 +37,8 @@ class DiscussaoController extends Controller {
             'comentario' => $request->comentario
         ]);
 
-return view('comentarioDiscussao', [ 'id_discussao' => $request->id_discussao, 'id_comentario' => $request->id_comentario]);
-        }
-
-
-        
-    
+        return view('comentarioDiscussao', ['id_discussao' => $request->id_discussao, 'id_comentario' => $request->id_comentario]);    
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -54,11 +49,8 @@ return view('comentarioDiscussao', [ 'id_discussao' => $request->id_discussao, '
     public function destroy($id_comentario) {
         Carbon::setLocale('pt_BR');
         if(ComentarioDiscussao::where('id', $id_comentario)->delete()){
-            return Response::json([ 'status' => true, 'id'=> $id_comentario]);
+            return Response::json(['status' => true, 'id' => $id_comentario]);
         }
-        
-
-        return Response::json([ 'status' => false]);
+        return Response::json(['status' => false]);
     }
-
 }

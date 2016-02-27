@@ -36,9 +36,9 @@ class TagController extends Controller {
                         ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                         ->orderBy('created_at', 'desc')
                         ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
-                        ->where("tags.tag", $tag)
-                        ->where("amizades.aceitou", 1)
-                        ->where("amizades.id_user2", Auth::user()->id)
+                        ->where('tags.tag', $tag)
+                        ->where('amizades.aceitou', 1)
+                        ->where('amizades.id_user2', Auth::user()->id)
                         ->get();
         
        $posts_publicos =  Post::join('users', 'users.id', '=', 'posts.id_user')
@@ -46,9 +46,9 @@ class TagController extends Controller {
                         ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                         ->orderBy('created_at', 'desc')
                         ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
-                        ->where("tags.tag", $tag)
-                        ->where("amizades.aceitou", 1)
-                        ->where("amizades.id_user2", '<>', Auth::user()->id)
+                        ->where('tags.tag', $tag)
+                        ->where('amizades.aceitou', 1)
+                        ->where('amizades.id_user2', '<>', Auth::user()->id)
                         ->where('posts.is_publico',1)
                         ->get();
 

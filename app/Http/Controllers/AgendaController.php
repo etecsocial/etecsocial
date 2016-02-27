@@ -25,7 +25,7 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function index() {
-        return view("agenda.home");
+        return view('agenda.home');
     }
 
     public function api(Request $request) {
@@ -42,7 +42,7 @@ class AgendaController extends Controller {
                     })
                     ->orWhere('id_user', Auth::user()->id);
                 })
-                ->join("users", "agendas.id_user", "=", "users.id")
+                ->join('users', 'agendas.id_user', '=', 'users.id')
                 ->get();
 
         return Response::json($agenda);
@@ -83,7 +83,7 @@ class AgendaController extends Controller {
                         'id_user' => Auth::user()->id,
                         'is_publico' => $request->publico,
                         'id_turma' => Auth::user()->id_turma,
-                'id_modulo' => Auth::user()->id_modulo,
+                        'id_modulo' => Auth::user()->id_modulo,
                         'description' => $request->description
             ]);
         } else {
@@ -96,7 +96,7 @@ class AgendaController extends Controller {
                         'id_user' => Auth::user()->id,
                         'is_publico' => $request->publico,
                         'id_turma' => $request->turma,
-                 'id_modulo' => $request->modulo,
+                        'id_modulo' => $request->modulo,
                         'description' => $request->description
             ]);
         }
@@ -109,7 +109,7 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function CreateGrupoByTurma($id_turma, $titulo, $start, $end, $desc) {
-        $nome = str_replace(" ", "", $titulo);
+        $nome = str_replace(' ', '', $titulo);
         if (Grupo::where('url', $nome)->first()) {
             $url = $nome . 1;
             $cont = 1;
@@ -144,7 +144,7 @@ class AgendaController extends Controller {
                     'id_rem' => Auth::user()->id,
                     'id_dest' => $aluno->id,
                     'data' => time(),
-                    'texto' => "Adicionou você ao grupo '" . Grupo::verGrupo($grupo->id)->url . "'",
+                    'texto' => 'Adicionou você ao grupo "' . Grupo::verGrupo($grupo->id)->url . '"',
                     'is_post' => false,
                     'action' => '/grupo/' . Grupo::verGrupo($grupo->id)->url
                 ]);
@@ -161,8 +161,7 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $evento = Agenda::where('id', $id)
-                ->first();
+        $evento = Agenda::where('id', $id)->limit(1)->first();
 
         $start = Input::has('start') ? Input::get('start') : $evento->start;
         $end = Input::has('end') ? Input::get('end') : $evento->end;
@@ -175,7 +174,7 @@ class AgendaController extends Controller {
         $evento->end = $end;
         $evento->save();
 
-        return Response::json([ 'status' => 'true']);
+        return Response::json(['status' => 'true']);
     }
 
     /**
@@ -195,16 +194,14 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $evento = Agenda::where('id', $id)
-                ->first();
+        $evento = Agenda::where('id', $id)->limit(1)->first();
 
         if (Auth::user()->id !== $evento->id_user) {
-            return Response::json([ 'status' => false]);
+            return Response::json(['status' => false]);
         }
 
         $evento->delete();
 
-        return Response::json([ 'status' => true]);
+        return Response::json(['status' => true]);
     }
-
 }

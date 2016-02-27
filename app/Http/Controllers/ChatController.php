@@ -22,7 +22,7 @@ class ChatController extends Controller
      * @return Response
      */
     public function pagina() {
-        Return view("chat.pagina");
+        return view('chat.pagina');
     }
     
     
@@ -40,43 +40,38 @@ class ChatController extends Controller
         
         if ($request->data) {
             
-              $msgs = Chat::where([ "id_remetente" => $request->id_user, "id_destinatario" => Auth::user()->id ])
-                ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $request->id_user ])
-                      ->where("data", "<", $request->data)
+              $msgs = Chat::where([ 'id_remetente' => $request->id_user, 'id_destinatario' => Auth::user()->id ])
+                ->orWhere([ 'id_remetente' => Auth::user()->id, 'id_destinatario' => $request->id_user ])
+                      ->where('data', '<', $request->data)
                  ->orderBy('data', 'desc')
                  ->limit(15)
                  ->get()
                  ->toArray();
          } else {
 
-         $msgs = Chat::where([ "id_remetente" => $request->id_user, "id_destinatario" => Auth::user()->id ])
-                ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $request->id_user ])
+         $msgs = Chat::where([ 'id_remetente' => $request->id_user, 'id_destinatario' => Auth::user()->id ])
+                ->orWhere([ 'id_remetente' => Auth::user()->id, 'id_destinatario' => $request->id_user ])
                  ->orderBy('data', 'desc')
                  ->limit(15)
                  ->get()
                  ->toArray();
-         }
-                 
-              
+         }             
          
-         
-         return view("chat.msgs", [ 'msgs' => $msgs, 'id_user' => $request->id_user ]);
+         return view('chat.msgs', [ 'msgs' => $msgs, 'id_user' => $request->id_user ]);
     }
     
      public function channel(Request $request){
         // How often to poll, in microseconds (1,000,000 μs equals 1 s)
-define('MESSAGE_POLL_MICROSECONDS', 500000);
+        define('MESSAGE_POLL_MICROSECONDS', 500000);
  
-// How long to keep the Long Poll open, in seconds
-define('MESSAGE_TIMEOUT_SECONDS', 5);
+        // How long to keep the Long Poll open, in seconds
+        define('MESSAGE_TIMEOUT_SECONDS', 5);
  
-// Timeout padding in seconds, to avoid a premature timeout in case the last call in the loop is taking a while
-define('MESSAGE_TIMEOUT_SECONDS_BUFFER', 5);
- 
-
- 
-// Close the session prematurely to avoid usleep() from locking other requests
-session_write_close();
+        // Timeout padding in seconds, to avoid a premature timeout in case the last call in the loop is taking a while
+        define('MESSAGE_TIMEOUT_SECONDS_BUFFER', 5);
+  
+        // Close the session prematurely to avoid usleep() from locking other requests
+        session_write_close();
  
 // Automatically die after timeout (plus buffer)
 set_time_limit(MESSAGE_TIMEOUT_SECONDS+MESSAGE_TIMEOUT_SECONDS_BUFFER);
@@ -118,13 +113,7 @@ while($counter > 0)
         $counter -= MESSAGE_POLL_MICROSECONDS / 1000000;
     }
 }
-
- 
-// If we've made it this far, we've either timed out or have some data to deliver to the client
-
+    // If we've made it this far, we've either timed out or have some data to deliver to the client
     // Send data to client; you may want to precede it by a mime type definition header, eg. in the case of JSON or XML
-
-
-
-    } 
+    }
 }

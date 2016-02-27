@@ -29,10 +29,10 @@ class TarefaController extends Controller {
         Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select([ 'desc', 'data', 'checked', 'id'])
-                ->where("id_user", Auth::user()->id)
+                ->where('id_user', Auth::user()->id)
                 ->where(function($query)
                 {
-                    $query->where("data_checked", ">", time() - 3*24*60*60)
+                    $query->where('data_checked', '>', time() - 3*24*60*60)
                           ->orWhere('checked', false);
                 })
                 ->orderBy('data')
@@ -45,12 +45,12 @@ class TarefaController extends Controller {
     public function moretask(Request $request) {
           Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
-                ->select([ 'desc', 'data', 'checked', 'id'])
-                ->where("id_user", Auth::user()->id)
-                ->where("data", ">", $request->data)
+                ->select(['desc', 'data', 'checked', 'id'])
+                ->where('id_user', Auth::user()->id)
+                ->where('data', '>', $request->data)
                 ->where(function($query)
                 {
-                    $query->where("data_checked", ">", time() - 3*24*60*60)
+                    $query->where('data_checked', '>', time() - 3*24*60*60)
                           ->orWhere('checked', false);
                 })
                 ->orderBy('data')
@@ -61,7 +61,7 @@ class TarefaController extends Controller {
     }
 
     public function check(Request $request) {
-Carbon::setLocale('pt_BR');
+        Carbon::setLocale('pt_BR');
         $task = new Tarefa;
         $is_check = $task->where('id', $request->id)->where('checked', true)->count();
         
@@ -71,7 +71,7 @@ Carbon::setLocale('pt_BR');
              return Response::json([ 'status' => false]);
         } else {
             $task->where('id', $request->id)->update(['checked' => true, 'data_checked' => strtotime(date("Y-m-d")) ]);
-             return Response::json([ 'status' => true]);
+             return Response::json(['status' => true]);
         }
        
     }
@@ -83,11 +83,11 @@ Carbon::setLocale('pt_BR');
      */
     public function store(Request $request) {
         Carbon::setLocale('pt_BR');
-        $this->validate($request, [ 'desc' => 'required|min:3']);
+        $this->validate($request, ['desc' => 'required|min:3']);
 
         $exists = DB::table('tarefas')
-                ->select([ 'id'])
-                ->where([ "desc" => $request->desc , 'id_user' => Auth::user()->id ])
+                ->select('id')
+                ->where(['desc' => $request->desc , 'id_user' => Auth::user()->id])
                 ->count();
         
          if(!strtotime($request->data)) {
@@ -101,8 +101,6 @@ Carbon::setLocale('pt_BR');
             $request->data = strtotime($request->data);
         }
         
-       
-        
         if (!$exists) {
             $task = new Tarefa;
             $task->data = $request->data;
@@ -110,10 +108,9 @@ Carbon::setLocale('pt_BR');
             $task->id_user = Auth::user()->id;
             $task->save();
             
-            
-            return Response::json([ 'desc' => $task->desc, 'data' => Carbon::createFromTimeStamp($task->data)->format("d/m/Y"), 'cont' => Carbon::createFromTimeStamp($task->data)->diffForHumans(), 'id' => $task->id]);
+            return Response::json(['desc' => $task->desc, 'data' => Carbon::createFromTimeStamp($task->data)->format("d/m/Y"), 'cont' => Carbon::createFromTimeStamp($task->data)->diffForHumans(), 'id' => $task->id]);
         } else {
-            return Response::json([ 'exists' => true]);
+            return Response::json(['exists' => true]);
         }
     }
 

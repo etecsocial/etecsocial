@@ -22,7 +22,7 @@ class PoliticaController extends Controller
     {
         $dados = DB::table('alunos_pfa')->where('rm', $request->rm)->first();
         
-        $nomes = explode(" ", $dados->nome);
+        $nomes = explode(' ', $dados->nome);
         $nome = ucfirst(strtolower($nomes[0])) . ' ' . ucfirst(strtolower($nomes[count($nomes)]));
         $username = strtolower($nomes[0] . $nomes[count($nomes)]);
         $senha = str_random(30);

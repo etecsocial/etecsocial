@@ -21,7 +21,7 @@ class Grupo extends Model {
     ];
 
     public static function verGrupo($id) {
-        return Grupo::where('id', $id)->first();
+        return Grupo::where('id', $id)->limit(1)->first();
     }
 
 

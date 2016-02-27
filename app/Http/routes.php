@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('domain' => 'etec.localhost'), function()
+Route::group(['domain' => 'etec.localhost'], function()
 {
     //AUTH
     Route::controllers([ 
