@@ -27,6 +27,7 @@ class DenunciaController extends Controller {
      *
      */
     public function createDenunciaGrupo(Request $request) {
+        Carbon::setLocale('pt_BR');
         if (!DenunciaGrupo::where('id_grupo', $request->id_grupo)->where('tipo', $request->tipo_pub)->where('denuncia', $request->motivo)->where('id_autor_denuncia', Auth::user()->id)->first()) {
             $denuncia = new DenunciaGrupo;
             $denuncia->id_pub = $request->id_pub;
@@ -73,6 +74,7 @@ class DenunciaController extends Controller {
     }
 
 //    public function store(Request $request) {
+//        Carbon::setLocale('pt_BR');
 //        $this->validate($request, [ 'publicacao' => 'required']);
 //
 //        $msg = "Olá professor(a), recebemos uma denuncia de uma" . $request->id_post ? 'publicação' : 'mensagem' . ' e gos'

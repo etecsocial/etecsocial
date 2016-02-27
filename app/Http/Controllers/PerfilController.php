@@ -27,6 +27,7 @@ class PerfilController extends Controller {
 
 
         if ($u = User::where('username', $username)->first()) {
+            Carbon::setLocale('pt_BR');
 
             if ($u->tipo === 1) {
                 $dados = User::where('username', $username)
@@ -66,6 +67,7 @@ class PerfilController extends Controller {
             $num_amigos = DB::table('amizades')->where([ 'id_user1' => $dados->id, 'aceitou' => 1])->count() - 1;
             $num_grupos = DB::table('grupo_usuario')->where([ 'id_user' => Auth::user()->id])->count();
 
+            Carbon::setLocale('pt_BR');
             $tasks = DB::table('tarefas')
                     ->select([ 'desc', 'data', 'checked', 'id'])
                     ->where("id_user", Auth::user()->id)
@@ -94,6 +96,7 @@ class PerfilController extends Controller {
 
     // @TODO: verificar isso daqui:
     public function update(Request $request) {
+        Carbon::setLocale('pt_BR');
         return $request;
         if ($u = User::where('id_user', $request->id_user)->limit(1)->first()) {
             User::where('id', $request->id_user)->update([
@@ -134,6 +137,8 @@ class PerfilController extends Controller {
     }
 
     public function newpost(Request $request) {
+        Carbon::setLocale('pt_BR');
+
         $posts = Post::where('id_user', $request->id_user)
                 ->join('users', 'users.id', '=', 'posts.id_user')
                 ->orderBy('created_at', 'desc')
@@ -145,6 +150,8 @@ class PerfilController extends Controller {
     }
 
     public function morepost(Request $request) {
+        Carbon::setLocale('pt_BR');
+
         $n = 5 - $request->tamanho % 5;
 
         $posts = Post::where('id_user', $request->id_user)

@@ -26,6 +26,7 @@ class TarefaController extends Controller {
      * @return Response
      */
     public function index() {
+        Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select([ 'desc', 'data', 'checked', 'id'])
                 ->where('id_user', Auth::user()->id)
@@ -42,6 +43,7 @@ class TarefaController extends Controller {
     }
     
     public function moretask(Request $request) {
+          Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select(['desc', 'data', 'checked', 'id'])
                 ->where('id_user', Auth::user()->id)
@@ -59,6 +61,7 @@ class TarefaController extends Controller {
     }
 
     public function check(Request $request) {
+        Carbon::setLocale('pt_BR');
         $task = new Tarefa;
         $is_check = $task->where('id', $request->id)->where('checked', true)->count();
         
@@ -79,6 +82,7 @@ class TarefaController extends Controller {
      * @return Response
      */
     public function store(Request $request) {
+        Carbon::setLocale('pt_BR');
         $this->validate($request, ['desc' => 'required|min:3']);
 
         $exists = DB::table('tarefas')

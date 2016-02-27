@@ -15,6 +15,7 @@ class Tarefa extends Model
     ];
     
     public static function carrega() {
+         Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select([ 'desc', 'data', 'checked', 'id'])
                 ->where("id_user", Auth::user()->id)

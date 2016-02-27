@@ -40,6 +40,7 @@ class GrupoController extends Controller {
     public $DocsDestinationPath = 'docs/grupos';
 
     public function listar() {
+        Carbon::setLocale('pt_BR');
         $grupos = GrupoUsuario::where('id_user', Auth::user()->id)
                 ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
                 ->get();
@@ -57,6 +58,7 @@ class GrupoController extends Controller {
     }
 
     public function index($groupname) {
+        Carbon::setLocale('pt_BR');
         if ($grupo = Grupo::where('url', $groupname)->first()) {//Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {//Verifica se é expirado
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {//Verifica se o usuário é integrante e não está banido
@@ -86,6 +88,7 @@ class GrupoController extends Controller {
      * Requests - nome, url, assunto, expiracao.
      */
     public function criar(Request $request) {
+        Carbon::setLocale('pt_BR');
         if (($request->nome) and ( $request->url) and ( $request->assunto)) {
             if (Grupo::where('url', $request->url)->first()) {
                 return Response::json([ 'status' => 3]);
@@ -240,6 +243,8 @@ class GrupoController extends Controller {
     }
 
     public function newDisc(Request $request) {
+        Carbon::setLocale('pt_BR');
+
         $discussoes = GrupoDiscussao::orderBy('created_at', 'desc')
                 ->where('id', '>', $request->id)
                 ->get();
@@ -380,6 +385,7 @@ class GrupoController extends Controller {
     }
 
     public function getGroupData($grupo) {
+        Carbon::setLocale('pt_BR');
         $info = Grupo::where('id', $grupo->id)->get();
         $integrantes = GrupoUsuario::where('id', $grupo->id)->where('is_banido', 0)->get();
         $discussoes = GrupoDiscussao::where('id_grupo', $grupo->id)
