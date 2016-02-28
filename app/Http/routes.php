@@ -1,15 +1,17 @@
 <?php
 
-Route::group(['domain' => 'etec.localhost'], function()
-{
+//Route::group(['domain' => 'etec.localhost'], function()
+//{
     //AUTH
-    Route::controllers([ 
-        'auth' => 'Auth\AuthController', 
-        'password' => 'Auth\PasswordController'
-    ]);   
+    //Route::controllers([ 
+    //    'auth' => 'Auth\AuthController', 
+    //    'password' => 'Auth\PasswordController'
+    //]);   
  
     //HOME
     Route::get('/', 'HomeController@index');
+    Route::post('/', 'HomeController@login_or_cadastro');
+    Route::get('/logout', 'HomeController@logout');
     //AGENDA
     Route::get('/agenda', 'AgendaController@index');
     //PESQUISA
@@ -103,4 +105,4 @@ Route::group(['domain' => 'etec.localhost'], function()
             Route::post('/denuncia/analisa', 'DenunciaController@analisaDenunciaGrupo');
         });
     });
-});
+//});

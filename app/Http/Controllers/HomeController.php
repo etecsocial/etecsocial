@@ -16,15 +16,9 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+
     public function index()
     {
-       //Auth::login(User::find(1), true);
-        
         if (Auth::check()) {
             return $this->feed();
         } else {
@@ -32,11 +26,15 @@ class HomeController extends Controller
         }
     }
 
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
+    }
+
     public function login() 
     {
         if (Input::has('confirmation_code')) {
-            $user = User::where('confirmation_code', Input::get('confirmation_code'))
-                    ->first();
+            $user = User::where('confirmation_code', Input::get('confirmation_code'))->first();
         } else {
             $user = 'false';
         }
@@ -45,6 +43,32 @@ class HomeController extends Controller
             'user'      => $user,
             'cadastro'  => Input::has('cadastro')
         ]);
+    }
+
+    public function login_or_cadastro(){
+        if(Input::get('type') == 'login'){
+            $email = Input::get('email');
+            $senha = Input::get('senha');
+            $remember = (Input::get('remember') == 'on') ? true : false;
+
+            if(empty($email) || empty($senha)){
+                return redirect('/');
+            }
+            
+            if (Auth::attempt(['email' => $email, 'password' => $senha], $remember)) {
+                return redirect('/');
+            } else {
+                return 'login errado';
+            }
+
+        } else if(Input::get('type') == 'cadastro'){
+            
+
+
+        } else {
+            return redirect('/');
+        }
+        
     }
     
     public function feed($id = 0) 
@@ -56,10 +80,11 @@ class HomeController extends Controller
                 ->limit(9)
                 ->orderBy('created_at', 'desc')
                 ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
-                ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', Auth::user()->id)
+                //->where('amizades.aceitou', 1)
+                //->where('amizades.id_user2', Auth::user()->id)
                 ->get();
         
+
         Carbon::setLocale('pt_BR');
         
         $tasks = DB::table('tarefas')

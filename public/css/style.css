@@ -2086,7 +2086,6 @@ input [type="checkbox"]:checked + label:before{border-right: #2196F3; border-bot
     background-repeat: no-repeat;
     background-blend-mode: soft-light;
     text-transform: capitalize;
-    margin-top: 8.5px
 }
 
 #calendar-widget .fc-center{
@@ -2142,7 +2141,7 @@ input [type="checkbox"]:checked + label:before{border-right: #2196F3; border-bot
     margin: 0;
     border-radius: 0px;
     font-weight: 300;
-    background-color: #e57373   ;
+    background-color: #E53935;
     color: white
 }
 
