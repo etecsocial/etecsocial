@@ -87,7 +87,7 @@
                         <form method="POST" >
                             <input type="hidden" name="id_post" value="{{ $post->id }}" >
                             <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
-                            <label for="comment" class="">Comentar</label>
+                            <label for="comment" >Comentar</label>
                             <button type="submit" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>
                         </form>
                     </div>

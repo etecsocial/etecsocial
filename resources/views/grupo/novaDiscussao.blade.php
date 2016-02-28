@@ -45,7 +45,7 @@
                             <form method="POST" onsubmit="return discutir({{ $discussao-> id}}, {{ $grupo-> id}});" >
                                 <input type="hidden" name="id_post" value="{{ $discussao-> id}}" >
                                 <input id="comentario-{{ $discussao-> id}}" type="text" class="validate" autocomplete="off">
-                                <label for="comment" class="">Discutir</label>
+                                <label for="comment" >Discutir</label>
                             </form>
                         </div>
                     </div>

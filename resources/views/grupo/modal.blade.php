@@ -1,5 +1,5 @@
 <div id="modalExcluirComentarioDiscussao" class="modal">
-    <form action="" id="excluirComentarioDiscussao" method="DELETE">
+    <form  id="excluirComentarioDiscussao" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Comentario</h4>
             <div class="divider"></div>
@@ -44,7 +44,7 @@
 </div><!--modal excluir Discussao-->
 
 <div id="modalExcluirComentarioPergunta" class="modal">
-    <form action="" id="excluirComentarioPergunta" method="DELETE">
+    <form  id="excluirComentarioPergunta" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Resposta</h4>
             <div class="divider"></div>
@@ -64,7 +64,7 @@
     <form method="post" id="sairGrupo" action="{{ url('ajax/grupo/sair')}}" class="tab-content col s12  grey lighten-4">
         <input type="hidden" name="id_grupo" value="{{$grupo->id}}">
         <div class="modal-content" style="overflow-x: hidden; min-height: 500px ">
-            <h4 class=""><strong>Sair do grupo</strong></h4><li class="divider"></li>
+            <h4 ><strong>Sair do grupo</strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
                     <p>Tem certeza que deseja sair do grupo {{ $grupo-> nome}}?</p>
@@ -105,7 +105,7 @@
 <div id="modalAnalisarDenunciaGrupo" class="modal modal-fixed-footer" style='height: auto;min-height: 520px'>
     <div class="modal-content" style="overflow-x: hidden; overflow-y: scroll;">
         <form method="post" id="analisaDnunciaGrupo" class="col s12" action="{{ url('ajax/grupo/denuncia/analisa')}}">
-            <h4 class=""><strong>Olá administrador!</strong></h4><li class="divider"></li>
+            <h4 ><strong>Olá administrador!</strong></h4><li class="divider"></li>
             <div class="row" style="margin-bottom: 15px">
                 <div class="col s12">
                     <p>Recebemos uma denúncia referente a uma publicação de um dos usuários do grupo e gostaría-mos que você desse seu parecer.</p>
@@ -162,7 +162,7 @@
 <div id="modalDenunciaGrupo" class="modal modal-fixed-footer">
     <form method="post" id="denunciaGrupo" class="col s12" action="{{ url('ajax/grupo/denuncia/create')}}">
         <div class="modal-content" style="overflow-x: hidden; min-height: 500px ">
-            <h4 class=""><strong>Denunciar publicação </strong></h4><li class="divider"></li>
+            <h4 ><strong>Denunciar publicação </strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
                     <p>O que há de errado com esta publicação?</p>
@@ -210,7 +210,7 @@
 <div id="modalExcluirGrupo" class="modal modal-fixed-footer" style="background-color: #f4f4f4">
     <form method="post" id="excluirGrupo" action="{{ url('ajax/grupo/excluir')}}" class="tab-content col s12  grey lighten-4">
         <div class="modal-content" style="overflow-x: hidden;height: auto">
-            <h4 class=""><strong>Excluir grupo</strong></h4><li class="divider"></li>
+            <h4 ><strong>Excluir grupo</strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
                     <p>Tem certeza que deseja excluir o grupo {{ $grupo-> nome}}?</p>

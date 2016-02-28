@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br" dir="ltr">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="A ETEC Social é a rede social da ETEC, nela será possivel compartilhar e adquirir conhecimento e se entreter junto a comunidade etequiana." /> 
 <meta name="author" content="Antonio Carlos, Beatriz Volpone, Gustavo Salles, Jhonatan Lopes, Marcio Simões, Matheus Gomide" />
-<meta name="robots" content="index,follow" />
-<meta name="googlebot" content="index,follow" />
-<meta name="rating" content="general" />
 <meta name="keywords" content="ETEC Social, ETEC, Escola Técnica, Rede Social, São Paulo, Centro Paula Souza, CPS, Conhecimento, Compartilhar, Amigos, Escola ETEC" />
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <meta property="og:site_name" content="ETEC Social">
@@ -24,6 +21,6 @@
 @yield('content')
 @yield('jscript')
 <script>$.ajaxSetup({headers:{"X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr("content")}});</script>
-<script>$(document).ajaxError(function(e,xhr,settings,exception){if(xhr.status==401){ window.location.assign("/auth/logout");}});</script>
+<!--<script>$(document).ajaxError(function(e,xhr,settings,exception){if(xhr.status==401){ window.location.assign("/auth/logout");}});</script>-->
 </body>
 </html>

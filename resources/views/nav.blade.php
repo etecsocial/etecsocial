@@ -1,22 +1,22 @@
-<!-- <div id="loader-wrapper">
+<div id="loader-wrapper">
     <div id="loader"></div>
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
-</div> -->
+</div>
 
 <!-- MODAL ADD EVENTO -->
 <div id="novoevento" class="modal modal-fixed-footer">
-    <form method="POST" id="addevento" action="{{ url("ajax/agenda") }}">
-        <div class="modal-content" style="min-height: 650px">
+    <form method="POST" id="addevento" action="{{ url('ajax/agenda') }}">
+        <div class="modal-content">
             <h4>Adicionar Evento</h4>
             <div class="row">
                 <div class="input-field col s6">
-                    <input name="title" type="text">
-                    <label for="title" >Título</label>
+                    <input name="title" type="text" required>
+                    <label for="title">Título</label>
                 </div>
                 <div class="input-field col s6">
                     <input name="description" type="text">
-                    <label for="title" >Descrição</label>
+                    <label for="title">Descrição (opcional)</label>
                 </div>
             </div>
             <div class="row">
@@ -31,13 +31,13 @@
             </div>
             <div class="row">
                 <div class="input-field col s6" style="margin-top:-10px">
-                    <input name="tipo" value="0" id="test11" type="radio">
+                    <input name="tipo" value="0" id="test11" type="radio" checked>
                     <label for="test11">Um dia</label>
                     <input name="tipo" value="1" id="test21"  type="radio">
                     <label for="test21">Mais de um dia</label>
                 </div>   
                 <div class="input-field col s6" style="margin-top:-10px">
-                    <input name="publico" value="0" id="test12" type="radio">
+                    <input name="publico" value="0" id="test12" type="radio" checked>
                     <label for="test12">Pessoal</label>
                     <input name="publico" value="1" id="test22"  type="radio">
                     <label for="test22">Compartilhado</label>
@@ -84,10 +84,10 @@
 
 @if(Auth::user()->tipo == 1)
 <div id="modalConta" class="modal modal-fixed-footer" style="background-color: #f4f4f4">
-    <form id="conta" method="POST" action="/ajax/config">
+    <form id="conta" method="POST" action="{{ url('/ajax/config') }}">
         <div class="modal-content">
 
-            <h4 class=""><strong>Configurações da Conta</strong></h4><li class="divider"></li>
+            <h4 ><strong>Configurações da Conta</strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs" style="background: transparent">
@@ -334,13 +334,15 @@
                 <li class="user-details cyan darken-2">
                     <div class="row">
                         <div class="col col s4 m4 l4">
-                            <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image">
+                            <a href="{{ App\User::myAvatar() }}" data-lightbox="{{ Auth::user()->username }}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                                <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image">
+                            </a>
                         </div>
                         <div class="col col s8 m8 l8">
                             <ul id="profile-dropdown" class="dropdown-content">
                                 <li><a href="{{ url(Auth::user()->username) }}"><i class="mdi-action-face-unlock"></i> Perfil</a>
                                 </li>
-                                <li><a href="#modalConta" class=""><i class="mdi-action-settings"></i> Conta</a>
+                                <li><a href="#modalConta" class="model-trigger"><i class="mdi-action-settings"></i> Conta</a>
                                 </li>
                                 <li><a href="#"><i class="mdi-communication-live-help"></i> Ajuda</a>
                                 </li>
@@ -361,14 +363,25 @@
                 </li>
                 <li class="bold active"><a href="{{ url('/') }}" class="waves-effect waves-cyan"><i class="mdi-action-dashboard color-sec-darken-text"></i> Página Inicial</a>
                 </li>
-                <li class="bold"><a href="{{ url('/grupos') }}" class="waves-effect waves-cyan"><i class="fa fa-book color-sec-darken-text"></i> Grupos</a>
+                <li class="bold">
+                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens <span class="new badge">4</span></a> 
+                </li>
+                <li class="bold">
+                    <a href="{{ url('/grupos') }}" class="waves-effect waves-cyan"><i class="fa fa-book color-sec-darken-text"></i> Grupos</a>
+                </li>
+                
+                <li>
+                    <div class="divider"></div>
                 </li>
                 <li class="bold"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda</a>
                 <li class="bold"><a href="{{ url('/tarefas') }}" class="waves-effect waves-cyan"><i class="mdi-content-content-paste color-sec-darken-text"></i> Tarefas</a>
                 </li>
-                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens</a> </li>
-                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-content-paste color-sec-darken-text"></i> Desafios</a></li>
-                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-content-paste color-sec-darken-text"></i> Ranking</a>
+                
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-action-account-balance color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
+                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-action-assessment color-sec-darken-text"></i> Ranking</a>
                 </li>
             </ul>
             <a href="#" data-activates="slide-out" style="z-index:1000" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
@@ -475,7 +488,7 @@
                                     </div>
                                 </div>
                                 <div class="send">
-                                    <form action="">
+                                    <form >
                                         <div class="input-field">
                                             <input type="hidden" id="id-chat" value="0">
                                             <input autocomplete="off" id="chat-message" type="text" id="chat-message" name="chat-message">

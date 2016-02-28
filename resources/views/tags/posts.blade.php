@@ -247,7 +247,7 @@ ETEC Social
                                         <form method="POST" >
                                             <input type="hidden" name="id_post" value="{{ $post->id }}" >
                                             <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
-                                            <label for="comment" class="">Comentar</label>
+                                            <label for="comment" >Comentar</label>
                                             <button type="submit" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>
                                         </form>
                                     </div>
@@ -349,7 +349,7 @@ ETEC Social
                                         <form method="POST" >
                                             <input type="hidden" name="id_post" value="{{ $post->id }}" >
                                             <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
-                                            <label for="comment" class="">Comentar</label>
+                                            <label for="comment" >Comentar</label>
                                             <button type="submit" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>
                                         </form>
                                     </div>
@@ -393,7 +393,7 @@ ETEC Social
 @include('footer')
 
 <div id="modalExcluir" class="modal">
-    <form action="" id="excluir" method="DELETE">
+    <form  id="excluir" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Publicação</h4>
             <p>Tem certeza que deseja excluir esse post?</p>
@@ -406,7 +406,7 @@ ETEC Social
 </div>
 
 <div id="modalExcluirComentario" class="modal">
-    <form action="" id="excluirComentario" method="DELETE">
+    <form  id="excluirComentario" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Comentario</h4>
             <p>Tem certeza que deseja excluir esse comentario?</p>

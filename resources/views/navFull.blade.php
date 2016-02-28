@@ -5,7 +5,6 @@
 </div>
 
 
-
 <!-- MODAL ADD EVENTO -->
 <div id="novoevento" class="modal modal-fixed-footer">
     <form method="POST" id="addevento" action="{{ url("ajax/agenda") }}">
@@ -92,7 +91,7 @@
     <form id="conta" method="POST" action="/ajax/config">
     <div class="modal-content">
         
-        <h4 class=""><strong>Configurações da Conta</strong></h4><li class="divider"></li>
+        <h4 ><strong>Configurações da Conta</strong></h4><li class="divider"></li>
         <div class="row">
             <div class="col s12">
                 <ul class="tabs" style="background: transparent">
@@ -305,40 +304,32 @@
 
 <header id="header" class="page-topbar">
     <div class="navbar-fixed">
-        <nav class="red lighten-2">
+        <nav class="red darken-1">
             <div class="nav-wrapper">
-                <ul class="left">
-                    <li>
-                    <li class="no-hover"><a href="#" data-activates="slide-out" class="menu-sidebar-collapse btn-floating btn-flat btn-medium waves-effect waves-light red"><i class="mdi-navigation-menu" ></i></a></li>
-                    <h1 class="logo-wrapper">
-                        <a href="{{ url('/') }}" class="brand-logo darken-1">
-                            <img style="width:160px;height:60px;margin-left:20px" src="{{ asset('images') }}/logo.png" alt="ETEC Social">
-                        </a>
-                        <span class="logo-text">ETEC Social</span>
-                    </h1>
-                    </li>
-                </ul>
-                <div class="header-search-wrapper hide-on-med-and-down">
-                    <i class="mdi-action-search"></i>
-                    <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, trabalhos ou provas" />
+                <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo">ETEC Social</a>
+                    <ul class="right">
+                        <li class="hide-on-med-and-down">
+                            <a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>
+                        </li>
+                        <li>
+                            <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text">{{ App\Notificacao::count() }}</span></i></a>
+                        </li>
+                        <li>
+                            <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-communication-forum"><span class="badge noti white-text">{{ App\Chat::count() }}</span></i></a>
+                        </li>
+                    </ul>
 
+                    <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
+                        <i class="mdi-action-search" style="top: 5px;left: 15px;"></i>
+                        <input style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, trabalhos ou provas" />
+                    </div>
+                    <div id="results-search" style="display: none;margin-left: 270px;width: 780px;">
+                        <ul class="busca collection" style="width:100%;margin-top:0!important;margin-bottom: 0!important;"></ul>
+                    </div>
                 </div>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc">{{ App\Amizade::count() }}</span></i></a>
-
-                    </li>
-                    <li><a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti">{{ App\Notificacao::count() }}</span></i></a>
-                    </li>
-                   
-                </ul>
-            </div>
         </nav>
-        <div id="results-search" style="display: none;margin-left: 270px;width: 780px;padding-top: 51px">
-            <ul class="busca collection" style="width:100%;margin-top:0!important;margin-bottom: 0!important;">
-
-            </ul>
-        </div>
     </div>
+</div>
 </header>
 <div id="main" style="padding-left: 0px !important;">
     <div class="wrapper">
@@ -504,7 +495,7 @@
                                     </div>
                                 </div>
                                 <div class="send">
-                                    <form action="">
+                                    <form >
                                         <div class="input-field">
                                             <input type="hidden" id="id-chat" value="0">
                                             <input autocomplete="off" id="chat-message" type="text" id="chat-message" name="chat-message">

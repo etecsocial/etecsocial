@@ -121,7 +121,7 @@
                                                                 <form method="POST" onsubmit="return responder({{ $pergunta-> id}}, {{ $grupo-> id}});" >
                                                                     <input type="hidden" name="id_pergunta" value="{{ $pergunta->id }}" >
                                                                     <input id="perg-resp-{{ $pergunta->id}}" type="text" class="validate" autocomplete="off">
-                                                                    <label for="resposta" class="">Responder</label>
+                                                                    <label for="resposta" >Responder</label>
                                                                 </form>
                                                             </div>
                                                         </div>

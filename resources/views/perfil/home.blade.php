@@ -1,13 +1,12 @@
 @extends('app')
 
 @section('title')
-ETEC Social
+{{ $user->nome_usuario }} {{ $user->sobrenome}} | ETEC Social
 @stop
 
 @section('style')
-<link href="css/asset.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{!! Html::style('css/asset.css') !!}
+{!! Html::style('css/style.css') !!}
 @stop
 
 @section('jscript')
@@ -186,17 +185,19 @@ ETEC Social
     <div class="container">
         <div id="profile-page" class="section">
             <div id="profile-page-header" class="card">
-                <div class="card-image waves-effect waves-block waves-light">
-                    <img class="activator" src="images/capa-perfil.jpg" alt="Perfil de {{ $user->nome_usuario }}">
+                <div class="card-image waves-effect waves-block waves-light hide-on-med-and-down">
+                    <img class="activator" src="images/capa-perfil.jpg" alt="Perfil de {{ $user->nome_usuario }}" style="background-position: cover">
                 </div>
-                <figure class="card-profile-image" style="z-index: 2">
+                
+                <figure class="card-profile-image hide-on-med-and-down" style="z-index: 2">
                     <a href="{{ App\User::avatar($user->id) }}" data-lightbox="ju">
                         <img src="{{ App\User::avatar($user->id) }}" class="circle z-depth-2 responsive-img activator">
                     </a>
                 </figure>
+                
                 <div class="card-content">
                     <div class="row">
-                        <div class="col s3 offset-s2">
+                        <div class="col s12 l2 offset-l2">
                             <h4 class="card-title grey-text text-darken-4">{{ $user->nome_usuario }} {{ $user->sobrenome}}</h4>
                             @if($user->tipo == 1)
                             <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', App\User::infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</p>
@@ -204,19 +205,22 @@ ETEC Social
                              <p class="medium-small grey-text tooltipped" data-tooltip="{{ $infoacad->atuacao }}" data-position="botton" data-delay="50">{{ $infoacad->formacao }}</p>
                             @endif
                         </div>
-                        <div class="col s2 center-align">
+                        <div class="col s12 l2">
                             <h4 class="card-title grey-text text-darken-4">{{ $user->reputacao }}</h4>
                             <p class="medium-small grey-text">Pontos de reputação</p>
                         </div>
-                        <div class="col s2 center-align">
+                        <div class="col s12 l2">
                             <h4 class="card-title grey-text text-darken-4">{{ $user->num_desafios }}</h4>
-                            <p class="medium-small grey-text">Desafios Vencidos</p>
+                            <p class="medium-small grey-text">Desafios vencidos</p>
                         </div>
-                        <div class="col s2 center-align">
+                        <div class="col s12 l2">
                             <h4 class="card-title grey-text text-darken-4">{{ $user->num_auxilios }}</h4>
                             <p class="medium-small grey-text">Auxílios prestados</p>
                         </div>
-                     
+                        <div class="col s12 l2">
+                            <h4 class="card-title grey-text text-darken-4">42</h4>
+                            <p class="medium-small grey-text">Conteúdos postados</p>
+                        </div>
                         
                     </div>
                 </div>
@@ -233,7 +237,7 @@ ETEC Social
                     
                     @if($is_my)
                     
-                    <div class="card  red darken-1 white-text" style="height:258px">
+                    <div class="card green darken-1 white-text" style="height:150px">
                 <div class="card-content">
                     <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')" onmouseout="javascript:$('#icon-edit-status').hide('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                     <div class="divider"></div>
@@ -245,11 +249,10 @@ ETEC Social
                 </div>
                 <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4">Atualizar Status <i class="mdi-navigation-close right"></i></span>
-                    <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ Auth::user()->nome }}?</p>
                     <div class="input-field col s12 accent-4">
                         <form method="POST" action="{{ url('ajax/status') }}" id="status">      
                             <input id="status" name="status" type="text" class="validate" autocomplete="off" style="color:black">
-                            <label for="status" class="">Novo Status</label>
+                            <label for="status">Novo status</label>
                             <button type="submit" style="font-size:14px" class="card-title waves-effect waves-light btn red">Atualizar</button>
                         </form>
                     </div>
@@ -411,16 +414,9 @@ ETEC Social
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Profile About  -->
 
-                    
-                    <!-- Profile feed  -->
-                    
-                    <!-- Profile feed  -->
-@if($is_my)
-                    <!--TASK CARD-->
-                    <ul id="task-card" class="collection with-header">
+            @if($is_my)
+                     <ul id="task-card" class="collection with-header">
                         <li class="collection-header cyan bg-card-tasks">
                             <h4 class="task-card-title">Minhas Tarefas</h4>
                             <p class="task-card-date">{{ \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') }}</p>
@@ -450,106 +446,82 @@ ETEC Social
                        
 
                     </ul>
-                    <!--END TASK CARD-->
-
-
                     @endif
 
 
-                    <!-- Map Card -->
-                    <div class="map-card">
-                        <div class="card">
-                            <div class="card-image waves-effect waves-block waves-light">
-                                <img src="images/logo.png">
-                            </div>
-                            <div class="card-content">
-                                <a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 red right">
-                                    <i class="mdi-action-info-outline"></i>
-                                </a>
-                                <h4 class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">ETEC Social <span class="small">Compartilhando conhecimentos</span></a>
-                                </h4>
-                                <p class="blog-post-content">Saiba mais sobre o projeto</p>
-                            </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">Conheça o Projeto <i class="mdi-navigation-close right"></i></span>
-                                <p style="text-align: justify">A ETEC Social é um Projeto de Conclusão de Curso idealizado por alguns dos alunos do 3º Ano do Ensino Médio Integrado a Informática para Internet/Turma 2015 da instituição de ensino ETEC Pedro Ferreira Alves de Mogi Mirim/SP. O projeto visa criar um ambiente social na internet entre os alunos da comunidade escolar com objetivo de tornar a comunicação entre os membros internos da instituição mais presente, facilitando para todas as partes.</p>
-                                <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> <a href="https://projeto.etecsocial.com.br">O projeto</a></p>
-                                <p><i class="mdi-communication-email cyan-text text-darken-2"></i> contato@etecsocial.com.br</p>
-                                <p><i class="mdi-communication-email cyan-text text-darken-2"></i> suporte@etecsocial.com.br</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Map Card -->
-
                 </div>
-                <!-- profile-page-sidebar-->
-<!-- profile-page-wall -->
+
                 <div id="profile-page-wall" class="col s12 m8">
                 @if($is_my)
                 
                     <!-- profile-page-wall-share -->
                     <div id="profile-page-wall-share" class="row">
-                        <div class="col s12">
-                            <ul class="tabs tab-profile z-depth-1 light-blue" style="width:100%;">
-                                <li class="tab col s4"><a class="white-text waves-light "><i class="mdi-editor-border-color"></i> Publicar</a></li>
-                            </ul>
-                            <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12  grey lighten-4">
-                                <div class="row">
-                                    <div class="col s2">
-                                        <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width:100px">
-                                    </div>
-                                    <div class="input-field col s5">
-                                        <input name="titulo" placeholder="Assunto" spellcheck="true" autocomplete="off" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
-                                    </div>
-                                    <div class="input-field col s5">
-                                        <input name="tags" placeholder="Tags" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
-                                    </div>
-                                    <div class="input-field col s10">
-                                        <input name="publicacao" placeholder="Sua publicação" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom">
-                                    </div>
+                    <div class="col s12">
+                        <ul class="tabs tab-profile cyan" style="width:100%;">
+                            <li class="tab col s4"><a class="white-text waves-light">Postar conteúdos</a></li>
+                        </ul>
+                        <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12 grey lighten-4">
+                            <div class="row">
+                                <div class="col s2 hide-on-med-and-down">
+                                    <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
                                 </div>
-                                <div class="row">
-                                    <div class="col s12 m4 share-icons">
-                                        <a href="#modalMidia" class="wino tooltipped" data-tooltip="Adicionar mídia"><i class="mdi-maps-local-movies"></i></a>
-                                        <a href="#modalAjuda" class="wino tooltipped" data-tooltip="Obter ajudar"><i class="mdi-action-help" ></i></a>
-                                    </div>
-                                    <div class="col s12 m8 right-align">
-                                        <div class="switch left">
-                                            <label>Amigos
-                                                <input type="checkbox" name="publico">
-                                                <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="bottom"></span> Todos
-                                            </label>
-                                        </div>
-                                        <button type="submit" class="waves-effect waves-light btn red"><i class="mdi-maps-rate-review right"></i>Publicar</button>
-                                    </div>
+                                <div class="input-field col s6 l6">
+                                    <input name="titulo" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
+                                    <label for="titulo">Assunto</label>
                                 </div>
-                                <div id="modalMidia" class="modal">
-                                    <div class="modal-content">
-                                        <h5>Adicionar imagem ou vídeo</h5>
-                                        <div class="file-field input-field">
-                                            <input class="file-path validate" type="text"/>
-                                            <div class="btn">
-                                                <span>+</span>
-                                                <input type="file" name="midia" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
-                                    </div>
+                                <div class="input-field col s6 l4">
+                                    <input name="tags" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
+                                    <label for="tags">Tags (opcional)</label>
                                 </div>
-                            </form>
-                            <div id="modalAjuda" class="modal">
+                                <div class="input-field col s12 l10">
+                                    <textarea name="publicacao"  class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
+                                    <label for="publicacao">Poste um resumo, cite um autor, compartilhe algum conhecimento</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s4 m4 l2 share-icons">
+                                    <a href="#modalMidia" class="wino tooltipped" data-tooltip="Adicionar mídia"><i class="mdi-maps-local-movies"></i></a>
+                                    <a href="#modalAjuda" class="wino tooltipped" data-tooltip="Obter ajudar"><i class="mdi-action-help" ></i></a>
+                                </div>
+                                <div class="col s8 m3 l6">
+                                    <div class="switch left">
+                                        <label>Amigos
+                                            <input type="checkbox" name="publico">
+                                            <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="bottom"></span> Todos
+                                        </label>
+                                    </div>    
+                                </div>
+                                <div class="col s8 m8 l4 right-align">
+                                    <button type="submit" class="waves-effect waves-light btn-flat red white-text"><i class="mdi-maps-rate-review right"></i>Publicar</button>
+                                </div>
+                            </div>
+                            <div id="modalMidia" class="modal">
                                 <div class="modal-content">
-                                    <h4>Ajuda</h4>
-                                    <p></p>
+                                    <h5>Adicionar imagem ou vídeo</h5>
+                                    <div class="file-field input-field">
+                                        <input class="file-path validate" type="text"/>
+                                        <div class="btn">
+                                            <span>+</span>
+                                            <input type="file" name="midia" />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <a class=" modal-action modal-close waves-effect waves-green btn-flat">Ok, entendi</a>
+                                    <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
                                 </div>
+                            </div>
+                        </form>
+                        <div id="modalAjuda" class="modal">
+                            <div class="modal-content">
+                                <h4>Ajuda</h4>
+                                <p>Caso queira perguntar algo, adcione a Tag "ajuda". Para links, utilize a "link". </p>
+                            </div>
+                            <div class="modal-footer">
+                                <a class=" modal-action modal-close waves-effect waves-green btn-flat">Ok, entendi</a>
                             </div>
                         </div>
                     </div>
+                </div>
 @endif
 
                     <!--/ profile-page-wall-share -->
@@ -697,7 +669,7 @@ ETEC Social
                                                             <form method="POST" >
                                                                 <input type="hidden" name="id_post" value="{{ $post->id }}" >
                                                                 <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
-                                                                <label for="comment" class="">Comentar</label>
+                                                                <label for="comment" >Comentar</label>
                                                                 <button type="submit" style="display:none" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>
                                                             </form>
                                                         </div>
@@ -765,7 +737,7 @@ ETEC Social
 
 
 <div id="modalExcluir" class="modal">
-    <form action="" id="excluir" method="DELETE">
+    <form  id="excluir" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Publicação</h4>
             <p>Tem certeza que deseja excluir esse post?</p>
@@ -778,7 +750,7 @@ ETEC Social
 </div>
 
 <div id="modalExcluirComentario" class="modal">
-    <form action="" id="excluirComentario" method="DELETE">
+    <form  id="excluirComentario" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Comentario</h4>
             <p>Tem certeza que deseja excluir esse comentario?</p>

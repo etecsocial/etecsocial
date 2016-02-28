@@ -101,14 +101,14 @@ ETEC Social
 </div>
 </section>
 <div id="evento" class="modal" data-target="evento">
-    <form action="" id="excluir" method="DELETE">
+    <form  id="excluir" method="DELETE">
         <input type="hidden" id="iduser" value="{{ Auth::user()->id }}">
 
         <div class="modal-content">
             <h4 id="agenda-title"></h4>
             <i id="opcoes" style="display:none">
                 <i id="data-opcoes"></i>
-                <form action="" id="excluir" method="DELETE">
+                <form  id="excluir" method="DELETE">
 
                     <button type="submit" style="margin-left:-45px" class="modal-action modal-close btn-flat">&nbsp;&nbsp;&nbsp; (Excluir)</button>
                 </form>
