@@ -12,6 +12,9 @@
     Route::get('/', 'HomeController@index');
     Route::post('/', 'HomeController@login_or_cadastro');
     Route::get('/logout', 'HomeController@logout');
+    //DESAFIO
+    Route::get('/desafios', 'DesafioController@index');
+    Route::get('/ranking', 'DesafioController@ranking');
     //AGENDA
     Route::get('/agenda', 'AgendaController@index');
     //PESQUISA
@@ -30,6 +33,7 @@
     //PERFIL
     Route::get('/{username}', 'PerfilController@index');
     Route::get('/perfil/editar', 'PerfilController@update');
+
     //AJAX
     Route::group(['prefix' => 'ajax'], function () {
         //CONTA

@@ -330,7 +330,7 @@
 <div id="main">
     <div class="wrapper">
         <aside id="left-sidebar-nav">
-            <ul id="slide-out" class="side-nav fixed leftside-navigation" >
+            <ul id="slide-out" class="side-nav fixed leftside-navigation collapsible" data-collapsible="accordion" >
                 <li class="user-details cyan darken-2">
                     <div class="row">
                         <div class="col col s4 m4 l4">
@@ -380,8 +380,21 @@
                 <li>
                     <div class="divider"></div>
                 </li>
-                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-action-account-balance color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
-                <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-action-assessment color-sec-darken-text"></i> Ranking</a>
+                <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-action-account-balance color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
+                <li class="bold"><a class="waves-effect waves-cyan collapsible-header"><i class="mdi-action-assessment color-sec-darken-text"></i> Ranking</a>
+                    <div class="collapsible-body">
+                            <ul>                                        
+                                <li>
+                                    <a href="{{ url('/ranking') }}">Geral</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/ranking') }}">Por ETEC</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/ranking') }}">Por Turma</a>
+                                </li>
+                            </ul>
+                        </div>
                 </li>
             </ul>
             <a href="#" data-activates="slide-out" style="z-index:1000" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only red darken-3"><i class="mdi-navigation-menu"></i></a>
@@ -519,5 +532,5 @@
     <section id="content">
     <div class="header-search-wrapper grey lighten-1 hide-on-large-only">
                 <i class="mdi-action-search active"></i>
-                 <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por trabalhos ou provas" />
+                 <input type="text" name="Search" style="width: 235px" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por trabalhos ou provas" />
             </div>
