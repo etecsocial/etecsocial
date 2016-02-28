@@ -1,4 +1,36 @@
+@extends('app')
+@section('title')
+{{ $post->titulo }}
+@stop
+
+@section('style')
+{!! Html::style('css/asset.css') !!}
+{!! Html::style('css/style.css') !!}
+@stop
+
+@section('jscript')
+{!! Html::script('js/jquery-1.11.2.min.js') !!}
+{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
+{!! Html::script('js/materialize.js') !!}
+{!! Html::script('js/form.min.js') !!}
+{!! Html::script('js/jquery.tagsinput.min.js') !!}
+
+{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
+{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
+{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
+{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
+{!! Html::script('js/plugins/sliders.js') !!}
+{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
+
+{!! Html::script('js/script.js') !!}
+{!! Html::script('js/plugins.js') !!}
+
+@stop
+
+@include('nav')
+
 @if(isset($post))
+@section('content')
 <div data-id="{{ $post->id }}" class="blog col s12 m6 l4" style="width: 100%">
     <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
@@ -9,7 +41,7 @@
             @elseif($post->is_video)
             <video src="{{ url($post->url_midia) }}" controls style="width: 100%;height:265px;max-height: 265px"></video>      
             @else
-            <img src="{{ url($post->url_midia) }}">
+            <img src="{{ url($post->url_midia) }}" style="width: auto">
             @endif
         </div>
         <ul class="card-action-buttons">
@@ -58,7 +90,8 @@
                 <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
             </div>
             <div class="col s6 m8"> 
-                Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a>
+                Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a><br>
+                {{ App\User::infoAcademica($post->id_user)->instituicao }}<br>
             </div>
             @if(Auth::user()->id == $post->id_user) 
             <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
@@ -99,3 +132,4 @@
 @else
 <center><h5>Lamentamos, esse post não existe ou foi excluído.</h5></center>
 @endif
+@stop

@@ -26,7 +26,7 @@
     //MENSAGENS
     Route::get('/mensagens', 'ChatController@pagina');
     //POST
-    Route::get('/post/{id}', 'HomeController@feed');
+    Route::get('/post/{id}', 'PostController@show');
     //PERFIL
     Route::get('/{username}', 'PerfilController@index');
     Route::get('/perfil/editar', 'PerfilController@update');
