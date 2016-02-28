@@ -2493,3 +2493,8 @@ html.rtl .timeline-block:nth-child(even) .timeline-content:before {
     font-size: 16px;
     line-height: 32px;
     padding-left: 8px; }
+
+    @media only screen and (max-width :600px){.icons-side li{
+        padding: 14px 0;
+
+        }}

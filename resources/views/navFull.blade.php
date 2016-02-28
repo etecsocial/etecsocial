@@ -4,7 +4,6 @@
     <div class="loader-section section-right"></div>
 </div>
 
-
 <!-- MODAL ADD EVENTO -->
 <div id="novoevento" class="modal modal-fixed-footer">
     <form method="POST" id="addevento" action="{{ url("ajax/agenda") }}">

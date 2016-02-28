@@ -1,12 +1,11 @@
 @extends('app')
 @section('title')
-ETEC Social
+Grupos | ETEC Social
 @stop
 
 @section('style')
-<link href="css/asset.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{!! Html::style('css/asset.css') !!}
+{!! Html::style('css/style.css') !!}
 @stop
 
 @section('jscript')
@@ -58,7 +57,6 @@ ETEC Social
         'resizeDuration': 200,
         'wrapAround': true
     });</script>
-<script type="text/javascript" src="../js/plugins.js"></script>
 <script>
     $('#criarGrupo').ajaxForm({
         type: "POST",
@@ -91,20 +89,22 @@ ETEC Social
 @stop
 
 @section('content')
-
 @include('nav')
-<!-- START CONTENT -->
-<section id="content">
-    <div class="container">
-        <div id="breadcrumbs-wrapper" class=" grey lighten-3" style="margin-top: 20px; padding-bottom: 10px">
-            <div class="container">
-                <div class="row">
-                    <div class="col s12 m12 l12">
-                        <h5 class="breadcrumbs-title">Grupos em que você está</h5>
-                    </div>
-                </div>
+
+        <div id="breadcrumbs-wrapper" class=" grey lighten-3">
+          <div class="container">
+            <div class="row">
+              <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">Grupos</h5>
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Pagina Inicial</a></li>
+                    <li class="active">Grupos</li>
+                </ol>
+              </div>
             </div>
+          </div>
         </div>
+        <div class="container">
         <div class="row">
             <div style="margin-top:10px;margin-left:10px">
                 <a href="#modalAddGrupo"  class="btn-floating btn-small wino waves-effect waves-light cyan darken-2 tooltipped" data-position="right" data-delay="50" data-tooltip="Criar grupo de estudos"><i class="material-icons left">library_add</i></a>

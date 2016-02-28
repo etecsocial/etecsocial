@@ -34,9 +34,9 @@ ETEC Social | Home
 <script>
     function newpost() {
     var post_id = $(".post:first").data("id");
-    $.post("/ajax/newpost", {id: post_id}, function (data) {
-    $(data).insertBefore(".post:first").hide().fadeIn(2000);
-    });
+        $.post("/ajax/newpost", {id: post_id}, function (data) {
+            $(data).insertBefore(".post:first").hide().fadeIn(2000);
+        });
     }
 
     function morepost() {
@@ -189,7 +189,6 @@ ETEC Social | Home
     <div class="container">
         <div id="chart-dashboard">
             <div class="row">
-                
                 <div class="col s12 m12 l4">
                     <ul id="task-card" class="collection with-header">
                         <li class="collection-header cyan">
@@ -200,18 +199,21 @@ ETEC Social | Home
                         @foreach($tasks as $task)
                         <li class="tarefa collection-item dismissable" data-idtask="{{ $task->id }}" data-date="{{ $task->data }}">
                             @if($task->checked)
-                            <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')">
+                                <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')">
                             @else
-                            <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
+                                <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
                             @endif
-                            <label for="{{ $task->id }}">{{ $task->desc }}<a class="secondary-content"><span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span></a>
+                            <label for="{{ $task->id }}">{{ $task->desc }}
+                                <a class="secondary-content">
+                                    <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span>
+                                </a>
                             </label>
                             @if($task->data > time() + 3*24*60*60)
-                            <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
+                                <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                             @elseif($task->data > time())
-                            <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
+                                <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                             @else
-                            <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
+                                <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                             @endif
                         </li>
                         @endforeach
@@ -223,10 +225,9 @@ ETEC Social | Home
                     </ul>
                 </div>
 
-                <div class="col s12 m12 l8">
-                <div id="profile-page-wall-share" class="row" style="margin: 10px 0px 36px 0">
+                <div id="profile-page-wall-share" class="col s12 m12 l8" style="margin: 10px 0px 36px 0">
                     <div class="col s12">
-                        <ul class="tabs tab-profile cyan" style="width:100%;">
+                        <ul class="tabs tab-profile cyan">
                             <li class="tab col s4"><a class="white-text waves-light">Postar conteúdos</a></li>
                         </ul>
                         <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12 grey lighten-4">
@@ -242,26 +243,26 @@ ETEC Social | Home
                                     <input name="tags" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
                                     <label for="tags">Tags (opcional)</label>
                                 </div>
-                                <div class="input-field col s12 l10" style="min-height:210px">
+                                <div class="input-field col s12 l10">
                                     <textarea name="publicacao"  class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
                                     <label for="publicacao">Poste um resumo, cite um autor, compartilhe algum conhecimento</label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col s4 m4 l2 share-icons">
+                                <div class="col s2 m4 l2 share-icons">
                                     <a href="#modalMidia" class="wino tooltipped" data-tooltip="Adicionar mídia"><i class="mdi-maps-local-movies"></i></a>
-                                    <a href="#modalAjuda" class="wino tooltipped" data-tooltip="Obter ajudar"><i class="mdi-action-help" ></i></a>
+                                    <a href="#modalAjuda" class="wino tooltipped hide-on-small-only" data-tooltip="Obter ajudar"><i class="mdi-action-help" ></i></a>
                                 </div>
-                                <div class="col s8 m3 l6">
+                                <div class="col s8 l5">
                                     <div class="switch left">
                                         <label>Amigos
                                             <input type="checkbox" name="publico">
-                                            <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="bottom"></span> Todos
+                                            <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="botom"></span> Todos
                                         </label>
                                     </div>    
                                 </div>
-                                <div class="col s8 m8 l4 right-align">
-                                    <button type="submit" class="waves-effect waves-light btn-flat red white-text"><i class="mdi-maps-rate-review right"></i>Publicar</button>
+                                <div class="col s2 l2">
+                                    <button type="submit" data-tooltip="Publicar" data-delay="50" data-position="botom" class="tooltipped waves-effect waves-light btn-flat red white-text"><i class="mdi-maps-rate-review"></i></button>
                                 </div>
                             </div>
                             <div id="modalMidia" class="modal">
@@ -290,56 +291,8 @@ ETEC Social | Home
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            
-                <!-- <div class="col s12 m12 l4">
-                    <div class="card-rss-header cyan white-text">Vestibulando</div>
-                    <ul class="white-text bxslider width-percent-100" data-bx-slider-pager="false" data-bx-slider-controls="false" data-bx-slider-auto="true" data-bx-slider-mode="vertical" style="margin-top: -10px; height: 250px; width: auto; position: absolute; -webkit-transition-duration: 0s; transition-duration: 0s; -webkit-transform: translate3d(0px, -254px, 0px);">
-                        <li style="float: none; list-style: none; position: relative; width: 261px;" class="bx-clone">
-                            <div class="card-rss card color-pri-light title card-social material-animate material-animated" style="-webkit-animation-delay: 0.35s; animation-delay: 0.35s;">
-
-                                <div class="title">Conheça os 34 tipos de Engenharia que existem</div>
-                                <div class="card-corpo">
-                                    <p style="max-height: 80px; overflow-y: auto">"Gosta da área de exatas? Cálculos e ciência são suas paixões? Então com certeza Engenharia seria uma ótima opção para você!
-
-Cada graduação tem características e perfis próprios. Listamos todas as engenharias para você acabar com suas dúvidas e escolher a área que mais lhe interessa. Confira.
-"</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a target="_blank" href="http://guiadoestudante.abril.com.br/vestibular-enem/conheca-34-tipos-engenharia-existem-602301.shtml">Clique para continuar lendo.</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li style="float: none; list-style: none; position: relative; width: 261px;">
-                            <div class="card-rss card color-pri-light title card-social material-animate material-animated" style="-webkit-animation-delay: 0.35s; animation-delay: 0.35s;">
-                                <div class="title">Cadernos de prova da Unicamp 2016 já estão disponíveis</div>
-                                <div class="card-corpo">
-                                    <p style="max-height: 80px; overflow-y: auto">"As provas do vestibular 2016 da Universidade Estadual de Campinas (Unicamp) já estão disponíveis para consulta. A prova, que continha 90 questões de múltipla escolha com todo o conteúdo do ensino médio, foi aplicada neste domingo (22). "</p>
-                                    <div id="rsss"></div>
-                                </div>
-                                <div class="card-footer">
-                                    <a target="_blank" href="http://guiadoestudante.abril.com.br/vestibular-enem/cadernos-prova-unicamp-2016-ja-estao-disponiveis-923002.shtml">Clique para continuar lendo.</a>
-                                </div>
-                            </div>
-                        </li>
-                        <li style="float: none; list-style: none; position: relative; width: 261px;">
-                            <div class="card-rss card color-pri-light title card-social material-animate material-animated" style="-webkit-animation-delay: 0.35s; animation-delay: 0.35s;">
-                                <div class="title">Fuvest 2016: Maioria dos inscritos vem de escola particular</div>
-                                <div class="card-corpo">
-                                    <p style="max-height: 80px; overflow-y: auto">"Na tarde desta quinta-feira (19), a Fundação Universitária para o Vestibular (Fuvest) divulgou o Questionário Socioeconômico do vestibular 2016. Os mais de 142,6 mil inscritos para o processo seletivo da Universidade de São Paulo (USP) e para a Faculdade de Ciências Médicas da Santa Casa responderam perguntas como sexo, renda familiar e raça."</p>
-                                    <div id="rsss"></div>
-                                </div>
-                                <div class="card-footer">
-                                    <a target="__blank" href="http://guiadoestudante.abril.com.br/vestibular-enem/fuvest-2016-maioria-inscritos-vem-escola-particular-922681.shtml">Clique para continuar lendo.</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div> -->
+                </div>            
             </div> 
-            
         </div>
     </div>
     <div class="container">
@@ -368,35 +321,35 @@ Cada graduação tem características e perfis próprios. Listamos todas as enge
                     </div>
                 </div>
 
-                <div class="col s4 m6 l6">
+                <div class="col s6 m6 l6">
                     <div class="card">
-                        <div class="card-content purple white-text">
-                            <p class="card-stats-title"><i class="mdi-social-group-add"></i> Reputação</p>
+                        <div class="card-content blue white-text center">
+                            <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Reputação</p>
                             <h4 class="card-stats-number">{{ Auth::user()->reputacao }}</h4>
                         </div>
                     </div>
                 </div>
-                <div class="col s4 m6 l6">
+                <div class="col s6 m6 l6">
                     <div class="card">
-                        <div class="card-content green white-text">
-                            <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Desafios</p>
+                        <div class="card-content purple white-text center">
+                            <p class="card-stats-title"><i class="mdi-editor-attach-money hide-on-med-and-down"></i>Desafios</p>
                             <h4 class="card-stats-number">{{ Auth::user()->num_desafios }}</h4>
                         </div>
                     </div>
                 </div>                            
-                <div class="col s4 m6 l6">
+                <div class="col s6 m6 l6">
                     <div class="card">
-                        <div class="card-content green white-text">
-                            <p class="card-stats-title"><i class="mdi-action-trending-up"></i> Auxílios</p>
+                        <div class="card-content orange white-text center">
+                            <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Auxílios</p>
                             <h4 class="card-stats-number">{{ Auth::user()->num_auxilios }}</h4>
                         </div>
                     </div>
                 </div>
 
-                <div class="col s4 m6 l6 hide-on-med-and-down">
+                <div class="col s6 m6 l6">
                     <div class="card">
-                        <div class="card-content purple white-text">
-                            <p class="card-stats-title"><i class="mdi-action-trending-up"></i> Auxílios</p>
+                        <div class="card-content green white-text center">
+                            <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Postagens</p>
                             <h4 class="card-stats-number">{{ Auth::user()->num_auxilios }}</h4>
                         </div>
                     </div>

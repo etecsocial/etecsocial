@@ -49,9 +49,9 @@
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>
-            <h4 class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">{{ $post->titulo }}</a>
+            <h4 class="card-title grey-text text-darken-4"><a href="{{ url('/') }}/post/{{$post->id}}" class="grey-text text-darken-4">{{ $post->titulo }}</a>
             </h4>
-            <p class="blog-post-content">{{ $post->publicacao }}</p>
+            <p class="blog-post-content truncate">{{ $post->publicacao }}</p>
         </div>
         <div class="row" id="autor-post">
             <div class="col s2">

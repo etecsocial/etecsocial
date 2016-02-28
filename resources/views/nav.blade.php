@@ -5,16 +5,16 @@
 </div>
 
 <!-- MODAL ADD EVENTO -->
-<div id="novoevento" class="modal modal-fixed-footer">
+<div id="novoevento" class="modal">
     <form method="POST" id="addevento" action="{{ url('ajax/agenda') }}">
         <div class="modal-content">
             <h4>Adicionar Evento</h4>
             <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s12 l6">
                     <input name="title" type="text" required>
                     <label for="title">Título</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s12 l6">
                     <input name="description" type="text">
                     <label for="title">Descrição (opcional)</label>
                 </div>
@@ -30,13 +30,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s6" style="margin-top:-10px">
+                <div class="input-field col s12 l6">
                     <input name="tipo" value="0" id="test11" type="radio" checked>
                     <label for="test11">Um dia</label>
                     <input name="tipo" value="1" id="test21"  type="radio">
                     <label for="test21">Mais de um dia</label>
                 </div>   
-                <div class="input-field col s6" style="margin-top:-10px">
+                <div class="input-field col s12 l6">
                     <input name="publico" value="0" id="test12" type="radio" checked>
                     <label for="test12">Pessoal</label>
                     <input name="publico" value="1" id="test22"  type="radio">
@@ -61,13 +61,13 @@
 
                 </div>
                 @else 
-                <div class="addturma input-field col s6" style="display:none"><p>Você irá compartilhar esse evento com a sua sala.</p></div>
+                <div class="addturma input-field col s12" style="display:none"><p>Você irá compartilhar esse evento com a sua sala.</p></div>
                 @endif
             </div>
         </div>
         <div class="modal-footer color-sec">
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Cancelar</a>
-            <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Adicionar</button>
+            <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Add</button>
         </div>
     </form>
 </div>
@@ -302,14 +302,14 @@
         <nav class="red darken-1">
             <div class="nav-wrapper">
                 <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo">ETEC Social</a>
-                    <ul class="right">
+                    <ul class="right icons-side">
                         <li class="hide-on-med-and-down">
                             <a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>
                         </li>
                         <li>
                             <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text">{{ App\Notificacao::count() }}</span></i></a>
                         </li>
-                        <li>
+                        <li class="hide-on-med-and-down">
                             <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-communication-forum"><span class="badge noti white-text">{{ App\Chat::count() }}</span></i></a>
                         </li>
                     </ul>
@@ -384,7 +384,7 @@
                 <li class="bold"><a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-action-assessment color-sec-darken-text"></i> Ranking</a>
                 </li>
             </ul>
-            <a href="#" data-activates="slide-out" style="z-index:1000" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
+            <a href="#" data-activates="slide-out" style="z-index:1000" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only red darken-3"><i class="mdi-navigation-menu"></i></a>
         </aside>
         <div class="chat">
 
@@ -515,3 +515,9 @@
             <li class="tooltipped" data-tooltip="Novo desafio" data-position="left" data-delay="50"><a href="#!" onclick="javascript:Materialize.toast('<span>Recurso não disponível ainda.</span>', 3000);" class="btn-floating yellow darken-1"><i class="large mdi-social-whatshot"></i></a></li>
         </ul>
     </div>
+
+    <section id="content">
+    <div class="header-search-wrapper grey lighten-1 hide-on-large-only">
+                <i class="mdi-action-search active"></i>
+                 <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por trabalhos ou provas" />
+            </div>

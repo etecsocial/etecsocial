@@ -217,9 +217,11 @@
                             <h4 class="card-title grey-text text-darken-4">{{ $user->num_auxilios }}</h4>
                             <p class="medium-small grey-text">Auxílios prestados</p>
                         </div>
-                        <div class="col s12 l2">
-                            <h4 class="card-title grey-text text-darken-4">42</h4>
-                            <p class="medium-small grey-text">Conteúdos postados</p>
+
+                        <div class="col s1 right-align">
+                          <a class="red btn-floating activator waves-effect waves-light darken-2 right">
+                              <i class="mdi-action-perm-identity"></i>
+                          </a>
                         </div>
                         
                     </div>
@@ -278,7 +280,7 @@
                     @endif
                     
                     <!-- Profile About  -->
-                     @if($amizade['status'])
+                     
                     <!-- Profile About Details  -->
                     <ul id="profile-page-about-details" class="collection z-depth-1">
                         @if(isset($user->empresa))
@@ -374,7 +376,7 @@
 
                     <!--/ Profile About Details  -->
                     
-@endif
+
                     <!-- Profile About  -->
 
                     <div class="row">
