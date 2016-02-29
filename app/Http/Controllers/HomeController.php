@@ -56,6 +56,7 @@ class HomeController extends Controller
             }
             
             if (Auth::attempt(['email' => $email, 'password' => $senha], $remember)) {
+                Auth::login(User::where('email', '=', $email)->first(), true);
                 return redirect('/');
             } else {
                 return 'login errado';
