@@ -60,30 +60,25 @@
 </div><!--modal excluir comentario pergunta-->
 
 @if(!$banido)
-<div id="modalSairGrupo" class="modal modal-fixed-footer" style="background-color: #f4f4f4">
-    <form method="post" id="sairGrupo" action="{{ url('ajax/grupo/sair')}}" class="tab-content col s12  grey lighten-4">
+<form method="post" id="sairGrupo" action="{{ url('ajax/grupo/sair')}}">
+    <div id="modalSairGrupo" class="modal modal-fixed-footer">
         <input type="hidden" name="id_grupo" value="{{$grupo->id}}">
-        <div class="modal-content" style="overflow-x: hidden; min-height: 500px ">
+        <div class="modal-content">
             <h4 ><strong>Sair do grupo</strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
                     <p>Tem certeza que deseja sair do grupo {{ $grupo-> nome}}?</p>
-                    <p>Você só poderar retornar aqui se alguém o adicionar novamente.</p>
-                    <div class="divider"></div>
-                </div>
-
-                <div class="col s12">
                     <p>Se sim, poderia nos dizer o motivo? </p>
                 </div>
                 <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
-                <div class="input-field col s6">
+                <div class="input-field col s12 l6">
                     <input name="motivo" type="radio" id="test1" value="Conteúdo inadequado">
                     <label for="test1">Conteúdo inadequado</label>
 
-                    <input name="motivo" type="radio" id="test2" value="Já encontrou o que procurava">
+                    <input name="motivo" type="radio" id="test2" value="Já encontrou o que procurava" checked>
                     <label for="test2">Já encontrei o que procurava</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s12 l6">
                     <input name="motivo" type="radio" id="test3" value="Não está o ajudando">
                     <label for="test3">Não está me ajudando</label>
 
@@ -91,13 +86,20 @@
                     <label for="test4">Não gosto dos demais participantes</label>
                 </div>
             </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col s12">
+                    <div class="divider"></div>
+                
+                <p class="card-panel red darken-1 white-text"><strong>Atenção: </strong>Você só poderar retornar aqui se alguém o adicionar novamente.</p>
+                    </div>
+            </div>
         </div>
-        <div class="modal-footer color-sec-darken" style="margin-left: -11px">
+        <div class="modal-footer color-sec-darken">
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Cancelar</a>
             <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Salvar</button>
         </div>
-    </form>
-</div><!--modal sair grupo-->
+    </div>
+</form><!--modal sair grupo-->
 
 @if(($integranteEu->is_admin) and ($denuncia = \App\DenunciaGrupo::where('id_grupo', $grupo->id)->where('visto', 0)->orderBy('created_at', 'desc')->first())))
 @if($pub = \App\GrupoDiscussao::where('id_grupo', $denuncia->id_grupo)->where('id', $denuncia->id_pub)->first())
@@ -207,25 +209,25 @@
 
 @if($integranteEu->is_admin)
 <!-- MODAL EXCLUIR GRUPO -->
-<div id="modalExcluirGrupo" class="modal modal-fixed-footer" style="background-color: #f4f4f4">
-    <form method="post" id="excluirGrupo" action="{{ url('ajax/grupo/excluir')}}" class="tab-content col s12  grey lighten-4">
-        <div class="modal-content" style="overflow-x: hidden;height: auto">
+<form method="post" id="excluirGrupo" action="{{ url('ajax/grupo/excluir')}}">
+    <div id="modalExcluirGrupo" class="modal modal-fixed-footer">
+        <div class="modal-content">
             <h4 ><strong>Excluir grupo</strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
                     <p>Tem certeza que deseja excluir o grupo {{ $grupo-> nome}}?</p>
-                    <p>Todo o material publicado nele será perdido.</p>
-                    <div class="divider"></div>
+                    <p class="card-panel red darken-1 white-text"><strong>ATENÇÃO:</strong> Todo o material publicado nele será perdido!</p>
+
                 </div>
                 <input type="hidden" name="idgrupo" value="{{ $grupo-> id}}">
             </div>
         </div>
-        <div class="modal-footer color-sec-darken" style="margin-left: -11px">
+        <div class="modal-footer color-sec-darken">
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Cancelar</a>
             <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Excluir</button>
         </div>
-    </form>
-</div>
+    </div>
+</form>
 <!-- FIM EXCLUIR ADD GRUPO -->
 @endif
 @endif
