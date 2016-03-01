@@ -4,15 +4,15 @@ ETEC Social | Compartilhando conhecimentos
 @stop
 
 @section('style')
-{!! Html::style('https://fonts.googleapis.com/icon?family=Material+Icons') !!}
-{!! Html::style('http://materializecss.com/dist/css/materialize.min.css') !!}
+{!! Html::style('css/font.css') !!}
+{!! Html::style('css/materialize.min.css') !!}
 {!! Html::style('css/style-new.css') !!}
 @stop
 
 @section('jscript')
-{!! Html::script('//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js') !!}
-{!! Html::script('//cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js') !!}
-{!! Html::script('//cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.11.1/jquery.validate.min.js') !!}
+{!! Html::script('js/jquery.min.js') !!}
+{!! Html::script('js/materialize.min.js') !!}
+{!! Html::script('js/jquery.validate.min.js') !!}
 {!! Html::script('js/plugins/tokenize/jquery.tokenize.js') !!}
 
 <script>
@@ -49,6 +49,7 @@ ETEC Social | Compartilhando conhecimentos
         <ul id="nav-mobile" class="side-nav">
             <li><a href="#entrar" class="modal-trigger">Entrar</a></li>
             <li><a href="#cadastrar" class="modal-trigger">Cadastrar</a></li>
+            <li><div class="divider"></div></li>
             <li><a href="#sobre" class="modal-trigger">Sobre</a></li>
             <li><a href="#termos" class="modal-trigger">Termos</a></li>
             <li><a href="#privacidade" class="modal-trigger">Privacidade</a></li>

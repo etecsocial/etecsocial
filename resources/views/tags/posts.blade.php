@@ -5,33 +5,33 @@ ETEC Social
 @stop
 
 @section('style')
-<link href="/css/asset.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="/css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<link href="/js/plugins/fullcalendar/css/fullcalendar.min.css" type="text/css" rel="stylesheet">
+{!! Html::style('css/font.css') !!}
+{!! Html::style('css/asset.css') !!}
+{!! Html::style('css/style.css') !!}
+{!! Html::style('js/plugins/fullcalendar/css/fullcalendar.min.css') !!}
 @stop
 
 @section('jscript')
-<script type="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="/js/plugins/lightbox-plus-jquery.min.js"></script>
-<script type="text/javascript" src="/js/materialize.js"></script>
-<script type="text/javascript" src="/js/form.min.js"></script>
-<script type="text/javascript" src="/js/jquery.tagsinput.min.js"></script>
+{!! Html::script('js/jquery-1.11.2.min.js') !!}
+{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
+{!! Html::script('js/materialize.js') !!}
+{!! Html::script('js/form.min.js') !!}
+{!! Html::script('js/jquery.tagsinput.min.js') !!}
 
-<script type="text/javascript" src="/js/plugins/jquery.nanoscroller.min.js"></script>
-<script type="text/javascript" src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
-<script type="text/javascript" src="/js/plugins/sparkline/sparkline-script.js"></script>
-<script type="text/javascript" src="/js/plugins/jquery.bxslider.min.js"></script>
-<script type="text/javascript" src="/js/plugins/sliders.js"></script>
-<script type="text/javascript" src="/js/plugins/succinct-master/jQuery.succinct.min.js"></script>
+{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
+{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
+{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
+{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
+{!! Html::script('js/plugins/sliders.js') !!}
+{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
 
-<script type="text/javascript" src="/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
-<script type="text/javascript" src="/js/plugins/fullcalendar/lib/moment.min.js"></script>
-<script type="text/javascript" src="/js/plugins/fullcalendar/js/fullcalendar.min.js"></script>
-<script type="text/javascript" src="/js/plugins/fullcalendar/fullcalendar-script.js"></script>
+{!! Html::script('js/plugins/fullcalendar/lib/jquery-ui.custom.min.js') !!}
+{!! Html::script('js/plugins/fullcalendar/lib/moment.min.js') !!}
+{!! Html::script('js/plugins/fullcalendar/js/fullcalendar.min.js') !!}
+{!! Html::script('js/plugins/fullcalendar/fullcalendar-script.js') !!}
 
-<script type="text/javascript" src='/js/script.js'></script>
-<script type="text/javascript" src="/js/plugins.js"></script>
+{!! Html::script('js/script.js') !!}
+{!! Html::script('js/plugins.js') !!}
 <script>
             function comentar(id_post) {
             var elem = "#comentarios-" + id_post;

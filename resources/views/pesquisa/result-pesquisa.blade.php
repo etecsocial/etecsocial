@@ -1,22 +1,22 @@
 @extends('app')
 
 @section('title')
-ETEC Social
+{{ $qtd_results }} | ETEC Social
 @stop
 
 @section('style')
-<link href="../css/asset.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{!! Html::style('css/font.css') !!}
+{!! Html::style('css/asset.css') !!}
+{!! Html::style('css/style.css') !!}
 @stop
 
 @section('jscript')
-<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="../js/materialize.js"></script>
-<script type="text/javascript" src="../js/form.min.js"></script>
-<script type="text/javascript" src="../js/plugins/sparkline/sparkline-script.js"></script>
-<script type="text/javascript" src='../js/script.js'></script>
-<script type="text/javascript" src="../js/plugins.js"></script>
+{!! Html::script('js/jquery.min.js') !!}
+{!! Html::script('js/materialize.min.js') !!}
+{!! Html::script('js/js/form.min.js') !!}
+{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
+{!! Html::script('js/script.js') !!}
+{!! Html::script('js/plugins.js') !!}
 @stop
 
 @section('content')

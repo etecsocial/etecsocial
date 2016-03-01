@@ -4,17 +4,19 @@ Grupos | ETEC Social
 @stop
 
 @section('style')
+{!! Html::style('css/font.css') !!}
 {!! Html::style('css/asset.css') !!}
 {!! Html::style('css/style.css') !!}
 @stop
 
 @section('jscript')
-<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="js/materialize.js"></script>
-<script type="text/javascript" src="js/form.min.js"></script>
-<script type="text/javascript" src="js/plugins/sparkline/sparkline-script.js"></script>
-<script type="text/javascript" src='js/script.js'></script>
-<script type="text/javascript" src="js/plugins.js"></script>
+{!! Html::script('js/jquery-1.11.2.min.js') !!}
+{!! Html::script('js/materialize.js') !!}
+{!! Html::script('js/form.min.js') !!}
+{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
+
+{!! Html::script('js/script.js') !!}
+{!! Html::script('js/plugins.js') !!}
 <script>
     $("#adc-aluno").click(function () {
         $("#adc-aluno-grupo").toggle("fast", function () {
@@ -66,7 +68,8 @@ Grupos | ETEC Social
                 if (data.status === 1) {
                     Materialize.toast('<span>Grupo criado.</span>', 3000);
                     $('#modalAddGrupo').closeModal();
-                    $('#criarGrupo').reset();
+                    //$('#criarGrupo').reset();
+                    $(data.grupo).insertBefore(".collection:first").hide().fadeIn(2000);
                 } else {
                     if (data.status === 4) {
                         Materialize.toast('<span>Os campos "nome", "assunto" e "URL" são essenciais para criar o grupo.</span>', 3000);
