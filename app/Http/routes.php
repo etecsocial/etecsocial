@@ -12,6 +12,9 @@
     Route::get('/', 'HomeController@index');
     Route::post('/', 'HomeController@login_or_cadastro');
     Route::get('/logout', 'HomeController@logout');
+    //FACEBOOK
+    Route::get('/facebook_login', 'FacebookController@login');
+    Route::get('/facebook_feedback', 'FacebookController@feedback');    
     //DESAFIO
     Route::get('/desafios', 'DesafioController@index');
     Route::get('/ranking', 'DesafioController@ranking');
