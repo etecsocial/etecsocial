@@ -318,9 +318,10 @@
 
                     <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
                         <i class="mdi-action-search" style="top: 5px;left: 15px;"></i>
-                        <input style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, trabalhos ou provas" />
+                        
+                        <input autocomplete="off" style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, trabalhos ou provas" />
                     </div>
-                    <div id="results-search" style="display: none;margin-left: 270px;width: 780px;">
+                    <div id="results-search" style="display: none; margin-left: 270px">
                         <ul class="busca collection" style="width:100%;margin-top:0!important;margin-bottom: 0!important;"></ul>
                     </div>
                 </div>

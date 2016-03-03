@@ -25,7 +25,6 @@ class PesquisaController extends Controller {
         $alunos = User::where("users.nome", 'LIKE', '%' . $termo . '%')
                 ->where('tipo', 1)
                 ->limit(10)
-                ->where('users.id', '!=', Auth::user()->id)
                 ->join('turmas', 'turmas.id', '=', 'users.id_turma')
                 ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
                 ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla', 'users.info_academica'])

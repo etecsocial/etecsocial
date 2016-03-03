@@ -205,7 +205,7 @@ class GrupoController extends Controller {
     public function setDisc(Request $request) {
         $this->validate($request, [ 'assunto' => 'required']);
         $this->validate($request, [ 'discussao' => 'required']);
-
+        
         $disc = new GrupoDiscussao;
         $disc->id_grupo = $request->idgrupo;
         if ($request->titulo) {
@@ -369,7 +369,7 @@ class GrupoController extends Controller {
             Grupo::where('id', $request->idgrupo)->update(array('assunto' => $request->assunto));
             $update = true;
         }
-        if (isset($update)) {
+        if ($update != 0) {
             $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('is_admin', 0);
             foreach ($id_dests as $id_dest) {
                 Notificacao::create([
@@ -380,8 +380,8 @@ class GrupoController extends Controller {
                     'is_post' => false,
                     'action' => '/grupo/' . Grupo::verGrupo($request->idgrupo)->url
                 ]);
-            }Response::json(['status' => 1]);
-        }Response::json(['status' => 0]);
+            }return Response::json(['status' => 1]);
+        }return Response::json(['status' => 0]);
     }
 
     public function getGroupData($grupo) {

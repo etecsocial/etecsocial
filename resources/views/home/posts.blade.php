@@ -19,8 +19,8 @@
             </li>
             @else
             <li><a id="favoritar-{{ $post->id }}" onclick="favoritar({{ $post->id }})" class="btn-floating waves-effect waves-light grey tooltipped" data-tooltip="Você e outras {{ $post->num_favoritos - 1 }} pessoas favoritaram"><i class="mdi-action-favorite-outline"></i></a>
-            @endif
-            @else
+                @endif
+                @else
             <li><a id="favoritar-{{ $post->id }}" onclick="favoritar({{ $post->id }})" class="btn-floating waves-effect waves-light red tooltipped" data-tooltip="{{ $post->num_favoritos }} pessoas favoritaram"><i class="mdi-action-favorite-outline"></i></a>
             </li>
             @endif
@@ -33,8 +33,8 @@
             <li><a id="coment-{{ $post->id }}" class="btn-floating waves-effect waves-light light-blue tooltipped" data-tooltip="{{ $post->num_comentarios }} pessoa comentou"><i class="mdi-communication-comment activator"></i></a>
             </li>
             @else
-            <li><a id="coment-{{ $post->id }}" class="btn-floating waves-effect waves-light light-blue tooltipped" data-tooltip="{{ $post->num_comentarios }} pessoas comentaram"><i class="mdi-communication-comment activator"></i></a>
-            @endif
+            <li><a id="coment-{{ $post->id }}" class="btn-floating waves-effect waves-light light-blue tooltipped" data-tooltip="{{ $post->num_comentarios }} comentários"><i class="mdi-communication-comment activator"></i></a>
+                @endif
         </ul>
         <div class="card-content">
             <p class="row">
@@ -43,9 +43,9 @@
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
 
-                    @if($post->is_repost) 
-                    Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a> 
-                    @endif
+                    <?php /* @if($post->is_repost) 
+                      Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a>
+                      @endif */ ?>
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>
@@ -70,11 +70,12 @@
             <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>
             <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
                 @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
-                <li class="collection-item avatar" style="height: auto; min-height:65px;max-height: 100%">
-                         @if(Auth::user()->id == $comentario->id_user) 
-            <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-           
-            @endif
+                <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->id_post }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
+
+                    @if(Auth::user()->id == $comentario->id_user) 
+                    <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id_post }}, {{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
+
+                    @endif
                     <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                     <p>{{ $comentario->comentario }}</p>
                 </li>

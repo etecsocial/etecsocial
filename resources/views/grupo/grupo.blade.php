@@ -304,7 +304,7 @@ $('#editGrupo').ajaxForm({
     dataType: 'JSON',
     success: function (data) {
         if (data.status) {
-            if (data.status === 1) {
+            if (data.status == 1) {
                 Materialize.toast('<span>Alterações salvas.</span>', 3000);
                 $('#modalAddGrupo').closeModal();
             } else {
@@ -437,7 +437,11 @@ $('#publicarDiscussao').ajaxForm({
 
     },
     error: function (data, xhr) {
+        if(data.status != 422){
+            Materialize.toast('<span>Confirme suas credenciais na página de login para continuar!</span>', 3000);
+        }else{
         Materialize.toast('<span>Os campos "assunto" e "discussão" são obrigatórios.</span>', 3000);
+    }
     }
 });
 

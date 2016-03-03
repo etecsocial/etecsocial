@@ -64,7 +64,7 @@ class ComentarioController extends Controller
             
             $comentario->delete();
             
-            return Response::json([ 'status' => true, 'id' => $id_comentario ]);
+            return Response::json([ 'status' => true, 'id' => $comentario->id  ]);
         }
         
         return Response::json([ 'status' => false ]);
