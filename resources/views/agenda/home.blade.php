@@ -13,17 +13,8 @@ Agenda | ETEC Social
 
 @section('jscript')
 {!! Html::script('js/jquery-1.11.2.min.js') !!}
-{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
 {!! Html::script('js/materialize.js') !!}
-{!! Html::script('js/jquery.tagsinput.min.js') !!}
-
-{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
-{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
-{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
-{!! Html::script('js/plugins/sliders.js') !!}
-{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
-{!! Html::script('js/jquery.tagsinput.min.js') !!}
+{!! Html::script('js/form.min.js') !!}
 
 {!! Html::script('js/plugins/fullcalendar/lib/jquery-ui.custom.min.js') !!}
 {!! Html::script('js/plugins/fullcalendar/lib/moment.min.js') !!}
@@ -33,8 +24,6 @@ Agenda | ETEC Social
 {!! Html::script('js/script.js') !!}
 {!! Html::script('js/plugins.js') !!}
 <script>
-
-
     $('#excluir').ajaxForm({
         type: "DELETE",
         dataType: 'JSON',
@@ -49,82 +38,60 @@ Agenda | ETEC Social
 </script>
 
 @stop
-
 @section('content')
-
 @include('nav')
-<section id="content">
-
-    <!--breadcrumbs start-->
-    <div id="breadcrumbs-wrapper" class=" grey lighten-3">
-        <!-- Search for small screen -->
-        <div class="header-search-wrapper grey hide-on-large-only">
-            <i class="mdi-action-search active"></i>
-            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col s12 m12 l12">
-                </div>
+<div id="breadcrumbs-wrapper" class="grey lighten-3">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <h5 class="breadcrumbs-title">Tarefas</h5>
+                <ol class="breadcrumb">
+                    <li><a href="{{ url('/') }}">Pagina Inicial</a></li>
+                    <li class="active">Tarefas</li>
+                </ol>
             </div>
         </div>
     </div>
-    <!--breadcrumbs end-->
+</div>
+<div class="container">
+    <div class="section">
+        Crie eventos para datas de provas, trabalhos, apresentações, seminários e etc.
+        {{ Auth::User()->tipo == 1 ? 'Caso queira, crie eventos compartilhados com sua turma!' : 'Professor, lembre-se que você pode adicionar eventos para as turmas as quais você leciona!' }}</p>
+        <div class="divider"></div>
 
-
-    <!--start container-->
-    <div class="container">
-        <div class="section">
-            <p class="caption">Agenda de estudos</p>
-            Crie eventos para datas de provas, trabalhos, apresentações, seminários e etc.
-            {{ Auth::User()->tipo == 1 ? 'Caso queira, crie eventos compartilhados com sua turma!' : 'Professor, lembre-se que você pode adicionar eventos para as turmas as quais você leciona!' }}</p>
-            <div class="divider"></div>
-
-
-            <div style="margin-top:10px">
-                <a href="#novoevento" class="wino btn waves-effect waves-light cyan darken-2">Adicionar evento</a>
-                <div>               
-
-                    <div id="full-calendar">              
-
-                        <div class="col s12 m6 l9">
-                            <div id="calendar"></div>
-
-                        </div>
+        <div style="margin-top:10px">
+            <a href="#novoevento" class="wino btn waves-effect waves-light cyan darken-2">Adicionar evento</a>
+            <div>               
+                <div id="full-calendar">              
+                    <div class="col s12 m6 l9">
+                        <div id="calendar"></div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-    <!--end container-->
+</div>
 </div>
 </section>
 <div id="evento" class="modal" data-target="evento">
-    <form  id="excluir" method="DELETE">
+    <form id="excluir" method="DELETE">
         <input type="hidden" id="iduser" value="{{ Auth::user()->id }}">
 
         <div class="modal-content">
             <h4 id="agenda-title"></h4>
             <i id="opcoes" style="display:none">
                 <i id="data-opcoes"></i>
-                <form  id="excluir" method="DELETE">
-
+                <form id="excluir" method="DELETE">
                     <button type="submit" style="margin-left:-45px" class="modal-action modal-close btn-flat">&nbsp;&nbsp;&nbsp; (Excluir)</button>
                 </form>
             </i>
-            <i id="user" style="display:none"></i>
+            <i id="user"></i>
             <p id="agenda-content"></p>
         </div>
         <div class="modal-footer">
-
-            <a class="modal-action modal-close waves-effect waves-red btn-flat ">Fechar</a>
-
+            <a class="modal-action modal-close waves-effect waves-red btn-flat">Fechar</a>
         </div>
     </form>
 </div>
-
-
 @include('footer')
 @stop
