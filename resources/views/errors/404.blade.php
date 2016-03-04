@@ -9,7 +9,7 @@
 
 @section('content')
 <nav class="red darken-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">ETEC Social</a></div>
+    <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo">ETEC Social</a></div>
 </nav>
 
 <div id="index">

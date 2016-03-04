@@ -39,7 +39,7 @@ ETEC Social | Compartilhando conhecimentos
 
 @section('content')
 <nav class="red darken-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">ETEC Social</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo">ETEC Social</a>
         <ul class="right hide-on-med-and-down">
             <li><a href="#">Sobre</a></li>
             <li><a href="#termos" class="modal-trigger">Termos</a></li>
