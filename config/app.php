@@ -157,6 +157,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -207,6 +208,7 @@ return [
         'Html'      => Collective\Html\HtmlFacade::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
         'Socialize' => Laravel\Socialite\Facades\Socialite::class,
+        'Image'     => Intervention\Image\Facades\Image::class,
     ],
 
 ];
