@@ -12,100 +12,76 @@ Tarefas | ETEC Social
 
 @section('jscript')
 {!! Html::script('js/jquery-1.11.2.min.js') !!}
-{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
 {!! Html::script('js/materialize.js') !!}
 {!! Html::script('js/form.min.js') !!}
 
-{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
-{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
-{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
-{!! Html::script('js/plugins/sliders.js') !!}
-{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
-
-{!! Html::script('js/jquery.tagsinput.min.js') !!}
 {!! Html::script('js/script.js') !!}
+{!! Html::script('js/plugins.js') !!}
 <script>
-    $("#task-add-button").click(function () {
-        $("#task-add").toggle("slow", function () {
-        });
-    });
-    
-    function moretask() {
-        var task_id = $(".tarefa:last").data("id");
-        var task_data = $(".tarefa:last").data("date");
-        
-        $.post("/ajax/moretask", {id: task_id, data: task_data}, function (data) {
-            if (data === '') {
-                $('#loader-tarefa').empty();
-                loader = false;
-            } else {
-                $(data).insertAfter(".tarefa:last").hide().fadeIn(1000);
-            }
-        });
-    }
-            
-      var loader = true;
-      
+    $("#task-add-button").click(function() {
+    $("#task-add").toggle("slow", function() {});
+});
 
-    $(window).scroll(function () {
-        if (loader) {
-            
-            if ($(window).scrollTop() === $(document).height() - $(window).height()) {
-                $('#loader-tarefa').show();
-                
-    moretask();
-  
-                
-            }
-           
+function moretask() {
+    var task_id = $(".tarefa:last").data("id");
+    var task_data = $(".tarefa:last").data("date");
+    $.post("/ajax/moretask", {
+        id: task_id,
+        data: task_data
+    }, function(data) {
+        if (data === '') {
+            $('#loader-tarefa').empty();
+            loader = false;
+        } else {
+            $(data).insertAfter(".tarefa:last").hide().fadeIn(1000);
         }
-    });    
-     
-            
-   
+    });
+}
 
-    $('#salvar-task').ajaxForm({
-            dataType: 'JSON',
-            success: function (data) {
-            if (data.data == 'invalid'){
-                Materialize.toast('<span>Ops! Ainda não podemos voltar no tempo! Selecione uma data válida.</span>', 3000);
-                exit();
-            }
+var loader = true;
+$(window).scroll(function() {
+    if (loader) {
+        if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+            $('#loader-tarefa').show();
+            moretask();
+        }
+    }
+});
+$('#salvar-task').ajaxForm({
+    dataType: 'JSON',
+    success: function(data) {
+        if (data.data == 'invalid') {
+            Materialize.toast('<span>Ops! Ainda não podemos voltar no tempo! Selecione uma data válida.</span>', 3000);
+            exit();
+        }
 
-            if (!data.exists){
+        if (!data.exists) {
             $('#semTarefas').hide(200);
-                    Materialize.toast('<span>Tarefa adicionada!</span>', 3000);
-                    var html = '<li class="tarefa collection-item dismissable">' +
-                    '<input type="checkbox" id="' + data.id + '" onclick="javascript: checkTask(' + data.id + ')">' +
-                    '<label for="' + data.id + '">' + data.desc + '<a href="#" class="secondary-content"><span class="ultra-small">' + data.cont + '</span></a>' +
-                    '</label>' +
-                    '<span class="task-cat blue darken-3">' + data.data + '</span>' +
-                    '</li>';
-                    $(html).insertBefore(".tarefa:first").hide().fadeIn(2000);
-            } else{
+            Materialize.toast('<span>Tarefa adicionada!</span>', 3000);
+            var html = '<li class="tarefa collection-item dismissable">' +
+                '<input type="checkbox" id="' + data.id + '" onclick="javascript: checkTask(' + data.id + ')">' +
+                '<label for="' + data.id + '">' + data.desc + '<a href="#" class="secondary-content"><span class="ultra-small">' + data.cont + '</span></a>' +
+                '</label>' +
+                '<span class="task-cat blue darken-3">' + data.data + '</span>' +
+                '</li>';
+            $(html).insertBefore(".tarefa:first").hide().fadeIn(2000);
+        } else {
             Materialize.toast('<span>Parece que você já tem algo parecido com isso para fazer...</span>', 3000);
-            }
-            },
-            error: function () {
-            Materialize.toast('<span>Ops... Algo está errado!</span>', 3000);
-            }
-    });</script>
-<script type="text/javascript" src="js/plugins.js"></script>
-  <script type="text/javascript">
-       $(function() {
-               $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val()
-       });
-   </script>
+        }
+    },
+    error: function() {
+        Materialize.toast('<span>Ops... Algo está errado!</span>', 3000);
+    }
+});
+
+$(document).ready(function() {
+    // $("#datepicker").datepicker({ dateFormat: "yy-mm-dd" }).val()
+});
+</script>
 @stop
-
 @section('content')
-
 @include('nav')
-
 <section id="content">
-
-    <!--start container-->
     <div class="container">
         <div class="section">
             <div class="col s12">
@@ -122,7 +98,7 @@ Tarefas | ETEC Social
                                 <div class="row">
                                     <div class="input-field col s6">
                                         <i class="material-icons prefix color-sec-text">done_all</i>
-                                        <input id="icon_prefix"  name="desc" type="text" class="validate" placeholder="O que você tem que fazer?">
+                                        <input id="icon_prefix" name="desc" type="text" class="validate" placeholder="O que você tem que fazer?" required>
 
                                     </div>
                                     <div class="input-field col s6">
@@ -136,7 +112,7 @@ Tarefas | ETEC Social
                     </li>
                     <a class="task-add btn-floating waves-effect waves-light color-sec-darken" id="task-add-button"><i class="mdi-content-add"></i></a>
 
-                    
+
                     @foreach($tasks as $task)
                     <li class=" col s6 tarefa collection-item dismissable" data-id="{{ $task->id }}" data-date="{{ $task->data }}">
                         @if($task->checked)
@@ -156,105 +132,37 @@ Tarefas | ETEC Social
                     </li>
                     @endforeach
 
-                @if(empty($tasks))
+                    @if(empty($tasks))
                     <li class="tarefa collection-item dismissable" id="semTarefas">
                         <label for="semTarefas">Você não possui nenhuma tarefa. Clique no Botão + para adicionar!
                         </label>
                     </li>
                     @else
-                  <div class="row" id="loader-tarefa" style="display:none;margin-bottom:10px">
-            <div class="col s12 m4 center" style="margin-top: 30px">
-            </div>
-            <div class="col s12 m4 center">
-                <div class="preloader-wrapper big active" style="margin-top: 30px">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
+                    <div class="row" id="loader-tarefa" style="display:none;margin-bottom:10px">
+                        <div class="col s12 m4 center" style="margin-top: 30px">
                         </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
+                        <div class="col s12 m4 center">
+                            <div class="preloader-wrapper big active" style="margin-top: 30px">
+                                <div class="spinner-layer spinner-blue-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col s12 m4 center">
-            </div>
-                  </div>
                     @endif
-                    </ul>
-
-                <div id="task-modal" class="modal">
-                    <nav class="task-modal-nav red">
-                        <div class="nav-wrapper">
-                            <div class="left col s12 m5 l5">
-                                <ul>
-                                    <li><a class="todo-menu"><i class="modal-action modal-close  mdi-hardware-keyboard-backspace"></i></a>
-                                    </li>
-                                    <li><a class="todo-add">Add</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col s12 m7 l7 hide-on-med-and-down">
-                                <ul class="right">
-                                    <li><a><i class="mdi-editor-attach-file"></i></a>
-                                    </li>
-                                    <li><a><i class="mdi-action-loyalty"></i></a>
-                                    </li>
-                                    <li><a><i class="mdi-navigation-more-vert"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
-                    <div class="modal-content">                    
-                        <div class="row">
-                            <form class="col s12">                        
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <input id="todo-title" type="text" class="validate">
-                                        <label for="todo-title">Todo Title</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="input-field col s6">                            
-                                        <select>
-                                            <option value="" disabled selected>Choose your option</option>
-                                            <option value="1">Design</option>
-                                            <option value="2">Develop</option>
-                                            <option value="3">Testing</option>
-                                        </select>
-                                    </div>                          
-                                    <div class="input-field col s6">
-                                        <div class="file-field input-field">
-                                            <input class="file-path validate" type="text" />
-                                            <div class="btn">
-                                                <span>File</span>
-                                                <input type="file" />
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <textarea id="comments" class="materialize-textarea" length="500"></textarea>
-                                        <label for="comments">Comments</label>
-                                        <span class="character-counter"></span>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>                 
-                </div>
+                </ul>
             </div>
         </div>
-       
     </div>
-    </div>
-    <!--end container-->
+</div>
 </section>
 @include('footer')
 @stop
