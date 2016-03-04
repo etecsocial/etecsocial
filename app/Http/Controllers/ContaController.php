@@ -11,11 +11,12 @@ use App\User;
 use Response;
 use Input;
 use Auth;
+use Image;
 
 class ContaController extends Controller
 {
-    public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
-    public $destinationPath = 'midia/avatar';
+    public $avatar_ext  = ['jpg', 'JPG', 'png', 'PNG'];
+    public $avatar_path = 'midia/avatar/';
     
     public function consultarEscola() {
         $termo = Input::get('termo');
@@ -81,10 +82,11 @@ class ContaController extends Controller
     public function addfoto($midia) {
         $ext = $midia->getClientOriginalExtension();
            
-        if (!in_array($ext, $this->extensionImages)) {
-           
+        if (!in_array($ext, $this->avatar_ext)) {
             return 'Formato inválido';
         }
-        Input::file('foto')->move($this->destinationPath, md5(Auth::user()->id) . '.jpg');
+
+        $path = $this->avatar_path . md5(Auth::user()->id) . '.jpg';
+        $avatar = Image::make(Input::file('foto'))->fit(200, 200)->save($path);
     }
 }

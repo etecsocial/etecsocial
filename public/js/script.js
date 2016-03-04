@@ -22,7 +22,6 @@ type: "POST",
         }
 });
 
-
 //CHAT
 function abrirChat(id_user) {
     $("#id-chat").val(id_user);
@@ -80,14 +79,12 @@ $('#status').ajaxForm({
 });
 
 //CONTA
-
 $('#conta').ajaxForm({
     success: function (data) {
-        
         Materialize.toast('<span>' + data.msg + '</span>', 3000);
-      
         if (data.status) {
             $("#modalConta").closeModal();
+            $(".profile-image, .profile-image-post").attr('src',$(".profile-image").attr('src') + '?' + Math.random());
         }
     },
     error: function (data) {
