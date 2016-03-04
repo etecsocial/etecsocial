@@ -21,14 +21,8 @@ class Agenda extends Model
     ];
     
     public static function loada() {
-        $age = Agenda::where('id_user', Auth::user()->id)
-                ->where('start', '>', time())
-                ->get();
-        
-         if(empty($age[0])) {
-            return false;
-        }
-        
-        return $age;
+        $age = Agenda::where('id_user', Auth::user()->id)->where('start', '>', time())->get()->first();
+
+        return (empty($age)) ? false : $age;
     }
 }
