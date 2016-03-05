@@ -92,6 +92,7 @@ $('#conta').ajaxForm({
         if (data.status) {
             $("#modalConta").closeModal();
             $(".profile-image, .profile-image-post").attr('src', $(".profile-image").attr('src') + '?' + Math.random());
+            $(".profile-btn").html($("#nome").val());
         }
     },
     error: function(data) {

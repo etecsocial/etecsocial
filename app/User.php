@@ -70,10 +70,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     
     public static function avatar($id) 
     {
-        if (file_exists("midia/avatar/" . md5($id) . ".jpg")){
-            return "/midia/avatar/" . md5($id) . ".jpg";
+        $avatar_path = 'midia/avatar/' . md5($id) . '.jpg';
+        if (file_exists($avatar_path)){
+            return url($avatar_path);
         } else {
-            return "/images/default-user.png";
+            return url('/images/default-user.png');
         }
     }
     
