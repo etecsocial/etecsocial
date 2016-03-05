@@ -16,13 +16,6 @@ Ranking | ETEC Social
 {!! Html::script('js/materialize.js') !!}
 {!! Html::script('js/form.min.js') !!}
 
-{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
-{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
-{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
-{!! Html::script('js/plugins/sliders.js') !!}
-{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
-
 {!! Html::script('js/script.js') !!}
 {!! Html::script('js/plugins.js') !!}
 
@@ -52,45 +45,24 @@ Ranking | ETEC Social
 }
 </style>
  	<ul class="ranking">
- 		<li class="row">
+ 		@foreach($usuarios as $usuario)
+        <li class="row">
  			<div class="col l2">
- 				<a href="">
-                	<img src="/midia/avatar/c4ca4238a0b923820dcc509a6f75849b.jpg" alt="" class="circle responsive-img valign profile-image">
+ 				<a href="{{ App\User::avatar($usuario->user_id) }}" data-lightbox="ju">
+                	<img src="{{ App\User::avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
             	</a>
             </div>
             <div class="col l5">
-            	<h4>#1 Eduardo Ramos</h4>
-            	<h5>3 ° EMIA</h5>
-            	<h6>4242 pontos</h6>
+                #1
+            	<a href="{{ url($usuario->username) }}">
+                    <h4>{{$usuario->nome}}</h4>
+                </a>
+            	<h6>{{$usuario->pontos}} pontos</h6>
             </div>
  		</li>
 
  		<div class="divider"></div>
- 		<li class="row">
- 			<div class="col l2">
- 				<a href="">
-                	<img src="/midia/avatar/d67d8ab4f4c10bf22aa353e27879133c.jpg" alt="" class="circle responsive-img valign profile-image">
-            	</a>
-            </div>
-            <div class="col l5">
-            	<h4>#2 John Doe</h4>
-            	<h5>3 ° EMIA</h5>
-            	<h6>3020 pontos</h6>
-            </div>
- 		</li>
- 		<div class="divider"></div>
- 		<li class="row">
- 			<div class="col l2">
- 				<a href="">
-                	<img src="/midia/avatar/c4ca4238a0b923820dcc509a6f75849b.jpg" alt="" class="circle responsive-img valign profile-image">
-            	</a>
-            </div>
-            <div class="col l5">
-            	<h4>#3 Eduardo Ramos</h4>
-            	<h5>3 ° EMIA</h5>
-            	<h6>2000 pontos</h6>
-            </div>
- 		</li>
+ 		@endforeach
 
  	</ul> 
 </div>

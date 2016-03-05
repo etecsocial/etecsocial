@@ -25,4 +25,14 @@ class Pontuacao extends Model {
                         ->get()[0]->pontos;
     }
 
+    public static function total_users() {
+    	return DB::table('pontuacaos')
+                        ->selectRaw('sum(pontos) as pontos, nome, user_id, username')
+                        ->join('users', 'users.id', '=', 'pontuacaos.user_id')
+                        ->orderBy('pontos', 'DESC')
+                        ->groupBy('user_id')
+                        ->limit(100)
+                        ->get();	
+    }
+
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Pontuacao;
+use App\User;
 
 class DesafioController extends Controller
 {
@@ -14,6 +16,8 @@ class DesafioController extends Controller
     }
 
     public function ranking() {
-    	return view('desafio.ranking');
+    	$usuarios = Pontuacao::total_users();
+    	
+    	return view('desafio.ranking', ['usuarios' => $usuarios]);
     }
 }
