@@ -325,8 +325,8 @@ ETEC Social | Home
                 <div class="col s6 m6 l6">
                     <div class="card">
                         <div class="card-content blue white-text center">
-                            <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Reputação</p>
-                            <h4 class="card-stats-number">{{ Auth::user()->reputacao }}</h4>
+                            <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Pontuação</p>
+                            <h4 class="card-stats-number">{{ \App\Pontuacao::total() }}</h4>
                         </div>
                     </div>
                 </div>

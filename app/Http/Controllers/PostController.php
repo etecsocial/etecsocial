@@ -16,6 +16,7 @@ use App\Comentario;
 use App\Post;
 use App\Tag;
 use App\User;
+use App\Pontuacao;
 
 class PostController extends Controller
 {  
@@ -52,7 +53,7 @@ class PostController extends Controller
         } else {
             $this->addIcon($tags, $post);
         }
-                   
+        Pontuacao::pontuar(10, 'novo post');           
         return Response::json([ "id" => $post->id ]);
     }
 
