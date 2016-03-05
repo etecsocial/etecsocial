@@ -108,6 +108,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function turmas() {
        $info = User::myInfoAcademica();
        
+       return []; // #@todo: rever isso daqui
+
        return Turma::where('id_escola', $info->etecs->default)->get();
     }
 }

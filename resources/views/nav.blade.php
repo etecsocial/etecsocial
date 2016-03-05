@@ -80,9 +80,7 @@
         <a style="cursor:pointer" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Fechar</a>
     </div>
 </div>
-<!-- MODAL VER POST -->
 
-@if(Auth::user()->tipo == 1)
 <div id="modalConta" class="modal modal-fixed-footer" style="background-color: #f4f4f4">
     <form id="conta" method="POST" action="{{ url('/ajax/config') }}">
         <div class="modal-content">
@@ -147,6 +145,7 @@
                             <label for="cidade" class="active">Cidade</label>
                         </div>
                     </div>
+                    @if(Auth::user()->tipo == 1)
                     <div class="row">
                         <div class="input-field col s12 l6">
                             <input type="text" name="modulo" value="{{ App\User::myInfoAcademica()->modulo }}" placeholder="Módulo" class="validate" disabled>
@@ -156,8 +155,8 @@
                             <input type="text" name="curso" value="{{ App\User::myInfoAcademica()->curso }}" placeholder="Curso" class="validate" disabled>
                             <label for="curso" class="active">Curso</label>
                         </div>
-
                     </div>
+                    @endif
                 </div>
                 <div id="infos-seguranca" class="col s12">
                     <div class="row">
@@ -196,109 +195,6 @@
         </div>
     </form>
 </div>
-@else
-<form method="POST" action="{{ url('ajax/perfil/editar')}}" id="edit-perfil">
-    <div id="modalConta" class="modal modal-fixed-footer" style="background-color: #f4f4f4">
-        <div class="modal-content">
-            <h4 class="black-text"><Strong>Configurações da Conta</strong></h4><li class="divider"></li>
-            <div class="row">
-                <div class="col s12">
-                    <ul class="tabs" style="background: transparent">
-                        <li class="tab col s6"><a href="#infos-pessoais" class="active black-text">Básico</a></li>
-                        <li class="tab col s6"><a href="#infos-seguranca" class="black-text">Segurança</a></li>
-                    </ul>
-                </div>
-                <div id="infos-pessoais" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <form action="#">
-                                <div class="file-field input-field">
-                                    <div class="btn color-sec">
-                                        <span>File</span>
-                                        <input type="file" name="foto">
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" type="text">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 l6">
-                            <input type="text" name="nome" value="{{ Auth::user()->nome }}" placeholder="Nome completo" class="validate"> 
-                        </div>
-                        <div class="input-field col s12 l6">
-                            <input type="text" name="username" value="{{ Auth::user()->username }}" placeholder="Nome de usuario" class="validate">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 l6">
-                            <input type="date" name="nasc" value="{{ Auth::user()->nasc ? Auth::user()->nasc : "" }}"  placeholder="Data de Nascimento" class="validate">
-                        </div>
-                        <div class="input-field col s12 l6">
-                            <input type="text" name="habilidades" value="{{ Auth::user()->habilidades ? Auth::user()->habilidades : "" }}" placeholder="Habilidades" class="validate">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="input-field col s12 l6">
-                            <input type="text" class="validate" disabled>
-                            <label>Unidade de ETEC</label>
-                        </div>
-                        <div class="input-field col s12 l6">
-                            <input type="text" name="cidade" value="{{ Auth::user()->cidade ? Auth::user()->cidade : "" }}" placeholder="Cidade"  class="validate">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 l6">
-                            <input type="text" class="validate" disabled>
-                            <label>Universidade em que é formado</label>
-                        </div>
-                        <div class="input-field col s12 l6">
-                            <input type="text" class="validate" disabled>
-                            <label>Curso em que é formado</label>
-                        </div>
-                    </div>
-
-                </div>
-                <div id="infos-seguranca" class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12 l6">
-                            <input type="text" name="email" value="{{ Auth::user()->email }}" placeholder="@etec.sp.gov.br" class="validate" disabled>
-                            <label for="email" class="active">E-mail institucional</label>
-                        </div>
-                        <div class="input-field col s12 l6">
-                            <input type="text" name="email_alternativo" value="{{ Auth::user()->email_alternativo }}" placeholder="E-mail" class="validate">
-                            <label for="email_alternativo" class="active">E-mail alternativo</label>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12 l4">
-                            <input type="password" name="senha" placeholder="Nova senha" class="validate">
-                            <label for="senha" class="active">Nova senha</label>
-                        </div>
-                        <div class="input-field col s12 l4">
-                            <input type="password" name="senha_confimation" placeholder="Repita a nova senha" class="validate">
-                            <label for="senha" class="active">Confirmar nova senha</label>
-                        </div>
-
-                        <div class="input-field col s12 l4">
-                            <input type="password" name="senha_atual" placeholder="Senha atual" class="validate">
-                            <label for="senha" class="active">Senha atual</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <input type="hidden" name="id_user" value="{{ Auth::User()->id }}">
-            <div class="modal-footer color-sec-darken">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Cancelar</a>
-                <button type="submit" class="modal-action waves-effect waves-green btn-flat white-text">Salvar</button>
-            </div>
-        </div>
-</form>
-@endif
 <header id="header" class="page-topbar">
     <div class="navbar-fixed">
         <nav class="red darken-1">
