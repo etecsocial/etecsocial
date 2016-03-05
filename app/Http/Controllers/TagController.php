@@ -21,14 +21,6 @@ class TagController extends Controller {
         $this->show($tag);
     }
 
-    /**
-     * Middleware @Auth.
-     *
-     */
-    public function __construct() {
-        $this->middleware('auth');
-    }
-
     public function show($tag) {
 
          $posts_amigos = Post::join('users', 'users.id', '=', 'posts.id_user')

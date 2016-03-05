@@ -10,12 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Chat;
 
 class ChatController extends Controller
-{   
-    public function __construct() 
-    {
-        $this->middleware('auth');
-    }
-    
+{       
     /**
      * Store a newly created resource in storage.
      *

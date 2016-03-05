@@ -22,15 +22,6 @@ class PostController extends Controller
     public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
     public $extensionVideos = ['flv', 'FLV', 'mp4', 'MP4'];
     public $destinationPath = 'midia/posts';
-
-    /**
-     * Middleware @Auth.
-     *
-     */
-    public function __construct() 
-    {
-        $this->middleware('auth');
-    }
     
     /**
      * Store a newly created resource in storage.

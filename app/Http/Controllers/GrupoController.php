@@ -25,10 +25,6 @@ use Carbon\Carbon;
 
 class GrupoController extends Controller {
 
-    public function __construct() {
-        $this->middleware('auth');
-    }
-
     /**
      * Classe controladora de grupos de estudo.
      *

@@ -18,10 +18,6 @@ use Carbon\Carbon;
 
 class DenunciaController extends Controller {
 
-    public function __construct() {
-        $this->middleware('auth');
-    }
-
     /**
      * Classe de denúncia, cria, avalia e faz controle das publicações.
      *

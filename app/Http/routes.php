@@ -14,31 +14,34 @@
     Route::get('/logout', 'HomeController@logout');
     //FACEBOOK
     Route::get('/facebook_login', 'FacebookController@login');
-    Route::get('/facebook_feedback', 'FacebookController@feedback');    
-    //DESAFIO
-    Route::get('/desafios', 'DesafioController@index');
-    Route::get('/ranking', 'DesafioController@ranking');
-    //AGENDA
-    Route::get('/agenda', 'AgendaController@index');
-    //PESQUISA
-    Route::get('/busca/{termo}', 'PesquisaController@index');
-    //GRUPO
-    Route::get('/grupos', 'GrupoController@listar');
-    Route::get('/grupo/{groupname}', 'GrupoController@index');
-    //TAREFA
-    Route::get('/tarefas', 'TarefaController@index');
-    //TAGS
-    Route::get('/tag/{tag}', 'TagController@show');    
-    //MENSAGENS
-    Route::get('/mensagens', 'ChatController@pagina');
-    //POST
-    Route::get('/post/{id}', 'PostController@show');
-    //PERFIL
-    Route::get('/{username}', 'PerfilController@index');
-    Route::get('/perfil/editar', 'PerfilController@update');
+    Route::get('/facebook_feedback', 'FacebookController@feedback');
+
+    Route::group(['middleware' => 'auth'], function() {    
+        //DESAFIO
+        Route::get('/desafios', 'DesafioController@index');
+        Route::get('/ranking', 'DesafioController@ranking');
+        //AGENDA
+        Route::get('/agenda', 'AgendaController@index');
+        //PESQUISA
+        Route::get('/busca/{termo}', 'PesquisaController@index');
+        //GRUPO
+        Route::get('/grupos', 'GrupoController@listar');
+        Route::get('/grupo/{groupname}', 'GrupoController@index');
+        //TAREFA
+        Route::get('/tarefas', 'TarefaController@index');
+        //TAGS
+        Route::get('/tag/{tag}', 'TagController@show');    
+        //MENSAGENS
+        Route::get('/mensagens', 'ChatController@pagina');
+        //POST
+        Route::get('/post/{id}', 'PostController@show');
+        //PERFIL
+        Route::get('/{username}', 'PerfilController@index');
+        Route::get('/perfil/editar', 'PerfilController@update');
+    });
 
     //AJAX
-    Route::group(['prefix' => 'ajax'], function () {
+    Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
         //CONTA
         Route::post('/config', 'ContaController@editar');
         //AGENDA

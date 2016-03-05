@@ -14,11 +14,6 @@ use App\Notificacao;
 use Carbon\Carbon;
 
 class PerguntaController extends Controller {
-
-    public function __construct() 
-    {
-        $this->middleware('auth');
-    }
     
     /**
      * Store a newly created resource in storage.
