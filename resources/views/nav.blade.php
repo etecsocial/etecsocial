@@ -74,8 +74,8 @@
 <!-- MODAL ADD EVENTO -->
 
 <!-- MODAL VER POST -->
-<div id="verpost" class="modal modal-fixed-footer" style="width: 50%;min-width: 300px">
-    <div class="modal-content" id="modalpost" style="min-height: 650px"></div>
+<div id="verpost" class="modal modal-fixed-footer">
+    <div class="modal-content" id="modalpost"></div>
     <div class="modal-footer color-sec">
         <a style="cursor:pointer" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Fechar</a>
     </div>

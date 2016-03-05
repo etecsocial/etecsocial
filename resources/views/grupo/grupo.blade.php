@@ -558,12 +558,12 @@ $('#publicarMaterial').ajaxForm({
                         <!-- INICIO TABS SELECT CONTEUDO -->
                         <div id="profile-page-wall-share" class="row">
                             <div class="col s12">
-                                <ul class="tabs tab-profile z-depth-1 color-pri" style="width: 100%;">
-                                    <li class="tab col s3" style="width: 33.3333333333333%;"><a class="white-text waves-effect waves-light" href="#discussoes"><i class="mdi-editor-border-color"></i> Discussões</a>
+                                <ul class="tabs tab-profile z-depth-1 color-pri">
+                                    <li class="tab col s3"><a class="white-text waves-effect waves-light" href="#discussoes"><i class="mdi-editor-border-color"></i> Discussões</a>
                                     </li>
-                                    <li class="tab col s3" style="width: 33.3333333333333%;"><a class="white-text waves-effect waves-light" href="#perguntas"><i class="mdi-communication-live-help"></i> Perguntas</a>
+                                    <li class="tab col s3"><a class="white-text waves-effect waves-light" href="#perguntas"><i class="mdi-communication-live-help"></i> Perguntas</a>
                                     </li>
-                                    <li class="tab col s3" style="width: 33.3333333333333%;"><a class="white-text waves-effect waves-light" href="#material"><i class="mdi-social-school"></i> Conteúdo complementar</a>
+                                    <li class="tab col s3"><a class="white-text waves-effect waves-light" href="#material"><i class="mdi-social-school"></i> Conteúdos</a>
                                     </li>
                                     <div class="indicator" style="right: 471px; left: 0px;"></div>
                                 </ul>
