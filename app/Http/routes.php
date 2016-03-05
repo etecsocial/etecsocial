@@ -19,7 +19,12 @@
     Route::group(['middleware' => 'auth'], function() {    
         //DESAFIO
         Route::get('/desafios', 'DesafioController@index');
-        Route::get('/ranking', 'DesafioController@ranking');
+        Route::group(['prefix' => 'ranking'], function() {
+            Route::get('/', 'DesafioController@geral');
+            Route::get('/etec', 'DesafioController@etec');
+            Route::get('/turma', 'DesafioController@turma');
+        }); 
+        
         //AGENDA
         Route::get('/agenda', 'AgendaController@index');
         //PESQUISA

@@ -15,9 +15,21 @@ class DesafioController extends Controller
     	return view('desafio.home');
     }
 
-    public function ranking() {
-    	$usuarios = Pontuacao::total_users();
+    public function geral() {
+    	$usuarios = Pontuacao::ranking();
     	
-    	return view('desafio.ranking', ['usuarios' => $usuarios]);
+    	return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de todas as ETEC']);
+    }
+
+    public function etec() {
+    	$usuarios = Pontuacao::ranking('etec');
+    	
+    	return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de toda a sua ETEC']);
+    }
+
+    public function turma() {
+    	$usuarios = Pontuacao::ranking('turma');
+    	
+    	return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking da sua turma']);
     }
 }

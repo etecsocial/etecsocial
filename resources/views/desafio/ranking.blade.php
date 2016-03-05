@@ -26,11 +26,12 @@ Ranking | ETEC Social
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">Ranking</h5>
+                <h5 class="breadcrumbs-title">{{ $tipo }}</h5>
                 <ol class="breadcrumb">
                     <li><a href="{{ url('/') }}">Pagina Inicial</a></li>
-                    <li><a href="{{ url('/') }}">Desafios</a></li>
-                    <li class="active">Ranking</li>
+                    <li><a href="{{ url('/desafios') }}">Desafios</a></li>
+                    <li><a href="{{ url('/ranking') }}">Ranking</a></li>
+                    <li class="active">{{ $tipo }}</li>
                 </ol>
             </div>
         </div>

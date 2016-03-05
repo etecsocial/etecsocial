@@ -405,10 +405,10 @@
                                     <a href="{{ url('/ranking') }}">Geral</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('/ranking') }}">Por ETEC</a>
+                                    <a href="{{ url('/ranking/etec') }}">Por ETEC</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('/ranking') }}">Por Turma</a>
+                                    <a href="{{ url('/ranking/turma') }}">Por Turma</a>
                                 </li>
                             </ul>
                         </div>
