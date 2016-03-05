@@ -358,8 +358,15 @@ ETEC Social | Home
 
             </div>
 
-            <div class="col s12 m12 l8" style="margin-bottom: 30px">
-                <div id="calendar-widget"></div>
+            <div class="col s12 m12 l8">
+            <ul class="tabs tab-profile cyan">
+                <li class="tab col s4"><a class="white-text waves-light">Agenda de estudos</a></li>
+            </ul>            
+                <div id="full-calendar">              
+                    <div class="col s12 m6 l12">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
             </div>
             
         </div>
