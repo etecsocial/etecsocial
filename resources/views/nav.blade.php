@@ -319,10 +319,18 @@
                     <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
                         <i class="mdi-action-search" style="top: 5px;left: 15px;"></i>
                         
-                        <input autocomplete="off" style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, trabalhos ou provas" />
+                        <input autocomplete="off" style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, professores, postagens ou grupos" />
                     </div>
-                    <div id="results-search" style="display: none; margin-left: 270px">
-                        <ul class="busca collection" style="width:100%;margin-top:0!important;margin-bottom: 0!important;"></ul>
+                    <style>
+                    @media only screen and (min-width:992px) {
+                        #results-search {
+                            padding-left: 240px;
+                            margin-top: -13px;
+                        }
+                    }
+                    </style>
+                    <div id="results-search" style="display: none; ">
+                        <ul class="busca collection" style="width: 670px; background: #fff"></ul>
                     </div>
                 </div>
         </nav>
@@ -539,7 +547,7 @@
     </div>
 
     <section id="content">
-    <div class="header-search-wrapper grey lighten-1 hide-on-large-only">
-                <i class="mdi-action-search active"></i>
-                 <input type="text" name="Search" style="width: 235px" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por trabalhos ou provas" />
-            </div>
+    <div class="header-search-wrapper blue lighten-1 hide-on-large-only">
+        <i class="mdi-action-search active"></i>
+        <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por alunos, grupos, prof..." />
+    </div>
