@@ -12,6 +12,7 @@ Tarefas | ETEC Social
 
 @section('jscript')
 {!! Html::script('js/jquery-1.11.2.min.js') !!}
+{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
 {!! Html::script('js/materialize.js') !!}
 {!! Html::script('js/form.min.js') !!}
 
@@ -85,7 +86,7 @@ $(document).ready(function() {
     <div class="container">
         <div class="section">
             <div class="col s12">
-                <ul id="task-card" class="collection with-header col s12" style="min-height: 800px!important">
+                <ul id="task-card" class="collection with-header col s12">
                     <li class="collection-header cyan">
                         <h4 class="task-card-title">Minhas Tarefas</h4>
                         <p class="task-card-date">

@@ -29,34 +29,3 @@ Mensagens | ETEC Social
 
 @section('content')
 @include('nav')
-                <section id="content">
-
-                    <!--start container-->
-                    <div class="container">
-
-                        <div id="mail-app" class="section">
-                            <div class="row">
-                                <div class="col s12">
-                                    <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
-                                        <ul class="collection">
-                                          
-                                        </ul>
-                                    </div>
-                                    <div id="email-details" class="col s12 m7 l7 card-panel" style="padding-right: 0">
-                                        <div id="msgs" class="email-content-wrap">
-                                            <p>Recurso não disponível.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        
-                        </div>
-
-                    </div>
-                    <!--end container-->
-
-                </section>
-                <!-- END CONTENT -->
-
-             @stop
