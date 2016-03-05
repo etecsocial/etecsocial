@@ -485,7 +485,7 @@ $('#publicarMaterial').ajaxForm({
 
 @section('content')
 
-@include('navFull')
+@include('nav')
 
 <!-- START CONTENT -->
 <section id="content">

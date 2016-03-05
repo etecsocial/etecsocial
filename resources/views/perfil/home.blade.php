@@ -180,7 +180,7 @@
 
 @section('content')
 
-@include('navFull')
+@include('nav')
 <section id="content">
     <div class="container">
         <div id="profile-page" class="section">
@@ -578,7 +578,9 @@
                                 <div class="timeline-content">
                                     <!-- Inicio Publicação com foto ou video-->
                                     <section class="blog col s12">
+                                        <?php /* 
                                         <h5 class="timeline-post-title truncate" style="max-width: 100%">Compartilhou <i class="mdi-content-reply grey-text lighten-3"></i><span style="font-size: 1.0rem"> de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a></span></h5>
+                                        */ ?>
                                 @else
                                 <div class="timeline-icon light-green lighten-1 white-text">
                                     <i class="ion mdi-editor-mode-edit"></i>

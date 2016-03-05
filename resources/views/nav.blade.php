@@ -357,8 +357,10 @@
                             <p class="user-roal">
                                 @if(Auth::user()->tipo == 1)
                                 Aluno
-                                @else 
+                                @elseif(Auth::user()->tipo == 2) 
                                 Professor
+                                @else
+                                Moderador
                                 @endif
                             </p>
                         </div>
@@ -367,7 +369,11 @@
                 <li class="bold active"><a href="{{ url('/') }}" class="waves-effect waves-cyan"><i class="mdi-action-dashboard color-sec-darken-text"></i> Página Inicial</a>
                 </li>
                 <li class="bold">
-                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens <span class="new badge">4</span></a> 
+                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
+                        @if (App\Chat::count() > 0)
+                        <span class="new badge">{{ App\Chat::count() }}</span>
+                        @endif
+                    </a> 
                 </li>
                 <li class="bold">
                     <a href="{{ url('/grupos') }}" class="waves-effect waves-cyan"><i class="fa fa-book color-sec-darken-text"></i> Grupos</a>
