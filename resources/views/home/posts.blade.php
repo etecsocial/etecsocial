@@ -75,7 +75,7 @@
                     @if(Auth::user()->id == $comentario->id_user) 
                    
                     <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-                    <i onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}-text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
+                    <i id="edita-comentario-{{ $comentario->id }}" onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}-text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
                     @else
                     <div id="relevancia-com-{{ $comentario->id }}">
                         @if($rv = App\RelevanciaComentarios::where('id_usuario', Auth::user()->id)->where('id_comentario', $comentario->id)->first())

@@ -2,13 +2,13 @@
  Scripts de funcionamento de recursos essenciais, abaixo lista na ordem em que são posicionados
  
  ->Comentários
-    -Comentar
-    -Editar
-    -Excluir
-    -Up/Down
+ -Comentar
+ -Editar
+ -Excluir
+ -Up/Down
  ->Publicação
-    -Favoritar
-    -Repost
+ -Favoritar
+ -Repost
  ->
  ->
  ->
@@ -42,20 +42,25 @@ function comentar(id_post) {
 
 //Edição de comentários
 function exibeEditarComentario(id_comentario, comentario) {
-
+    $('#edita-comentario-' + id_comentario).fadeOut();
     $('#com-' + id_comentario + '-text').html(
             '<form id="alterar-comentario-' + id_comentario + '" action="ajax/comentario/editar/post" method="POST">' +
-            '<input name="novo_comentario" id="com-editing-' + id_comentario + '" type="text" class="validate" autocomplete="off" value="e'+comentario+'">' +
+            '<input name="novo_comentario" id="com-editing-' + id_comentario + '" type="text" class="validate" autocomplete="off" value="' + comentario + '">' +
             '<input name="id_comentario" id="com-editing-' + id_comentario + '" type="hidden" value="' + id_comentario + '">' +
             '</form>');
     $('#alterar-comentario-' + id_comentario).ajaxForm({
         dataType: 'JSON',
         success: function (data) {
-            $('#com-' + id_comentario + '-text').html(data.comentario)
+            if (!data.empty) {
+                $('#com-' + id_comentario + '-text').html(data.comentario)
+                $('#edita-comentario-' + id_comentario).fadeIn();
+            }else{
+                Materialize.toast('<span>Digite algo para comentar!</span>', 3000);
+            }
         },
         error: function (xhr) {
-            Materialize.toast('<span>Não foi possível comentar neste post! Faça login para continuar.</span>', 5000)
-            window.location.href = "etec.localhost/"
+            Materialize.toast('<span>Não foi possível comentar neste post! Faça login para continuar.</span>', 5000);
+            window.location.href = "etec.localhost/";
             $('#com-' + id_comentario + '-text').html(comentario)
         }
 
@@ -80,9 +85,9 @@ $('#excluirComentario').ajaxForm({
                 $('#com-' + data.id).fadeOut(1000, function () {
                     this.remove();
                 });
-                 Materialize.toast('<span>O comentário já havia sido excluido!</span>', 3000);
+                Materialize.toast('<span>O comentário já havia sido excluido!</span>', 3000);
             }
-           
+
         }
 
     },
@@ -102,13 +107,13 @@ function comentarioRel(id, id_post, rel) {
         success: function (data) {
             if (rel === 'up') {
                 $('#relevancia-com-' + id).html('<i class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #039be5"></i>' +
-                        '<i onclick="comentarioRel(' + id + ', ' + id_post + ', '+'\'down\''+')" class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #ccc; cursor: pointer"></i>');
+                        '<i onclick="comentarioRel(' + id + ', ' + id_post + ', ' + '\'down\'' + ')" class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #ccc; cursor: pointer"></i>');
             } else {
-                $('#relevancia-com-' + id).html('<i onclick="comentarioRel(' + id + ', ' + id_post + ', '+'\'up\''+')" class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #ccc; cursor: pointer"></i>' +
+                $('#relevancia-com-' + id).html('<i onclick="comentarioRel(' + id + ', ' + id_post + ', ' + '\'up\'' + ')" class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #ccc; cursor: pointer"></i>' +
                         '<i class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #039be5"></i>');
             }
         },
-        error: function (){
+        error: function () {
             Materialize.toast('Estamos com problemas com isso no momento, tente novamente mais tarde.', 3000);
         }
     });
@@ -187,27 +192,27 @@ $('#excluir').ajaxForm({
 ////////////////////////////////////////////////////////////////////////////////
 
 //NEWPOST
-    function newpost() {
+function newpost() {
     var post_id = $(".post:first").data("id");
-        $.post("/ajax/newpost", {id: post_id}, function (data) {
-            $(data).insertBefore(".post:first").hide().fadeIn(2000);
-        });
-    }
+    $.post("/ajax/newpost", {id: post_id}, function (data) {
+        $(data).insertBefore(".post:first").hide().fadeIn(2000);
+    });
+}
 ///////////////////////////////////////////////////////////////////////////////
 
 //MOREPOST
-    function morepost() {
+function morepost() {
     var post_id = $(".post:last").data("id");
     var n = $(".post").length;
     $.post("/ajax/morepost", {id: post_id, tamanho: n}, function (data) {
-    if (data === '') {
-    $('#loader-post').empty();
-    loader = false;
-    } else {
-    $(data).insertAfter(".post:last").hide().fadeIn(1000);
-    }
+        if (data === '') {
+            $('#loader-post').empty();
+            loader = false;
+        } else {
+            $(data).insertAfter(".post:last").hide().fadeIn(1000);
+        }
     });
-    }
+}
 
 var loader = true;
 $(window).scroll(function () {

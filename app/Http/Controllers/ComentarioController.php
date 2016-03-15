@@ -57,11 +57,14 @@ class ComentarioController extends Controller {
     public function editar(Request $request) {
         $comentario = Comentario::where('id', $request->id_comentario)->limit(1)->first();
         if (isset($request->novo_comentario) and ( Auth::user()->id === $comentario->id_user)) {
-            $comentario->comentario = $request->novo_comentario;
-            $comentario->save();
-            return Response::json([ 'status' => true, 'comentario' => $comentario->comentario]);
+            if (!empty($request->novo_comentario)) {
+                $comentario->comentario = $request->novo_comentario;
+                $comentario->save();
+                return Response::json([ 'status' => true, 'comentario' => $comentario->comentario]);
+            }return Response::json([ 'status' => true, 'empty' => true]);
         }return Response::json([ 'status' => false]);
     }
+
     public function editarDiscussao(Request $request) {
         $comentario = ComentarioDiscussao::where('id', $request->id_comentario)->limit(1)->first();
         if (isset($request->novo_comentario) and ( Auth::user()->id === $comentario->id_user)) {
@@ -70,13 +73,13 @@ class ComentarioController extends Controller {
             return Response::json([ 'status' => true, 'comentario' => $comentario->comentario]);
         }return Response::json([ 'status' => false]);
     }
-    
+
     public function relevancia(Request $request) {
         $comentario = Comentario::where('id', $request->id_comentario)->limit(1)->first();
         if (isset($request->rel) and ( Auth::user()->id != $comentario->id_user)) {
             $request->rel == 'up' ? $comentario->relevancia += 1 : $comentario->relevancia -= 1;
             $comentario->save();
-            if($rv_ant = RelevanciaComentarios::where('id_usuario', Auth::user()->id)->where('id_comentario', $request->id_comentario)->where('id_post', $request->id_post)->first()){
+            if ($rv_ant = RelevanciaComentarios::where('id_usuario', Auth::user()->id)->where('id_comentario', $request->id_comentario)->where('id_post', $request->id_post)->first()) {
                 $rv_ant->delete();
             }
             $rv = new \App\RelevanciaComentarios();
@@ -85,7 +88,6 @@ class ComentarioController extends Controller {
             $rv->id_post = $request->id_post;
             $rv->relevancia = $request->rel == 'up' ? 'up' : 'down';
             return $rv->save() ? Response::json([ 'status' => true]) : Response::json([ 'status' => false]);
-            
         }return Response::json([ 'status' => false]);
     }
 
@@ -100,9 +102,7 @@ class ComentarioController extends Controller {
 
                 return Response::json([ 'status' => 122, 'id' => $comentario->id]);
             }return Response::json([ 'status' => false]);
-        }return Response::json([ 'status' => 3, 'id'=> $id_comentario]); //já excluido
-
-        
+        }return Response::json([ 'status' => 3, 'id' => $id_comentario]); //já excluido
     }
 
 }
