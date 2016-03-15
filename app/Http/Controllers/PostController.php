@@ -173,7 +173,7 @@ class PostController extends Controller
     public function addIcon($tags, $post) 
    {
         foreach($tags as $tag) {
-            if ((strtolower($tag) == 'duvida') || ($tag == 'Dúvida') || ($tag == 'dúvida')) {
+            if ((strtolower($tag) == 'ajuda') || ($tag == 'Dúvida') || ($tag == 'socorro') || ($tag == 'pergunta') || ($tag == 'dúvida') || ($tag == 'duvida')) {
                 $post->url_midia = 'images/place-help.jpg';
             } else
             if (strtolower($tag) == 'link') { 
