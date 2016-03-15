@@ -16,21 +16,13 @@ use App\Comentario;
 use App\Post;
 use App\Tag;
 use App\User;
+use App\Pontuacao;
 
 class PostController extends Controller
 {  
     public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
     public $extensionVideos = ['flv', 'FLV', 'mp4', 'MP4'];
     public $destinationPath = 'midia/posts';
-
-    /**
-     * Middleware @Auth.
-     *
-     */
-    public function __construct() 
-    {
-        $this->middleware('auth');
-    }
     
     /**
      * Store a newly created resource in storage.
@@ -61,7 +53,7 @@ class PostController extends Controller
         } else {
             $this->addIcon($tags, $post);
         }
-                   
+        Pontuacao::pontuar(10, 'novo post');           
         return Response::json([ "id" => $post->id ]);
     }
 
@@ -181,7 +173,7 @@ class PostController extends Controller
     public function addIcon($tags, $post) 
    {
         foreach($tags as $tag) {
-            if ((strtolower($tag) == 'ajuda') || ($tag == 'Dúvida') || ($tag == 'socorro') || ($tag == 'pergunta') || ($tag == 'dúvida') || ($tag == 'duvida')) {
+            if ((strtolower($tag) == 'duvida') || ($tag == 'Dúvida') || ($tag == 'dúvida')) {
                 $post->url_midia = 'images/place-help.jpg';
             } else
             if (strtolower($tag) == 'link') { 

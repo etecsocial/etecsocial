@@ -25,10 +25,6 @@ use Carbon\Carbon;
 
 class GrupoController extends Controller {
 
-    public function __construct() {
-        $this->middleware('auth');
-    }
-
     /**
      * Classe controladora de grupos de estudo.
      *
@@ -93,6 +89,8 @@ class GrupoController extends Controller {
             if (Grupo::where('url', $request->url)->first()) {
                 return Response::json([ 'status' => 3]);
             }
+
+            
             $grupo = new Grupo;
             $grupo->nome = $request->nome;
             $grupo->assunto = $request->assunto;
@@ -114,7 +112,7 @@ class GrupoController extends Controller {
                 $grupoUsuario->id_grupo = $grupo->id;
                 $grupoUsuario->id_user = $grupo->id_criador;
                 $grupoUsuario->is_admin = 1;
-                return $grupoUsuario->save() ? Response::json([ 'status' => 1]) : Response::json([ 'status' => 0]);
+                return $grupoUsuario->save() ? Response::json(['status' => 1, 'nome' => $grupo->nome, 'url' => $grupo->url]) : Response::json([ 'status' => 0]);
             } else {
                 return Response::json(['status' => 0]);
             }
