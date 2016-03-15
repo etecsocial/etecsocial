@@ -81,6 +81,9 @@
         Route::post('/post/favoritar', 'PostController@favoritar');
         //COMENTARIO
         Route::resource('/comentario', 'ComentarioController', ['except' => ['index', 'create', 'edit']]);
+        Route::resource('/comentario/editar/post', 'ComentarioController@editar', ['except' => ['index', 'create', 'edit']]);
+        Route::resource('/comentario/editar/discussao', 'ComentarioController@editarDiscussao', ['except' => ['index', 'create', 'edit']]);
+        Route::resource('/comentario/relevancia/post', 'ComentarioController@relevancia', ['except' => ['index', 'create', 'edit']]);
         Route::resource('/discussao', 'DiscussaoController', ['except' => ['index', 'create', 'edit']]);
         Route::resource('/pergunta', 'PerguntaController', ['except' => ['index', 'create', 'edit']]);
         //TAREFA
