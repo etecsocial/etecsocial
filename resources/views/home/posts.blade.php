@@ -43,9 +43,9 @@
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
 
-                    <?php /* @if($post->is_repost) 
-                      Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a>
-                      @endif */ ?>
+                    @if($post->is_repost) 
+                    Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a>
+                    @endif 
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>
@@ -58,37 +58,54 @@
                 <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
             </div>
             <div class="col s6 m8"> 
-                Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a>
+                Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
             </div>
             @if(Auth::user()->id == $post->id_user) 
             <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
             @else 
-            <a href="#modalDenuncia" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Denunciar usuário" data-delay="50" data-position="bottom">turned_in</i></a>
-            @endif
+            <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
+            @endif.
         </div>
         <div class="card-reveal">                                            
             <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>
             <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
-                @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
+                @foreach(App\Comentario::where('id_post', $post->id)->orderBy('relevancia', 'desc')->orderBy('created_at', 'desc')->get() as $comentario)
                 <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->id_post }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
 
                     @if(Auth::user()->id == $comentario->id_user) 
-                    <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id_post }}, {{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-
-                    @endif
+                   
+                    <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
+                    <i onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}-text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
+                    @else
+                    <div id="relevancia-com-{{ $comentario->id }}">
+                        @if($rv = App\RelevanciaComentarios::where('id_usuario', Auth::user()->id)->where('id_comentario', $comentario->id)->first())
+                            @if($rv->relevancia == 'up')
+                            <i class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5" data-tooltip='Avaliado como positivo'></i>                   
+                            <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
+                            @else
+                            <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'up')" class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como positivo'></i>                   
+                            <i class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #039be5"></i>                           
+                            @endif
+                        @else
+                        <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'up')" class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5; cursor: pointer" data-tooltip='Avaliar como positivo'></i>
+                        <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #039be5; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
+                        @endif
+                    </div>
+                        @endif
                     <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
-                    <p>{{ $comentario->comentario }}</p>
+                    <p id="com-{{ $comentario->id }}-text">
+                        {{ $comentario->comentario }}
+                    </p>
                 </li>
                 @endforeach           
             </ul>
             <div class="left row white" style="height: auto; bottom: 0px; width: 90%;">
                 <div class="col s12">
                     <div class="input-field col s12">
-                        <form method="POST" >
+                        <form method="POST" onsubmit="return comentar({{ $post->id }});">
                             <input type="hidden" name="id_post" value="{{ $post->id }}" >
                             <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
                             <label for="comment" >Comentar</label>
-                            <button type="submit" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>
                         </form>
                     </div>
                 </div>
