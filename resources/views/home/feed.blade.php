@@ -30,8 +30,153 @@ ETEC Social | Home
 {!! Html::script('js/plugins/fullcalendar/fullcalendar-script.js') !!}
 
 {!! Html::script('js/script.js') !!}
-{!! Html::script('js/script-feed.js') !!}
 {!! Html::script('js/plugins.js') !!}
+
+<script>
+    function newpost() {
+    var post_id = $(".post:first").data("id");
+        $.post("/ajax/newpost", {id: post_id}, function (data) {
+            $(data).insertBefore(".post:first").hide().fadeIn(2000);
+        });
+    }
+
+    function morepost() {
+    var post_id = $(".post:last").data("id");
+    var n = $(".post").length;
+    $.post("/ajax/morepost", {id: post_id, tamanho: n}, function (data) {
+    if (data === '') {
+    $('#loader-post').empty();
+    loader = false;
+    } else {
+    $(data).insertAfter(".post:last").hide().fadeIn(1000);
+    }
+    });
+    }
+
+    var loader = true;
+    $(window).scroll(function () {
+    if (loader) {
+    if ($(window).scrollTop() === $(document).height() - $(window).height()) {
+    $('#loader-post').show();
+    morepost();
+    }
+    }
+    });
+    $('#publicar').ajaxForm({
+    dataType: 'JSON',
+            success: function (data) {
+            Materialize.toast('<span>Publicado com sucesso!</span>', 3000);
+            $('#publicar')[0].reset();
+            return newpost();
+            },
+            error: function (xhr) {
+            Materialize.toast('<span>Escreva algo para publicar...</span>' + xhr, 3000);
+            }
+    });
+    function comentar(id_post) {
+    var elem = "#comentarios-" + id_post;
+    var id_comentario = $(".com-" + id_post + ":last").data("id");
+    var comentario = document.getElementById("comentario-" + id_post).value;
+    $.ajax({
+    type: "POST",
+            url: "/ajax/comentario",
+            data: "id_post=" + id_post + "&id_comentario=" + id_comentario + "&comentario=" + comentario,
+            dataType: "json",
+            error: function (data) {
+            if (data.responseText === "empty") {
+            Materialize.toast('Digite algo para comentar.', 5000);
+            return false
+            } else {
+            $(elem).append(data.responseText);
+            $("#comentario-" + id_post).val('');
+            }
+            }
+    });
+    return false;
+    }
+
+    function favoritar(id_post) {
+    var elem = "#favoritar-" + id_post;
+    $.ajax({
+    type: "POST",
+            url: "/ajax/post/favoritar",
+            data: "id_post=" + id_post,
+            dataType: "json",
+            success: function (data) {
+            if (data.status) {
+            if (data.num === 0) {
+            $(elem).removeClass("red")
+                    .addClass("grey")
+                    .attr({"data-tooltip": "Você favoritou"});
+            } else {
+            $(elem).removeClass("red")
+                    .addClass("grey")
+                    .attr({"data-tooltip": "Você e outras " + data.num + " pessoas favoritaram"});
+            }
+            } else {
+            $(elem).removeClass("grey")
+                    .addClass("red")
+                    .attr({"data-tooltip": data.num + " pessoas favoritaram"});
+            }
+            }
+    });
+    return false;
+    }
+
+    function repost(id_post) {
+    $.ajax({
+    type: "POST",
+            url: "/ajax/repost",
+            data: "id_post=" + id_post,
+            dataType: "json",
+            success: function (data) {
+            Materialize.toast('Conteúdo compartilhado com sucesso.', 5000);
+            newpost();
+            if (data.num === 1) {
+            $("#repost-" + id_post).attr({"data-tooltip": data.num + " pessoa compartilhou"});
+            } else {
+            $("#repost-" + id_post).attr({"data-tooltip": data.num + " pessoas compartilharam"});
+            }
+            }
+    });
+    return false;
+    }
+
+    function excluir(id_post) {
+    $("#excluir").attr({"action": "/ajax/post/" + id_post});
+    }
+
+    $('#excluir').ajaxForm({
+    type: "DELETE",
+            dataType: 'JSON',
+            success: function (data) {
+            if (data.status) {
+            $('*[data-id="' + data.id + '"]').fadeOut(1000, function () {
+            this.remove();
+            });
+            } else {
+            Materialize.toast('<span>Erro ao excluir publicação</span>', 3000);
+            }
+            }
+    });
+    function excluirComentario(id_post, id_comentario) {
+    $("#excluirComentario").attr({"action": "/ajax/comentario/" + id_comentario});
+    }
+
+    $('#excluirComentario').ajaxForm({
+    type: "DELETE",
+            dataType: 'JSON',
+            success: function (data) {
+            if (data.status) {
+            $('#com-' + data.id).fadeOut(1000, function () {
+            this.remove();
+            });
+            } else {
+            Materialize.toast('<span>Erro ao excluir comentário</span>', 3000);
+            }
+            }
+    });</script>
+
 @if($id)
 <script>$("#verpost").openModal(); abrirPost({{ $id }})</script>
 @endif
@@ -159,7 +304,7 @@ ETEC Social | Home
                         <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')" onmouseout="javascript:$('#icon-edit-status').hide('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                         <div class="divider"></div>
                         @if(isset(Auth::user()->status))
-                        <div id="us"><p class="left " style="margin-top:15px">{{{ Auth::user()->status }}}</p></div>
+                        <div id="us"><p class="left" style="margin-top:15px">{{{ Auth::user()->status }}}</p></div>
                         @else
                         <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i>
                         @endif
@@ -169,8 +314,8 @@ ETEC Social | Home
                         <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ Auth::user()->nome }}?</p>
                         <div class="input-field col s12 accent-4">
                             <form method="POST" action="{{ url('ajax/status') }}" id="status">      
-                                <input id="status" name="status" type="text" class="validate" autocomplete="off" style="color:black">
-                                <label for="status" >Novo Status</label>
+                                <input id="status" name="status" type="text" class="validate" style="color:black">
+                                <label for="status">Novo Status</label>
                                 <button type="submit" style="font-size:14px" class="card-title waves-effect waves-light btn red">Atualizar</button>
                             </form>
                         </div>
@@ -180,8 +325,8 @@ ETEC Social | Home
                 <div class="col s6 m6 l6">
                     <div class="card">
                         <div class="card-content blue white-text center">
-                            <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Reputação</p>
-                            <h4 class="card-stats-number">{{ Auth::user()->reputacao }}</h4>
+                            <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Pontuação</p>
+                            <h4 class="card-stats-number">{{ \App\Pontuacao::total() }}</h4>
                         </div>
                     </div>
                 </div>
@@ -213,8 +358,15 @@ ETEC Social | Home
 
             </div>
 
-            <div class="col s12 m12 l8" style="margin-bottom: 30px">
-                <div id="calendar-widget"></div>
+            <div class="col s12 m12 l8">
+            <ul class="tabs tab-profile cyan">
+                <li class="tab col s4"><a class="white-text waves-light">Agenda de estudos</a></li>
+            </ul>            
+                <div id="full-calendar">              
+                    <div class="col s12 m6 l12">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
             </div>
             
         </div>

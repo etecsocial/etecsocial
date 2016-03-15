@@ -106,7 +106,9 @@
                 <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $post->id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
 
                     @if(Auth::user()->id == $comentario->id_user) 
-                        @endif
+                    <a href="#modalExcluirComentario" onclick="excluirComentario({{ $post->id }}, {{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
+
+                    @endif
                     <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                     <p>{{ $comentario->comentario }}</p>
                 </li>
