@@ -19,7 +19,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        Auth::login(User::find(1), true);
+        Auth::login(User::find(1));
         if (Auth::check()) {
             return $this->feed();
         } else {

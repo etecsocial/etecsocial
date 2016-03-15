@@ -104,8 +104,8 @@
 @if(($integranteEu->is_admin) and ($denuncia = \App\DenunciaGrupo::where('id_grupo', $grupo->id)->where('visto', 0)->orderBy('created_at', 'desc')->first())))
 @if($pub = \App\GrupoDiscussao::where('id_grupo', $denuncia->id_grupo)->where('id', $denuncia->id_pub)->first())
 
-<div id="modalAnalisarDenunciaGrupo" class="modal modal-fixed-footer">
-    <div class="modal-content">
+<div id="modalAnalisarDenunciaGrupo" class="modal modal-fixed-footer" style='height: auto;min-height: 520px'>
+    <div class="modal-content" style="overflow-x: hidden; overflow-y: scroll;">
         <form method="post" id="analisaDnunciaGrupo" class="col s12" action="{{ url('ajax/grupo/denuncia/analisa')}}">
             <h4 ><strong>Olá administrador!</strong></h4><li class="divider"></li>
             <div class="row" style="margin-bottom: 15px">
@@ -163,7 +163,7 @@
 
 <div id="modalDenunciaGrupo" class="modal modal-fixed-footer">
     <form method="post" id="denunciaGrupo" class="col s12" action="{{ url('ajax/grupo/denuncia/create')}}">
-        <div class="modal-content">
+        <div class="modal-content" style="overflow-x: hidden; min-height: 500px ">
             <h4 ><strong>Denunciar publicação </strong></h4><li class="divider"></li>
             <div class="row">
                 <div class="col s12">
@@ -196,7 +196,7 @@
             </p>
 
         </div>
-        <div class="modal-footer color-sec-darken">
+        <div class="modal-footer color-sec-darken" style="margin-left: -11px">
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Cancelar</a>
             <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Salvar</button>
         </div>
