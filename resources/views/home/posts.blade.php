@@ -43,9 +43,9 @@
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
 
-                    @if($post->is_repost) 
+                    <?php /* @if($post->is_repost) 
                     Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a>
-                    @endif 
+                    @endif */?>
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>

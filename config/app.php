@@ -157,7 +157,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Devfactory\Minify\MinifyServiceProvider::class,
 
     ],
 
@@ -209,6 +210,7 @@ return [
         'Input'     => Illuminate\Support\Facades\Input::class,
         'Socialize' => Laravel\Socialite\Facades\Socialite::class,
         'Image'     => Intervention\Image\Facades\Image::class,
+        'Minify'    => Devfactory\Minify\Facades\MinifyFacade::class,
     ],
 
 ];

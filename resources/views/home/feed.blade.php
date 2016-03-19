@@ -4,34 +4,35 @@ ETEC Social | Home
 @stop
 
 @section('style')
-{!! Html::style('css/font.css') !!}
-{!! Html::style('css/asset.css') !!}
-{!! Html::style('css/style.css') !!}
-{!! Html::style('js/plugins/fullcalendar/css/fullcalendar.min.css') !!}
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/asset.css',
+                        '/css/style.css',
+                        '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}
 @stop
 
 @section('jscript')
-{!! Html::script('js/jquery-1.11.2.min.js') !!}
-{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
-{!! Html::script('js/materialize.js') !!}
-{!! Html::script('js/form.min.js') !!}
-{!! Html::script('js/jquery.tagsinput.min.js') !!}
+{!! Minify::javascript(['/js/jquery-1.11.2.min.js',
+                        '/js/plugins/lightbox-plus-jquery.min.js',
+                        '/js/materialize.js',
+                        '/js/form.min.js',
+                        '/js/jquery.tagsinput.min.js',
+                        
+                        '/js/plugins/jquery.nanoscroller.min.js',
+                        '/js/plugins/sparkline/jquery.sparkline.min.js',
+                        '/js/plugins/sparkline/sparkline-script.js',
+                        '/js/plugins/jquery.bxslider.min.js',
+                        '/js/plugins/sliders.js',
+                        '/js/plugins/succinct-master/jQuery.succinct.min.js',
 
-{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
-{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
-{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
-{!! Html::script('js/plugins/sliders.js') !!}
-{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
+                        '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
+                        '/js/plugins/fullcalendar/lib/moment.min.js',
+                        '/js/plugins/fullcalendar/js/fullcalendar.min.js',
+                        '/js/plugins/fullcalendar/fullcalendar-script.js',
 
-{!! Html::script('js/plugins/fullcalendar/lib/jquery-ui.custom.min.js') !!}
-{!! Html::script('js/plugins/fullcalendar/lib/moment.min.js') !!}
-{!! Html::script('js/plugins/fullcalendar/js/fullcalendar.min.js') !!}
-{!! Html::script('js/plugins/fullcalendar/fullcalendar-script.js') !!}
-
-{!! Html::script('js/script.js') !!}
-{!! Html::script('js/script-feed.js') !!}
-{!! Html::script('js/plugins.js') !!}
+                        '/js/script.js',
+                        '/js/script-feed.js',
+                        '/js/plugins.js'
+                        ])->withFullURL() !!}
 
 @if($id)
 <script>$("#verpost").openModal(); abrirPost({{ $id }})</script>

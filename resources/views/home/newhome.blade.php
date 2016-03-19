@@ -4,17 +4,16 @@ ETEC Social | Compartilhando conhecimentos
 @stop
 
 @section('style')
-{!! Html::style('css/font.css') !!}
-{!! Html::style('css/materialize.min.css') !!}
-{!! Html::style('css/style-new.css') !!}
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/materialize.min.css',
+                        '/css/style-new.css'])->withFullURL() !!}
 @stop
 
 @section('jscript')
-{!! Html::script('js/jquery.min.js') !!}
-{!! Html::script('js/materialize.min.js') !!}
-{!! Html::script('js/jquery.validate.min.js') !!}
-{!! Html::script('js/plugins/tokenize/jquery.tokenize.js') !!}
-
+{!! Minify::javascript(['/js/jquery.min.js',
+                        '/js/materialize.min.js',
+                        '/js/jquery.validate.min.js',
+                        '/js/plugins/tokenize/jquery.tokenize.js'])->withFullURL() !!}
 <script>
     $(document).ready(function () {
         $('.modal-trigger').leanModal();

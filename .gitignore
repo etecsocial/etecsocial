@@ -9,3 +9,5 @@ Thumbs.db
 *.pdf
 /public/midia
 /nbproject/
+/public/js/builds
+/public/css/builds

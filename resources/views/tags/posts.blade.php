@@ -5,10 +5,10 @@ ETEC Social
 @stop
 
 @section('style')
-{!! Html::style('css/font.css') !!}
-{!! Html::style('css/asset.css') !!}
-{!! Html::style('css/style.css') !!}
-{!! Html::style('js/plugins/fullcalendar/css/fullcalendar.min.css') !!}
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/asset.css',
+                        '/css/style.css',
+                        '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}
 @stop
 
 @section('jscript')

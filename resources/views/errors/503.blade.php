@@ -4,7 +4,7 @@
 @stop
 
 @section('style')
-{!! Html::style('css/materialize.min.css') !!}
+{!! Minify::stylesheet('css/materialize.min.css') !!}
 @stop
 
 @section('content')
