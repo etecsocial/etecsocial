@@ -12,7 +12,7 @@ Tarefas | ETEC Social
 
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
-                        'js/plugins/lightbox-plus-jquery.min.js',
+                        '/js/plugins/lightbox-plus-jquery.min.js',
                         '/js/materialize.js',
                         '/js/form.min.js',
                         '/js/script.js',
