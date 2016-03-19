@@ -20,8 +20,8 @@ class Kernel extends HttpKernel
     // appending custom middleware 
         \App\Http\Middleware\EncryptCookies::class,
     // \App\Http\Middleware\HttpsProtocol::class,
-    // \App\Http\Middleware\HTMLminify::class,
-    // \App\Http\Middleware\VerifyCsrfToken::class,
+        \App\Http\Middleware\HTMLminify::class,
+        \App\Http\Middleware\VerifyCsrfToken::class,
     ];
 
     /**
