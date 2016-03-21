@@ -3,6 +3,16 @@
 Login | ETEC Social
 @stop
 
+@section('style')
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/materialize.min.css'])->withFullUrl() !!}
+@stop
+
+@section('jscript')
+{!! Minify::javascript(['/js/jquery.min.js',
+                        '/js/materialize.min.js'])->withFullURL() !!}
+@stop
+
 @section('content')
 
 @include('home.nav')

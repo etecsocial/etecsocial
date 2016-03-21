@@ -4,7 +4,9 @@ ETEC Social | Compartilhando conhecimentos
 @stop
 
 @section('style')
-{!! Minify::stylesheet(['/css/style-new.css'])->withFullURL() !!}
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/materialize.min.css',
+                        '/css/style-new.css'])->withFullUrl() !!}
 @stop
 
 @section('jscript')

@@ -3,6 +3,15 @@
 Cadastro | ETEC Social
 @stop
 
+@section('style')
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/materialize.min.css'])->withFullUrl() !!}
+@stop
+
+@section('jscript')
+{!! Minify::javascript(['/js/jquery.min.js',
+                        '/js/materialize.min.js'])->withFullURL() !!}}
+                      
 @section('jscript')
 <script>
     function turmas() {
@@ -96,7 +105,7 @@ Cadastro | ETEC Social
                 </div>
 
                 <div class="input-field col s12 m6 l6">
-                   <input type="password" class="form-control" name="password">
+                   <input type="password" class="form-control" name="password" value="{{ old('password') }}">
                    <label >Senha</label>
                    @if ($errors->has('password'))
                    <span class="help-block">
@@ -105,7 +114,7 @@ Cadastro | ETEC Social
                    @endif
                 </div>
                 <div class="input-field col s12 m6 l6">
-                   <input type="password" class="form-control" name="password_confirmation">
+                   <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}">
                    <label >Confirmar a senha</label>
                    @if ($errors->has('password_confirmation'))
                    <span class="help-block">

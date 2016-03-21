@@ -10,16 +10,12 @@
 	  <meta property="og:title" content="ETEC Social - Entre, conheça ou cadastre-se.">
 
       <title>@yield('title')</title>
-      {!! Minify::stylesheet(['/css/font.css',
-                        	  '/css/materialize.min.css'])->withFullUrl() !!}
 
       @yield('style')
    </head>
    <body>
 	@yield('content')
 
-	{!! Minify::javascript(['/js/jquery.min.js',
-                        '/js/materialize.min.js'])->withFullURL() !!}
 	@yield('jscript2')
 	@yield('jscript')
  </body>
