@@ -4,92 +4,75 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
-use Mail;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Registration & Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles the registration of new users, as well as the
+    | authentication of existing users. By default, this controller uses
+    | a simple trait to add these behaviors. Why don't you explore it?
+    |
+    */
 
-    use AuthenticatesAndRegistersUsers;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
-    public function __construct() {
-        $this->middleware('guest', ['except' => 'getLogout']);
+    /**
+     * Where to redirect users after login / registration.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/';
+
+    /**
+     * Create a new authentication controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
-    protected function validator(array $data) {
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
         return Validator::make($data, [
-                    'email' => 'required|email|max:45|institucional|unique:users',
-                    'senha' => 'required|confirmed|min:6'
+            'name' => 'required|max:255',
+            'username' => 'required|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
         ]);
     }
 
-    protected function validatorAluno(array $data) {
-        return Validator::make($data, [
-                    'turma' => 'required',
-                    'modulo' => 'required',
-                    'conclusao' => 'required|numeric|min:4',
-                    'instituicao' => 'required',
-                    'nome' => 'required|min:3|max:55',
-                    'sobrenome' => 'required|min:3|max:55',
-                    'username' => 'required|min:3|max:20|unique:users',
-                    'email_alternativo' => 'email|max:45|checkmail|unique:users',
-        ]);
-    }
-
-    protected function validatorProf(array $data) {
-        return Validator::make($data, [
-                    'atuacao' => 'required|min:3|max:55',
-                    'formacao' => 'required|min:3|max:55',
-                    'ano_entrada' => 'required|numeric|min:4',
-                    'universidade' => 'required|min:4|max:90',
-                    'nome' => 'required|min:3|max:55',
-                    'sobrenome' => 'required|min:3|max:55',
-                    'username' => 'required|min:3|max:20|unique:users',
-        ]);
-    }
-
-    protected function create(array $data, $code, $info_acad, $id_etec) {
-        return User::create([
-                    'email' => $data['email'],
-                    'tipo' => $data['tipo'],
-                    'password' => bcrypt($data['senha']),
-                    'confirmation_code' => $code,
-                    'info_academica' => $info_acad,
-                     'id_escola' => $id_etec
-        ]);
-    }
-
-    protected function update(array $data, $email) {
-        $user = User::where('email', $email)->update([
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return User
+     */
+    protected function create(array $data)
+    {
+        $user = User::create([
+            'nome' => $data['name'],
+            'email' => $data['email'],
+            'tipo' => 1, // aluno
             'username' => $data['username'],
-            'email_alternativo' => $data['email_alternativo'],
-            'nome' => $data['nome'],
-            'info_academica' => $data['info_academica'],
-            'confirmed' => 1,
-            'confirmation_code' => NULL,
-            'id_turma' => $data['turma'],
-            'id_modulo' => $data['modulo'],
-            'id_escola' => $data['instituicao'],
+            // temp (info_academica)
+            'info_academica' => '{"is_prof":false,"instituicao":"ETEC Pedro Ferreira Alves","modulo":"3\u00ba S\u00e9rie","curso":"Ensino M\u00e9dio Integrado a Inform\u00e1tica para Internet","conclusao":"2015"}',
+            'password' => bcrypt($data['password']),
         ]);
-
-        return \DB::table('amizades')->insert([
-                    'id_user1' => User::where('email', $email)->first()->id,
-                    'id_user2' => User::where('email', $email)->first()->id,
-                    'aceitou' => 1
-        ]);
+        return $user;
     }
-
-    protected function codProf($cod_prof) {
-        return Validator::make(
-                        [ 'codigo de acesso' => $cod_prof], [ 'codigo de acesso' => 'required|exists:lista_etecs,cod_prof']
-        );
-    }
-
-    protected function send($email, $code) {
-        return Mail::send('emails.verifica', [ 'code' => $code], function($message) use ($email) {
-                    $message->from('contato@etecsocial.com.br', 'ETEC Social');
-                    $message->to($email, $email)->subject('Verificação de e-mail');
-                });
-    }
-
 }

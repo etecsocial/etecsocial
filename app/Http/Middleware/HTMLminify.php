@@ -19,7 +19,7 @@ class HTMLminify
             return $next($request);
         }
 
-        $response = $next($request);
+		$response = $next($request);
         $content = $response->getContent();
 
         $replace = array(

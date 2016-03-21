@@ -1,21 +1,19 @@
 <?php
+Route::group(['middleware' => 'web'], function () {
+    
+    // auth route resource
+    Route::auth();
+    Route::get('/logout', 'HomeController@logout'); // custom logout
 
-//Route::group(['domain' => 'etec.localhost'], function()
-//{
-    //AUTH
-    //Route::controllers([ 
-    //    'auth' => 'Auth\AuthController', 
-    //    'password' => 'Auth\PasswordController'
-    //]);   
- 
-    //HOME
+    // home
     Route::get('/', 'HomeController@index');
     Route::post('/', 'HomeController@login_or_cadastro');
-    Route::get('/logout', 'HomeController@logout');
-    //FACEBOOK
+
+    // facebook login
     Route::get('/facebook_login', 'FacebookController@login');
     Route::get('/facebook_feedback', 'FacebookController@feedback');
 
+    // auth routes
     Route::group(['middleware' => 'auth'], function() {    
         //DESAFIO
         Route::get('/desafios', 'DesafioController@index');
@@ -59,9 +57,9 @@
         });
         //MENSAGEM
         Route::group(['prefix' => 'chat'], function () {
-            Route::post('/enviar', 'ChatController@enviar');
-            Route::post('/abrir', 'ChatController@abrir');
-            Route::post('/channel', 'ChatController@channel');
+           // Route::post('/enviar', 'ChatController@enviar');
+           // Route::post('/abrir', 'ChatController@abrir');
+           // Route::post('/channel', 'ChatController@channel');
         });
          //PESQUISAR
         Route::get('/buscar', 'PesquisaController@buscaRapida');
@@ -100,9 +98,9 @@
         Route::get('/agenda', 'AgendaController@api');
         //NOTIFICACAO
         Route::group(['prefix' => 'notificacao'], function () {
-            Route::get('/makeread', 'NotificacaoController@makeread');
-            Route::post('/new', 'NotificacaoController@newnoti');
-            Route::post('/channel', 'NotificacaoController@channel');
+            // Route::get('/makeread', 'NotificacaoController@makeread');
+            // Route::post('/new', 'NotificacaoController@newnoti');
+            // Route::post('/channel', 'NotificacaoController@channel');
         });
         //GRUPO
         Route::group(['prefix' => 'grupo'], function () {
@@ -123,4 +121,4 @@
             Route::post('/denuncia/analisa', 'DenunciaController@analisaDenunciaGrupo');
         });
     });
-//});
+});

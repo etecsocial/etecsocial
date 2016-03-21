@@ -17,33 +17,27 @@ use Carbon\Carbon;
 class HomeController extends Controller
 {
 
-    public function index()
-    {
-        //Auth::login(User::find(1), true);
-        if (Auth::check()) {
-            return $this->feed();
-        } else {
-            return $this->login();
-        }
-    }
-
     public function logout(){
+        \Session::flush(); // limpa os cookies
         Auth::logout();
+        \Session::flush(); // limpa de novo
         return redirect('/');
     }
 
-    public function login() 
+    public function index() 
     {
-        if (Input::has('confirmation_code')) {
+
+        /* if (Input::has('confirmation_code')) {
             $user = User::where('confirmation_code', Input::get('confirmation_code'))->first();
         } else {
             $user = 'false';
-        }
+        } */
 
-        return view('home.newhome', [
-            'user'      => $user,
-            'cadastro'  => Input::has('cadastro')
-        ]);
+        if(Auth::check()){
+            return $this->feed();
+        } else {
+            return view('home.home');
+        }
     }
 
     public function login_or_cadastro(){
