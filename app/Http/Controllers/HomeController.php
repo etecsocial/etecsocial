@@ -20,7 +20,7 @@ class HomeController extends Controller
     public function logout(){
         \Session::flush(); // limpa os cookies
         Auth::logout();
-        \Session::flush(); // limpa de novo
+        \Session::flush(); // limpa de novo, queima
         return redirect('/');
     }
 
@@ -38,33 +38,6 @@ class HomeController extends Controller
         } else {
             return view('home.home');
         }
-    }
-
-    public function login_or_cadastro(){
-        if(Input::get('type') == 'login'){
-            $email = Input::get('email');
-            $senha = Input::get('senha');
-            $remember = (Input::get('remember') == 'on') ? true : false;
-
-            if(empty($email) || empty($senha)){
-                return redirect('/');
-            }
-            
-            if (Auth::attempt(['email' => $email, 'password' => $senha], $remember)) {
-                Auth::login(User::where('email', '=', $email)->first(), true);
-                return redirect('/');
-            } else {
-                return 'login errado';
-            }
-
-        } else if(Input::get('type') == 'cadastro'){
-            
-
-
-        } else {
-            return redirect('/');
-        }
-        
     }
     
     public function feed($id = 0) 
