@@ -53,6 +53,9 @@ class AuthController extends Controller
             'username' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
+            'escola' => 'required',
+            'modulo' => 'required',
+            'turma' => 'required',
         ]);
     }
 
@@ -69,6 +72,10 @@ class AuthController extends Controller
             'email' => $data['email'],
             'tipo' => 1, // aluno
             'username' => $data['username'],
+            'id_escola' => $data['escola'],
+            'id_modulo' => $data['modulo'],
+            'id_turma' => $data['turma'],
+            
             // temp (info_academica)
             'info_academica' => '{"is_prof":false,"instituicao":"ETEC Pedro Ferreira Alves","modulo":"3\u00ba S\u00e9rie","curso":"Ensino M\u00e9dio Integrado a Inform\u00e1tica para Internet","conclusao":"2015"}',
             'password' => bcrypt($data['password']),

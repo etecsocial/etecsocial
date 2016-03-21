@@ -43,6 +43,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/perfil/editar', 'PerfilController@update');
     });
 
+    // register
+    Route::group(['prefix' => '/ajax/cadastro'], function () {
+        Route::get('/escolas', 'ContaController@consultarEscola');
+        Route::get('/turmas', 'ContaController@consultarTurma');
+    });
+
     //AJAX
     Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
         //CONTA
@@ -51,10 +57,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/agenda', 'AgendaController@api');
         Route::resource('/agenda', 'AgendaController');
         //CONTA
-        Route::group(['prefix' => 'cadastro'], function () {
-            Route::get('/escolas', 'ContaController@consultarEscola');
-            Route::get('/turmas', 'ContaController@consultarTurma');
-        });
+        
         //MENSAGEM
         Route::group(['prefix' => 'chat'], function () {
            // Route::post('/enviar', 'ChatController@enviar');
