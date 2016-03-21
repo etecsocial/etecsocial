@@ -66,6 +66,7 @@ Grupos | ETEC Social
                        '<span class="title"><a href="{{ url('/grupo') }}/' + data.url + '"><strong>' + data.nome +
                        '</strong></a></span><div class="col s12"><p class="ultra-small">Criado agora mesmo</p></div></li>';
                    $(html).insertBefore(".grupo-item:first").hide().fadeIn(2000);
+                   $(".nenhum-grupo").hide();
 
                } else {
                    if (data.status == 4) {
@@ -107,6 +108,7 @@ Grupos | ETEC Social
         <a style="margin:10px" href="#modalAddGrupo" class="btn-floating btn-small wino waves-effect waves-light cyan darken-2 tooltipped" data-position="right" data-delay="50" data-tooltip="Criar grupo de estudos"><i class="material-icons left">library_add</i></a>
         <div class="col s12">
             <ul class="collection">
+                <li class="grupo-item"></li>
                 @if(isset($grupos[0]))
                 @foreach($grupos as $grupo)
                 <li class="grupo-item collection-item avatar">
@@ -122,7 +124,7 @@ Grupos | ETEC Social
                 </li>
                 @endforeach
                 @else
-                <div class="col s12">
+                <div class="col s12 nenhum-grupo">
                     <p>Ops, você não está participando de nenhum grupo :(</p>
                 </div>
                 @endif
