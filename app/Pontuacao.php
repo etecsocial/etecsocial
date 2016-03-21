@@ -17,12 +17,13 @@ class Pontuacao extends Model {
     }
 
     public static function total() {
-        return DB::table('pontuacaos')
+        $pontuacao = DB::table('pontuacaos')
                         ->selectRaw('sum(pontos) as pontos')
                         ->where('user_id', Auth::user()->id)
                         ->orderBy('created_at', 'DESC')
                         ->limit(1)
                         ->get()[0]->pontos;
+        return ($pontuacao == null) ? 0 : $pontuacao;
     }
 
     public static function ranking($tipo = 'geral') {
