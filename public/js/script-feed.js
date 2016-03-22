@@ -197,6 +197,7 @@ function newpost() {
     $.post("/ajax/newpost", {id: post_id}, function (data) {
         $(data).insertBefore(".post:first").hide().fadeIn(2000);
     });
+    
 }
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -228,6 +229,9 @@ $('#publicar').ajaxForm({
     success: function (data) {
         Materialize.toast('<span>Publicado com sucesso!</span>', 3000);
         $('#publicar')[0].reset();
+        $('#num-posts').html(data.num_posts);
+        $('#pontuacao').html(data.pontuacao);
+        alert(posts);
         return newpost();
     },
     error: function (xhr) {

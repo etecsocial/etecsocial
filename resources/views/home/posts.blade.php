@@ -43,15 +43,16 @@
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
 
-                    <?php /* @if($post->is_repost) 
+                 @if($post->is_repost) 
                     Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a>
-                    @endif */?>
+                    @endif 
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>
-            <h4 class="card-title grey-text text-darken-4"><a href="{{ url('/') }}/post/{{$post->id}}" class="grey-text text-darken-4">{{ $post->titulo }}</a>
-            </h4>
-            <p class="blog-post-content truncate">{{ $post->publicacao }}</p>
+            <h4 class="card-title grey-text text-darken-4"><a href="{{ url('/') }}/post/{{$post->id}}" class="grey-text text-darken-4">{{ $post->titulo }}</a></h4>
+            <section class="scroll-post-feed" style="overflow-y: auto; max-height: 200px">
+                <p class="blog-post-content">{{ $post->publicacao }}</p>
+            </section>
         </div>
         <div class="row" id="autor-post">
             <div class="col s2">

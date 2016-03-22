@@ -53,8 +53,8 @@ class PostController extends Controller
         } else {
             $this->addIcon($tags, $post);
         }
-        Pontuacao::pontuar(10, 'novo post');           
-        return Response::json([ "id" => $post->id ]);
+        Pontuacao::pontuar(10, 'novo post');      
+        return Response::json([ "id" => $post->id, 'num_posts'=> Post::count(), 'pontuacao'=> Pontuacao::total()]);
     }
 
     /**
@@ -164,10 +164,9 @@ class PostController extends Controller
         $n = (count($array) > 3) ? 3 : count($array);
         
         for ($i = 0; $i < $n; $i++) {
-            Tag::create([ 'id_post' => $id_post, 'tag' => $array[$i] ]);
+            $array != '# ' ?  Tag::create([ 'id_post' => $id_post, 'tag' => $array[$i] ]) : false;
         }
-        
-        return $array;
+        return $array;//não deixar coisar tag vazia!!!
     }
     
     public function addIcon($tags, $post) 

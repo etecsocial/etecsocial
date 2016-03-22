@@ -1,6 +1,6 @@
 @extends('app')
 @section('title')
-ETEC Social | Home
+ETEC Social | Início
 @stop
 
 @section('style')
@@ -15,13 +15,10 @@ ETEC Social | Home
                         '/js/plugins/lightbox-plus-jquery.min.js',
                         '/js/materialize.js',
                         '/js/form.min.js',
-                        '/js/jquery.tagsinput.min.js',
                         
                         '/js/plugins/jquery.nanoscroller.min.js',
                         '/js/plugins/sparkline/jquery.sparkline.min.js',
                         '/js/plugins/sparkline/sparkline-script.js',
-                        '/js/plugins/jquery.bxslider.min.js',
-                        '/js/plugins/sliders.js',
                         '/js/plugins/succinct-master/jQuery.succinct.min.js',
 
                         '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
@@ -61,7 +58,7 @@ ETEC Social | Home
                             @else
                                 <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
                             @endif
-                            <label for="{{ $task->id }}">{{ $task->desc }}
+                            <label for="{{ $task->id }}" class="truncate">{{ $task->desc }}
                                 <a class="secondary-content">
                                     <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span>
                                 </a>
@@ -103,7 +100,7 @@ ETEC Social | Home
                                 </div>
                                 <div class="input-field col s12 l10">
                                     <textarea name="publicacao"  class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
-                                    <label for="publicacao">Poste um resumo, cite um autor, compartilhe algum conhecimento</label>
+                                    <label for="publicacao">O que há de novo para compartilhar com seus amigos?</label>
                                 </div>
                             </div>
                             <div class="row">
@@ -183,7 +180,7 @@ ETEC Social | Home
                     <div class="card">
                         <div class="card-content blue white-text center">
                             <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Pontuação</p>
-                            <h4 class="card-stats-number">{{ \App\Pontuacao::total() }}</h4>
+                            <h4 class="card-stats-number" id="pontuacao">{{ \App\Pontuacao::total() }}</h4>
                         </div>
                     </div>
                 </div>
@@ -208,7 +205,7 @@ ETEC Social | Home
                     <div class="card">
                         <div class="card-content green white-text center">
                             <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Postagens</p>
-                            <h4 class="card-stats-number">{{ Auth::user()->num_auxilios }}</h4>
+                            <h4 class="card-stats-number" id="num-posts">{{ \App\Post::count() }}</h4>
                         </div>
                     </div>
                 </div>

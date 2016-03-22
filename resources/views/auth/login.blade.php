@@ -42,7 +42,7 @@ Login | ETEC Social
                      <label for="email">Email</label>
                      @if ($errors->has('email'))
                      <span class="help-block">
-                     <strong>{{ $errors->first('email') }}</strong>
+                     <strong>Email ou senha inválidos.</strong>
                      </span>
                      @endif
                   </div>
@@ -54,7 +54,7 @@ Login | ETEC Social
                         <label for="password">Senha</label>
                         @if ($errors->has('password'))
                         <span class="help-block">
-                        <strong>{{ $errors->first('password') }}</strong>
+                        <strong>Email ou senha inválidos.</strong>
                         </span>
                         @endif
                      </div>

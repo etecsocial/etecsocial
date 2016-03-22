@@ -30,10 +30,13 @@ class Post extends Model
                 ->where([ "id_post" => $id, "id_user" => Auth::user()->id ])
                 ->count();
          
-        if ($count) {
-            return true;
-        } 
-           
-        return false;
+        return isset($count) ? $count : false;
+    }
+    public static function count() 
+    {
+        $count = DB::table('posts')
+                ->where(["id_user" => Auth::user()->id ])
+                ->count();
+        return isset($count) ? $count : 0;
     }
 }
