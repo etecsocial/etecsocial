@@ -84,4 +84,5 @@ class AuthController extends Controller
         Amizade::insert(['id_user1' => $user->id, 'id_user2' => $user->id, 'aceitou' => 1]);
         return $user;
     }
+    
 }
