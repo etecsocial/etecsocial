@@ -32,6 +32,12 @@ class Mensagens extends Model {
             'assunto' => $assunto
         ]);
     }
+    public static function destroy($id) {
+        $msg = Mensagens::where('id', $id)->first();
+        $msg->id_remetente == Auth::user()->id ? $msg->copia_rem = 0 : $msg->copia_dest = 0;
+        (($msg->copia_rem == 0) and ($msg->copia_dest == 0)) ? $msg->delete() : $msg->save();;
+        return true;
+    }
 
     public static function loadConversas() {
         return Mensagens::where(["id_destinatario" => Auth::user()->id])

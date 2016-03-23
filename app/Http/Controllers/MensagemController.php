@@ -43,20 +43,13 @@ class MensagemController extends Controller {
         }return Response::json([ 'status' => false]);
     }
 
-    public function destroy(Request $request) {
-        if ($msg = Chat::where('id', $request->id)->first()) {
-            if (($msg->copia_dest == 0) and ( $request->is_rem) or ( ($msg->copia_rem == 0) and ( $request->is_dest))) {
-                $msg->delete();
-                return Response::json([ 'status' => true]);
-            }
-            $request->is_dest ? $msg->dest = 0 : $msg->rem = 0;
-            $msg->save();
-            return Response::json([ 'status' => true]);
-        }return Response::json([ 'status' => false]); //Menságem não existe mais!
-    }
+
     
     public function getConversa(Request $request) {
-         return view('mensagens.conversa', ['conversas'=>  Mensagens::loadMsgs($request->id_user)]); 
+         return  view('mensagens.conversa', ['conversas'=>  Mensagens::loadMsgs($request->id_user)]); 
+    }
+    public function delMensagem(Request $request) {
+        return Mensagens::destroy($request->id);
     }
 
     public function setMidia(Request $request) {

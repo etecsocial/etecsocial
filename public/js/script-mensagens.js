@@ -19,7 +19,7 @@ function novaMensagem(id_rem, id_dest, nome_dest) {
     $("#nova-mensagem").attr({"action": "/ajax/mensagem/store"});
     $("#id_dest").attr({"value": id_dest});
     $("#destinatario-nova-mensagem").attr({"value": nome_dest});
-    
+
     $('#modal-nova-mensagem').openModal();
 }
 
@@ -34,3 +34,25 @@ $('#nova-mensagem').ajaxForm({
         }
     }
 });
+
+////////////////////////////////////////////////////////////////////
+//GET CONVERSAS
+function getConversa(uid) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getConversa",
+        data: "id_user=" + uid,
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast('Digite algo para comentar.', 5000);
+                return false
+            } else {
+                $('#email-details').html(data.responseText);
+            }
+        }
+
+    });
+    return false;
+}
+////////////////////////////////////////////////////////////////////

@@ -89,7 +89,7 @@ Mensagens | ETEC Social
                     <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
                         <ul class="collection">
                             @foreach($users as $user)
-                            <li class="collection-item avatar">
+                            <li class="collection-item avatar" onclick="getConversa({{ $user->id }})">
                                 <span class="circle red lighten-1">{{$user->nome[0]}}</span>
           <!--                      <img src="" alt="" class="circle">-->
                                 <span class="email-title">{{ $user->nome }}</span>
