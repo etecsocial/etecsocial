@@ -15,16 +15,18 @@ class CreateUsersTable extends Migration {
 		Schema::create('users', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name', 255);
+			$table->string('nome', 255);
 			$table->string('username', 20)->nullable()->unique();
 			$table->string('email', 255)->unique();
 			$table->string('password', 110);
-			$table->smallInteger('type')->default(1); // (1 = normal / 2 = professor / 3 = moderador)
+			$table->smallInteger('tipo')->default(1); // (1 = normal / 2 = professor / 3 = moderador)
 			$table->string('status', 255)->nullable();
 			$table->boolean('online')->default(false);
 			$table->integer('reputacao')->default(0);
 			$table->date('nascimento')->nullable();
 			$table->string('cidade')->nullable();
+
+			$table->text('info_academica')->nullable();
 
 			$table->bigInteger('provider_user_id')->unique()->nullable();
 

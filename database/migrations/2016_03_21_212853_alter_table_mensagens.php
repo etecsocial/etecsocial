@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTableChats extends Migration {
+class AlterTableMensagens extends Migration {
 
     /**
      * Run the migrations.
@@ -11,7 +11,7 @@ class AlterTableChats extends Migration {
      * @return void
      */
     public function up() {
-        Schema::table('chats', function(Blueprint $table) {
+        Schema::table('mensagens', function(Blueprint $table) {
             $table->text('doc')->nullable();
             $table->text('video')->nullable();
             $table->text('img')->nullable();
@@ -26,7 +26,7 @@ class AlterTableChats extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('chats', function(Blueprint $table) {
+        Schema::table('mensagens', function(Blueprint $table) {
             $table->dropColumn('doc');
             $table->dropColumn('video');
             $table->dropColumn('img');
