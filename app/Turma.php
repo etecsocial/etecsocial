@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Turma extends Model
 {
-     protected $fillable = [
+	public $timestamps = false;
+    
+    protected $fillable = [
         'id',
         'id_escola',
         'nome',
