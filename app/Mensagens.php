@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use App\Amizade;
 
-
 class Mensagens extends Model {
 
     protected $fillable = [
         'id_remetente',
         'id_destinatario',
         'msg',
+        'assunto',
         'created_at',
         'data',
         'visto',
@@ -24,6 +24,15 @@ class Mensagens extends Model {
         'visto'
     ];
 
+    public static function store($id_dest, $msg, $assunto) {
+        Mensagens::create([
+            'id_remetente' => Auth::user()->id,
+            'id_destinatario' => $id_dest,
+            'msg' => $msg,
+            'assunto' => $assunto
+        ]);
+    }
+
     public static function loadConversas() {
         return Mensagens::where(["id_destinatario" => Auth::user()->id])
                         ->orWhere([ "id_remetente" => Auth::user()->id])
@@ -31,10 +40,11 @@ class Mensagens extends Model {
                         ->limit(15)
                         ->get();
     }
+
     public static function loadMsgs($id_user) {
         return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
                         ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
-                        ->limit(15)
+                        ->limit(10)
                         ->get();
     }
 
