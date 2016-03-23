@@ -14,18 +14,30 @@ class Chat extends Model {
         'msg',
         'created_at',
         'data',
+        'visto',
+        'video',
+        'img',
+        'doc',
+        'copia_dest',
+        'copia_rem',
         'visto'
     ];
 
+    public static function loadConversas() {
+        return Mensagens::where(["id_destinatario" => Auth::user()->id])
+                        ->orWhere([ "id_remetente" => Auth::user()->id])
+                        ->limit(15)
+                        ->get();
+    }
     public static function loadMsgs($id_user) {
-        return Chat::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
+        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
                         ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
                         ->limit(15)
                         ->get();
     }
 
     public static function count() {
-        return Chat::where([ "id_destinatario" => Auth::user()->id, "visto" => 0])
+        return Mensagens::where([ "id_destinatario" => Auth::user()->id, "visto" => 0])
                         ->count();
     }
 
@@ -38,7 +50,7 @@ class Chat extends Model {
     }
 
     public static function lastMsg($id_user) {
-        $chat = Chat::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
+        $chat = Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
                 ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
                 ->orderBy('data', 'desc')
                 ->first();

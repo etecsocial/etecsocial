@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Post;
-
 use Auth;
 use DB;
 use Input;
+
 
 use Carbon\Carbon;
 
@@ -32,12 +32,7 @@ class HomeController extends Controller
         } else {
             $user = 'false';
         } */
-
-        if(Auth::check()){
-            return $this->feed();
-        } else {
-            return view('home.home');
-        }
+        return Auth::check() ?  $this->feed() : view('home.home');
     }
     
     public function feed($id = 0) 
