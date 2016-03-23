@@ -1,8 +1,12 @@
+@if ( ! session()->has('loading_screen'))
 <div id="loader-wrapper">
     <div id="loader"></div>
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
 </div>
+{{ session()->put('loading_screen', 'true') }}
+@endif
+
 
 <!-- MODAL ADD EVENTO -->
 <div id="novoevento" class="modal">
