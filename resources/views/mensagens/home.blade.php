@@ -23,6 +23,7 @@ Mensagens | ETEC Social
 {!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
 {!! Html::script('js/script.js') !!}
 {!! Html::script('js/plugins.js') !!}
+{!! Html::script('js/script-mensagens.js') !!}
 @stop
 
 @section('content')
@@ -93,22 +94,22 @@ Mensagens | ETEC Social
           <!--                      <img src="" alt="" class="circle">-->
                                 <span class="email-title">{{ $user->nome }}</span>
                                 @if($last = \App\Mensagens::lastMsg($user->id))
-                                    <p class="truncate grey-text ultra-small">
-                                        @if( ($last->id_remetente) == (Auth::user()->id))
-                                        <b> Você: </b> 
-                                        @endif
-                                        {{ $last->msg }}
-                                    </p>
-                                    <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
+                                <p class="truncate grey-text ultra-small">
+                                    @if( ($last->id_remetente) == (Auth::user()->id))
+                                    <b> Você: </b> 
+                                    @endif
+                                    {{ $last->msg }}
+                                </p>
+                                <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
                                 @else
-                                <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}})">
+                                <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{Auth::user()->id}}, {{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
                                     Nova mensagem
-                                @endif
+                                    @endif
                             </li>
                             @endforeach
                         </ul>
                     </div>
-                    
+
                     <div id="email-details" class="col s12 m7 l7 card-panel">
                         <p class="email-subject truncate">Comunicado 01/coord.</p>
                         <hr class="grey-text text-lighten-2">
@@ -119,11 +120,11 @@ Mensagens | ETEC Social
 
                                 <p>Informamos que bundle our framework with the latest iteration of Roboto Google has released. It comes with 5 different font weights you.</p>
                                 <p>The latest iteration of Roboto Google has released. It comes use: 200, 300, 400, 500, 600.
-                                It comes with 5 different font weights you can use: 200, 300, 400, 500, 600.</p>
+                                    It comes with 5 different font weights you can use: 200, 300, 400, 500, 600.</p>
                                 <p>Cordialmente,
                                 <hr class="divider" style="width: 50%">
-                                   <p>André Luiz dos Santos<br>
-                                <span class="ultra-small">Diretor de Escola</span></p>
+                                <p>André Luiz dos Santos<br>
+                                    <span class="ultra-small">Diretor de Escola</span></p>
                             </div>
                         </div>
                         <div class="email-reply">
@@ -143,74 +144,67 @@ Mensagens | ETEC Social
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-
-            <!-- Compose Email Trigger -->
-            <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
-                <a class="btn-floating btn-large red modal-trigger" href="#modal-nova-mensagem">
-                    <i class="mdi-editor-border-color"></i>
-                </a>
-            </div>
-
-
 
             <!-- Modal de criação de mensagem -->
             <div id="modal-nova-mensagem" class="modal">
-                <div class="modal-content">
-                    <nav class="red">
-                        <div class="nav-wrapper">
-                            <div class="left col s12 m5 l5">
-                                <ul>
-                                    <li><a href="#!" class="email-menu"><i class="modal-action modal-close  mdi-hardware-keyboard-backspace"></i></a>
-                                    </li>
-                                    <li><a href="#!" class="email-type">Nova mensagem</a>
-                                    </li>
-                                </ul>
+                <form class="col s12" id="nova-mensagem" type="post">
+                    <div class="modal-content">
+                        <nav class="red">
+                            <div class="nav-wrapper">
+                                <div class="left col s12 m5 l5">
+                                    <ul>
+                                        <li><a href="#!" class="email-menu"><i class="modal-action modal-close  mdi-hardware-keyboard-backspace"></i></a>
+                                        </li>
+                                        <li><a href="#!" class="email-type">Nova mensagem</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col s12 m7 l7 hide-on-med-and-down">
+                                    <ul class="right">
+                                        <li><a href="#!"><i class="mdi-editor-attach-file"></i></a>
+                                        </li>
+                                        <li><i class="modal-action modal-close  mdi-content-send"></i>
+                                        </li>
+                                        <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </div>
-                            <div class="col s12 m7 l7 hide-on-med-and-down">
-                                <ul class="right">
-                                    <li><a href="#!"><i class="mdi-editor-attach-file"></i></a>
-                                    </li>
-                                    <li><a href="#!"><i class="modal-action modal-close  mdi-content-send"></i></a>
-                                    </li>
-                                    <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
-                                    </li>
-                                </ul>
+                        </nav>
+                    </div>
+                    <div class="model-email-content">
+                        <div class="row">
+                            <input type="hidden" name="id_dest" id="id_dest">
+                            <input type="hidden" name="id_rem" id="id_rem">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="destinatario-nova-mensagem" class="validate" type="text" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input id="assunto-nova-mensagem" type="text" class="validate" name="assunto">
+                                    <label for="assunto-nova-mensagem">Assunto</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea id="mensagem" class="materialize-textarea" length="500"></textarea>
+                                    <label for="mensagem">Sua mensagem</label>
+                                </div>
                             </div>
 
                         </div>
-                    </nav>
-                </div>
-                <div class="model-email-content">
-                    <div class="row">
-                        <form class="col s12">
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="to_email" type="email" class="validate">
-                                    <label for="to_email">Para</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <input id="subject" type="text" class="validate">
-                                    <label for="subject">Assunto</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <textarea id="compose" class="materialize-textarea" length="500"></textarea>
-                                    <label for="compose">Sua mensagem</label>
-                                </div>
-                            </div>
-                        </form>
                     </div>
-                </div>
+                </form>
             </div>
-         
+
         </div>
-  
+
     </div>
     <!--end container-->
 
