@@ -228,6 +228,7 @@ ETEC Social | Início
     <div id="card-widgets" class="seaction">
         <div class="row">
             <div class="col s12" id="post">
+                <div class="post"></div>
                 @include('home.posts')
                 @if(!isset($posts[0]))
                     <div data-id="0" class="post blog col s12 m6 l4" style="display:none"></div>

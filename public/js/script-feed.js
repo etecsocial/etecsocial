@@ -231,8 +231,7 @@ $('#publicar').ajaxForm({
         $('#publicar')[0].reset();
         $('#num-posts').html(data.num_posts);
         $('#pontuacao').html(data.pontuacao);
-        alert(posts);
-        return newpost();
+        newpost();
     },
     error: function (xhr) {
         Materialize.toast('<span>Escreva algo para publicar...</span>', 3000);
