@@ -317,7 +317,6 @@
             <div class="layer-overlay"></div>
             <div class="layer-content">
                 <div class="row">
-                    <a href="#" class="chat-back right"><i class="mdi-navigation-close"></i></a>
                     <div class="col s12">
                         <ul class="tabs transparent" style="width: 100%;">
                             <li class="tab col s3" style="width: 25%;"><a id="tabTasks" class="white-text" href="#tarefas"><i style="margin-top:12px" class="mdi-social-people"><span class="badge amc">{{ App\Amizade::count() }}</span></i></a>
@@ -395,34 +394,12 @@
                             @endif
                         </div>
                         <div id="chat" class="col s12">
-                            <div class="contacts">
-                                <div class="nano">
-
-                                </div>
-                            </div>
-                            <div class="messages">
-                                <div class="topbar">
-                                    <a style="cursor:pointer" class="chat-toggle"><i class="mdi-navigation-close"></i></a>
-                                    <a style="cursor:pointer" class="chat-back"><i class="mdi-hardware-keyboard-arrow-left"></i>Voltar</a>
-                                </div>
-                                <div id="chat">
-                                    <div class="list">
-                                        <div class="nano scroll-bottom">
-                                            <div class="nano-content" id="msgs">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="send">
-                                    <form >
-                                        <div class="input-field">
-                                            <input type="hidden" id="id-chat" value="0">
-                                            <input autocomplete="off" id="chat-message" type="text" id="chat-message" name="chat-message">
-                                        </div>
-                                        <button onclick="enviarMsg()" class="btn waves-effect z-depth-0 cyan"><i class="mdi-content-send"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                            <div class="collection-item">
+                                <p>Quem disse que não fecha essa desgraça?
+                                    ô  SE FECHA, DEMÔNIO, FECHA COM FORÇA AINDA!!
+                                    
+                                    </p>
+                                    PS: era só apagar oq tava dentro da div...
                             </div>
                         </div>
                     </div>
