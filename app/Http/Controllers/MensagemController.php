@@ -33,7 +33,7 @@ class MensagemController extends Controller {
             'conversas' => Mensagens::loadConversas(),
             'users' => Mensagens::loadUsers(),
             'unread' => Mensagens::count()
-                ]);
+        ]);
     }
 
     public function store(Request $request) {
@@ -43,13 +43,17 @@ class MensagemController extends Controller {
         }return Response::json([ 'status' => false]);
     }
 
-
-    
     public function getConversa(Request $request) {
-         return  view('mensagens.conversa', ['conversas'=>  Mensagens::loadMsgs($request->id_user)]); 
+        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgs($request->id_user)]);
     }
+
     public function delMensagem(Request $request) {
-        return Mensagens::destroy($request->id);
+        if ($msg = Mensagens::where('id', $request->id)->first()) {
+            $response = (($msg->id_remetente == Auth::user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
+            if($response != 0) return Response::json([ 'status' => $response]);
+            (($msg->copia_rem == 0) and ( $msg->copia_dest == 0)) ? $msg->delete() : $msg->save();
+            return Response::json([ 'status' => true]);
+        }return Response::json([ 'status' => 'aqui']);
     }
 
     public function setMidia(Request $request) {

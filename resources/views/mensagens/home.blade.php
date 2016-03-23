@@ -54,7 +54,7 @@ Mensagens | ETEC Social
                                 <ul class="right">
                                     <li><a href="#!"><i class="mdi-content-archive"></i></a>
                                     </li>
-                                    <li><a href="#!"><i class="mdi-action-delete"></i></a>
+                                    <li onclick="delConversa()"><a><i class="mdi-action-delete"></i></a>
                                     </li>
                                     <li><a href="#!"><i class="mdi-content-mail"></i></a>
                                     </li>

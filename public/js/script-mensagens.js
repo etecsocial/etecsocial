@@ -56,3 +56,27 @@ function getConversa(uid) {
     return false;
 }
 ////////////////////////////////////////////////////////////////////
+//APAGAR MENSAGENS
+function delMensagem(id) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/delMensagem",
+        data: "id=" + id,
+        dataType: "json",
+        success: function (data) {
+            if (data.status === true) {
+                $('#mensagem-' + id).fadeOut(1000);
+            } else {
+                Materialize.toast('A mensagem já havia sido excluida!', 3000);
+                $('#mensagem-' + id).fadeOut(1000);
+
+            }
+        },
+        error: function (data) {
+            Materialize.toast('Ops, estamos confusos! Recarregue a página e tente novamente.', 3000);
+        }
+
+    });
+    return false;
+}
+////////////////////////////////////////////////////////////////////
