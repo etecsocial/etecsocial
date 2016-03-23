@@ -59,6 +59,10 @@ Route::group(['middleware' => 'web'], function () {
         //CONTA
         
         //MENSAGEM
+        Route::group(['prefix' => 'mensagem'], function () {
+            Route::post('/store', 'MensagemController@store');
+        });
+        //CHATS
         Route::group(['prefix' => 'chat'], function () {
            // Route::post('/enviar', 'ChatController@enviar');
            // Route::post('/abrir', 'ChatController@abrir');
