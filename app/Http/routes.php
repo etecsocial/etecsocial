@@ -35,7 +35,7 @@ Route::group(['middleware' => 'web'], function () {
         //TAGS
         Route::get('/tag/{tag}', 'TagController@show');    
         //MENSAGENS
-        Route::get('/mensagens', 'ChatController@pagina');
+        Route::get('/mensagens', 'MensagemController@index');
         //POST
         Route::get('/post/{id}', 'PostController@show');
         //PERFIL

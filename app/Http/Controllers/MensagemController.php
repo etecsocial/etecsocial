@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Chat;
+use App\Http\Controllers\Controller;
+use App\User;
+use App\Mensagens;
+use Carbon\Carbon;
+use Auth;
+use DB;
+use Input;
 
 /**
  * Classe controladora de mensagens
@@ -19,6 +25,15 @@ class MensagemController extends Controller {
     public $ImgDestinationPath = 'midia/imagens/chats';
     public $VideoDestinationPath = 'midia/videos/chats';
     public $DocsDestinationPath = 'docs/chats';
+
+    public function index() {
+        Carbon::setLocale('pt_BR');
+        return view('mensagens.home', [
+            'conversas' => Mensagens::loadConversas(),
+            'users' => Mensagens::loadUsers(),
+            'unread' => Mensagens::count()
+                ]);
+    }
 
     public function store(Request $request) {
         if ($request->msg) {
