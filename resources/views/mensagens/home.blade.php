@@ -150,36 +150,36 @@ Mensagens | ETEC Social
 
             <!-- Modal de criação de mensagem -->
             <div id="modal-nova-mensagem" class="modal">
-                <form class="col s12" id="nova-mensagem" type="post">
-                    <div class="modal-content">
-                        <nav class="red">
-                            <div class="nav-wrapper">
-                                <div class="left col s12 m5 l5">
-                                    <ul>
-                                        <li><a href="#!" class="email-menu"><i class="modal-action modal-close  mdi-hardware-keyboard-backspace"></i></a>
-                                        </li>
-                                        <li><a href="#!" class="email-type">Nova mensagem</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col s12 m7 l7 hide-on-med-and-down">
-                                    <ul class="right">
-                                        <li><a href="#!"><i class="mdi-editor-attach-file"></i></a>
-                                        </li>
-                                        <li><i class="modal-action modal-close  mdi-content-send"></i>
-                                        </li>
-                                        <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
 
+                <div class="modal-content">
+                    <nav class="red">
+                        <div class="nav-wrapper">
+                            <div class="left col s12 m5 l5">
+                                <ul>
+                                    <li><a href="#!" class="email-menu"><i class="modal-action modal-close  mdi-hardware-keyboard-backspace"></i></a>
+                                    </li>
+                                    <li><a href="#!" class="email-type">Nova mensagem</a>
+                                    </li>
+                                </ul>
                             </div>
-                        </nav>
-                    </div>
-                    <div class="model-email-content">
+                            <div class="col s12 m7 l7 hide-on-med-and-down">
+                                <ul class="right">
+                                    <li><a href="#!"><i class="mdi-editor-attach-file"></i></a>
+                                    </li>
+                                    <li><i class="modal-action modal-close  mdi-content-send"></i>
+                                    </li>
+                                    <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </nav>
+                </div>
+                <div class="model-email-content">
+                    <form class="col s12" id="nova-mensagem" type="post">
                         <div class="row">
                             <input type="hidden" name="id_dest" id="id_dest">
-                            <input type="hidden" name="id_rem" id="id_rem">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input id="destinatario-nova-mensagem" class="validate" type="text" disabled="disabled">
@@ -193,14 +193,14 @@ Mensagens | ETEC Social
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="mensagem" class="materialize-textarea" length="500"></textarea>
+                                    <textarea name="msg" id="mensagem" class="materialize-textarea" length="500"></textarea>
                                     <label for="mensagem">Sua mensagem</label>
                                 </div>
                             </div>
-
+                            <button type="submit" class="btn-info">ENVIAR</button>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
 
         </div>

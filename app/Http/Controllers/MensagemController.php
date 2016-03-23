@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Mensagens;
 use Carbon\Carbon;
+use Response;
 use Auth;
+use App\Mensagens;
 use DB;
 use Input;
 
@@ -37,11 +38,7 @@ class MensagemController extends Controller {
 
     public function store(Request $request) {
         if ($request->msg) {
-            Chat::create([
-                'id_remetente' => Auth::user()->id,
-                'id_destinatario' => $request->id_dest,
-                'msg' => $request->msg
-            ]);
+            Mensagens::store($request->id_dest, $request->msg, $request->assunto);
             return Response::json([ 'status' => true]); //RETORNAR JUNTO O ID GERADO PARA CONTROLE DE JS!!
         }return Response::json([ 'status' => false]);
     }
@@ -56,6 +53,10 @@ class MensagemController extends Controller {
             $msg->save();
             return Response::json([ 'status' => true]);
         }return Response::json([ 'status' => false]); //Menságem não existe mais!
+    }
+    
+    public function getConversa(Request $request) {
+         return view('mensagens.conversa', ['conversas'=>  Mensagens::loadMsgs($request->id_user)]); 
     }
 
     public function setMidia(Request $request) {
