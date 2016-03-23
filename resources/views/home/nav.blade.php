@@ -1,4 +1,6 @@
 @section('jscript2')
+{!! Minify::javascript(['/js/jquery.min.js',
+                        '/js/materialize.min.js'])->withFullURL() !!}
 <script>
     $(document).ready(function () {
         $('.modal-trigger').leanModal();

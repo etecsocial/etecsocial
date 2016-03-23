@@ -9,10 +9,6 @@ Cadastro | ETEC Social
 @stop
 
 @section('jscript')
-{!! Minify::javascript(['/js/jquery.min.js',
-                        '/js/materialize.min.js'])->withFullURL() !!}}
-                      
-@section('jscript')
 <script>
     function turmas() {
         var escola = $('#escola').val();

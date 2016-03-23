@@ -8,11 +8,6 @@ Login | ETEC Social
                         '/css/materialize.min.css'])->withFullUrl() !!}
 @stop
 
-@section('jscript')
-{!! Minify::javascript(['/js/jquery.min.js',
-                        '/js/materialize.min.js'])->withFullURL() !!}
-@stop
-
 @section('content')
 
 @include('home.nav')

@@ -55,7 +55,7 @@
     morepost();
     }
     }
-    ç
+    
     });
     $('#publicar').ajaxForm({
     dataType: 'JSON',
@@ -247,7 +247,7 @@
                         <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                         <div class="divider"></div>
                         @if(isset(Auth::user()->status))
-                        <div id="us"><a href="#icon-edit-status" class="activator left" style="margin-top:15px">{{{ Auth::user()->status }}}</a></div>
+                        <div id="us">{{{ Auth::user()->status }}}</div>
                         @else
                         <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i>
                         @endif
