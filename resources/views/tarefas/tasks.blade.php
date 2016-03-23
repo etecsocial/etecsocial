@@ -65,6 +65,7 @@ $('#salvar-task').ajaxForm({
                 '<span class="task-cat blue darken-3">' + data.data + '</span>' +
                 '</li>';
             $(html).insertBefore(".tarefa:first").hide().fadeIn(2000);
+            $("#salvar-task")[0].reset();
         } else {
             Materialize.toast('<span>Parece que você já tem algo parecido com isso para fazer...</span>', 3000);
         }

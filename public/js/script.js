@@ -259,7 +259,7 @@ $('#addevento').ajaxForm({
 
         Materialize.toast('<span>Evento adicionado com sucesso</span>', 3000);
         $('#calendar').fullCalendar('refetchEvents');
-
+        $("#addevento")[0].reset();
     },
     error: function() {
         Materialize.toast('<span>Erro ao adicionar evento</span>', 3000);

@@ -67,6 +67,7 @@ Grupos | ETEC Social
                        '</strong></a></span><div class="col s12"><p class="ultra-small">Criado agora mesmo</p></div></li>';
                    $(html).insertBefore(".grupo-item:first").hide().fadeIn(2000);
                    $(".nenhum-grupo").hide();
+                   $('#criarGrupo')[0].reset();
 
                } else {
                    if (data.status == 4) {
