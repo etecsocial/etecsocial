@@ -1,14 +1,14 @@
 CADASTRO
-1∫-> Diferenciar conta aluno/professor.
-2∫-> Amarrar informaÁıes acadÍmicas, cÛdigo etec com cadastro/login usu·rio.
-3∫-> Conferir verificaÁ„o por e-mail, mensagem de prazo de 30 dias para confirmar institucional
-4∫-> Facebook login
+1¬∫-> Diferenciar conta aluno/professor.
+2¬∫-> Amarrar informa√ß√µes acad√™micas, c√≥digo etec com cadastro/login usu√°rio.
+3¬∫-> Conferir verifica√ß√£o por e-mail, mensagem de prazo de 30 dias para confirmar institucional
+4¬∫-> Facebook login - EM ANDAMENTO ( EDU )
 
 FEED
 ->Modal de evento no feed.
-->Conferir notiicaÁ„o de evento prÛximo
-->Fechar fucking negocio de notificaÁ„o
-->Status n„o atualiza direto
+->Conferir notiica√ß√£o de evento pr√≥ximo
+->Fechar fucking negocio de notifica√ß√£o
+->Status n√£o atualiza direto
 
 PERFIL
 Quebriu
@@ -23,7 +23,7 @@ CADASTRO
 MENSAGENS
 ->Layout  OK
 ->Enviar/Receber OK
-->Foto, vÌdeo e documentos FAZENDO
+->Foto, v√≠deo e documentos FAZENDO
 ->Excluir OK
 ->Denunciar PROXIMO
 -comversa em grupo
@@ -31,6 +31,6 @@ MENSAGENS
 RECURSOS A ADICIONAR
 ->Prova online - Jhonatan
 ->Desafios - Eduardo e Marcio
-->CorreÁ„o ortogr·fica
-->Den˙ncia de publicaÁıes do feed
-->AuxÌlios
+->Corre√ß√£o ortogr√°fica
+->Den√∫ncia de publica√ß√µes do feed
+->Aux√≠lios
