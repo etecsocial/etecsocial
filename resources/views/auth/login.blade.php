@@ -30,6 +30,11 @@ Login | ETEC Social
                </div>
             </div>
             <div class="row margin">
+               @if ($errors->has('social_error'))
+               <span class="help-block">
+                    Você já se cadastrou com esse email do facebook :(
+               </span>
+               @endif
                <div class="input-field col s12">
                   <div class="input-field col s12">
                      <i class="material-icons prefix">account_circle</i>
@@ -64,7 +69,7 @@ Login | ETEC Social
                <div class="row">
                   <div class="input-field col s12">
                      <button class="btn waves-effect waves-light" type="submit">Logar</button>
-                     <a class="waves-effect waves-green btn-flat blue white-text">Facebook</a>
+                     <a href="{{ url('facebook_login')}}" class="waves-effect waves-green btn-flat blue white-text">Facebook</a>
                   </div>
                </div>
                <div class="row">
