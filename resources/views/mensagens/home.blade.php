@@ -31,14 +31,12 @@ Mensagens | ETEC Social
 <!-- //////////////////////////////////////////////////////////////////////////// -->
 <!-- START CONTENT -->
 <section id="content">
-
     <!--start container-->
     <div class="container">
-
         <div id="mail-app" class="section">
             <div class="row">
                 <div class="col s12">
-                    <nav class="red">
+                    <nav class="cyan">
                         <div class="nav-wrapper">
                             <div class="left col s12 m5 l5">
                                 <ul>
@@ -54,7 +52,7 @@ Mensagens | ETEC Social
                                 <ul class="right">
                                     <li><a href="#!"><i class="mdi-content-archive"></i></a>
                                     </li>
-                                    <li onclick="delConversa()"><a><i class="mdi-action-delete"></i></a>
+                                    <li onclick="delConversa($('#id_'))"><a><i class="mdi-action-delete"></i></a>
                                     </li>
                                     <li><a href="#!"><i class="mdi-content-mail"></i></a>
                                     </li>
@@ -62,7 +60,6 @@ Mensagens | ETEC Social
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
                     </nav>
                 </div>
@@ -72,33 +69,25 @@ Mensagens | ETEC Social
                             <li>
                                 <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image">
                             </li>
-                            <li>
-                                <a href="#!"><i class="mdi-content-archive active"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!"><i class="mdi-social-group"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!"><i class="mdi-maps-local-offer"></i></a>
-                            </li>
-                            <li>
-                                <a href="#!"><i class="mdi-alert-error"></i></a>
-                            </li>
+                            <li><a href="#!"><i class="mdi-social-group active"></i></a></li>
+                            <li><a href="#!"><i class="mdi-social-group"></i></a></li>
+                            <li><a href="#!"><i class="mdi-maps-local-offer"></i></a></li>
+                            <li><a href="#!"><i class="mdi-alert-error"></i></a></li>
                         </ul>
                     </div>
                     <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
                         <ul class="collection">
                             @foreach($users as $user)
-                            <li class="collection-item avatar" onclick="getConversa({{ $user->id }})">
+                            <li class="collection-item avatar" onclick="getConversa({{ $user->id }})" id="li-{{$user->id}}">
                                 <span class="circle red lighten-1">{{$user->nome[0]}}</span>
           <!--                      <img src="" alt="" class="circle">-->
                                 <span class="email-title">{{ $user->nome }}</span>
-                                @if($last = \App\Mensagens::lastMsg($user->id))
+                                @if($last_msg == $user->id)
                                 <p class="truncate grey-text ultra-small">
-                                    @if( ($last->id_remetente) == (Auth::user()->id))
+                                    @if( ($last_msg->id_remetente) == (Auth::user()->id))
                                     <b> Você: </b> 
                                     @endif
-                                    {{ $last->msg }}
+                                    {{ $last_msg->msg }}
                                 </p>
                                 <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
                                 @else
@@ -127,6 +116,7 @@ Mensagens | ETEC Social
                                     <span class="ultra-small">Diretor de Escola</span></p>
                             </div>
                         </div>
+                        
                         <div class="email-reply">
                             <div class="row">
                                 <div class="col s4 m4 l4 center-align">

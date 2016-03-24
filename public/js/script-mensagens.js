@@ -49,6 +49,7 @@ function getConversa(uid) {
                 return false
             } else {
                 $('#email-details').html(data.responseText);
+                //$('#li-'+uid).addClass('active');
             }
         }
 

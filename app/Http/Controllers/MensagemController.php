@@ -28,6 +28,9 @@ class MensagemController extends Controller {
     public $DocsDestinationPath = 'docs/chats';
 
     public function index() {
+        
+        
+       // return Mensagens::lastMsg(1);
         Carbon::setLocale('pt_BR');
         return view('mensagens.home', [
             'conversas' => Mensagens::loadConversas(),

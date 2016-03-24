@@ -63,11 +63,37 @@ class Mensagens extends Model {
     }
 
     public static function lastMsg($id_user) {
-        $chat = Mensagens::where([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
+        $msgs = Mensagens::where(
+                        [
+                            "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user
+                ])
                 ->orWhere([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
                 ->orderBy('id', 'desc')
                 //->select('id')
-                ->first();
+                ->get();
+
+        $chat = false;
+
+        foreach ($msgs as $msg) {
+            if ($msg->id_remetente == Auth::user()->id) {
+                if ($msg->copia_rem) {
+                    $chat = $msg;
+                    break;
+                } 
+                
+            }
+            
+            
+            if ($msg->id_destinatario == Auth::user()->id) {
+                if ($msg->copia_dest) {
+                    $chat = $msg;
+                    break;
+                } 
+                
+            }
+            
+        }
+
         return isset($chat) ? $chat : false;
     }
 
