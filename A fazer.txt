@@ -10,22 +10,25 @@ FEED
 ->Fechar fucking negocio de notificação
 ->Status não atualiza direto
 
+PERFIL
+Quebriu
+
 INICIAL
 ->Definir imagem de fundo
 
 CADASTRO
-->Passar para AJAX (usar jQueryValidate)
+->Passar para AJAX
+->Verificar email
 
 MENSAGENS
-->Layout
-->Enviar/Receber
-->Foto, vídeo e documentos
-->Excluir
-->Denunciar
+->Layout  OK
+->Enviar/Receber OK
+->Foto, vídeo e documentos FAZENDO
+->Excluir OK
+->Denunciar PROXIMO
 -comversa em grupo
 
 RECURSOS A ADICIONAR
-->CHAMADA por check-in
 ->Prova online - Jhonatan
 ->Desafios - Eduardo e Marcio
 ->Correção ortográfica
