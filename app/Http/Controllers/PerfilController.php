@@ -95,7 +95,7 @@ class PerfilController extends Controller {
     public function update(Request $request) {
         Carbon::setLocale('pt_BR');
         return $request;
-        if ($u = User::where('id_user', $request->id_user)->limit(1)->first()) {
+        if (User::where('id_user', $request->id_user)->first()) {
             User::where('id', $request->id_user)->update([
                 'nome'      => isset($request->nome) ? $request->nome : $u->nome, 
                 'username'  => isset($request->username) ? $request->username : $u->username, 
@@ -107,6 +107,8 @@ class PerfilController extends Controller {
                 ]);
         } else {
             //NÃO É USUÁRIO / NÃO LOGADO / HACK / HAUHAUA / JÁ CHEGA
+            //Neste caso, sugiro a divisão da tabela users em dois, aluno e professor, pois mais a frente
+            //será necessário uma maior manipulação de dados e diferentes relações para funções diferentes para cada tipo de usuario
         }
     }
 
