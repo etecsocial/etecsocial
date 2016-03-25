@@ -157,15 +157,15 @@ ETEC Social | Início
                     <div class="card-content">
                         <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')" onmouseout="javascript:$('#icon-edit-status').hide('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                         <div class="divider"></div>
-                        @if(isset(Auth::user()->status))
-                        <div id="us"><p class="left" style="margin-top:15px">{{{ Auth::user()->status }}}</p></div>
+                        @if(isset($thisUser->status))
+                        <div id="us"><p class="left" style="margin-top:15px">{{{ $thisUser->status }}}</p></div>
                         @else
                         <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i>
                         @endif
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">Atualizar Status <i class="mdi-navigation-close right"></i></span>
-                        <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ Auth::user()->nome }}?</p>
+                        <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ $thisUser->nome }}?</p>
                         <div class="input-field col s12 accent-4">
                             <form method="POST" action="{{ url('ajax/status') }}" id="status">      
                                 <input id="status" name="status" type="text" class="validate" style="color:black">
@@ -188,7 +188,7 @@ ETEC Social | Início
                     <div class="card">
                         <div class="card-content purple white-text center">
                             <p class="card-stats-title"><i class="mdi-editor-attach-money hide-on-med-and-down"></i>Desafios</p>
-                            <h4 class="card-stats-number">{{ Auth::user()->num_desafios }}</h4>
+                            <h4 class="card-stats-number">{{ $thisUser->num_desafios }}</h4>
                         </div>
                     </div>
                 </div>                            
@@ -196,7 +196,7 @@ ETEC Social | Início
                     <div class="card">
                         <div class="card-content orange white-text center">
                             <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Auxílios</p>
-                            <h4 class="card-stats-number">{{ Auth::user()->num_auxilios }}</h4>
+                            <h4 class="card-stats-number">{{ $thisUser->num_auxilios }}</h4>
                         </div>
                     </div>
                 </div>

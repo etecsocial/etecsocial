@@ -7,7 +7,7 @@ Ranking | ETEC Social
 @section('style')
 {!! Html::style('css/asset.css') !!}
 {!! Html::style('css/style.css') !!}
-{!! Html::style('js/plugins/fullcalendar/css/fullcalendar.min.css') !!}
+<style> .ranking li { padding: 25px 0; } </style>
 @stop
 
 @section('jscript')
@@ -38,32 +38,27 @@ Ranking | ETEC Social
     </div>
 </div>
 <div class="container">
-	<p class="caption">Com o sistema de Reputação, alunos poderão desafiar seus colegas afim de adiquirir pontuação. Tais desafios consistirão tanto em questões de vestibular quanto outros tipos, que serão sugeridos pelo sistema.</p>
- 	<div class="divider"></div>
-<style>
-.ranking li {
-	padding: 25px 0;
-}
-</style>
- 	<ul class="ranking">
- 		@foreach($usuarios as $usuario)
+    <p class="caption">Com o sistema de Reputação, alunos poderão desafiar seus colegas afim de adiquirir pontuação. Tais desafios consistirão tanto em questões de vestibular quanto outros tipos, que serão sugeridos pelo sistema.</p>
+    <div class="divider"></div>
+    <ul class="ranking">
+        
+        @foreach($usuarios as $usuario)
         <li class="row">
- 			<div class="col l2">
- 				<a href="{{ App\User::avatar($usuario->user_id) }}" data-lightbox="ju">
-                	<img src="{{ App\User::avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
-            	</a>
+            <div class="col l2">
+                <a href="{{ App\User::avatar($usuario->user_id) }}" data-lightbox="ju">
+                    <img src="{{ App\User::avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
+                </a>
             </div>
             <div class="col l5">
                 #1
-            	<a href="{{ url($usuario->username) }}">
+                <a href="{{ url($usuario->username) }}">
                     <h4>{{$usuario->nome}}</h4>
                 </a>
-            	<h6>{{$usuario->pontos}} pontos</h6>
+                <h6>{{$usuario->pontos}} pontos</h6>
             </div>
- 		</li>
-
- 		<div class="divider"></div>
- 		@endforeach
-
- 	</ul> 
+        </li>
+        <div class="divider"></div>
+        @endforeach
+        
+    </ul> 
 </div>

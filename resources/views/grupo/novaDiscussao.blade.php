@@ -3,8 +3,6 @@
         <div class="blog col s6" style="margin-top: 5px">
             <div class="card">
                 <div class="card-content">
-
-
                     <h4 class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">{{ $discussao-> titulo}}</a></h4>
                     <p class="row">
                         <span class="left">{{ $discussao-> assunto}}</span>
@@ -35,8 +33,6 @@
 
                  <!--NÃO ENCONTROU DISCUSSOES-->
                     Essa discussão ainda está vazia. Comece agora! 
-                                                            
-
                 </ul>
 
                 <div class="left row white" style="bottom: 0px; width: 105%">

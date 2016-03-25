@@ -157,7 +157,7 @@ Mensagens | ETEC Social
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input id="destinatario-nova-mensagem" class="validate" type="text" disabled="disabled">
-                                    <label class="active">Mensagem para</label>
+<!--                                    <label class="active">Mensagem para</label> ARRUMAR-->
                                 </div>
                             </div>
                             <div class="row">
@@ -186,7 +186,5 @@ Mensagens | ETEC Social
 </section>
 <!-- END CONTENT --> 
 @stop
-
-
 @include('nav')
 

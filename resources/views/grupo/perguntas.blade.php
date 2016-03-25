@@ -65,7 +65,7 @@
                                                             <img src="{{ App\User::avatar($pergunta->id_autor) }}" alt="{{ App\User::verUser($pergunta->id_autor)->nome }}." class="circle responsive-img valign profile-image">
                                                         </div>
                                                         <div class="col s8"> Por <a href="{{ url(App\User::verUser($pergunta->id_autor)->username)}}">{{ App\User::verUser($pergunta->id_autor)->nome }}</a></div>
-                                                                @if((Auth::user()->id == $pergunta->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($pergunta->id_autor))) or (App\User::isTeacher(Auth::user()->id) and (App\GrupoUsuario::where('id_user', $pergunta->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                                                                @if(($thisUser->id == $pergunta->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($pergunta->id_autor))) or (App\User::isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $pergunta->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                                                                     <a href="#modalExcluirPergunta" onclick="excluirPergunta({{ $pergunta-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
                                                                 @else
                                                                     <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $pergunta->id}}, 'pergunta')" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
@@ -79,7 +79,7 @@
                                                     <ul class="collection" id="com-perg-{{ $pergunta->id}}" style="margin-top:15px">
 
                                                         @if($banido)
-                                                            @if($comments = App\ComentarioPergunta::where('id_pergunta', $pergunta->id)->where('id_user', Auth::user()->id)->get())
+                                                            @if($comments = App\ComentarioPergunta::where('id_pergunta', $pergunta->id)->where('id_user', $thisUser->id)->get())
                                                                
                                                                 @foreach($comments as $comm)
                                                                     <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
@@ -99,7 +99,7 @@
                                                             @foreach($comments as $comm)
                                                                 <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta->id }}" style="height: auto; min-height:65px" data-id="{{ $comm->id}}">
 
-                                                                    @if((Auth::user()->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user))) or (App\User::isTeacher(Auth::user()->id) and (App\GrupoUsuario::where('id_user', $comm->id_user)->where('is_admin', 0)))) 
+                                                                    @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user))) or (App\User::isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $comm->id_user)->where('is_admin', 0)))) 
                                                                         <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm->id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                                                                     @endif
                                                                     <img src="{{ App\User::avatar($comm->id_user) }}" data-tooltip="{{ App\User::verUser($comm->id_user)->nome }}" class="circle tooltipped">

@@ -41,7 +41,6 @@
     @endif
 
     <!--/ INICIO HISTÓRIA -->
-    <!-- Inicio Publicação com foto ou video-->
     @if(isset($discussoes[0]))
     @foreach($discussoes as $discussao)
     <section class="discussao blog col s12" style="margin-top: 30px" id="discussao-{{$discussao->id}}" data-id='{{$discussao->id}}'>
@@ -67,7 +66,7 @@
                             Por <a href="{{ url(App\User::verUser($discussao-> id_autor)-> username)}}">{{ App\User::verUser($discussao->id_autor)->nome }}</a>
                         </div>
 
-                        @if((Auth::user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($discussao->id_autor))) or (App\User::isTeacher(Auth::user()->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                        @if(($thisUser->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($discussao->id_autor))) or (App\User::isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                         <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
                         @else
                         <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->id_autor }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
@@ -86,7 +85,7 @@
                 <ul class="collection"  style="margin-top:0px;margin-bottom: 0;max-height: 420px;overflow-y: scroll" id="com-disc-{{ $discussao-> id}}">
 
                     @if($banido)
-                    @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', Auth::user()->id)->get())
+                    @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', $thisUser->id)->get())
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
@@ -103,7 +102,7 @@
                     @elseif($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->get()) <!--NÃO É BANIDO-->
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
-                        @if((Auth::user()->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user)))) 
+                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user)))) 
 
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                         @endif
@@ -144,20 +143,19 @@
     </section>
     @endforeach
     @else
-    @if(isset($banido))
-
-    <div class="col s12">
-        <ul class="collection with-header">
-            <li class="collection-item center">{{ isset($expirado) ? 'N' : 'Ainda n' }}ão há discussões nesse grupo.</li>
-        </ul>
-    </div>
-    @else
-    <div class="col s12">
-        <ul class="collection with-header">
-            <li class="collection-item center">Não há discussoes que você possa ver.</li>
-        </ul>
-    </div>
-    @endif
+        @if(isset($banido))
+            <div class="col s12">
+                <ul class="collection with-header">
+                    <li class="collection-item center">{{ isset($expirado) ? 'N' : 'Ainda n' }}ão há discussões nesse grupo.</li>
+                </ul>
+            </div>
+            @else
+            <div class="col s12">
+                <ul class="collection with-header">
+                    <li class="collection-item center">Não há discussoes que você possa ver.</li>
+                </ul>
+            </div>
+        @endif
     @endif
 
     <!-- Fim Publicação com foto ou video-->

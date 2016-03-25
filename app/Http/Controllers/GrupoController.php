@@ -50,7 +50,7 @@ class GrupoController extends Controller {
 
         $professores = User::where('tipo', 2)->get();
 
-        return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores]);
+        return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores])->with(['thisUser' => Auth::user()]);
     }
 
     public function index($groupname) {
@@ -58,18 +58,18 @@ class GrupoController extends Controller {
         if ($grupo = Grupo::where('url', $groupname)->first()) {//Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {//Verifica se é expirado
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {//Verifica se o usuário é integrante e não está banido
-                    return view('grupo.grupo', $dados = $this->getGroupData($grupo));
+                    return view('grupo.grupo', $dados = $this->getGroupData($grupo))->with(['thisUser' => Auth::user()]);
                 } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {//Verifica se o usuário é banido, já que a seleção anterior falhou
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo)); //Retorna a view com os dados
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user()]); //Retorna a view com os dados
                 } else {//O usuário não é integrante do grupo
                     return abort(404);
                 }
             } else {//O grupo expirou.
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
-                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo));
+                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo))->with(['thisUser' => Auth::user()]);
                 } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {
 
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo));
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user()]);
                 } else {//USUÁRIO NAO ESTÁ NO GRUPO
                     return abort(404);
                 }
@@ -89,7 +89,6 @@ class GrupoController extends Controller {
             if (Grupo::where('url', $request->url)->first()) {
                 return Response::json([ 'status' => 3]);
             }
-
             
             $grupo = new Grupo;
             $grupo->nome = $request->nome;

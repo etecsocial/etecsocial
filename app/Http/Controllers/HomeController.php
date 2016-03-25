@@ -12,11 +12,11 @@ use DB;
 use Input;
 
 
+
 use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-
     public function logout(){
         \Session::flush(); // limpa os cookies
         Auth::logout();
@@ -62,8 +62,7 @@ class HomeController extends Controller
                 ->orderBy('data')
                 ->limit(4)
                 ->get();
-        
-        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id]);
+        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'thisUser' => Auth::user()]);
     }
     
     public function newpost(Request $request) 
@@ -80,7 +79,7 @@ class HomeController extends Controller
                 ->where('posts.id', '>', $request->id)
                 ->get();
         
-        return view('home.posts', ['posts' => $posts]);
+        return view('home.posts', ['posts' => $posts, 'thisUser' => Auth::user()]);
     }
     
     public function morepost(Request $request) 
@@ -99,6 +98,6 @@ class HomeController extends Controller
                 ->where('posts.id', '<', $request->id)
                 ->get();
         
-        return view('home.posts', [ 'posts' => $posts ]);
+        return view('home.posts', [ 'posts' => $posts, 'thisUser' => Auth::user()]);
     }
 }

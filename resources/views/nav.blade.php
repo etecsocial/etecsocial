@@ -116,27 +116,27 @@
                         </div>  
 
                         <div class="input-field col s12 l6">
-                            <input value="{{ Auth::user()->nome }}" name="nome" placeholder="Nome completo" class="validate" type="text" name="nome" id="nome">
+                            <input value="{{$thisUser->nome }}" name="nome" placeholder="Nome completo" class="validate" type="text" name="nome" id="nome">
                             <label for="nome" class="active">Nome e sobrenome</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 l6">
-                            <input type="text" name="username" name="username" value="{{ Auth::user()->username }}" placeholder="Nome de usuario" class="validate" id="username">
+                            <input type="text" name="username" name="username" value="{{$thisUser->username }}" placeholder="Nome de usuario" class="validate" id="username">
                             <label for="username" class="active">Nome de usuário</label>
                         </div>
                         <div class="input-field col s12 l6">
-                            <input type="date" name="nasc" name="nasc" id="nasc" value="{{ Auth::user()->nasc ? Auth::user()->nasc : "" }}"  placeholder="Data de Nascimento" class="validate">
+                            <input type="date" name="nasc" name="nasc" id="nasc" value="{{$thisUser->nasc ?$thisUser->nasc : "" }}"  placeholder="Data de Nascimento" class="validate">
                             <label for="nasc" class="active">Data de nascimento</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 l6">
-                            <input type="text" name="habilidades" name="habilidades" id="habilidades" value="{{ Auth::user()->habilidades ? Auth::user()->habilidades : "" }}" placeholder="Suas habilidades" class="validate">
+                            <input type="text" name="habilidades" name="habilidades" id="habilidades" value="{{$thisUser->habilidades ?$thisUser->habilidades : "" }}" placeholder="Suas habilidades" class="validate">
                             <label for="habilidades" class="active">Habilidades</label>
                         </div>
                         <div class="input-field col s12 l6">
-                            <input type="text" value="{{ Auth::user()->empresa ? Auth::user()->empresa : "" }}" placeholder="Empresa" class="validate">
+                            <input type="text" value="{{$thisUser->empresa ?$thisUser->empresa : "" }}" placeholder="Empresa" class="validate">
                             <label for="empresa" class="active">Empresa</label>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                             <input type="text" name="instituicao" value="{{ App\User::myInfoAcademica()->instituicao }}" placeholder="Instituicao" class="validate" disabled>
                         </div>
                         <div class="input-field col s12 l6">
-                            <input type="text" name="cidade" value="{{ Auth::user()->cidade ? Auth::user()->cidade : "" }}" placeholder="Cidade"  class="validate">
+                            <input type="text" name="cidade" value="{{$thisUser->cidade ?$thisUser->cidade : "" }}" placeholder="Cidade"  class="validate">
                             <label for="cidade" class="active">Cidade</label>
                         </div>
                     </div>
@@ -165,11 +165,11 @@
                 <div id="infos-seguranca" class="col s12">
                     <div class="row">
                         <div class="input-field col s6">
-                            <input type="text" name="email" value="{{ Auth::user()->email }}" placeholder="@etec.sp.gov.br" class="validate" disabled>
+                            <input type="text" name="email" value="{{$thisUser->email }}" placeholder="@etec.sp.gov.br" class="validate" disabled>
                             <label for="email" class="active">E-mail institucional</label>
                         </div>
                         <div class="input-field col s6">
-                            <input type="text" name="email_alternativo" value="{{ Auth::user()->email_alternativo }}" placeholder="E-mail" class="validate">
+                            <input type="text" name="email_alternativo" value="{{$thisUser->email_alternativo }}" placeholder="E-mail" class="validate">
                             <label for="email_alternativo" class="active">E-mail alternativo</label>
                         </div>
 
@@ -245,7 +245,7 @@
                 <li class="user-details cyan darken-2">
                     <div class="row">
                         <div class="col col s4 m4 l4">
-                            <a href="{{ App\User::myAvatar() }}" data-lightbox="{{ Auth::user()->username }}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                            <a href="{{ App\User::myAvatar() }}" data-lightbox="{{$thisUser->username }}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
                                 <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image">
                             </a>
                         </div>
@@ -261,7 +261,7 @@
                                 <li><a href="{{ url('/logout') }}"><i class="mdi-hardware-keyboard-tab"></i> Sair</a>
                                 </li>
                             </ul>
-                            <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{ Auth::user()->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                            <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{$thisUser->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                             <p class="user-roal">
                                 @if(Auth::user()->tipo == 1)
                                 Aluno

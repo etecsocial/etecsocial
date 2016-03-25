@@ -83,7 +83,8 @@ class PerfilController extends Controller {
                 'num_amigos' => $num_amigos,
                 'num_grupos' => $num_grupos,
                 'amizade' => $amizade,
-                'tasks' => $tasks
+                'tasks' => $tasks,
+                'thisUser' => Auth::user()
             ]);
         } else {
             return abort(404);

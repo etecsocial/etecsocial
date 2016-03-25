@@ -6,9 +6,8 @@ Desafios | ETEC Social
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
-                        '/css/asset.css',
-                        '/css/style.css',
-                        '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}
+'/css/asset.css',
+'/css/style.css'])->withFullURL() !!}
 @stop
 
 @section('jscript')
@@ -44,49 +43,49 @@ Desafios | ETEC Social
     </div>
 </div>
 <div class="container">
-	<p class="caption">Com o sistema de Reputação, alunos poderão desafiar seus colegas afim de adiquirir pontuação. Tais desafios consistirão tanto em questões de vestibular quanto outros tipos, que serão sugeridos pelo sistema.</p>
- 	<div class="divider"></div>
+    <p class="caption">Com o sistema de Reputação, alunos poderão desafiar seus colegas afim de adiquirir pontuação. Tais desafios consistirão tanto em questões de vestibular quanto outros tipos, que serão sugeridos pelo sistema.</p>
+    <div class="divider"></div>
 
- 	<div id="borderless-table">
-              <h4 class="header">Desafios por matéria</h4>
-              <div class="row">
-                <div class="col s12 m12 l12">
-                  <table>
+    <div id="borderless-table">
+        <h4 class="header">Desafios por matéria</h4>
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <table>
                     <thead>
-                      <tr>
-                        <th>Título</th>
-                        <th>Matéria</th>
-                        <th>Professor</th>
-                        <th>Pontuação (+)</th>
-                        <th>Finaliza em: </th>
-                      </tr>
+                        <tr>
+                            <th>Título</th>
+                            <th>Matéria</th>
+                            <th>Professor</th>
+                            <th>Pontuação (+)</th>
+                            <th>Finaliza em: </th>
+                        </tr>
                     </thead>
 
                     <tbody>
-                      <tr>
-                        <td>Matemática</td>
-                        <td><a href="#">Qual a sequência?</a></td>
-                        <td>Bordinhon</td>
-                        <td>+ 900 pontos</td>
-                        <td>22/04/2016</td>
-                      </tr>
-                      <tr>
-                        <td>Biologia</td>
-                        <td><a href="#">Desenha uma célula</a></td>
-                        <td>Alex</td>
-                        <td>+ 900 pontos</td>
-                        <td>22/04/2016</td>
-                      </tr>
-                      <tr>
-                        <td>Português</td>
-                        <td><a href="#">Resumo Guerra em Paz em 1 folha</a></td>
-                        <td>Roberta</td>
-                        <td>+ 900 pontos</td>
-                        <td>22/04/2016</td>
-                      </tr>
+                        <tr>
+                            <td><a href="#">Qual a sequência?</a></td>
+                            <td>Matemática</td>
+                            <td>Bordignon</td>
+                            <td>+ 900 pontos</td>
+                            <td>22/04/2016</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Desenha uma célula</a></td>
+                            <td>Biologia</td>
+                            <td>Alex</td>
+                            <td>+ 900 pontos</td>
+                            <td>22/04/2016</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#">Resumo Guerra em Paz em 1 folha</a></td>
+                            <td>Português</td>
+                            <td>Roberta</td>
+                            <td>+ 900 pontos</td>
+                            <td>22/04/2016</td>
+                        </tr>
                     </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>            
+                </table>
+            </div>
+        </div>
+    </div>            
 </div>

@@ -105,7 +105,7 @@
     </div>
     @endif
 @if($banido)
-        @if($materiais = App\GrupoMaterial::where('id_autor', Auth::user()->id)->get())
+        @if($materiais = App\GrupoMaterial::where('id_autor', $thisUser->id)->get())
             @foreach($materiais as $material)
             <div class="col s6">
                 <ul class="collection">

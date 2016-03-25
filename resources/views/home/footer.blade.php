@@ -26,7 +26,7 @@
     </div>
     <div class="footer-copyright">
         <div class="container">
-            Copyright © {{ date('Y') }} ETEC Social | Feito com <3.</a>
+            Copyright © {{ date('Y') }} ETEC Social | Compartilhando conhecimentos.</a>
         </div>
     </div>
 </footer>

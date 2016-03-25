@@ -76,6 +76,7 @@ class MensagemController extends Controller {
         }return Response::json([ 'status' => '404']);
     }
     
+    
 
     public function setMidia(Request $request) {
         if (($request->img) || ($request->doc) || ($request->video)) {

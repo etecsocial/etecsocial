@@ -18,8 +18,8 @@
             <br><br>
             <h1 class="header center red-text text-darken-2">ERRO 403</h1>
             <div class="row center ">
-                <h5 class="header col s12 red-text">Opa, você não pode acessar isso!</h5>
-                <h6 class="header col s12 red-text">Por favor volte onde você estava!</h6>
+                <h5 class="header col s12 red-text">Ops, parece que você não tem permissão para acessar isso.</h5>
+                <h6 class="header col s12 red-text">Por favor, volte para onde estava!</h6>
             </div>
             <div class="row center">
                 <a href="{{ ((\Request::header('referer')) ? Request::header('referer') : url('/')) }}" id="entrar-button" class="btn-large waves-effect waves-light red lighten-1 modal-trigger">Voltar</a>
