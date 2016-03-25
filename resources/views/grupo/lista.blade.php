@@ -64,26 +64,26 @@ Grupos | ETEC Social
 
                    var html = '<li class="grupo-item collection-item avatar">' +
                        '<span class="title"><a href="{{ url('/grupo') }}/' + data.url + '"><strong>' + data.nome +
-                       '</strong></a></span><div class="col s12"><p class="ultra-small">Criado agora mesmo</p></div></li>';
-                   $(html).insertBefore(".grupo-item:first").hide().fadeIn(2000);
+                       '</strong></a></span><div class="col s12"><p class="ultra-small">Criado agora mesmo</p><p class="ultra-small">Você é administrador</p></div></li>';
+                   $(html).insertBefore(".grupo-item:first").hide().fadeIn(300);
                    $(".nenhum-grupo").hide();
                    $('#criarGrupo')[0].reset();
 
                } else {
-                   if (data.status == 4) {
-                       Materialize.toast('<span>Os campos "nome", "assunto" e "URL" são essenciais para criar o grupo.</span>', 3000);
+                   if (data.status === 4) {
+                       Materialize.toast('<span>Os campos "nome", "assunto" e "URL" são necessários para criar o grupo.</span>', 3000);
                    } else {
-                       if (data.status == 3) {
+                       if (data.status === 3) {
                            Materialize.toast('<span>Esta URL já está sendo usada por outro grupo!</span>', 3000);
                        } else {
-                           if (data.status == 2) {
-                               Materialize.toast('<span>A data de expiração não pode ser anterior ao dia de hoje.</span>', 3000);
+                           if (data.status === 2) {
+                               Materialize.toast('<span>Escolha uma data de expiração válida.</span>', 3000);
                            }
                        }
                    }
                }
            } else {
-               Materialize.toast('<span>Não foi possível criar o grupo no momento... Atualize a página e tente novamente.</span>', 3000);
+               Materialize.toast('<span>Ops, parece que estamos com problemas. Recarregue a página e tente novamente.</span>', 3000);
            }
        }
    });
@@ -126,7 +126,7 @@ Grupos | ETEC Social
                 @endforeach
                 @else
                 <div class="col s12 nenhum-grupo">
-                    <p>Ops, você não está participando de nenhum grupo :(</p>
+                    <p>Ops, você não está participando de nenhum grupo.</p>
                 </div>
                 @endif
             </ul>

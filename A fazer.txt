@@ -22,7 +22,6 @@ MENSAGENS
 ->Foto, vídeo e documentos
 ->Excluir
 ->Denunciar
--comversa em grupo
 
 RECURSOS A ADICIONAR
 ->CHAMADA por check-in

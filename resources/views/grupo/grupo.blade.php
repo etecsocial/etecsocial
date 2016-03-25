@@ -166,44 +166,22 @@
                             </div>
                         </div>
                         <!--/ TABS CONTEUDOS -->
-
-
-
-
                         <!-- profile-page-wall-posts -->
                         <div id="profile-page-wall-posts" class="row">
-                            
                             <!-- Discussoes-->
                             @include('grupo.discussoes')
-                          
                             <!-- Peegunta -->
                             @include('grupo.perguntas')
-
                             <!-- Material complementar -->
                             @include('grupo.materiais')
                         </div>
                         <!--/ profile-page-wall-posts -->
-
                     </div> 
                     <!--/ profile-page-wall -->
 
                     <!-- profile-page-sidebar-->
                     <div id="profile-page-sidebar" class="col s12 m4">
                         <div>
-
-<!--                            <div class="card color-sec">
-                                <div class="card-content white-text">
-                                    <span class="card-title"> Objetivo do grupo</span>
-                                    <blockquote style="border-left-color: #f4f4f4">
-                                        <p> dado.intuito</p>
-                                        <p> dado.intuito</p>
-                                        <p> dado.intuito</p>
-                                        <p> dado.intuito</p>
-                                        <p> dado.intuito</p>
-                                        <p> dado.intuito</p>
-                                    </blockquote>
-                                </div>
-                            </div>-->
                             @if((isset($integranteEu->is_admin)) and isset($expirado))
                                 <div class="card color-pri-light">
                                     <div class="card-content white-text">
@@ -358,15 +336,7 @@
 
                         </div>
                         <!-- profile-page-sidebar-->
-
-
- <!--arrumado teaqu-->
-
-
                        @include('grupo.modal')
-
-
-
                     </div>
                 </div>
                 </section>
