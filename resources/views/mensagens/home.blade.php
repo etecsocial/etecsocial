@@ -67,7 +67,7 @@ Mensagens | ETEC Social
                     <div id="email-sidebar" class="col s2 m1 s1 card-panel" style="height: 200px !important">
                         <ul>
                             <li>
-                                <img src="{{ $myAvatar }}" alt="" class="circle responsive-img valign profile-image">
+                                <img src="{{$myAvatar}}" alt="" class="circle responsive-img valign profile-image">
                             </li>
                             <li><a href="#!"><i class="mdi-social-group active"></i></a></li>
                             <li><a href="#!"><i class="mdi-social-group"></i></a></li>
@@ -93,7 +93,8 @@ Mensagens | ETEC Social
                                 @else
                                 <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{Auth::user()->id}}, {{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
                                     Clique para enviar uma mensagem
-                                    @endif
+                                </p>
+                                @endif
                             </li>
                             @endforeach
                         </ul>
@@ -114,23 +115,6 @@ Mensagens | ETEC Social
                                 <hr class="divider" style="width: 50%">
                                 <p>André Luiz dos Santos<br>
                                     <span class="ultra-small">Diretor de Escola</span></p>
-                            </div>
-                        </div>
-                        
-                        <div class="email-reply">
-                            <div class="row">
-                                <div class="col s4 m4 l4 center-align">
-                                    <a href="!#"><i class="mdi-content-reply"></i></a>
-                                    <p class="ultra-small">Reply</p>
-                                </div>
-                                <div class="col s4 m4 l4 center-align">
-                                    <a href="!#"><i class="mdi-content-reply-all"></i></a>
-                                    <p class="ultra-small">Reply all</p>
-                                </div>
-                                <div class="col s4 m4 l4 center-align">
-                                    <a href="!#"><i class="mdi-content-forward"></i></a>
-                                    <p class="ultra-small">Forward</p>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -187,7 +171,7 @@ Mensagens | ETEC Social
                                     <label for="mensagem">Sua mensagem</label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-info">ENVIAR</button>
+                            <button type="submit" class="btn-info btn">ENVIAR</button>
                         </div>
                     </form>
                 </div>

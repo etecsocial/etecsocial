@@ -42,8 +42,8 @@ class Mensagens extends Model {
     }
 
     public static function loadMsgs($id_user) {
-        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
-                        ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
+        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
+                        ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user, "copia_rem" => 1])
                         ->limit(10)
                         ->get();
     }
@@ -69,15 +69,11 @@ class Mensagens extends Model {
     }
 
     public static function lastMsg($id_user) {
-        $msgs = Mensagens::where(["id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
-                ->orWhere([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
-                ->orderBy('id', 'desc')
-                ->get();
-
-        foreach ($msgs as $msg) {
-            if ($msg->id_remetente == Auth::user()->id and $msg->copia_rem) {$chat = $msg;break;}
-            if ($msg->id_destinatario == Auth::user()->id and $msg->copia_dest) {$chat = $msg;break;}
-        }return isset($chat) ? $chat : false;
+        $lastMsg = Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
+                            ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user, "copia_rem" => 1])
+                            ->orderBy('id', 'desc')
+                            ->first();
+        return isset($lastMsg) ? $lastMsg : false;
     }
 
 }

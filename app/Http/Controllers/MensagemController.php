@@ -62,7 +62,9 @@ class MensagemController extends Controller {
                 'status' => true, 
                 'last_msg' => $lastMsg ? $lastMsg->msg : false,
                 'is_rem' => $lastMsg ? ($lastMsg->id_remetente == Auth::user()->id ? true : false) : false,
-                'id_user' => $msg2->id_remetente = Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente
+                'id_user' => $msg2->id_remetente = Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
+                'auth_id' => Auth::user()->id,
+                'nome_user' => User::verUser(Auth::user()->id)->nome
                 ]);
         }return Response::json([ 'status' => '404']);
     }
