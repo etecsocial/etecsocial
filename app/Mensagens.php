@@ -57,44 +57,27 @@ class Mensagens extends Model {
         return Amizade::where('id_user1', Auth::user()->id)
                         ->where('aceitou', 1)
                         ->where('id_user2', '!=', Auth::user()->id)
-                        //->where('online', $on)
+                        ->join('users', 'users.id', '=', 'amizades.id_user2')
+                        ->get();
+    }
+    public static function loadTurma() {
+        return User::join('', Auth::user()->id)
+                        ->where('aceitou', 1)
+                        ->where('id_user2', '!=', Auth::user()->id)
                         ->join('users', 'users.id', '=', 'amizades.id_user2')
                         ->get();
     }
 
     public static function lastMsg($id_user) {
-        $msgs = Mensagens::where(
-                        [
-                            "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user
-                ])
+        $msgs = Mensagens::where(["id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
                 ->orWhere([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
                 ->orderBy('id', 'desc')
-                //->select('id')
                 ->get();
 
-        $chat = false;
-
         foreach ($msgs as $msg) {
-            if ($msg->id_remetente == Auth::user()->id) {
-                if ($msg->copia_rem) {
-                    $chat = $msg;
-                    break;
-                } 
-                
-            }
-            
-            
-            if ($msg->id_destinatario == Auth::user()->id) {
-                if ($msg->copia_dest) {
-                    $chat = $msg;
-                    break;
-                } 
-                
-            }
-            
-        }
-
-        return isset($chat) ? $chat : false;
+            if ($msg->id_remetente == Auth::user()->id and $msg->copia_rem) {$chat = $msg;break;}
+            if ($msg->id_destinatario == Auth::user()->id and $msg->copia_dest) {$chat = $msg;break;}
+        }return isset($chat) ? $chat : false;
     }
 
 }

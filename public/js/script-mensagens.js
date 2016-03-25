@@ -15,7 +15,7 @@
  */
 
 //NOVA MENSAGEM
-function novaMensagem(id_rem, id_dest, nome_dest) {
+function novaMensagem(id_dest, nome_dest) {
     $("#nova-mensagem").attr({"action": "/ajax/mensagem/store"});
     $("#id_dest").attr({"value": id_dest});
     $("#destinatario-nova-mensagem").attr({"value": nome_dest});
@@ -49,7 +49,7 @@ function getConversa(uid) {
                 return false
             } else {
                 $('#email-details').html(data.responseText);
-                //$('#li-'+uid).addClass('active');
+                //$('#li-'+uid).addClass('active'); resolver
             }
         }
 
@@ -66,15 +66,24 @@ function delMensagem(id) {
         dataType: "json",
         success: function (data) {
             if (data.status === true) {
-                $('#mensagem-' + id).fadeOut(1000);
+                $('#mensagem-' + id).fadeOut(300);
+                if (!data.last_msg === false) {
+                    if (data.is_rem === true) {
+                        $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
+                    } else {
+                        $('#last-msg-' + data.id_user).html(data.last_msg).hide().fadeIn(300);
+                    }
+                }else{//a excluida foi a ultima da conversa
+                    $('#last-msg-' + data.id_user).html('Clique para enviar uma mensagem').hide().fadeIn(300);
+                }
             } else {
                 Materialize.toast('A mensagem já havia sido excluida!', 3000);
-                $('#mensagem-' + id).fadeOut(1000);
+                $('#mensagem-' + id).fadeOut(300);
 
             }
         },
         error: function (data) {
-            Materialize.toast('Ops, estamos confusos! Recarregue a página e tente novamente.', 3000);
+            Materialize.toast('Ops, estamos confusos! Recarregue a página e tente novamente.', 4000);
         }
 
     });

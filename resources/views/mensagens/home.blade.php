@@ -67,7 +67,7 @@ Mensagens | ETEC Social
                     <div id="email-sidebar" class="col s2 m1 s1 card-panel" style="height: 200px !important">
                         <ul>
                             <li>
-                                <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image">
+                                <img src="{{ $myAvatar }}" alt="" class="circle responsive-img valign profile-image">
                             </li>
                             <li><a href="#!"><i class="mdi-social-group active"></i></a></li>
                             <li><a href="#!"><i class="mdi-social-group"></i></a></li>
@@ -82,17 +82,17 @@ Mensagens | ETEC Social
                                 <span class="circle red lighten-1">{{$user->nome[0]}}</span>
           <!--                      <img src="" alt="" class="circle">-->
                                 <span class="email-title">{{ $user->nome }}</span>
-                                @if($last_msg == $user->id)
-                                <p class="truncate grey-text ultra-small">
-                                    @if( ($last_msg->id_remetente) == (Auth::user()->id))
+                                @if($last = \App\Mensagens::lastMsg($user->id))
+                                <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
+                                    @if( ($last->id_remetente) == $uid)
                                     <b> Você: </b> 
                                     @endif
-                                    {{ $last_msg->msg }}
+                                    {{ $last->msg }}
                                 </p>
                                 <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
                                 @else
                                 <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{Auth::user()->id}}, {{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
-                                    Nova mensagem
+                                    Clique para enviar uma mensagem
                                     @endif
                             </li>
                             @endforeach

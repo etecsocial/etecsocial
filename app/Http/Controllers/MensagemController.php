@@ -33,6 +33,8 @@ class MensagemController extends Controller {
        // return Mensagens::lastMsg(1);
         Carbon::setLocale('pt_BR');
         return view('mensagens.home', [
+            'uid' => Auth::user()->id,
+            'myAvatar' => User::myAvatar(),
             'conversas' => Mensagens::loadConversas(),
             'users' => Mensagens::loadUsers(),
             'unread' => Mensagens::count()
@@ -42,7 +44,7 @@ class MensagemController extends Controller {
     public function store(Request $request) {
         if ($request->msg) {
             Mensagens::store($request->id_dest, $request->msg, $request->assunto);
-            return Response::json([ 'status' => true]); //RETORNAR JUNTO O ID GERADO PARA CONTROLE DE JS!!
+            return Response::json([ 'status' => true]);
         }return Response::json([ 'status' => false]);
     }
 
@@ -51,12 +53,18 @@ class MensagemController extends Controller {
     }
 
     public function delMensagem(Request $request) {
-        if ($msg = Mensagens::where('id', $request->id)->first()) {
+        if ($msg2 = $msg = Mensagens::where('id', $request->id)->first()) {
             $response = (($msg->id_remetente == Auth::user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
             if($response != 0) return Response::json([ 'status' => $response]);
             (($msg->copia_rem == 0) and ( $msg->copia_dest == 0)) ? $msg->delete() : $msg->save();
-            return Response::json([ 'status' => true]);
-        }return Response::json([ 'status' => 'aqui']);
+            $lastMsg = Mensagens::lastMsg($msg->id_remetente == Auth::user()->id ? $msg->id_destinatario : $msg->id_remetente);
+            return Response::json([
+                'status' => true, 
+                'last_msg' => $lastMsg ? $lastMsg->msg : false,
+                'is_rem' => $lastMsg ? ($lastMsg->id_remetente == Auth::user()->id ? true : false) : false,
+                'id_user' => $msg2->id_remetente = Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente
+                ]);
+        }return Response::json([ 'status' => '404']);
     }
 
     public function setMidia(Request $request) {
