@@ -25,7 +25,7 @@ class Mensagens extends Model {
     ];
 
     public static function store($id_dest, $msg, $assunto) {
-        Mensagens::create([
+        return Mensagens::create([
             'id_remetente' => Auth::user()->id,
             'id_destinatario' => $id_dest,
             'msg' => $msg,

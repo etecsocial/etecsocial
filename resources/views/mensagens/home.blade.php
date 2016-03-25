@@ -42,7 +42,7 @@ Mensagens | ETEC Social
                                 <ul>
                                     <li><a href="#!" class="email-menu"><i class="mdi-navigation-menu"></i></a>
                                     </li>
-                                    <li><a href="#!" class="email-type">Primary</a>
+                                    <li><a href="#!" class="email-type">Mensagens</a>
                                     </li>
                                     <li class="right"><a href="#!"><i class="mdi-action-search"></i></a>
                                     </li>
@@ -91,7 +91,7 @@ Mensagens | ETEC Social
                                 </p>
                                 <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
                                 @else
-                                <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{Auth::user()->id}}, {{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
+                                <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
                                     Clique para enviar uma mensagem
                                 </p>
                                 @endif

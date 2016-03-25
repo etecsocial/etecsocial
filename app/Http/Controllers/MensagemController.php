@@ -29,8 +29,6 @@ class MensagemController extends Controller {
 
     public function index() {
         
-        
-       // return Mensagens::lastMsg(1);
         Carbon::setLocale('pt_BR');
         return view('mensagens.home', [
             'uid' => Auth::user()->id,
@@ -44,7 +42,16 @@ class MensagemController extends Controller {
     public function store(Request $request) {
         if ($request->msg) {
             Mensagens::store($request->id_dest, $request->msg, $request->assunto);
-            return Response::json([ 'status' => true]);
+            $lastMsg = Mensagens::lastMsg($request->id_dest);
+            
+            return Response::json([ 
+                'status' => true, 
+                'last_msg' => $lastMsg->msg, 
+                'is_rem' => $lastMsg ? ($lastMsg->id_remetente == Auth::user()->id ? true : false) : false,
+                'id_user' => $lastMsg->id_remetente == Auth::user()->id ? $lastMsg->id_destinatario : $lastMsg->id_remetente,
+                'auth_id' => Auth::user()->id,
+                'nome_user' => User::verUser(Auth::user()->id)->nome
+                ]);
         }return Response::json([ 'status' => false]);
     }
 
@@ -55,19 +62,20 @@ class MensagemController extends Controller {
     public function delMensagem(Request $request) {
         if ($msg2 = $msg = Mensagens::where('id', $request->id)->first()) {
             $response = (($msg->id_remetente == Auth::user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
-            if($response != 0) return Response::json([ 'status' => $response]);
+            if($response != 0) {return Response::json([ 'status' => $response]);}
             (($msg->copia_rem == 0) and ( $msg->copia_dest == 0)) ? $msg->delete() : $msg->save();
             $lastMsg = Mensagens::lastMsg($msg->id_remetente == Auth::user()->id ? $msg->id_destinatario : $msg->id_remetente);
             return Response::json([
                 'status' => true, 
                 'last_msg' => $lastMsg ? $lastMsg->msg : false,
                 'is_rem' => $lastMsg ? ($lastMsg->id_remetente == Auth::user()->id ? true : false) : false,
-                'id_user' => $msg2->id_remetente = Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
+                'id_user' => $msg2->id_remetente == Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
                 'auth_id' => Auth::user()->id,
-                'nome_user' => User::verUser(Auth::user()->id)->nome
+                'nome_user' => User::verUser($msg2->id_remetente == Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente)->nome
                 ]);
         }return Response::json([ 'status' => '404']);
     }
+    
 
     public function setMidia(Request $request) {
         if (($request->img) || ($request->doc) || ($request->video)) {
