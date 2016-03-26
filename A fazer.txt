@@ -1,6 +1,4 @@
-﻿TESTE 2
-
-CADASTRO
+﻿CADASTRO
 1º-> Diferenciar conta aluno/professor.
 2º-> Amarrar informações acadêmicas, código etec com cadastro/login usuário.
 3º-> Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional
