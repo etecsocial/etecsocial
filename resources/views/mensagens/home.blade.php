@@ -84,14 +84,14 @@ Mensagens | ETEC Social
                                 <span class="email-title">{{ $user->nome }}</span>
                                 @if($last_msg == $user->id)
                                 <p class="truncate grey-text ultra-small">
-                                    @if( ($last_msg->id_remetente) == (Auth::user()->id))
+                                    @if( ($last_msg->id_remetente) == (auth()->user()->id))
                                     <b> Você: </b> 
                                     @endif
                                     {{ $last_msg->msg }}
                                 </p>
                                 <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
                                 @else
-                                <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{Auth::user()->id}}, {{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
+                                <p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{auth()->user()->id}}, {{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
                                     Nova mensagem
                                     @endif
                             </li>

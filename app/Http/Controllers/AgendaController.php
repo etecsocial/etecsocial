@@ -10,7 +10,6 @@ use App\Grupo;
 use App\User;
 use App\GrupoUsuario;
 use Input;
-use Auth;
 use Response;
 
 class AgendaController extends Controller {
@@ -32,11 +31,11 @@ class AgendaController extends Controller {
                 })
                 ->where(function ($query) {
                     $query->orWhere(function ($query) {
-                        $query->where('agendas.id_turma', Auth::user()->id_turma)
-                            ->where('agendas.id_modulo', Auth::user()->id_modulo)
+                        $query->where('agendas.id_turma', auth()->user()->id_turma)
+                            ->where('agendas.id_modulo', auth()->user()->id_modulo)
                             ->where('is_publico', 1);
                     })
-                    ->orWhere('id_user', Auth::user()->id);
+                    ->orWhere('id_user', auth()->user()->id);
                 })
                 ->join('users', 'agendas.id_user', '=', 'users.id')
                 ->get();
@@ -61,12 +60,12 @@ class AgendaController extends Controller {
     public function store(Request $request) {
         $this->validate($request, [ 'title' => 'required']);
 
-        if (Auth::user()->tipo == 1) {
+        if (auth()->user()->tipo == 1) {
             $data = $request->start ? $request->start : date("Y-m-d");
 
             Notificacao::create([
-                'id_rem' => Auth::user()->id,
-                'id_dest' => Auth::user()->id,
+                'id_rem' => auth()->user()->id,
+                'id_dest' => auth()->user()->id,
                 'data' => strtotime($data) - 3 * 24 * 60 * 60,
                 'texto' => 'O evento "' . $request->title . '" está próximo.',
                 'is_post' => false,
@@ -76,10 +75,10 @@ class AgendaController extends Controller {
                         'title' => $request->title,
                         'start' => $data,
                         'end' => $request->end ? $request->end : $request->start,
-                        'id_user' => Auth::user()->id,
+                        'id_user' => auth()->user()->id,
                         'is_publico' => $request->publico,
-                        'id_turma' => Auth::user()->id_turma,
-                        'id_modulo' => Auth::user()->id_modulo,
+                        'id_turma' => auth()->user()->id_turma,
+                        'id_modulo' => auth()->user()->id_modulo,
                         'description' => $request->description
             ]);
         } else {
@@ -89,7 +88,7 @@ class AgendaController extends Controller {
                         'title' => $request->title,
                         'start' => $request->start ? $request->start : date("Y-m-d"),
                         'end' => $request->end ? $request->end : $request->start,
-                        'id_user' => Auth::user()->id,
+                        'id_user' => auth()->user()->id,
                         'is_publico' => $request->publico,
                         'id_turma' => $request->turma,
                         'id_modulo' => $request->modulo,
@@ -118,7 +117,7 @@ class AgendaController extends Controller {
         $grupo->nome = $titulo;
         $grupo->assunto = isset($desc) ? $desc : 'Grupo de estudos';
         $grupo->url = isset($url) ? $url : $nome;
-        $grupo->id_criador = Auth::user()->id;
+        $grupo->id_criador = auth()->user()->id;
         $grupo->num_participantes = 1;
         $grupo->criacao = \Carbon\Carbon::today();
         $grupo->expiracao = isset($end) ? $end : $start;
@@ -129,7 +128,7 @@ class AgendaController extends Controller {
             $grupoUsuario->id_user = $grupo->id_criador;
             $grupoUsuario->is_admin = 1;
             $grupoUsuario->save();
-            $alunos = User::where('id_turma', $id_turma)->select(['id'])->where('id', '<>', Auth::User()->id)->get();
+            $alunos = User::where('id_turma', $id_turma)->select(['id'])->where('id', '<>', auth()->user()->id)->get();
             foreach ($alunos as $aluno) {
                 $grupoUsuario = new GrupoUsuario;
                 $grupoUsuario->id_grupo = $grupo->id;
@@ -137,7 +136,7 @@ class AgendaController extends Controller {
                 $grupoUsuario->is_admin = 0;
                 $grupoUsuario->save();
                 Notificacao::create([
-                    'id_rem' => Auth::user()->id,
+                    'id_rem' => auth()->user()->id,
                     'id_dest' => $aluno->id,
                     'data' => time(),
                     'texto' => 'Adicionou você ao grupo "' . Grupo::verGrupo($grupo->id)->url . '"',
@@ -162,7 +161,7 @@ class AgendaController extends Controller {
         $start = Input::has('start') ? Input::get('start') : $evento->start;
         $end = Input::has('end') ? Input::get('end') : $evento->end;
 
-        if (Auth::user()->id !== $evento->id_user) {
+        if (auth()->user()->id !== $evento->id_user) {
             return abort(500);
         }
 
@@ -192,7 +191,7 @@ class AgendaController extends Controller {
     public function destroy($id) {
         $evento = Agenda::where('id', $id)->limit(1)->first();
 
-        if (Auth::user()->id !== $evento->id_user) {
+        if (auth()->user()->id !== $evento->id_user) {
             return Response::json(['status' => false]);
         }
 

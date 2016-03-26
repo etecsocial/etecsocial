@@ -92,7 +92,7 @@
             Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a><br>
             {{ App\User::infoAcademica($post->id_user)->instituicao }}<br>
          </div>
-         @if(Auth::user()->id == $post->id_user) 
+         @if(auth()->user()->id == $post->id_user) 
          <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
          @else 
          <a href="#modalDenuncia" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Denunciar usuário" data-delay="50" data-position="bottom">turned_in</i></a>
@@ -103,7 +103,7 @@
          <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
             @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
             <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $post->id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
-               @if(Auth::user()->id == $comentario->id_user) 
+               @if(auth()->user()->id == $comentario->id_user) 
                <a href="#modalExcluirComentario" onclick="excluirComentario({{ $post->id }}, {{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                @endif
                <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">

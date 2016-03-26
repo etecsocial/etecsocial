@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
 use Response;
-use Auth;
 use App\Mensagens;
 use DB;
 use Input;
@@ -52,7 +51,7 @@ class MensagemController extends Controller {
 
     public function delMensagem(Request $request) {
         if ($msg = Mensagens::where('id', $request->id)->first()) {
-            $response = (($msg->id_remetente == Auth::user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
+            $response = (($msg->id_remetente == auth()->user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
             if($response != 0) return Response::json([ 'status' => $response]);
             (($msg->copia_rem == 0) and ( $msg->copia_dest == 0)) ? $msg->delete() : $msg->save();
             return Response::json([ 'status' => true]);
@@ -62,29 +61,29 @@ class MensagemController extends Controller {
     public function setMidia(Request $request) {
         if (($request->img) || ($request->doc) || ($request->video)) {
             $msg = new Chat;
-            $msg->id_remetente = Auth::user()->id;
+            $msg->id_remetente = auth()->user()->id;
             $msg->id_destinatario = $request->id_dest;
             if (Input::hasFile('img')) {
                 $ext = Input::file('img')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionImg)) {
-                    Input::file('img')->move($this->ImgDestinationPath, md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $msg->img = $this->ImgDestinationPath . '/' . md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('img')->move($this->ImgDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
+                    $msg->img = $this->ImgDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
                 } else {
                     return Response::json([ 'response' => 4]); //Não é imagem válidda!!
                 }
             } elseif (Input::hasFile('doc')) {
                 $ext = Input::file('doc')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionDocs)) {
-                    Input::file('doc')->move($this->DocsDestinationPath, md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $msg->doc = $this->DocsDestinationPath . '/' . md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('doc')->move($this->DocsDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
+                    $msg->doc = $this->DocsDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
                 } else {
                     return Response::json([ 'response' => 4]); //Não é documento válido!!
                 }
             } elseif (Input::hasFile('video')) {
                 $ext = Input::file('video')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionVideos)) {
-                    Input::file('video')->move($this->VideoDestinationPath, md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $msg->video = $this->VideoDestinationPath . '/' . md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('video')->move($this->VideoDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
+                    $msg->video = $this->VideoDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
                 } else {
                     return Response::json([ 'response' => 4]); //Não é documento válido!!
                 }

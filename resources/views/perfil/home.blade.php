@@ -242,8 +242,8 @@
                <div class="card-content">
                   <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                   <div class="divider"></div>
-                  @if(isset(Auth::user()->status))
-                  <div id="us">{{{ Auth::user()->status }}}</div>
+                  @if(isset(auth()->user()->status))
+                  <div id="us">{{{ auth()->user()->status }}}</div>
                   @else
                   <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i>
                   @endif
@@ -602,7 +602,7 @@
                                        <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
                                           @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
                                           <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $post->id }}" style="height: auto; min-height:65px;max-height: 100%"  data-id="{{ $comentario->id }}">
-                                             @if(Auth::user()->id == $comentario->id_user) 
+                                             @if(auth()->user()->id == $comentario->id_user) 
                                              <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                                              @endif
                                              <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Tarefa;
 use Response;
-use Auth;
 use DB;
 use Carbon\Carbon;
 use App\Http\Requests;
@@ -24,7 +23,7 @@ class TarefaController extends Controller {
         Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select([ 'desc', 'data', 'checked', 'id'])
-                ->where('id_user', Auth::user()->id)
+                ->where('id_user', auth()->user()->id)
                 ->where(function($query)
                 {
                     $query->where('data_checked', '>', time() - 3*24*60*60)
@@ -41,7 +40,7 @@ class TarefaController extends Controller {
           Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select(['desc', 'data', 'checked', 'id'])
-                ->where('id_user', Auth::user()->id)
+                ->where('id_user', auth()->user()->id)
                 ->where('data', '>', $request->data)
                 ->where(function($query)
                 {
@@ -82,7 +81,7 @@ class TarefaController extends Controller {
 
         $exists = DB::table('tarefas')
                 ->select('id')
-                ->where(['desc' => $request->desc , 'id_user' => Auth::user()->id])
+                ->where(['desc' => $request->desc , 'id_user' => auth()->user()->id])
                 ->count();
         
          if(!strtotime($request->data)) {
@@ -100,7 +99,7 @@ class TarefaController extends Controller {
             $task = new Tarefa;
             $task->data = $request->data;
             $task->desc = $request->desc;
-            $task->id_user = Auth::user()->id;
+            $task->id_user = auth()->user()->id;
             $task->save();
             
             return Response::json(['desc' => $task->desc, 'data' => Carbon::createFromTimeStamp($task->data)->format("d/m/Y"), 'cont' => Carbon::createFromTimeStamp($task->data)->diffForHumans(), 'id' => $task->id]);

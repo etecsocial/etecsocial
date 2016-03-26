@@ -210,7 +210,7 @@
                @if(isset($atv[1]))
                <li class="collection-item avatar">
                   <i class="mdi-action-help circle orange"></i>
-                  <span class="title"><a href="{{url(App\User::verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'Você' : App\User::verUser($atv[1]->id_rem)->nome }}</a> perguntou:</span>
+                  <span class="title"><a href="{{url(App\User::verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == auth()->user()->id ? 'Você' : App\User::verUser($atv[1]->id_rem)->nome }}</a> perguntou:</span>
                   <p class="truncate">"{{ $atv[1]-> desc}}"
                      <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[1]->created_at))->diffForHumans() }}</span>
                   </p>
@@ -221,7 +221,7 @@
                <li class="collection-item avatar">
                   <i class="material-icons circle green">description</i>
                   <span class="title">Materiais de apoio</span>
-                  <p class="truncate">Último enviado por <a href="{{url(App\User::verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'você' : App\User::verUser($atv[1]->id_rem)->nome }}</a>
+                  <p class="truncate">Último enviado por <a href="{{url(App\User::verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == auth()->user()->id ? 'você' : App\User::verUser($atv[1]->id_rem)->nome }}</a>
                      <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[2]->created_at))->diffForHumans() }}</span>
                   </p>
                   <p class="secondary-content">19</p>

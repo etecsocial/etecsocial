@@ -8,7 +8,6 @@ use App\Http\Requests;
 use Socialize;
 use App\User;
 use App\Amizade;
-use Auth;
 
 class FacebookController extends Controller
 {
@@ -23,7 +22,7 @@ class FacebookController extends Controller
         if($check_user){
             // array diff para checar se o usuário mudou algo
 
-            Auth::login($check_user);
+            auth()->login($check_user);
             return redirect('/');
         }
 
@@ -48,7 +47,7 @@ class FacebookController extends Controller
         ]);
         Amizade::insert(['id_user1' => $user->id, 'id_user2' => $user->id, 'aceitou' => 1]);
 		$this->make_avatar($user->id, $user_facebook->avatar);
-	    Auth::login($user, true);
+	    auth()->login($user, true);
         return redirect('/');
     }
 

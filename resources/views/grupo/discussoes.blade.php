@@ -63,7 +63,7 @@
                   <div class="col s9">
                      Por <a href="{{ url(App\User::verUser($discussao-> id_autor)-> username)}}">{{ App\User::verUser($discussao->id_autor)->nome }}</a>
                   </div>
-                  @if((Auth::user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($discussao->id_autor))) or (App\User::isTeacher(Auth::user()->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                  @if((auth()->user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($discussao->id_autor))) or (App\User::isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                   <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
                   @else
                   <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->id_autor }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
@@ -79,7 +79,7 @@
          <div class="collection">
             <ul class="collection"  style="margin-top:0px;margin-bottom: 0;max-height: 420px;overflow-y: scroll" id="com-disc-{{ $discussao-> id}}">
                @if($banido)
-               @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', Auth::user()->id)->get())
+               @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', auth()->user()->id)->get())
                @foreach($comments as $comm)
                <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                   <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
@@ -96,7 +96,7 @@
                @elseif($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->get()) <!--NÃO É BANIDO-->
                @foreach($comments as $comm)
                <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
-                  @if((Auth::user()->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user)))) 
+                  @if((auth()->user()->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user)))) 
                   <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                   @endif
                   <img src="{{ App\User::avatar($comm->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comm->id_user)->nome }}" class="circle tooltipped">

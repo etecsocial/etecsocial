@@ -12,7 +12,6 @@ use App\GrupoDiscussao;
 use App\User;
 use App\Post;
 use Response;
-use Auth;
 use DB;
 use Carbon\Carbon;
 
@@ -24,13 +23,13 @@ class DenunciaController extends Controller {
      */
     public function createDenunciaGrupo(Request $request) {
         Carbon::setLocale('pt_BR');
-        if (!DenunciaGrupo::where('id_grupo', $request->id_grupo)->where('tipo', $request->tipo_pub)->where('denuncia', $request->motivo)->where('id_autor_denuncia', Auth::user()->id)->first()) {
+        if (!DenunciaGrupo::where('id_grupo', $request->id_grupo)->where('tipo', $request->tipo_pub)->where('denuncia', $request->motivo)->where('id_autor_denuncia', auth()->user()->id)->first()) {
             $denuncia = new DenunciaGrupo;
             $denuncia->id_pub = $request->id_pub;
             $denuncia->tipo = $request->tipo_pub;
             $denuncia->denuncia = $request->motivo;
             $denuncia->id_grupo = $request->id_grupo;
-            $denuncia->id_autor_denuncia = Auth::user()->id;
+            $denuncia->id_autor_denuncia = auth()->user()->id;
             $denuncia->id_autor_pub = $request->id_autor_pub;
             $denuncia->data = \Carbon\Carbon::today();
             if ($denuncia->save()) {
@@ -79,7 +78,7 @@ class DenunciaController extends Controller {
 //                . $request->denuncia . '. Veja abaixo o conteúdo da' . $request->id_post ? 'publicação' : 'mensagem' . ':';
 //
 //        $denuncia = new Denuncia;
-//        $denuncia->id_usuario = Auth::user()->id;
+//        $denuncia->id_usuario = auth()->user()->id;
 //        $request->id_post ? $denuncia->publicacao = $request->id_post : $denuncia->id_mensagem = $request->id_mensagem;
 //        $denuncia->data = Carbon::parse(Carbon::today())->format("Y-m-d");
 //        $denuncia->denuncia = $msg;

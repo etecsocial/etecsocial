@@ -52,7 +52,7 @@ Agenda | ETEC Social
 <div class="container">
    <div class="section">
       Crie eventos para datas de provas, trabalhos, apresentações, seminários e etc.
-      {{ Auth::User()->tipo == 1 ? 'Caso queira, crie eventos compartilhados com sua turma!' : 'Professor, lembre-se que você pode adicionar eventos para as turmas as quais você leciona!' }}</p>
+      {{ auth()->user()->tipo == 1 ? 'Caso queira, crie eventos compartilhados com sua turma!' : 'Professor, lembre-se que você pode adicionar eventos para as turmas as quais você leciona!' }}</p>
       <div class="divider"></div>
       <div style="margin-top:10px">
          <a href="#novoevento" class="wino btn waves-effect waves-light cyan darken-2">Adicionar evento</a>
@@ -80,7 +80,7 @@ Agenda | ETEC Social
    <div class="modal-footer">
       <a class="modal-action modal-close waves-effect waves-red btn-flat">Fechar</a>
       <form id="excluir" method="DELETE">
-         <input type="hidden" id="iduser" value="{{ Auth::user()->id }}">
+         <input type="hidden" id="iduser" value="{{ auth()->user()->id }}">
          <button type="submit" class="modal-action modal-close waves-effect waves-red btn-flat">Excluir</button>
       </form>
    </div>

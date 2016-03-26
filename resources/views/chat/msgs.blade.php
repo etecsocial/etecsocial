@@ -1,6 +1,6 @@
 <center id="morem"><a href="{{ url('chat/' . $id_user) }}"><small>Ver mais mensagens</small></center>
 @foreach(array_reverse($msgs) as $chat)  
-@if($chat['id_remetente'] == Auth::user()->id)
+@if($chat['id_remetente'] == auth()->user()->id)
 <div class="chatn clear"></div>
 <div class="chatm from-me" data-date="{{ $chat['data'] }}">{{ $chat['msg'] }}</div>
 @else

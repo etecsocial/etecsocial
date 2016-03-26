@@ -46,7 +46,7 @@
             </div>
          </div>
          <div class="row">
-            @if(Auth::user()->tipo == 2)
+            @if(auth()->user()->tipo == 2)
             <div class="addturma input-field col s6" style="display:none">
                <select name="modulo" id="modulo" type="text">
                   @foreach(App\Modulo::get() as $modulo)
@@ -108,27 +108,27 @@
                      </div>
                   </div>
                   <div class="input-field col s12 l6">
-                     <input value="{{ Auth::user()->nome }}" name="nome" placeholder="Nome completo" class="validate" type="text" name="nome" id="nome">
+                     <input value="{{ auth()->user()->nome }}" name="nome" placeholder="Nome completo" class="validate" type="text" name="nome" id="nome">
                      <label for="nome" class="active">Nome e sobrenome</label>
                   </div>
                </div>
                <div class="row">
                   <div class="input-field col s12 l6">
-                     <input type="text" name="username" name="username" value="{{ Auth::user()->username }}" placeholder="Nome de usuario" class="validate" id="username">
+                     <input type="text" name="username" name="username" value="{{ auth()->user()->username }}" placeholder="Nome de usuario" class="validate" id="username">
                      <label for="username" class="active">Nome de usuário</label>
                   </div>
                   <div class="input-field col s12 l6">
-                     <input type="date" name="nasc" name="nasc" id="nasc" value="{{ Auth::user()->nasc ? Auth::user()->nasc : "" }}"  placeholder="Data de Nascimento" class="validate">
+                     <input type="date" name="nasc" name="nasc" id="nasc" value="{{ auth()->user()->nasc ? auth()->user()->nasc : "" }}"  placeholder="Data de Nascimento" class="validate">
                      <label for="nasc" class="active">Data de nascimento</label>
                   </div>
                </div>
                <div class="row">
                   <div class="input-field col s12 l6">
-                     <input type="text" name="habilidades" name="habilidades" id="habilidades" value="{{ Auth::user()->habilidades ? Auth::user()->habilidades : "" }}" placeholder="Suas habilidades" class="validate">
+                     <input type="text" name="habilidades" name="habilidades" id="habilidades" value="{{ auth()->user()->habilidades ? auth()->user()->habilidades : "" }}" placeholder="Suas habilidades" class="validate">
                      <label for="habilidades" class="active">Habilidades</label>
                   </div>
                   <div class="input-field col s12 l6">
-                     <input type="text" value="{{ Auth::user()->empresa ? Auth::user()->empresa : "" }}" placeholder="Empresa" class="validate">
+                     <input type="text" value="{{ auth()->user()->empresa ? auth()->user()->empresa : "" }}" placeholder="Empresa" class="validate">
                      <label for="empresa" class="active">Empresa</label>
                   </div>
                </div>
@@ -137,11 +137,11 @@
                      <input type="text" name="instituicao" value="{{ App\User::myInfoAcademica()->instituicao }}" placeholder="Instituicao" class="validate" disabled>
                   </div>
                   <div class="input-field col s12 l6">
-                     <input type="text" name="cidade" value="{{ Auth::user()->cidade ? Auth::user()->cidade : "" }}" placeholder="Cidade"  class="validate">
+                     <input type="text" name="cidade" value="{{ auth()->user()->cidade ? auth()->user()->cidade : "" }}" placeholder="Cidade"  class="validate">
                      <label for="cidade" class="active">Cidade</label>
                   </div>
                </div>
-               @if(Auth::user()->tipo == 1)
+               @if(auth()->user()->tipo == 1)
                <div class="row">
                   <div class="input-field col s12 l6">
                      <input type="text" name="modulo" value="{{ App\User::myInfoAcademica()->modulo }}" placeholder="Módulo" class="validate" disabled>
@@ -157,11 +157,11 @@
             <div id="infos-seguranca" class="col s12">
                <div class="row">
                   <div class="input-field col s6">
-                     <input type="text" name="email" value="{{ Auth::user()->email }}" placeholder="@etec.sp.gov.br" class="validate" disabled>
+                     <input type="text" name="email" value="{{ auth()->user()->email }}" placeholder="@etec.sp.gov.br" class="validate" disabled>
                      <label for="email" class="active">E-mail institucional</label>
                   </div>
                   <div class="input-field col s6">
-                     <input type="text" name="email_alternativo" value="{{ Auth::user()->email_alternativo }}" placeholder="E-mail" class="validate">
+                     <input type="text" name="email_alternativo" value="{{ auth()->user()->email_alternativo }}" placeholder="E-mail" class="validate">
                      <label for="email_alternativo" class="active">E-mail alternativo</label>
                   </div>
                </div>
@@ -232,13 +232,13 @@
          <li class="user-details cyan darken-2">
             <div class="row">
                <div class="col col s4 m4 l4">
-                  <a href="{{ App\User::myAvatar() }}" data-lightbox="{{ Auth::user()->username }}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                  <a href="{{ App\User::myAvatar() }}" data-lightbox="{{ auth()->user()->username }}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
                   <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image">
                   </a>
                </div>
                <div class="col col s8 m8 l8">
                   <ul id="profile-dropdown" class="dropdown-content">
-                     <li><a href="{{ url(Auth::user()->username) }}"><i class="mdi-action-face-unlock"></i> Perfil</a>
+                     <li><a href="{{ url(auth()->user()->username) }}"><i class="mdi-action-face-unlock"></i> Perfil</a>
                      </li>
                      <li><a href="#modalConta" class="wino"><i class="mdi-action-settings"></i> Conta</a>
                      </li>
@@ -248,11 +248,11 @@
                      <li><a href="{{ url('/logout') }}"><i class="mdi-hardware-keyboard-tab"></i> Sair</a>
                      </li>
                   </ul>
-                  <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{ Auth::user()->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                  <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{ auth()->user()->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                   <p class="user-roal">
-                     @if(Auth::user()->tipo == 1)
+                     @if(auth()->user()->tipo == 1)
                      Aluno
-                     @elseif(Auth::user()->tipo == 2) 
+                     @elseif(auth()->user()->tipo == 2) 
                      Professor
                      @else
                      Moderador
@@ -401,7 +401,7 @@
    <i class="large mdi-navigation-apps"></i>
    </a>
    <ul>
-      <li class="tooltipped" data-tooltip="Meu Perfil" data-position="left" data-delay="50"><a href="{{ url(Auth::user()->username) }}" class="btn-floating blue"><i class="large mdi-social-mood"></i></a></li>
+      <li class="tooltipped" data-tooltip="Meu Perfil" data-position="left" data-delay="50"><a href="{{ url(auth()->user()->username) }}" class="btn-floating blue"><i class="large mdi-social-mood"></i></a></li>
       <li class="tooltipped" data-tooltip="Novo Evento" data-position="left" data-delay="50"><a href="#novoevento" class="btn-floating green wino"><i class="large mdi-editor-insert-invitation"></i></a></li>
       <li class="tooltipped" data-tooltip="Minhas tarefas" data-position="left" data-delay="50"><a href="{{ url('/tarefas') }}" class="btn-floating red"><i class="large mdi-action-done-all"></i></a></li>
       <li class="tooltipped" data-tooltip="Novo desafio" data-position="left" data-delay="50"><a href="#!" onclick="javascript:Materialize.toast('<span>Recurso não disponível ainda.</span>', 3000);" class="btn-floating yellow darken-1"><i class="large mdi-social-whatshot"></i></a></li>

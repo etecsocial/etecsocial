@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Post;
-use Auth;
 use DB;
 use Input;
-
 
 use Carbon\Carbon;
 
@@ -18,9 +16,8 @@ class HomeController extends Controller
 {
 
     public function logout(){
-        \Session::flush(); // limpa os cookies
-        Auth::logout();
-        \Session::flush(); // limpa de novo, queima
+        auth()->logout();
+        session()->flush();
         return redirect('/');
     }
 
@@ -32,7 +29,7 @@ class HomeController extends Controller
         } else {
             $user = 'false';
         } */
-        return Auth::check() ?  $this->feed() : view('home.home');
+        return auth()->check() ?  $this->feed() : view('home.home');
     }
     
     public function feed($id = 0) 
@@ -45,7 +42,7 @@ class HomeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
         
 
@@ -53,7 +50,7 @@ class HomeController extends Controller
         
         $tasks = DB::table('tarefas')
                 ->select(['desc', 'data', 'checked', 'id'])
-                ->where('id_user', Auth::user()->id)
+                ->where('id_user', auth()->user()->id)
                 ->where(function($query)
                 {
                     $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
@@ -76,7 +73,7 @@ class HomeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username' ])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->where('posts.id', '>', $request->id)
                 ->get();
         
@@ -95,7 +92,7 @@ class HomeController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username' ])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->where('posts.id', '<', $request->id)
                 ->get();
         

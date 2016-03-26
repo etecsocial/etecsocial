@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Auth;
-
 class Amizade extends Model
 {
     protected $fillable = [
@@ -17,7 +15,7 @@ class Amizade extends Model
     public static function verificar($id)
     {
         $amizade1 = Amizade::where([ 
-            'id_user1' => Auth::user()->id, 
+            'id_user1' => auth()->user()->id, 
             'id_user2' => $id 
         ]);
 
@@ -31,7 +29,7 @@ class Amizade extends Model
 
         $amizade2 = Amizade::where([
             'id_user1' => $id, 
-            'id_user2' => Auth::user()->id
+            'id_user2' => auth()->user()->id
         ]);
 
         if ($amizade2->count()) {
@@ -44,7 +42,7 @@ class Amizade extends Model
     public static function novo($id) 
     {
         Amizade::create([
-            "id_user1" => Auth::user()->id,
+            "id_user1" => auth()->user()->id,
             "id_user2" => $id
         ]);
     }
@@ -53,17 +51,17 @@ class Amizade extends Model
     {
         Amizade::where([
             'id_user1' => $id,
-            'id_user2' => Auth::user()->id
+            'id_user2' => auth()->user()->id
         ])->update([ 'aceitou' => 1 ]);
         
         Amizade::create([
-            "id_user1" => Auth::user()->id,
+            "id_user1" => auth()->user()->id,
             "id_user2" => $id,
             "aceitou" => 1
         ]);
         
         Notificacao::create([
-            'id_rem' => Auth::user()->id,
+            'id_rem' => auth()->user()->id,
             'id_dest' => $id,
             'data' => time(),
             'texto' => "Aceitou sua solicitação"
@@ -74,24 +72,24 @@ class Amizade extends Model
     {
         Amizade::where([
             'id_user1' => $id,
-            'id_user2' => Auth::user()->id
+            'id_user2' => auth()->user()->id
         ])->delete();
     }
     
     public static function desfazer($id)
     {
         Amizade::where([
-            'id_user1' => Auth::user()->id,
+            'id_user1' => auth()->user()->id,
             'id_user2' => $id
         ])->orWhere([
             'id_user1' => $id,
-            'id_user2' => Auth::user()->id
+            'id_user2' => auth()->user()->id
         ])->delete();
     }
     
     public static function carrega() {
         $migos = Amizade::where([
-            'id_user2' => Auth::user()->id,
+            'id_user2' => auth()->user()->id,
             'aceitou' => 0
         ])->limit(5)->get();
         
@@ -104,7 +102,7 @@ class Amizade extends Model
     
      public static function count() {
         $migos = Amizade::where([
-            'id_user2' => Auth::user()->id,
+            'id_user2' => auth()->user()->id,
             'aceitou' => 0
         ])->count();
  

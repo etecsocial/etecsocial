@@ -81,7 +81,7 @@
                <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
                   @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
                   <li class="collection-item avatar" style="height: auto; min-height:65px;max-height: 100%">
-                     @if(Auth::user()->id == $comentario->id_user) 
+                     @if(auth()->user()->id == $comentario->id_user) 
                      <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                      @endif
                      <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">

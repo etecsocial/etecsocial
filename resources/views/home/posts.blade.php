@@ -62,7 +62,7 @@
          <div class="col s6 m8"> 
             Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
          </div>
-         @if(Auth::user()->id == $post->id_user) 
+         @if(auth()->user()->id == $post->id_user) 
          <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
          @else 
          <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
@@ -73,12 +73,12 @@
          <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
             @foreach(App\Comentario::where('id_post', $post->id)->orderBy('relevancia', 'desc')->orderBy('created_at', 'desc')->get() as $comentario)
             <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->id_post }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
-               @if(Auth::user()->id == $comentario->id_user) 
+               @if(auth()->user()->id == $comentario->id_user) 
                <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                <i id="edita-comentario-{{ $comentario->id }}" onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}-text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
                @else
                <div id="relevancia-com-{{ $comentario->id }}">
-                  @if($rv = App\RelevanciaComentarios::where('id_usuario', Auth::user()->id)->where('id_comentario', $comentario->id)->first())
+                  @if($rv = App\RelevanciaComentarios::where('id_usuario', auth()->user()->id)->where('id_comentario', $comentario->id)->first())
                   @if($rv->relevancia == 'up')
                   <i class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5" data-tooltip='Avaliado como positivo'></i>                   
                   <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como negativo'></i>

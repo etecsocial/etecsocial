@@ -17,7 +17,7 @@
 </div>
 <div class="mensagens" style="max-height: 400px;overflow-y: scroll;">
    @foreach(array_reverse($msgs) as $chat)  
-   @if($chat['id_remetente'] == Auth::user()->id)
+   @if($chat['id_remetente'] == auth()->user()->id)
    <div class="msg-enviada">
       {{ $chat['msg'] }}
    </div>
