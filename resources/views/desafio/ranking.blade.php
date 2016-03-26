@@ -5,20 +5,17 @@ Ranking | ETEC Social
 @stop
 
 @section('style')
-{!! Html::style('css/asset.css') !!}
-{!! Html::style('css/style.css') !!}
-{!! Html::style('js/plugins/fullcalendar/css/fullcalendar.min.css') !!}
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/asset.css',
+                        '/css/style.css'])->withFullURL() !!}
 @stop
-
 @section('jscript')
-{!! Html::script('js/jquery-1.11.2.min.js') !!}
-{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
-{!! Html::script('js/materialize.js') !!}
-{!! Html::script('js/form.min.js') !!}
-
-{!! Html::script('js/script.js') !!}
-{!! Html::script('js/plugins.js') !!}
-
+{!! Minify::javascript(['/js/jquery-1.11.2.min.js',
+                        '/js/plugins/lightbox-plus-jquery.min.js',
+                        '/js/materialize.js',
+                        '/js/form.min.js',
+                        '/js/script.js',
+                        '/js/plugins.js']) !!}
 @stop
 @section('content')
 @include('nav')

@@ -7,7 +7,7 @@
       <meta name="description" content="A ETEC Social é a rede social da ETEC, nela será possivel compartilhar e adquirir conhecimento e se entreter junto a comunidade etequiana." /> 
       <meta name="keywords" content="ETEC Social, ETEC, Escola Técnica, Rede Social, São Paulo, Centro Paula Souza, CPS, Conhecimento, Compartilhar, Amigos, Escola ETEC" />
       <meta property="og:site_name" content="ETEC Social">
-	  <meta property="og:title" content="ETEC Social - Entre, conheça ou cadastre-se.">
+      <meta property="og:title" content="ETEC Social - Entre, conheça ou cadastre-se.">
 
       <title>@yield('title')</title>
 
@@ -15,7 +15,6 @@
    </head>
    <body>
 	@yield('content')
-
 	@yield('jscript2')
 	@yield('jscript')
  </body>
