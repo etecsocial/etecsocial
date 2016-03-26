@@ -1,3 +1,5 @@
+﻿TESTE
+
 CADASTRO
 1º-> Diferenciar conta aluno/professor.
 2º-> Amarrar informações acadêmicas, código etec com cadastro/login usuário.
