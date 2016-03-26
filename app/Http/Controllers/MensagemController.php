@@ -26,21 +26,23 @@ class MensagemController extends Controller {
     public $ImgDestinationPath = 'midia/imagens/chats';
     public $VideoDestinationPath = 'midia/videos/chats';
     public $DocsDestinationPath = 'docs/chats';
+    
 
     public function index() {
-        
         Carbon::setLocale('pt_BR');
         return view('mensagens.home', [
             'uid' => Auth::user()->id,
             'myAvatar' => User::myAvatar(),
             'conversas' => Mensagens::loadConversas(),
             'users' => Mensagens::loadUsers(),
-            'unread' => Mensagens::count()
+            'unread' => Mensagens::countUnread(),
+            'thisUser' => Auth::user()
         ]);
     }
 
     public function store(Request $request) {
         if ($request->msg) {
+            Carbon::setLocale('pt_BR');
             Mensagens::store($request->id_dest, $request->msg, $request->assunto);
             $lastMsg = Mensagens::lastMsg($request->id_dest);
             
@@ -50,17 +52,20 @@ class MensagemController extends Controller {
                 'is_rem' => $lastMsg ? ($lastMsg->id_remetente == Auth::user()->id ? true : false) : false,
                 'id_user' => $lastMsg->id_remetente == Auth::user()->id ? $lastMsg->id_destinatario : $lastMsg->id_remetente,
                 'auth_id' => Auth::user()->id,
-                'nome_user' => User::verUser(Auth::user()->id)->nome
+                'nome_user' => User::verUser(Auth::user()->id)->nome,
+                'qtd_msgs' => ($qtd = Mensagens::countMsgsTopic($request->id_dest) > 1) ? $qtd.' mensagens' : '1 mensagem'
                 ]);
         }return Response::json([ 'status' => false]);
     }
 
     public function getConversa(Request $request) {
+        Carbon::setLocale('pt_BR');
         return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgs($request->id_user)]);
     }
 
     public function delMensagem(Request $request) {
         if ($msg2 = $msg = Mensagens::where('id', $request->id)->first()) {
+            Carbon::setLocale('pt_BR');
             $response = (($msg->id_remetente == Auth::user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
             if($response != 0) {return Response::json([ 'status' => $response]);}
             (($msg->copia_rem == 0) and ( $msg->copia_dest == 0)) ? $msg->delete() : $msg->save();
@@ -68,6 +73,7 @@ class MensagemController extends Controller {
             return Response::json([
                 'status' => true, 
                 'last_msg' => $lastMsg ? $lastMsg->msg : false,
+                'qtd_msgs' => Mensagens::countMsgsTopic($msg2->id_remetente == Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente),
                 'is_rem' => $lastMsg ? ($lastMsg->id_remetente == Auth::user()->id ? true : false) : false,
                 'id_user' => $msg2->id_remetente == Auth::user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
                 'auth_id' => Auth::user()->id,

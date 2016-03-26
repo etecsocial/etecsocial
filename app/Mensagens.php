@@ -36,21 +36,26 @@ class Mensagens extends Model {
     public static function loadConversas() {
         return Mensagens::where(["id_destinatario" => Auth::user()->id])
                         ->orWhere([ "id_remetente" => Auth::user()->id])
-                        ->select('mensagens.id', 'mensagens.id_destinatario', 'mensagens.id_remetente', 'mensagens.msg', 'mensagens.data', 'mensagens.visto', 'mensagens.doc', 'mensagens.video', 'mensagens.img')
                         ->limit(15)
                         ->get();
     }
 
-    public static function loadMsgs($id_user) {
-        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
-                        ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user, "copia_rem" => 1])
+    public static function loadMsgs($uid) {
+        return Mensagens::where([ "id_remetente" => $uid, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
+                        ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $uid, "copia_rem" => 1])
                         ->limit(10)
                         ->get();
     }
 
-    public static function count() {
+    public static function countUnread() {
         return Mensagens::where([ "id_destinatario" => Auth::user()->id, "visto" => 0])
                         ->count();
+    }
+    public static function countMsgsTopic($uid) {
+        $qtd = Mensagens::where([ "id_remetente" => $uid, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
+                            ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $uid, "copia_rem" => 1])
+                            ->count();
+        return ($qtd) ? ($qtd > 1 ? $qtd.' mensagens' : '1 mensagem') : 'Sem mensagens';
     }
 
     public static function loadUsers() {
@@ -68,9 +73,9 @@ class Mensagens extends Model {
                         ->get();
     }
 
-    public static function lastMsg($id_user) {
-        $lastMsg = Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
-                            ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user, "copia_rem" => 1])
+    public static function lastMsg($uid) {
+        $lastMsg = Mensagens::where([ "id_remetente" => $uid, "id_destinatario" => Auth::user()->id, "copia_dest" => 1])
+                            ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $uid, "copia_rem" => 1])
                             ->orderBy('id', 'desc')
                             ->first();
         return isset($lastMsg) ? $lastMsg : false;

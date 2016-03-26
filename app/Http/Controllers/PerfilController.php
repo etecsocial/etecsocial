@@ -125,12 +125,12 @@ class PerfilController extends Controller {
         $pro2 = ['Sim', 'Sim!', 'sim', 'sim!'];
 
         if (in_array($request->status, $pro1)) {
-            return Response::json(['error' => 'Que triste...']);
+            return Response::json(['error' => 'OK, quando quiser, sinta-e à vontade!']);
         } else if (in_array($request->status, $pro2)) {
-            return Response::json(['error' => 'Então compartilhe com seus amigos!']);
+            return Response::json(['error' => 'Então vamos lá, compartilhe com seus amigos!']);
         }
 
-        User::where('id', Auth::user()->id)->limit(1)->update(array('status' => $request->status));
+        User::where('id', Auth::user()->id)->update(array('status' => $request->status));
 
         return Response::json(['error' => false, 'status' => $request->status]);
     }

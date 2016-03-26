@@ -10,7 +10,7 @@
                         <span class="circle light-blue">{{\App\User::verUser($conversa->id_remetente)->nome[0]}}</span>
                         <span class="email-title">{{\App\User::verUser($conversa->id_remetente)->nome}}</span>
                         <p class="truncate grey-text ultra-small"><b>Para:</b> {{\App\User::verUser($conversa->id_destinatario)->nome}}</p>
-                        <p class="grey-text ultra-small">{{$conversa->created_at}}</p>
+                        <p class="grey-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($conversa->created_at))->diffForHumans()}}</p>
                     </li>
                 </ul>
             </div>
@@ -23,24 +23,7 @@
     </div>
 </section>
 @endforeach
-@if(isset($conversas[0]))
-<div class="email-reply">
-    <div class="row">
-        <div class="col s4 m4 l4 center-align">
-            <a href="!#"><i class="mdi-content-reply"></i></a>
-            <p class="ultra-small">Responder</p>
-        </div>
-        <div class="col s4 m4 l4 center-align">
-            <a href="!#"><i class="mdi-content-reply-all"></i></a>
-            <p class="ultra-small">Responder todas</p>
-        </div>
-        <div class="col s4 m4 l4 center-align">
-            <a href="!#"><i class="mdi-content-forward"></i></a>
-            <p class="ultra-small">Próxima</p>
-        </div>
-    </div>
-</div>
-@else
+@if(empty($conversas[0]))
 <div class="container">
     <div class="collection">
         <div class="collection-item">

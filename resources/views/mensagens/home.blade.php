@@ -83,18 +83,20 @@ Mensagens | ETEC Social
           <!--                      <img src="" alt="" class="circle">-->
                                 <span class="email-title">{{ $user->nome }}</span>
                                 @if($last = \App\Mensagens::lastMsg($user->id))
-                                <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
-                                    @if( ($last->id_remetente) == $uid)
-                                    <b> Você: </b> 
-                                    @endif
-                                    {{ $last->msg }}
-                                </p>
-                                <a href="#!" class="secondary-content email-time"><span class="blue-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($last->created_at))->diffForHumans() }}</span></a>
+                                    <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
+                                        @if( ($last->id_remetente) == $uid)
+                                        <b> Você: </b> 
+                                        @endif
+                                        {{ $last->msg }}
+                                    </p>
                                 @else
-                                <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
-                                    Clique para enviar uma mensagem
-                                </p>
+                                    <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
+                                        Clique para enviar uma mensagem
+                                    </p>
                                 @endif
+                                    <a href="#!" class="secondary-content email-time">
+                                        <span class="blue-text ultra-small" id="qtd-msgs-{{ $user->id }}">{{ \App\Mensagens::countMsgsTopic($user->id) }}</span>
+                                    </a>                            
                             </li>
                             @endforeach
                         </ul>

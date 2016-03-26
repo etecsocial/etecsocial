@@ -30,13 +30,14 @@ $('#nova-mensagem').ajaxForm({
         if (data.status === true) {
             $('#modal-nova-mensagem').closeModal();
             Materialize.toast('<span>Mensagem enviada!</span>', 3000);
-
+            $('#qtd-msgs-'+data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
             if (!data.last_msg === false) {//Há mensagens anteriores a que foi excluida.
+                $('#qtd-msgs-'+data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
                 if (data.is_rem === true) {//O usuário atual é o remetente da última mensagem válida
                     $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
                 } else {//O usuário atual é o destinatário da última mensagem válida
                     $('#last-msg-' + data.id_user).html(data.last_msg).hide().fadeIn(300);
-
+                    
                     //Aqui a função getConversa() tem que ser chamada, mas não está funcionando...
                     getConversa(data.id_user);
                 }
@@ -86,9 +87,10 @@ function delMensagem(id) {
         data: "id=" + id,
         dataType: "json",
         success: function (data) {
-            if (data.status === true) {
+            if (data.status === true) {//Mensagem deletada
                 $('#mensagem-' + id).fadeOut(300);
                 if (!data.last_msg === false) {
+                    $('#qtd-msgs-'+data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
                     if (data.is_rem === true) {
                         $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
                     } else {
@@ -103,6 +105,7 @@ function delMensagem(id) {
                             '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.id_user + ', \'' + data.nome_user + '\')">' +
                             'Clique para enviar uma mensagem' +
                             '</p>').hide().fadeIn(300);
+                    $('#qtd-msgs-'+data.id_user).html('Sem mensagens').hide().fadeIn(300);
                     //
                 }
             } else {
