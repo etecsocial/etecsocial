@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Auth;
-
 class Agenda extends Model
 {
     protected $fillable = [
@@ -21,7 +19,7 @@ class Agenda extends Model
     ];
     
     public static function loada() {
-        $age = Agenda::where('id_user', Auth::user()->id)->where('start', '>', time())->get()->first();
+        $age = Agenda::where('id_user', auth()->user()->id)->where('start', '>', time())->get()->first();
 
         return (empty($age)) ? false : $age;
     }

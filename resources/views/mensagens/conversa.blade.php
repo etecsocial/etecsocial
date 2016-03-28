@@ -1,5 +1,5 @@
 @foreach($conversas as $conversa)
-@if(($conversa->id_remetente == Auth::user()->id) and (!$conversa->copia_rem == 0) or ($conversa->id_destinatario == Auth::user()->id) and (!$conversa->copia_dest == 0))
+@if(($conversa->id_remetente == auth()->user()->id) and (!$conversa->copia_rem == 0) or ($conversa->id_destinatario == auth()->user()->id) and (!$conversa->copia_dest == 0))
 <section id="mensagem-{{ $conversa->id }}">
     <p class="email-subject truncate">{{$conversa->assunto}}</p>
     <hr class="grey-text text-lighten-2">

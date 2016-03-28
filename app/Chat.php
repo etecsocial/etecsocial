@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Auth;
 use App\Amizade;
 
 class Chat extends Model {
@@ -24,25 +23,25 @@ class Chat extends Model {
     ];
 
     public static function loadConversas() {
-        return Mensagens::where(["id_destinatario" => Auth::user()->id])
-                        ->orWhere([ "id_remetente" => Auth::user()->id])
+        return Mensagens::where(["id_destinatario" => auth()->user()->id])
+                        ->orWhere([ "id_remetente" => auth()->user()->id])
                         ->limit(15)
                         ->get();
     }
     public static function loadMsgs($id_user) {
-        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
-                        ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
+        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
+                        ->orWhere([ "id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
                         ->limit(15)
                         ->get();
     }
 
     public static function count() {
-        return Mensagens::where([ "id_destinatario" => Auth::user()->id, "visto" => 0])
+        return Mensagens::where([ "id_destinatario" => auth()->user()->id, "visto" => 0])
                         ->count();
     }
 
     public static function loadUsers($on = true) {
-        return Amizade::where('id_user1', Auth::user()->id)
+        return Amizade::where('id_user1', auth()->user()->id)
                         ->where('aceitou', 1)
                         ->where('online', $on)
                         ->join('users', 'users.id', '=', 'amizades.id_user2')
@@ -50,8 +49,8 @@ class Chat extends Model {
     }
 
     public static function lastMsg($id_user) {
-        $chat = Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => Auth::user()->id])
-                ->orWhere([ "id_remetente" => Auth::user()->id, "id_destinatario" => $id_user])
+        $chat = Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
+                ->orWhere([ "id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
                 ->orderBy('data', 'desc')
                 ->first();
         return isset($chat) ? $chat : false;

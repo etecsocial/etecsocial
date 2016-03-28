@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\ComentarioDiscussao;
 use App\Notificacao;
 use App\User;
-use Auth;
 use Carbon\Carbon;
 
 class DiscussaoController extends Controller {
@@ -27,7 +26,7 @@ class DiscussaoController extends Controller {
 
         ComentarioDiscussao::create([
             'id_discussao' => $request->id_discussao,
-            'id_user' => Auth::user()->id,
+            'id_user' => auth()->user()->id,
             'id_grupo' => $request->id_grupo,
             'comentario' => $request->comentario
         ]);

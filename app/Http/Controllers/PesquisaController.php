@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Post;
 use App\Grupo;
-use Auth;
 use DB;
 
 class PesquisaController extends Controller {
@@ -31,7 +30,7 @@ class PesquisaController extends Controller {
                 ->orderBy('created_at', 'desc')
                 ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->where('titulo', 'LIKE', '%' . $termo . '%')
                 ->orWhere('publicacao', 'LIKE', '%' . $termo . '%')
                 ->limit(10)
