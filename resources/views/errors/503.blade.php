@@ -21,9 +21,6 @@
                 <h5 class="header col s12 red-text">Estamos em manutenção!</h5>
                 <h6 class="header col s12 red-text">Ou o estágiário está trabalhando :/</h6>
             </div>
-            <div class="row center">
-                <a href="{{ ((\Request::header('referer')) ? Request::header('referer') : url('/')) }}" id="entrar-button" class="btn-large waves-effect waves-light red lighten-1 modal-trigger">Voltar</a>
-            </div>
         </div>
     </div>
 </div>
