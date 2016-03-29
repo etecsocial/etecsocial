@@ -10,6 +10,8 @@ use App\Post;
 use Auth;
 use DB;
 use Input;
+use App\Mensagens;
+use App\GrupoUsuario;
 
 
 
@@ -48,6 +50,11 @@ class HomeController extends Controller
                 ->where('amizades.id_user2', Auth::user()->id)
                 ->get();
         
+        $grupos = GrupoUsuario::where('id_user', Auth::user()->id)
+                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
+                ->limit(5)
+                ->get();
+        
 
         Carbon::setLocale('pt_BR');
         
@@ -62,7 +69,7 @@ class HomeController extends Controller
                 ->orderBy('data')
                 ->limit(4)
                 ->get();
-        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'thisUser' => Auth::user()]);
+        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
     }
     
     public function newpost(Request $request) 

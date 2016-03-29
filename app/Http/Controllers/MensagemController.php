@@ -34,9 +34,10 @@ class MensagemController extends Controller {
             'uid' => Auth::user()->id,
             'myAvatar' => User::myAvatar(),
             'conversas' => Mensagens::loadConversas(),
-            'users' => Mensagens::loadUsers(),
+            'users' => Mensagens::loadRecentes(),
             'unread' => Mensagens::countUnread(),
-            'thisUser' => Auth::user()
+            'thisUser' => Auth::user(),
+            'msgsUnread' => Mensagens::countUnread()
         ]);
     }
 

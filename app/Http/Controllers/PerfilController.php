@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
 use DB;
-use Auth;
 use App\Amizade;
 use App\User;
 use App\Post;
@@ -61,12 +60,12 @@ class PerfilController extends Controller {
             $infoacad = User::infoAcademica($dados->id);
 
             $num_amigos = DB::table('amizades')->where([ 'id_user1' => $dados->id, 'aceitou' => 1])->count() - 1;
-            $num_grupos = DB::table('grupo_usuario')->where([ 'id_user' => Auth::user()->id])->count();
+            $num_grupos = DB::table('grupo_usuario')->where([ 'id_user' => auth()->user()->id])->count();
 
             Carbon::setLocale('pt_BR');
             $tasks = DB::table('tarefas')
                     ->select([ 'desc', 'data', 'checked', 'id'])
-                    ->where("id_user", Auth::user()->id)
+                    ->where("id_user", auth()->user()->id)
                     ->where(function($query) {
                         $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
                         ->orWhere('checked', false);
@@ -77,7 +76,7 @@ class PerfilController extends Controller {
 
             return view('perfil.home', [
                 'user' => $dados,
-                'is_my' => (Auth::user()->id == $dados->id) ? 1 : 0,
+                'is_my' => (auth()->user()->id == $dados->id) ? 1 : 0,
                 'posts' => $posts,
                 'infoacad' => $infoacad,
                 'num_amigos' => $num_amigos,
@@ -130,7 +129,9 @@ class PerfilController extends Controller {
             return Response::json(['error' => 'Então vamos lá, compartilhe com seus amigos!']);
         }
 
+
         User::where('id', Auth::user()->id)->update(array('status' => $request->status));
+
 
         return Response::json(['error' => false, 'status' => $request->status]);
     }

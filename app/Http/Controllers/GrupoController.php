@@ -14,6 +14,7 @@ use App\GrupoDiscussao;
 use App\GrupoPergunta;
 use App\GrupoMaterial;
 use App\GrupoSaiu;
+use App\Mensagens;
 use App\Grupo;
 use App\User;
 use Response;
@@ -50,7 +51,7 @@ class GrupoController extends Controller {
 
         $professores = User::where('tipo', 2)->get();
 
-        return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores])->with(['thisUser' => Auth::user()]);
+        return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => Auth::user()]);
     }
 
     public function index($groupname) {
@@ -58,18 +59,18 @@ class GrupoController extends Controller {
         if ($grupo = Grupo::where('url', $groupname)->first()) {//Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {//Verifica se é expirado
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {//Verifica se o usuário é integrante e não está banido
-                    return view('grupo.grupo', $dados = $this->getGroupData($grupo))->with(['thisUser' => Auth::user()]);
+                    return view('grupo.grupo', $dados = $this->getGroupData($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
                 } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {//Verifica se o usuário é banido, já que a seleção anterior falhou
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user()]); //Retorna a view com os dados
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
                 } else {//O usuário não é integrante do grupo
                     return abort(404);
                 }
             } else {//O grupo expirou.
                 if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
-                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo))->with(['thisUser' => Auth::user()]);
+                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
                 } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {
 
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user()]);
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
                 } else {//USUÁRIO NAO ESTÁ NO GRUPO
                     return abort(404);
                 }
@@ -85,7 +86,7 @@ class GrupoController extends Controller {
      */
     public function criar(Request $request) {
         Carbon::setLocale('pt_BR');
-        if (($request->nome) and ( $request->url) and ( $request->assunto)) {
+        if (($request->nome) and ( $request->assunto)) {
             if (Grupo::where('url', $request->url)->first()) {
                 return Response::json([ 'status' => 3]);
             }
@@ -93,7 +94,7 @@ class GrupoController extends Controller {
             $grupo = new Grupo;
             $grupo->nome = $request->nome;
             $grupo->assunto = $request->assunto;
-            $grupo->url = $request->url;
+            $grupo->url = $request->url ? $request->url : $this->makeUrl($grupo->nome);
             $grupo->materia = $request->materia;
             $grupo->id_criador = Auth::user()->id;
             $grupo->num_participantes = 1;
@@ -116,6 +117,15 @@ class GrupoController extends Controller {
                 return Response::json(['status' => 0]);
             }
         }return Response::json(['status' => 4]);
+    }
+    
+    public function makeUrl($nome) {
+        $url = explode(' ', $nome);
+        $cont = 1;
+        while (Grupo::where('url', $url)) {//fala deixar usar url de grupo expirado
+            $url = $url.$cont;
+            $cont++;
+        }return $url;
     }
 
     /**
