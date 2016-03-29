@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->string('status', 255)->nullable();
 			$table->boolean('online')->default(false);
 			$table->integer('reputacao')->default(0);
-			$table->date('nascimento')->nullable();
+			$table->date('nasc')->nullable();
 			$table->string('cidade')->nullable();
 
 			$table->text('info_academica')->nullable();
