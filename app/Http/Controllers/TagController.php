@@ -7,7 +7,6 @@ use Response;
 use App\Http\Controllers\Controller;
 use DB;
 use Input;
-use Auth;
 use App\Post;
 use App\Tag;
 use App\Grupo;
@@ -30,7 +29,7 @@ class TagController extends Controller {
                         ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
                         ->where('tags.tag', $tag)
                         ->where('amizades.aceitou', 1)
-                        ->where('amizades.id_user2', Auth::user()->id)
+                        ->where('amizades.id_user2', auth()->user()->id)
                         ->get();
         
        $posts_publicos =  Post::join('users', 'users.id', '=', 'posts.id_user')
@@ -40,7 +39,7 @@ class TagController extends Controller {
                         ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
                         ->where('tags.tag', $tag)
                         ->where('amizades.aceitou', 1)
-                        ->where('amizades.id_user2', '<>', Auth::user()->id)
+                        ->where('amizades.id_user2', '<>', auth()->user()->id)
                         ->where('posts.is_publico',1)
                         ->get();
 

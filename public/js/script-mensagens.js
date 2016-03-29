@@ -71,6 +71,8 @@ function getConversa(uid) {
                 return false
             } else {
                 $('#email-details').html(data.responseText);
+                //  $('#email-details').scrollTop();
+                
                 //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
             }
         }

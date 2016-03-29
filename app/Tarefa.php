@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 use DB;
 use Carbon\Carbon;
-use Auth;
 class Tarefa extends Model
 {
     protected $fillable = [
@@ -18,7 +17,7 @@ class Tarefa extends Model
          Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select([ 'desc', 'data', 'checked', 'id'])
-                ->where("id_user", Auth::user()->id)
+                ->where("id_user", auth()->user()->id)
                 ->where(function($query)
                 {
                     $query->where("data_checked", ">", time() - 3*24*60*60)

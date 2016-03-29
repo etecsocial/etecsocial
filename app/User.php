@@ -8,7 +8,6 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-use Auth;
 use DB;
 
 use App\Turma;
@@ -51,7 +50,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'nasc',
         'habilidades',
         'empresa',
-        'cidade'
+        'cidade',
+        'provider_user_id',
     ];
 
     /**
@@ -80,7 +80,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     
     public static function myAvatar() 
     {
-        return User::avatar(Auth::user()->id);
+        return User::avatar(auth()->user()->id);
     }
     
     public static function infoAcademica($id) 
@@ -92,12 +92,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     
     public static function myInfoAcademica() 
     {
-        return User::infoAcademica(Auth::user()->id);
+        return User::infoAcademica(auth()->user()->id);
     }
     
     public static function infos() 
     {
-        return DB::table('outras_infos')->where('id_user', Auth::user()->id)->first();
+        return DB::table('outras_infos')->where('id_user', auth()->user()->id)->first();
     }
        
     public static function isTeacher($uid) 

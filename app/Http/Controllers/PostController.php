@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 
 use DB;
 use Input;
-use Auth;
 
 use App\Comentario;
 use App\Post;
@@ -34,7 +33,7 @@ class PostController extends Controller
         $this->validate($request, [ 'publicacao' => 'required' ]);
 
         $post = new Post;
-        $post->id_user = Auth::user()->id;
+        $post->id_user = auth()->user()->id;
         if($request->titulo) {
             $post->titulo = $request->titulo;
         }
@@ -70,7 +69,7 @@ class PostController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->where('posts.id', $id)
                 ->first();
          
@@ -104,7 +103,7 @@ class PostController extends Controller
     {
         $post = Post::where('id', $id)->first();
         
-        if ($post->id_user !== Auth::user()->id) {
+        if ($post->id_user !== auth()->user()->id) {
             return Response::json([ 'status' => false ]);
         }
         $post->delete();
@@ -118,7 +117,7 @@ class PostController extends Controller
 
         try {
             DB::table('favoritos')
-                    ->insert(['id_post' => $request->id_post, 'id_user' => Auth::user()->id]);
+                    ->insert(['id_post' => $request->id_post, 'id_user' => auth()->user()->id]);
             
             $post->num_favoritos += 1;
             $post->save();
@@ -127,7 +126,7 @@ class PostController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 DB::table('favoritos')
-                        ->where(['id_post' => $request->id_post, 'id_user' => Auth::user()->id])
+                        ->where(['id_post' => $request->id_post, 'id_user' => auth()->user()->id])
                         ->delete();
                 
                 $post->num_favoritos -= 1;
@@ -192,7 +191,7 @@ class PostController extends Controller
         $post1->save();
         
         $post2 = new Post;
-        $post2->id_user = Auth::user()->id;
+        $post2->id_user = auth()->user()->id;
         $post2->titulo = $post1->titulo;
         $post2->publicacao = $post1->publicacao;
         $post2->is_publico = $post1->is_publico;

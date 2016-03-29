@@ -12,13 +12,12 @@ Login | ETEC Social
 
 @include('home.nav')
 <style>
-#login-page {
-      display: table;
-      margin: auto;
-      vertical-align: middle;
-}
+   #login-page {
+   display: table;
+   margin: auto;
+   vertical-align: middle;
+   }
 </style>
-
 <div class="container">
    <div id="login-page" class="row">
       <div class="col s12 card-panel center">
@@ -30,6 +29,11 @@ Login | ETEC Social
                </div>
             </div>
             <div class="row margin">
+               @if ($errors->has('social_error'))
+               <span class="help-block">
+               Você já se cadastrou com esse email do facebook :(
+               </span>
+               @endif
                <div class="input-field col s12">
                   <div class="input-field col s12">
                      <i class="material-icons prefix">account_circle</i>
@@ -42,43 +46,43 @@ Login | ETEC Social
                      @endif
                   </div>
                </div>
+               <div class="input-field col s12">
                   <div class="input-field col s12">
-                     <div class="input-field col s12">
-                        <i class="material-icons prefix">vpn_key</i>
-                        <input id="password" name="password" type="password" class="validate" required  alue="{{ old('password') }}">
-                        <label for="password">Senha</label>
-                        @if ($errors->has('password'))
-                        <span class="help-block">
-                        <strong>Email ou senha inválidos.</strong>
-                        </span>
-                        @endif
-                     </div>
+                     <i class="material-icons prefix">vpn_key</i>
+                     <input id="password" name="password" type="password" class="validate" required  alue="{{ old('password') }}">
+                     <label for="password">Senha</label>
+                     @if ($errors->has('password'))
+                     <span class="help-block">
+                     <strong>Email ou senha inválidos.</strong>
+                     </span>
+                     @endif
                   </div>
+               </div>
             </div>
-               <div class="row">
-                  <div class="input-field col s12">
-                     <input type="checkbox" id="remember" class="filled-in" name="remember" checked>
-                     <label for="remember">Manter conectado(a)</label>
-                  </div>
+            <div class="row">
+               <div class="input-field col s12">
+                  <input type="checkbox" id="remember" class="filled-in" name="remember" checked>
+                  <label for="remember">Manter conectado(a)</label>
                </div>
-               <div class="row">
-                  <div class="input-field col s12">
-                     <button class="btn waves-effect waves-light" type="submit">Logar</button>
-                     <a class="waves-effect waves-green btn-flat blue white-text">Facebook</a>
-                  </div>
+            </div>
+            <div class="row">
+               <div class="input-field col s12">
+                  <button class="btn waves-effect waves-light" type="submit">Logar</button>
+                  <a href="{{ url('facebook_login')}}" class="waves-effect waves-green btn-flat blue white-text">Facebook</a>
                </div>
-               <div class="row">
-                  <div class="input-field col s12 m6 l6">
-                     <a href="{{ url('/register') }}" class="btn margin medium-small red">Cadastrar agora!</a>
-                  </div>
-                  <div class="input-field col s12 m6 l6">
-                     <a href="{{ url('/password/reset') }}" class="btn red lighten-1 margin right-align medium-small">Perdi minha senha</a>
-                </div>  
+            </div>
+            <div class="row">
+               <div class="input-field col s12 m6 l6">
+                  <a href="{{ url('/register') }}" class="btn margin medium-small red">Cadastrar agora!</a>
                </div>
+               <div class="input-field col s12 m6 l6">
+                  <a href="{{ url('/password/reset') }}" class="btn red lighten-1 margin right-align medium-small">Perdi minha senha</a>
+               </div>
+            </div>
          </form>
-         </div>
       </div>
    </div>
+</div>
 </div>
 @include('home.footer')
 @endsection

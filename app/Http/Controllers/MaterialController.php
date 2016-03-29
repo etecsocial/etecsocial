@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Auth;
 use App\User;
 use App\ComentarioDiscussao;
 use App\Notificacao;
@@ -27,7 +26,7 @@ class DiscussaoController extends Controller {
 
         ComentarioDiscussao::create([
             'id_discussao' => $request->id_discussao,
-            'id_user' => Auth::user()->id,
+            'id_user' => auth()->user()->id,
             'id_grupo' => $request->id_grupo,
             'comentario' => $request->comentario
         ]);

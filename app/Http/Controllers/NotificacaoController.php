@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-
 use App\Notificacao; 
-
-use Auth;
 use Response;
 
 use Carbon\Carbon;
@@ -33,7 +30,7 @@ class NotificacaoController extends Controller
     public function create($texto, $id_dest)
     {
         DB::table('notificacao')->insert([
-           'id_rem'=> Auth::user()->id,
+           'id_rem'=> auth()->user()->id,
            'id_dest' => $id_dest,
            'data' => Carbon::today()->timestamp,
            'texto'=>$texto               
@@ -95,7 +92,7 @@ class NotificacaoController extends Controller
     }
     
     public function newnoti(Request $request ) {
-        $not = Notificacao::where('id_dest', Auth::user()->id)
+        $not = Notificacao::where('id_dest', auth()->user()->id)
                 ->where('data', '>', $request->data)
                 ->where('data', '<', time())
                 ->orderBy('data', 'desc')
@@ -107,7 +104,7 @@ class NotificacaoController extends Controller
         
     
     public function makeRead() {
-       Notificacao::where([ 'id_dest' => Auth::user()->id, 'visto' => 0 ])->update([ 'visto' => 1 ]);
+       Notificacao::where([ 'id_dest' => auth()->user()->id, 'visto' => 0 ])->update([ 'visto' => 1 ]);
        
        return Response::json(["status" => true]); 
     }
@@ -136,12 +133,12 @@ $counter = MESSAGE_TIMEOUT_SECONDS;
 // Poll for messages and hang if nothing is found, until the timeout is exhausted
 while($counter > 0)
 {
-    if (!Auth::check()) {
+    if (!auth()->check()) {
     return abort(401);
 }
 
     
-  $not = Notificacao::where('id_dest', Auth::user()->id)
+  $not = Notificacao::where('id_dest', auth()->user()->id)
                 ->where('data', '>', $request->data)
                 ->where('data', '<', time())
                 ->orderBy('data', 'desc')

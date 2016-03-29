@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Auth;
-
 use App\Http\Controllers\Controller;
 use App\Chat;
 
@@ -24,7 +22,7 @@ class ChatController extends Controller
     public function enviar(Request $request)
     {
         Chat::create([
-            'id_remetente'      => Auth::user()->id,
+            'id_remetente'      => auth()->user()->id,
             'id_destinatario'   => $request->id,
             'msg'               => $request->msg,
             'data'              => time()
@@ -35,8 +33,8 @@ class ChatController extends Controller
         
         if ($request->data) {
             
-              $msgs = Chat::where([ 'id_remetente' => $request->id_user, 'id_destinatario' => Auth::user()->id ])
-                ->orWhere([ 'id_remetente' => Auth::user()->id, 'id_destinatario' => $request->id_user ])
+              $msgs = Chat::where([ 'id_remetente' => $request->id_user, 'id_destinatario' => auth()->user()->id ])
+                ->orWhere([ 'id_remetente' => auth()->user()->id, 'id_destinatario' => $request->id_user ])
                       ->where('data', '<', $request->data)
                  ->orderBy('data', 'desc')
                  ->limit(15)
@@ -44,8 +42,8 @@ class ChatController extends Controller
                  ->toArray();
          } else {
 
-         $msgs = Chat::where([ 'id_remetente' => $request->id_user, 'id_destinatario' => Auth::user()->id ])
-                ->orWhere([ 'id_remetente' => Auth::user()->id, 'id_destinatario' => $request->id_user ])
+         $msgs = Chat::where([ 'id_remetente' => $request->id_user, 'id_destinatario' => auth()->user()->id ])
+                ->orWhere([ 'id_remetente' => auth()->user()->id, 'id_destinatario' => $request->id_user ])
                  ->orderBy('data', 'desc')
                  ->limit(15)
                  ->get()
@@ -78,7 +76,7 @@ $counter = MESSAGE_TIMEOUT_SECONDS;
 while($counter > 0)
 { 
     if ($request->id) {
-  $msg = Chat::where([ 'id_destinatario' => Auth::user()->id, 'id_remetente' => $request->id ])
+  $msg = Chat::where([ 'id_destinatario' => auth()->user()->id, 'id_remetente' => $request->id ])
                 ->where('data', '>', $request->data)
                 ->count();
   
@@ -86,7 +84,7 @@ while($counter > 0)
 // Check for new data (not illustrated)
     if($msg)
     {
-        $msgs = Chat::where([ 'id_destinatario' => Auth::user()->id, 'id_remetente' => $request->id ])
+        $msgs = Chat::where([ 'id_destinatario' => auth()->user()->id, 'id_remetente' => $request->id ])
                 ->where('data', '>', $request->data)
                 ->get();
         

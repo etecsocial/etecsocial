@@ -10,4 +10,5 @@ Folha de estio com alterações necessárias para a página de mensagens
 #email-list{max-height: 75% !important; overflow-y: auto}
 #email-details{min-height: 75% !important; max-height: 75% !important; overflow-y: auto}
 .email-content{max-height: 45% !important; overflow-y: auto !important}
+.mensagem{margin-bottom: 15%}
 

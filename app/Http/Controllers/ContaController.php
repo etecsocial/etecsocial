@@ -10,7 +10,6 @@ use App\Turma;
 use App\User;
 use Response;
 use Input;
-use Auth;
 use Image;
 
 class ContaController extends Controller
@@ -49,7 +48,7 @@ class ContaController extends Controller
      */
     public function editar(Request $request)
     {
-        $user = User::where('id', Auth::user()->id)->first();
+        $user = User::where('id', auth()->user()->id)->first();
         
         if ($request->hasFile('foto')) {
             $this->addfoto($request->foto);
@@ -64,7 +63,7 @@ class ContaController extends Controller
         $user->email_alternativo    = $request->email_alternativo;
         
         if($request->has('senha')) {
-           // if (bcrypt($request->senha_atual) != Auth::user()->password) {
+           // if (bcrypt($request->senha_atual) != auth()->user()->password) {
                 //return "Senha atual incorreta";
             //} else 
             if ($request->senha != $request->senha_confirmation) {
@@ -86,7 +85,7 @@ class ContaController extends Controller
             return 'Formato inválido';
         }
 
-        $path = $this->avatar_path . md5(Auth::user()->id) . '.jpg';
+        $path = $this->avatar_path . md5(auth()->user()->id) . '.jpg';
         $avatar = Image::make(Input::file('foto'))->fit(200, 200)->save($path);
     }
 }
