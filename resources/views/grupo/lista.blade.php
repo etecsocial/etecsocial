@@ -156,7 +156,7 @@ Grupos | ETEC Social
                 </div>
                 <div class="col s12">
                     <div class="input-field col l6 s12">
-                        <input name="url" id="url-grupo" type="text" class="validate tooltipped" length="35" placeholder="etecsocial.com/grupo/" required data-position="bottom" data-delay="50" data-tooltip="Como as pessoas irão acessar o grupo.">
+                        <input name="url" id="url-grupo" type="text" class="validate tooltipped" length="35" placeholder="etecsocial.com/grupo/" data-position="bottom" data-delay="50" data-tooltip="Como as pessoas irão acessar o grupo.">
                         <label class="active">URL</label>
                     </div>
                     <div class="input-field col l6 s12">

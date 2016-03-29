@@ -145,7 +145,7 @@
                             <input type="text" name="instituicao" value="{{ App\User::myInfoAcademica()->instituicao }}" placeholder="Instituicao" class="validate" disabled>
                         </div>
                         <div class="input-field col s12 l6">
-                            <input type="text" name="cidade" value="{{$thisUser->cidade ?$thisUser->cidade : "" }}" placeholder="Cidade"  class="validate">
+                            <input type="text" name="cidade" value="{{$thisUser->cidade ? $thisUser->cidade : "" }}" placeholder="Cidade"  class="validate">
                             <label for="cidade" class="active">Cidade</label>
                         </div>
                     </div>
@@ -218,16 +218,16 @@
 
                     <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
                         <i class="mdi-action-search" style="top: 5px;left: 15px;"></i>
-                        
+
                         <input autocomplete="off" style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, professores, postagens ou grupos" />
                     </div>
                     <style>
-                    @media only screen and (min-width:992px) {
-                        #results-search {
-                            padding-left: 240px;
-                            margin-top: -13px;
+                        @media only screen and (min-width:992px) {
+                            #results-search {
+                                padding-left: 240px;
+                                margin-top: -13px;
+                            }
                         }
-                    }
                     </style>
                     <div id="results-search" style="display: none; ">
                         <ul class="busca collection" style="width: 670px; background: #fff"></ul>
@@ -251,7 +251,7 @@
                         </div>
                         <div class="col col s8 m8 l8">
                             <ul id="profile-dropdown" class="dropdown-content">
-                                <li><a href="{{ url(Auth::user()->username) }}"><i class="mdi-action-face-unlock"></i> Perfil</a>
+                                <li><a href="{{ url($thisUser->username) }}"><i class="mdi-action-face-unlock"></i> Perfil</a>
                                 </li>
                                 <li><a href="#modalConta" class="wino"><i class="mdi-action-settings"></i> Conta</a>
                                 </li>
@@ -263,9 +263,9 @@
                             </ul>
                             <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{$thisUser->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                             <p class="user-roal">
-                                @if(Auth::user()->tipo == 1)
+                                @if($thisUser->tipo == 1)
                                 Aluno
-                                @elseif(Auth::user()->tipo == 2) 
+                                @elseif($thisUser->tipo == 2) 
                                 Professor
                                 @else
                                 Moderador
@@ -278,40 +278,61 @@
                 </li>
                 <li class="bold">
                     <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
-                        @if (App\Chat::count() > 0)
-                        <span class="new badge">{{ App\Chat::count() }}</span>
+                        @if($msgsUnread)
+                        <span class="new badge">{{ $msgsUnread }}</span>
                         @endif
                     </a> 
                 </li>
+
                 <li class="bold">
-                    <a href="{{ url('/grupos') }}" class="waves-effect waves-cyan"><i class="fa fa-book color-sec-darken-text"></i> Grupos</a>
+                    @if(isset($grupos[0]))
+                    <a class="waves-effect waves-cyan collapsible-header">
+                        <i class="mdi-action-assessment color-sec-darken-text"></i> 
+                        Grupos
+                    </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @foreach($grupos as $grupo)
+                            <li><a href="{{ url('grupo/'.$grupo->url) }}">{{ $grupo->nome }}</a></li>
+                            @endforeach
+                            <li><a href="{{ url('grupos') }}">Ver todos</a></li>
+                        </ul>
+                    </div>
+
+                    @else
+                    <a class="waves-effect waves-cyan" href="{{ url('/grupos') }}">
+                        <i class="mdi-action-assessment color-sec-darken-text" ></i> 
+                        Grupos
+                    </a>
+                    @endif
                 </li>
-                
+
+
                 <li>
                     <div class="divider"></div>
                 </li>
                 <li class="bold"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda</a>
                 <li class="bold"><a href="{{ url('/tarefas') }}" class="waves-effect waves-cyan"><i class="mdi-content-content-paste color-sec-darken-text"></i> Tarefas</a>
                 </li>
-                
+
                 <li>
                     <div class="divider"></div>
                 </li>
                 <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-action-account-balance color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
                 <li class="bold"><a class="waves-effect waves-cyan collapsible-header"><i class="mdi-action-assessment color-sec-darken-text"></i> Ranking</a>
                     <div class="collapsible-body">
-                            <ul>                                        
-                                <li>
-                                    <a href="{{ url('/ranking') }}">Geral</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/ranking/etec') }}">Por ETEC</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url('/ranking/turma') }}">Por Turma</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul>                                        
+                            <li>
+                                <a href="{{ url('/ranking') }}">Geral</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/ranking/etec') }}">Por ETEC</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/ranking/turma') }}">Por Turma</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
             <a href="#" data-activates="slide-out" style="z-index:1000" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only red darken-3"><i class="mdi-navigation-menu"></i></a>
@@ -401,9 +422,9 @@
                             <div class="collection-item">
                                 <p>Quem disse que não fecha essa desgraça?
                                     ô  SE FECHA, DEMÔNIO, FECHA COM FORÇA AINDA!!
-                                    
-                                    </p>
-                                    PS: era só apagar oq tava dentro da div...
+
+                                </p>
+                                PS: era só apagar oq tava dentro da div...
                             </div>
                         </div>
                     </div>
@@ -424,7 +445,7 @@
     </div>
 
     <section id="content">
-    <div class="header-search-wrapper blue lighten-1 hide-on-large-only">
-        <i class="mdi-action-search active"></i>
-        <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por alunos, grupos, prof..." />
-    </div>
+        <div class="header-search-wrapper blue lighten-1 hide-on-large-only">
+            <i class="mdi-action-search active"></i>
+            <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por alunos, grupos, prof..." />
+        </div>

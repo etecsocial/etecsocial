@@ -1,5 +1,6 @@
 @foreach($conversas as $conversa)
-<section id="mensagem-{{ $conversa->id }}">
+<section class="mensagem" id="mensagem-{{ $conversa->id }}">
+    
     <p class="email-subject truncate">{{$conversa->assunto}}</p>
     <hr class="grey-text text-lighten-2">
     <div class="email-content-wrap">
@@ -21,6 +22,7 @@
         </div>
         <div class="email-content">{{$conversa->msg}}</div>
     </div>
+    
 </section>
 @endforeach
 @if(empty($conversas[0]))

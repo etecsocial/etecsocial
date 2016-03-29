@@ -77,28 +77,33 @@ Mensagens | ETEC Social
                     </div>
                     <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
                         <ul class="collection">
-                            @foreach($users as $user)
-                            <li class="collection-item avatar" onclick="getConversa({{ $user->id }})" id="li-{{$user->id}}">
-                                <span class="circle red lighten-1">{{$user->nome[0]}}</span>
-          <!--                      <img src="" alt="" class="circle">-->
-                                <span class="email-title">{{ $user->nome }}</span>
-                                @if($last = \App\Mensagens::lastMsg($user->id))
-                                    <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
-                                        @if( ($last->id_remetente) == $uid)
-                                        <b> Você: </b> 
-                                        @endif
-                                        {{ $last->msg }}
-                                    </p>
-                                @else
-                                    <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
-                                        Clique para enviar uma mensagem
-                                    </p>
+                            
+                            @if(isset($users))
+                                @foreach($users as $user)
+                                <li class="collection-item avatar" onclick="getConversa({{ $user->id }})" id="li-{{$user->id}}">
+                                    <span class="circle red lighten-1">{{$user->nome[0]}}</span>
+              <!--                      <img src="" alt="" class="circle">-->
+                                    <span class="email-title">{{ $user->nome }}</span>
+                                    @if($last = \App\Mensagens::lastMsg($user->id))
+                                        <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
+                                            @if( ($last->id_remetente) == $uid)
+                                            <b> Você: </b> 
+                                            @endif
+                                            {{ $last->msg }}
+                                        </p>
+                                    @else
+                                        <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
+                                            Clique para enviar uma mensagem
+                                        </p>
+                                    @endif
+                                        <a href="#!" class="secondary-content email-time">
+                                            <span class="blue-text ultra-small" id="qtd-msgs-{{ $user->id }}">{{ \App\Mensagens::countMsgsTopic($user->id) }}</span>
+                                        </a>                            
+                                </li>
+                                @endforeach
+                            @else
+                            Não há conversas
                                 @endif
-                                    <a href="#!" class="secondary-content email-time">
-                                        <span class="blue-text ultra-small" id="qtd-msgs-{{ $user->id }}">{{ \App\Mensagens::countMsgsTopic($user->id) }}</span>
-                                    </a>                            
-                            </li>
-                            @endforeach
                         </ul>
                     </div>
 
