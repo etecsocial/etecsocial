@@ -7,9 +7,9 @@ use App\Tarefa;
 use Response;
 use DB;
 use Carbon\Carbon;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User;
+use Auth;
+use App\Mensagens;
 
 
 class TarefaController extends Controller {
@@ -33,7 +33,7 @@ class TarefaController extends Controller {
                 ->limit(10)
                 ->get();
 
-        return view('tarefas.tasks', [ 'tasks' => $tasks]);
+        return view('tarefas.tasks', [ 'tasks' => $tasks])->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
     }
     
     public function moretask(Request $request) {

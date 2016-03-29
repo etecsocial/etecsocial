@@ -10,6 +10,7 @@ use App\Amizade;
 use App\User;
 use App\Post;
 use Carbon\Carbon;
+use App\Mensagens;
 
 class PerfilController extends Controller {
 

@@ -11,6 +11,8 @@ use App\User;
 use App\GrupoUsuario;
 use Input;
 use Response;
+use Auth;
+use App\Mensagens;
 
 class AgendaController extends Controller {
 
@@ -20,7 +22,7 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function index() {
-        return view('agenda.home');
+        return view('agenda.home')->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
     }
 
     public function api(Request $request) {
