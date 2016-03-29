@@ -264,11 +264,11 @@
                             <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{$thisUser->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                             <p class="user-roal">
                                 @if($thisUser->tipo == 1)
-                                Aluno
+                                    Aluno
                                 @elseif($thisUser->tipo == 2) 
-                                Professor
+                                    Professor
                                 @else
-                                Moderador
+                                    Moderador
                                 @endif
                             </p>
                         </div>
@@ -279,31 +279,31 @@
                 <li class="bold">
                     <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
                         @if($msgsUnread)
-                        <span class="new badge">{{ $msgsUnread }}</span>
+                            <span class="new badge">{{ $msgsUnread }}</span>
                         @endif
                     </a> 
                 </li>
 
                 <li class="bold">
                     @if(isset($grupos[0]))
-                    <a class="waves-effect waves-cyan collapsible-header">
-                        <i class="mdi-action-assessment color-sec-darken-text"></i> 
-                        Grupos
-                    </a>
-                    <div class="collapsible-body">
-                        <ul>
-                            @foreach($grupos as $grupo)
-                            <li><a href="{{ url('grupo/'.$grupo->url) }}">{{ $grupo->nome }}</a></li>
-                            @endforeach
-                            <li><a href="{{ url('grupos') }}">Ver todos</a></li>
-                        </ul>
-                    </div>
+                        <a class="waves-effect waves-cyan collapsible-header">
+                            <i class="mdi-action-assessment color-sec-darken-text"></i> 
+                            Grupos
+                        </a>
+                        <div class="collapsible-body">
+                            <ul>
+                                @foreach($grupos as $grupo)
+                                    <li><a href="{{ url('grupo/'.$grupo->url) }}">{{ $grupo->nome }}</a></li>
+                                @endforeach
+                                <li><a href="{{ url('grupos') }}">Ver todos</a></li>
+                            </ul>
+                        </div>
 
                     @else
-                    <a class="waves-effect waves-cyan" href="{{ url('/grupos') }}">
-                        <i class="mdi-action-assessment color-sec-darken-text" ></i> 
-                        Grupos
-                    </a>
+                        <a class="waves-effect waves-cyan" href="{{ url('/grupos') }}">
+                            <i class="mdi-action-assessment color-sec-darken-text" ></i> 
+                            Grupos
+                        </a>
                     @endif
                 </li>
 
@@ -383,39 +383,39 @@
                             @if(!App\Notificacao::carrega())
                             <p>Não há novas notificações.</p>
                             @else
-                            <ul class="collection transparent" id="abnot">
-                                @foreach(App\Notificacao::carrega() as $not)
-                                @if($not->is_post)
-                                <li onclick="abrirPost({{ $not->action }})" class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
-                                    <img src="{{ App\User::avatar($not->id_rem) }}" alt="" class="circle">
-                                    <span class="title">{{ App\User::verUser($not->id_rem)->nome }}</span>
-                                    <small>
-                                        <small>
-                                            <p>{{ $not->texto }}</p>
-                                            <i>{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</i>
-                                            @if(!$not->visto)
-                                            <span class="new badge"></span>
-                                            @endif
-                                        </small>
-                                    </small>
-                                </li>
-                                @else
-                                <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
-                                    <img src="{{ App\User::avatar($not->id_rem) }}" alt="" class="circle">
-                                    <span class="title">{{ App\User::verUser($not->id_rem)->nome }}</span>
-                                    <small>
-                                        <small>
-                                            <p>{{ $not->texto }}</p>
-                                            <i>{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</i>
-                                            @if(!$not->visto)
-                                            <span class="new badge"></span>
-                                            @endif
-                                        </small>
-                                    </small>
-                                </li>
-                                @endif
-                                @endforeach
-                            </ul>
+                                <ul class="collection transparent" id="abnot">
+                                    @foreach(App\Notificacao::carrega() as $not)
+                                        @if($not->is_post)
+                                            <li onclick="abrirPost({{ $not->action }})" class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
+                                                <img src="{{ App\User::avatar($not->id_rem) }}" alt="" class="circle">
+                                                <span class="title">{{ App\User::verUser($not->id_rem)->nome }}</span>
+                                                <small>
+                                                    <small>
+                                                        <p>{{ $not->texto }}</p>
+                                                        <i>{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</i>
+                                                        @if(!$not->visto)
+                                                            <span class="new badge"></span>
+                                                        @endif
+                                                    </small>
+                                                </small>
+                                            </li>
+                                        @else
+                                            <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
+                                                <img src="{{ App\User::avatar($not->id_rem) }}" alt="" class="circle">
+                                                <span class="title">{{ App\User::verUser($not->id_rem)->nome }}</span>
+                                                <small>
+                                                    <small>
+                                                        <p>{{ $not->texto }}</p>
+                                                        <i>{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</i>
+                                                        @if(!$not->visto)
+                                                        <span class="new badge"></span>
+                                                        @endif
+                                                    </small>
+                                                </small>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
                             @endif
                         </div>
                         <div id="chat" class="col s12">
