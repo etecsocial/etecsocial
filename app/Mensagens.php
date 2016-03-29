@@ -76,6 +76,8 @@ class Mensagens extends Model {
     }
 
     public static function loadRecentes() {
+        
+        //tem que dar um jeito de juntar esses dois selects em um, por enquanto usarei o de cima
           $array1 = Mensagens::where(['copia_dest' => 1, 'id_destinatario' => Auth::user()->id])
                 ->join("users", 'users.id', '=', 'mensagens.id_remetente')
                 //->where('users.id', '!=', Auth::user()->id)

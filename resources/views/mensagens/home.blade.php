@@ -86,7 +86,7 @@ Mensagens | ETEC Social
                                     <span class="email-title">{{ $user->nome }}</span>
                                     @if($last = \App\Mensagens::lastMsg($user->id))
                                         <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
-                                            @if( ($last->id_remetente) == $uid)
+                                            @if( ($last->id_remetente) == $thisUser->id)
                                             <b> Você: </b> 
                                             @endif
                                             {{ $last->msg }}

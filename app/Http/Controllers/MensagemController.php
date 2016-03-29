@@ -31,7 +31,6 @@ class MensagemController extends Controller {
     public function index() {
         Carbon::setLocale('pt_BR');
         return view('mensagens.home', [
-            'uid' => Auth::user()->id,
             'myAvatar' => User::myAvatar(),
             'conversas' => Mensagens::loadConversas(),
             'users' => Mensagens::loadRecentes(),
