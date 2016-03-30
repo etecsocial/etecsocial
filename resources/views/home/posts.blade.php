@@ -42,11 +42,9 @@
                     @foreach(App\Tag::where('id_post', $post->id)->get() as $tag) 
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
-<?php /*
-                 @if(isset($post->is_repost)) 
-                    Compartilhado de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a>
-                    @endif **/
-                    ?>
+                 @if($post->is_repost) 
+                    Compartilhado de <a href="{{ url(App\User::verUser($post->id_user)->username) }}">{{ App\User::verUser($post->id_user)->nome }}</a>
+                    @endif 
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>
@@ -60,13 +58,18 @@
                 <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
             </div>
             <div class="col s6 m8"> 
-                Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
+                @if($post->id_user == $thisUser->id)
+                    Publicado por <a href="{{ url($thisUser->username) }}">você</a>
+                @else
+                    Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
+                @endif
             </div>
             @if($thisUser->id == $post->id_user) 
-            <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
+            <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="mdi-action-delete waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom"></i></a>
+            <a href="#modalEditar" onclick="Materialize.toast('<span>Recurso em desenvolvimento.</span>', 3000)" class="wino"><i class="mdi-editor-mode-edit waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Editar Publicação" data-delay="50" data-position="bottom"></i></a>
             @else 
-            <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
-            @endif.
+            <a href="#modalDenuncia" onclick="denunciar({{ $post->id }})" class="wino"><i class="mdi-content-flag tooltipped waves-light" style="opacity: 0.7" data-tooltip="Denunciar Publicação" data-delay="50" data-position="bottom"></i></a>
+            @endif
         </div>
         <div class="card-reveal">                                            
             <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>

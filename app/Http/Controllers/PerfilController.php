@@ -11,6 +11,7 @@ use App\User;
 use App\Post;
 use Carbon\Carbon;
 use App\Mensagens;
+use Auth;
 
 class PerfilController extends Controller {
 
@@ -23,7 +24,6 @@ class PerfilController extends Controller {
 
 
         if ($u = User::where('username', $username)->first()) {
-            Carbon::setLocale('pt_BR');
 
             if ($u->tipo === 1) {
                 $dados = User::where('username', $username)
@@ -84,7 +84,8 @@ class PerfilController extends Controller {
                 'num_grupos' => $num_grupos,
                 'amizade' => $amizade,
                 'tasks' => $tasks,
-                'thisUser' => Auth::user()
+                'thisUser' => Auth::user(),
+                'msgsUnread' => Mensagens::countUnread()
             ]);
         } else {
             return abort(404);

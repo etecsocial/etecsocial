@@ -28,7 +28,9 @@ Route::group(['middleware' => 'web'], function () {
         //PESQUISA
         Route::get('/busca/{termo}', 'PesquisaController@index');
         //GRUPO
-        Route::get('/grupos', 'GrupoController@listar');
+        Route::get('grupos', ['middleware'=>'a', function(){
+            return 'PAGINA';
+        }]);
         Route::get('/grupo/{groupname}', 'GrupoController@index');
         //TAREFA
         Route::get('/tarefas', 'TarefaController@index');

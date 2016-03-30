@@ -3,57 +3,54 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Response;
-
 use App\Http\Controllers\Controller;
-
 use DB;
 use Input;
-
 use App\Comentario;
 use App\Post;
 use App\Tag;
 use App\User;
+use App\Mensagens;
+use Auth;
 use App\Pontuacao;
 
-class PostController extends Controller
-{  
+class PostController extends Controller {
+
     public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
     public $extensionVideos = ['flv', 'FLV', 'mp4', 'MP4'];
     public $destinationPath = 'midia/posts';
-    
+
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store(Request $request)
-    {    
-        $this->validate($request, [ 'publicacao' => 'required' ]);
+    public function store(Request $request) {
+        $this->validate($request, [ 'publicacao' => 'required']);
 
         $post = new Post;
         $post->id_user = auth()->user()->id;
-        if($request->titulo) {
+        if ($request->titulo) {
             $post->titulo = $request->titulo;
         }
         $post->publicacao = $request->publicacao;
         $post->is_publico = $request->has('publico');
         $post->save();
-        
+
         if ($request->has('tags')) {
             $tags = $this->addTags($request->tags, $post->id);
         } else {
             $tags = array('post');
         }
-            
+
         if ($request->hasFile('midia')) {
             $this->addFile($request->midia, $post);
         } else {
             $this->addIcon($tags, $post);
         }
-        Pontuacao::pontuar(10, 'novo post');      
-        return Response::json([ "id" => $post->id, 'num_posts'=> Post::count(), 'pontuacao'=> Pontuacao::total()]);
+        Pontuacao::pontuar(10, 'novo post');
+        return Response::json([ "id" => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
     }
 
     /**
@@ -62,9 +59,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
-    {
-         $post = Post::join('users', 'users.id', '=', 'posts.id_user')
+    public function show($id) {
+        $post = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->orderBy('created_at', 'desc')
                 ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
@@ -72,8 +68,13 @@ class PostController extends Controller
                 ->where('amizades.id_user2', auth()->user()->id)
                 ->where('posts.id', $id)
                 ->first();
-         
-         return view('post.post', [ 'post' => $post ]);
+
+        return isset($post) ? view('post.post', [
+            'post' => $post,
+            'tags' => Tag::where('id_post', $post->id)->get(),
+            'thisUser' => Auth::user(),
+            'msgsUnread' => Mensagens::countUnread()]) 
+                : abort(404);
     }
 
     /**
@@ -82,14 +83,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($id, Request $request)
-    {
+    public function update($id, Request $request) {
         $post = Post::where('id', $id)->first();
-        if(isset($request->titulo)) $post->titulo = $request->titulo; else $post->titulo = 'Sem título';
+        if (isset($request->titulo))
+            $post->titulo = $request->titulo;
+        else
+            $post->titulo = 'Sem título';
         $post->publicacao = $request->publicacao;
         $post->is_publico = $request->has('publico');
         $post->save();
-        
+
         return $this->show($post->id);
     }
 
@@ -99,48 +102,45 @@ class PostController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $post = Post::where('id', $id)->first();
-        
+
         if ($post->id_user !== auth()->user()->id) {
-            return Response::json([ 'status' => false ]);
+            return Response::json([ 'status' => false]);
         }
         $post->delete();
-        
-        return Response::json([ 'status' => true, 'id' => $id ]);
+
+        return Response::json([ 'status' => true, 'id' => $id]);
     }
-    
-    public function favoritar(Request $request) 
-    {
+
+    public function favoritar(Request $request) {
         $post = Post::where('id', $request->id_post)->first();
 
         try {
             DB::table('favoritos')
                     ->insert(['id_post' => $request->id_post, 'id_user' => auth()->user()->id]);
-            
+
             $post->num_favoritos += 1;
             $post->save();
 
-            return Response::json([ 'status' => true, 'num' => $post->num_favoritos - 1 ]);
+            return Response::json([ 'status' => true, 'num' => $post->num_favoritos - 1]);
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 DB::table('favoritos')
                         ->where(['id_post' => $request->id_post, 'id_user' => auth()->user()->id])
                         ->delete();
-                
+
                 $post->num_favoritos -= 1;
                 $post->save();
 
-                return Response::json([ 'status' => false, 'num' => $post->num_favoritos ]);
+                return Response::json([ 'status' => false, 'num' => $post->num_favoritos]);
             }
         }
     }
-        
-    public function addFile($midia, $post) 
-    {
+
+    public function addFile($midia, $post) {
         $ext = $midia->getClientOriginalExtension();
-           
+
         if (in_array($ext, $this->extensionImages)) {
             $post->is_imagem = true;
         } else
@@ -149,47 +149,44 @@ class PostController extends Controller
         } else {
             return 'Erro ao adicionar mídia';
         }
-      
+
         Input::file('midia')->move($this->destinationPath, md5($post->id));
-        
+
         $post->url_midia = $this->destinationPath . '/' . md5($post->id);
         $post->save();
     }
-    
-    public function addTags($tags, $id_post) 
-    {
+
+    public function addTags($tags, $id_post) {
         $array = str_replace('#', '', explode(' ', $tags));
-        
+
         $n = (count($array) > 3) ? 3 : count($array);
-        
+
         for ($i = 0; $i < $n; $i++) {
-            $array != '# ' ?  Tag::create([ 'id_post' => $id_post, 'tag' => $array[$i] ]) : false;
+            $array != '# ' ? Tag::create([ 'id_post' => $id_post, 'tag' => $array[$i]]) : false;
         }
-        return $array;//não deixar coisar tag vazia!!!
+        return $array; //não deixar coisar tag vazia!!!
     }
-    
-    public function addIcon($tags, $post) 
-   {
-        foreach($tags as $tag) {
+
+    public function addIcon($tags, $post) {
+        foreach ($tags as $tag) {
             if ((strtolower($tag) == 'ajuda') || ($tag == 'Dúvida') || ($tag == 'socorro') || ($tag == 'pergunta') || ($tag == 'dúvida') || ($tag == 'duvida')) {
                 $post->url_midia = 'images/place-help.jpg';
             } else
-            if (strtolower($tag) == 'link') { 
+            if (strtolower($tag) == 'link') {
                 $post->url_midia = 'images/place-link.jpg';
             } else {
                 $post->url_midia = 'images/place-post.jpg';
             }
-            
+
             $post->save();
         }
     }
-    
-    public function repost(Request $request) 
-    {
+
+    public function repost(Request $request) {
         $post1 = Post::where('id', $request->id_post)->first();
         $post1->num_reposts += 1;
         $post1->save();
-        
+
         $post2 = new Post;
         $post2->id_user = auth()->user()->id;
         $post2->titulo = $post1->titulo;
@@ -202,7 +199,8 @@ class PostController extends Controller
         $post2->id_repost = $post1->id;
         $post2->user_repost = $post1->id_user;
         $post2->save();
-        
-        return Response::json(['id' => $post2->id, 'num' => $post1->num_reposts ]);
+
+        return Response::json(['id' => $post2->id, 'num' => $post1->num_reposts]);
     }
+
 }
