@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
-class Authenticate
-{
+class Authenticate {
+
     /**
      * Handle an incoming request.
      *
@@ -15,18 +16,17 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
-    {
+    public function handle($request, Closure $next, $guard = null) {
         if (auth()->guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             } else {
                 return redirect()->guest('login');
             }
-        }else{
-            App\Carbon::setLocale('pt_BR');
         }
+            Carbon::setLocale('pt_BR');
 
         return $next($request);
     }
+
 }
