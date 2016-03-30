@@ -44,8 +44,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'confirmation_code',
         'confirmed',
         'reputacao',
-        'num_desafios',
-        'num_auxilios',
         'id_escola',
         'nasc',
         'habilidades',
@@ -85,7 +83,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     
     public static function infoAcademica($id) 
     {
-        $user = User::where('id', $id)->select("info_academica")->first(); 
+        $user = User::where('id', $id)->select('info_academica')->limit(1)->get()->first(); 
         
         return json_decode($user->info_academica);
     }
@@ -100,9 +98,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return DB::table('outras_infos')->where('id_user', auth()->user()->id)->first();
     }
        
-    public static function isTeacher($uid) 
+    public static function isTeacher($id) 
     {
-       return User::where('id', $uid)->where('tipo', 2)->first(); 
+       return User::select('tipo')->where('id', $id)->where('tipo', 2)->limit(1)->get()->first(); 
     }
     
     public static function turmas() {
