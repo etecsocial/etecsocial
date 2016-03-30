@@ -88,7 +88,7 @@ ETEC Social | Início
                         <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12 grey lighten-4">
                             <div class="row">
                                 <div class="col s2 hide-on-med-and-down">
-                                    <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
+                                    <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
                                 </div>
                                 <div class="input-field col s6 l6">
                                     <input name="titulo" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">

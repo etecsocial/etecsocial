@@ -2,9 +2,9 @@
    <div class="col s10 m10 l10">
       <ul class="collection">
          <li class="collection-item avatar">
-            <img src="{{ App\User::avatar($user) }}" alt="" class="circle">
-            <span class="email-title">{{ App\User::verUser($user)->nome }}</span>
-            @if(App\User::verUser($user)->online)
+            <img src="{{ auth()->user()->avatar($user) }}" alt="" class="circle">
+            <span class="email-title">{{ auth()->user()->verUser($user)->nome }}</span>
+            @if(auth()->user()->verUser($user)->online)
             <p class="green-text ultra-small">Online</p>
             @endif
          </li>

@@ -3,7 +3,7 @@
    @if(auth()->user()->id == $comentario->id_user) 
    <a href="#modalExcluirComentario" onclick="excluirComentarioPergunta({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
    @endif
-   <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+   <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
    <div style="max-height: 80px; overflow-y: auto">
       <p>{{ $comentario->comentario }}</p>
    </div>

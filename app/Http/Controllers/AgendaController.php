@@ -11,7 +11,6 @@ use App\User;
 use App\GrupoUsuario;
 use Input;
 use Response;
-use Auth;
 use App\Mensagens;
 
 class AgendaController extends Controller {

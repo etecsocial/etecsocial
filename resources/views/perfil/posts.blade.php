@@ -9,7 +9,7 @@
 <div class="timeline-content">
    <!-- Inicio Publicação com foto ou video-->
    <section class="blog col s12">
-   <h5 class="timeline-post-title truncate" style="max-width: 100%">Compartilhou <i class="mdi-content-reply grey-text lighten-3"></i><span style="font-size: 1.0rem"> de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a></span></h5>
+   <h5 class="timeline-post-title truncate" style="max-width: 100%">Compartilhou <i class="mdi-content-reply grey-text lighten-3"></i><span style="font-size: 1.0rem"> de <a href="{{ url(auth()->user()->verUser($post->user_repost)->username) }}">{{ auth()->user()->verUser($post->user_repost)->nome }}</a></span></h5>
    @else
    <div class="timeline-icon light-green lighten-1 white-text">
       <i class="ion mdi-editor-mode-edit"></i>
@@ -70,7 +70,7 @@
                <p class="blog-post-content">{{ $post->publicacao }}</p>
                <div class="row" style="margin-top:10px">
                   <div class="col s2">
-                     <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                     <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
                   </div>
                   <div class="col s9"> Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a></div>
                   <!--                                <i class="mdi-navigation-more-vert dropdown-button waves-effect waves-light" style="opacity: 0.7" href="#!" data-activates="dropdown1"></i>-->
@@ -84,7 +84,7 @@
                      @if(auth()->user()->id == $comentario->id_user) 
                      <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                      @endif
-                     <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                     <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                      <p>{{ $comentario->comentario }}</p>
                   </li>
                   @endforeach           

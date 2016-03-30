@@ -14,9 +14,9 @@
                     </blockquote>
                     <div class="row">
                         <div class="col s2">
-                            <img src="{{ App\User::Avatar($discussao->id_autor)}}" alt="Este é {{ App\User::verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
+                            <img src="{{ auth()->user()->Avatar($discussao->id_autor)}}" alt="Este é {{ auth()->user()->verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
                         </div>
-                        <div class="col s9"> Por <a href="{{ url(App\User::verUser($discussao-> id_autor)-> username)}}">{{ App\User::verUser($discussao->id_autor)->nome }}</a></div>
+                        <div class="col s9"> Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->nome }}</a></div>
                             <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
                     </div>
 

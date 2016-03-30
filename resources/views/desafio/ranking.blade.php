@@ -45,8 +45,8 @@ Ranking | ETEC Social
         @foreach($usuarios as $usuario)
         <li class="row">
             <div class="col l2">
-                <a href="{{ App\User::avatar($usuario->user_id) }}" data-lightbox="ju">
-                    <img src="{{ App\User::avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
+                <a href="{{ auth()->user()->avatar($usuario->user_id) }}" data-lightbox="ju">
+                    <img src="{{ auth()->user()->avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
                 </a>
             </div>
             <div class="col l5">

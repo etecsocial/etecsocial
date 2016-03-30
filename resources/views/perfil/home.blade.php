@@ -201,8 +201,8 @@
             <img class="activator" src="images/capa-perfil.jpg" alt="Perfil de {{ $user->nome_usuario }}" style="background-position: cover">
          </div>
          <figure class="card-profile-image" style="z-index: 2">
-            <a href="{{ App\User::avatar($user->id) }}" data-lightbox="ju">
-            <img src="{{ App\User::avatar($user->id) }}" class="circle z-depth-2 responsive-img activator">
+            <a href="{{ auth()->user()->avatar($user->id) }}" data-lightbox="ju">
+            <img src="{{ auth()->user()->avatar($user->id) }}" class="circle z-depth-2 responsive-img activator">
             </a>
          </figure>
          <div class="card-content">
@@ -210,7 +210,7 @@
                <div class="col s12 l3 offset-l2">
                   <h4 class="card-title grey-text text-darken-4">{{ $user->nome_usuario }} {{ $user->sobrenome}}</h4>
                   @if($user->tipo == 1)
-                  <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', App\User::infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</p>
+                  <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', auth()->user()->infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</p>
                   @else
                   <p class="medium-small grey-text tooltipped" data-tooltip="{{ $infoacad->atuacao }}" data-position="botton" data-delay="50">{{ $infoacad->formacao }}</p>
                   @endif
@@ -334,7 +334,7 @@
                <li class="collection-item">
                   <div class="row">
                      <div class="col s4 grey-text darken-1"><i class="mdi-social-group"></i> <span class="hide-on-small-only">Turma</span></div>
-                     <div class="col s8 grey-text text-darken-4 right-align truncate">{{ explode(' ', App\User::infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</div>
+                     <div class="col s8 grey-text text-darken-4 right-align truncate">{{ explode(' ', auth()->user()->infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</div>
                   </div>
                </li>
                <li class="collection-item">
@@ -437,7 +437,7 @@
                   <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12 grey lighten-4">
                      <div class="row">
                         <div class="col s2 hide-on-med-and-down">
-                           <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
+                           <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
                         </div>
                         <div class="input-field col s6 l6">
                            <input name="titulo" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
@@ -529,7 +529,7 @@
                         <!-- Inicio Publicação com foto ou video-->
                         <section class="blog col s12">
                            <?php /*
-                              <h5 class="timeline-post-title truncate" style="max-width: 100%">Compartilhou <i class="mdi-content-reply grey-text lighten-3"></i><span style="font-size: 1.0rem"> de <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a></span></h5>
+                              <h5 class="timeline-post-title truncate" style="max-width: 100%">Compartilhou <i class="mdi-content-reply grey-text lighten-3"></i><span style="font-size: 1.0rem"> de <a href="{{ url(auth()->user()->verUser($post->user_repost)->username) }}">{{ auth()->user()->verUser($post->user_repost)->nome }}</a></span></h5>
                               */ ?>
                            @else
                            <div class="timeline-icon light-green lighten-1 white-text">
@@ -591,7 +591,7 @@
                                        <p class="blog-post-content">{{ $post->publicacao }}</p>
                                        <div class="row" style="margin-top:10px">
                                           <div class="col s2">
-                                             <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                                             <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
                                           </div>
                                           <div class="col s9"> Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a></div>
                                           <i class="mdi-navigation-more-vert dropdown-button waves-effect waves-light" style="opacity: 0.7" href="#!" data-activates="dropdown1"></i>
@@ -605,7 +605,7 @@
                                              @if(auth()->user()->id == $comentario->id_user) 
                                              <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                                              @endif
-                                             <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                                             <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                                              <p>{{ $comentario->comentario }}</p>
                                           </li>
                                           @endforeach           

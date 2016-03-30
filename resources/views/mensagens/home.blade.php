@@ -92,7 +92,7 @@ Mensagens | ETEC Social
                                             {{ $last->msg }}
                                         </p>
                                     @else
-                                        <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\App\User::verUser($user->id)->nome}}')">
+                                        <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\auth()->user()->verUser($user->id)->nome}}')">
                                             Clique para enviar uma mensagem
                                         </p>
                                     @endif

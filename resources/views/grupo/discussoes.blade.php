@@ -5,7 +5,7 @@
         <div class="row">
             <input type="hidden" name="idgrupo" value="{{ $grupo-> id}}">
             <div class="col s2">
-                <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width:100px">
+                <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width:100px">
             </div>
             <div class="input-field col s5">
                 <input name="titulo" placeholder="Título" spellcheck="true" autocomplete="off" type="text" class="validate tooltipped" data-tooltip="O título deve ser objetivo." data-delay="50" data-position="bottom">
@@ -60,13 +60,13 @@
                     </blockquote>
                     <div class="row">
                         <div class="col s2">
-                            <img src="{{ App\User::avatar($discussao->id_autor)}}" alt="Este é {{ App\User::verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
+                            <img src="{{ auth()->user()->avatar($discussao->id_autor)}}" alt="Este é {{ auth()->user()->verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
                         </div>
                         <div class="col s9">
-                            Por <a href="{{ url(App\User::verUser($discussao-> id_autor)-> username)}}">{{ App\User::verUser($discussao->id_autor)->nome }}</a>
+                            Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->nome }}</a>
                         </div>
 
-                        @if(($thisUser->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($discussao->id_autor))) or (App\User::isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                        @if(($thisUser->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->id_autor))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                         <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
                         @else
                         <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->id_autor }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
@@ -89,7 +89,7 @@
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-                        <img src="{{ App\User::avatar($comm->id_user) }}" data-tooltip="Este é você" class="circle tooltipped">
+                        <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Este é você" class="circle tooltipped">
                         <div style="max-height: 80px; overflow-y: auto">
                             <p>{{ $comm-> comentario}}</p>
                         </div>
@@ -102,11 +102,11 @@
                     @elseif($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->get()) <!--NÃO É BANIDO-->
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
-                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user)))) 
+                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user)))) 
 
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                         @endif
-                        <img src="{{ App\User::avatar($comm->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comm->id_user)->nome }}" class="circle tooltipped">
+                        <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comm->id_user)->nome }}" class="circle tooltipped">
                         <div style="max-height: 80px; overflow-y: auto">
                             <p>{{ $comm-> comentario}}</p>
                         </div>

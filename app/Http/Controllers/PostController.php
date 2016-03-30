@@ -12,7 +12,6 @@ use App\Post;
 use App\Tag;
 use App\User;
 use App\Mensagens;
-use Auth;
 use App\Pontuacao;
 
 class PostController extends Controller {
@@ -72,7 +71,7 @@ class PostController extends Controller {
         return isset($post) ? view('post.post', [
             'post' => $post,
             'tags' => Tag::where('id_post', $post->id)->get(),
-            'thisUser' => Auth::user(),
+            'thisUser' => auth()->user(),
             'msgsUnread' => Mensagens::countUnread()]) 
                 : abort(404);
     }

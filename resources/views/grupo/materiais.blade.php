@@ -12,7 +12,7 @@
                     <div class="row">
                         <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
                         <div class="col s2">
-                            <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
+                            <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
                         </div>
                         <div class="input-field col s5">
                             <input name="nomeEnd" placeholder="Nome" spellcheck="true" autocomplete="off" autofocus length="50" type="text" class="validate tooltipped" data-tooltip="O titulo deve ser objetivo." data-delay="50" data-position="bottom">
@@ -36,7 +36,7 @@
                     <div class="row">
                         <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
                         <div class="col s2">
-                            <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
+                            <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
                         </div>
                         <div class="input-field col s5">
                             <input name="nomeMid" placeholder="Nome" spellcheck="true" autocomplete="off" autofocus length="25" type="text" class="validate tooltipped" data-tooltip="O titulo deve ser objetivo." data-delay="50" data-position="bottom">
@@ -65,7 +65,7 @@
                     <div class="row">
                         <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
                         <div class="col s2">
-                            <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
+                            <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
                         </div>
                         <div class="input-field col s5">
                             <input name="nomeDoc" placeholder="Nome" spellcheck="true" autocomplete="off" autofocus length="25" type="text" class="validate tooltipped" data-tooltip="O titulo deve ser objetivo." data-delay="50" data-position="bottom">
@@ -110,8 +110,8 @@
             <div class="col s6">
                 <ul class="collection">
                     <li class="collection-item avatar" style="height: auto">
-                        <img src="{{ App\User::avatar($material->id_autor) }}" data-tooltip="Este é {{ App\User::verUser($material->id_autor)->nome }}" class="circle tooltipped">
-                        <span class="title">Por {{ App\User::verUser($material->id_autor)->nome }}</span>
+                        <img src="{{ auth()->user()->avatar($material->id_autor) }}" data-tooltip="Este é {{ auth()->user()->verUser($material->id_autor)->nome }}" class="circle tooltipped">
+                        <span class="title">Por {{ auth()->user()->verUser($material->id_autor)->nome }}</span>
                         <br>{{ $material->nome }}<p>
                             @if($material->tipo == 'link')
                             <a target="_blank" href="http://{{$material->caminho}}">Ir para "{{ $material->caminho }}"</a>
@@ -143,8 +143,8 @@
             <div class="col s6">
                 <ul class="collection">
                     <li class="collection-item avatar" style="height: auto">
-                        <img src="{{ App\User::avatar($material->id_autor) }}" data-tooltip="Este é {{ App\User::verUser($material->id_autor)->nome }}" class="circle tooltipped">
-                        <span class="title">Por {{ App\User::verUser($material->id_autor)->nome }}</span>
+                        <img src="{{ auth()->user()->avatar($material->id_autor) }}" data-tooltip="Este é {{ auth()->user()->verUser($material->id_autor)->nome }}" class="circle tooltipped">
+                        <span class="title">Por {{ auth()->user()->verUser($material->id_autor)->nome }}</span>
                         <br>{{ $material->nome }}<p>
                             @if($material->tipo == 'link')
                             <a target="_blank" href="http://{{$material->caminho}}">Ir para "{{ $material->caminho }}"</a>

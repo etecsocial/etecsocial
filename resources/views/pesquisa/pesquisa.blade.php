@@ -72,12 +72,12 @@
       <ul class="collection">
          @foreach($alunos as $aluno)
          <li class="collection-item avatar">
-            <img src="{{ App\User::avatar($aluno->id) }}" data-tooltip="{{ $aluno->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
-            <span class="title"><a href="{{ url(App\User::verUser($aluno->id)->username) }}"><strong>{{ $aluno->nome_usuario }}</strong></a></span>
+            <img src="{{ auth()->user()->avatar($aluno->id) }}" data-tooltip="{{ $aluno->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
+            <span class="title"><a href="{{ url(auth()->user()->verUser($aluno->id)->username) }}"><strong>{{ $aluno->nome_usuario }}</strong></a></span>
             <p>{{ $aluno->nome_etec }}<br>
-               {{ explode(' ', App\User::infoAcademica($aluno->id)->modulo)[0] }} {{ $aluno->sigla }}
+               {{ explode(' ', auth()->user()->infoAcademica($aluno->id)->modulo)[0] }} {{ $aluno->sigla }}
             </p>
-            <a href="{{ url(App\User::verUser($aluno->id)->username) }}" class="secondary-content"><i class="material-icons color-pri-text">send</i></a>
+            <a href="{{ url(auth()->user()->verUser($aluno->id)->username) }}" class="secondary-content"><i class="material-icons color-pri-text">send</i></a>
          </li>
          @endforeach
       </ul>
@@ -88,10 +88,10 @@
       <ul class="collection">
          @foreach($professores as $professor)
          <li class="collection-item avatar">
-            <img src="{{ App\User::avatar($professor->id) }}" data-tooltip="{{ $professor->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
-            <span class="title"><a href="{{ url(App\User::verUser($professor->id)->username) }}"><strong>{{ $professor->nome }}</strong></a></span>
-            <p>Professor de {{ App\User::infoAcademica($professor->id)->atuacao }}<br>
-               Formado em {{ App\User::infoAcademica($professor->id)->formacao }}
+            <img src="{{ auth()->user()->avatar($professor->id) }}" data-tooltip="{{ $professor->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
+            <span class="title"><a href="{{ url(auth()->user()->verUser($professor->id)->username) }}"><strong>{{ $professor->nome }}</strong></a></span>
+            <p>Professor de {{ auth()->user()->infoAcademica($professor->id)->atuacao }}<br>
+               Formado em {{ auth()->user()->infoAcademica($professor->id)->formacao }}
             </p>
             <a href="#!" class="secondary-content"><i class="material-icons color-pri-text">send</i></a>
          </li>

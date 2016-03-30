@@ -7,7 +7,7 @@
    <i class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #039be5; cursor: pointer"></i>
    <i class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #039be5; cursor: pointer"></i>
    @endif
-   <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+   <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
    <p id="com-{{ $comentario->id }}-text">
       {{ $comentario->comentario }}
    </p>

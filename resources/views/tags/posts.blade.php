@@ -202,7 +202,7 @@ ETEC Social
                         <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                         @endforeach
                         @if($post->is_repost) 
-                        De <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a> 
+                        De <a href="{{ url(auth()->user()->verUser($post->user_repost)->username) }}">{{ auth()->user()->verUser($post->user_repost)->nome }}</a> 
                         @endif
                         </span>
                         <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
@@ -213,7 +213,7 @@ ETEC Social
                   </div>
                   <div class="row" id="autor-post">
                      <div class="col s2">
-                        <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                        <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
                      </div>
                      <div class="col s6 m8"> 
                         Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a>
@@ -232,7 +232,7 @@ ETEC Social
                            @if(auth()->user()->id == $comentario->id_user) 
                            <a href="#modalExcluirComentario" onclick="excluirComentario({{ $post->id }}, {{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                            @endif
-                           <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                           <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                            <p>{{ $comentario->comentario }}</p>
                         </li>
                         @endforeach
@@ -298,7 +298,7 @@ ETEC Social
                         <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                         @endforeach
                         @if($post->is_repost) 
-                        De <a href="{{ url(App\User::verUser($post->user_repost)->username) }}">{{ App\User::verUser($post->user_repost)->nome }}</a> 
+                        De <a href="{{ url(auth()->user()->verUser($post->user_repost)->username) }}">{{ auth()->user()->verUser($post->user_repost)->nome }}</a> 
                         @endif
                         </span>
                         <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
@@ -309,7 +309,7 @@ ETEC Social
                   </div>
                   <div class="row" id="autor-post">
                      <div class="col s2">
-                        <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                        <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
                      </div>
                      <div class="col s6 m8"> 
                         Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a>
@@ -328,7 +328,7 @@ ETEC Social
                            @if(auth()->user()->id == $comentario->id_user) 
                            <a href="#modalExcluirComentario" onclick="excluirComentario({{ $post->id }}, {{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                            @endif
-                           <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                           <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                            <p>{{ $comentario->comentario }}</p>
                         </li>
                         @endforeach

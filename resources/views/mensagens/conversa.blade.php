@@ -8,9 +8,9 @@
             <div class="col s10 m10 l10">
                 <ul class="collection">
                     <li class="collection-item avatar">
-                        <span class="circle light-blue">{{\App\User::verUser($conversa->id_remetente)->nome[0]}}</span>
-                        <span class="email-title">{{\App\User::verUser($conversa->id_remetente)->nome}}</span>
-                        <p class="truncate grey-text ultra-small"><b>Para:</b> {{\App\User::verUser($conversa->id_destinatario)->nome}}</p>
+                        <span class="circle light-blue">{{\auth()->user()->verUser($conversa->id_remetente)->nome[0]}}</span>
+                        <span class="email-title">{{\auth()->user()->verUser($conversa->id_remetente)->nome}}</span>
+                        <p class="truncate grey-text ultra-small"><b>Para:</b> {{\auth()->user()->verUser($conversa->id_destinatario)->nome}}</p>
                         <p class="grey-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($conversa->created_at))->diffForHumans()}}</p>
                     </li>
                 </ul>

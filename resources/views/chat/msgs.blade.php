@@ -5,6 +5,6 @@
 <div class="chatm from-me" data-date="{{ $chat['data'] }}">{{ $chat['msg'] }}</div>
 @else
 <div class="chatn clear"></div>
-<div class="chatm from-them" data-date="{{ $chat['data'] }}"><img class="circle photo" alt="John Peter" src="{{ App\User::avatar($id_user) }}"> {{ $chat['msg'] }} </div>
+<div class="chatm from-them" data-date="{{ $chat['data'] }}"><img class="circle photo" alt="John Peter" src="{{ auth()->user()->avatar($id_user) }}"> {{ $chat['msg'] }} </div>
 @endif
 @endforeach

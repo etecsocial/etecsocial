@@ -46,9 +46,9 @@
                                                         @foreach($alunos_int as $aluno)
                                                         <div id="aluno-int-1-{{$aluno->id}}">
                                                             @if($aluno->id == $thisUser->id)
-                                                                <div class="col s2"><img src="{{ App\User::avatar($aluno->id) }}" alt="Este é você." data-tooltip="Você" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
+                                                                <div class="col s2"><img src="{{ auth()->user()->avatar($aluno->id) }}" alt="Este é você." data-tooltip="Você" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
                                                             @else   
-                                                                <div class="col s2"><img src="{{ App\User::avatar($aluno->id) }}" alt="{{ App\User::verUser($aluno->id)->nome }}" data-tooltip="{{ App\User::verUser($aluno->id)->nome }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
+                                                                <div class="col s2"><img src="{{ auth()->user()->avatar($aluno->id) }}" alt="{{ auth()->user()->verUser($aluno->id)->nome }}" data-tooltip="{{ auth()->user()->verUser($aluno->id)->nome }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
                                                             @endif
                                                         </div>
                                                         @endforeach
@@ -89,9 +89,9 @@
                                                                     @if(isset($amigos_nao_int))
                                                                     
                                                                         @foreach($amigos_nao_int as $amigo)
-                                                                        @if(!App\User::isTeacher($amigo->id))
+                                                                        @if(!auth()->user()->isTeacher($amigo->id))
                                                                             <div id="grupo-amigo-dir-{{ $amigo->id }}" class="chip" onclick="addAlunoGrupoDireto({{ $amigo->id }}, {{ $grupo->id }})" style="margin-bottom: 10px; margin-right: 5px; cursor: pointer">
-                                                                                <img src="{{ App\User::Avatar($amigo->id) }}" alt="Foto de {{ $amigo->nome }}">
+                                                                                <img src="{{ auth()->user()->Avatar($amigo->id) }}" alt="Foto de {{ $amigo->nome }}">
                                                                                 {{ $amigo->nome }}
                                                                                 <input id="input-grupo-amigo-{{ $amigo->id }}" type="hidden" name="id_aluno" value="{{ $amigo->nome }}">
                                                                             </div>
@@ -102,7 +102,7 @@
                                                                             <p>Alunos banidos</p><br>
                                                                             @foreach($lunos_ban as $amigo)
                                                                                 <div id="grupo-amigo-dir-{{ $amigo->id }}" class="chip" onclick="addAlunoGrupoDireto({{ $amigo->id }}, {{ $grupo->id }})" style="margin-bottom: 10px; margin-right: 5px; cursor: pointer">
-                                                                                    <img src="{{ App\User::Avatar($amigo->id) }}" alt="Foto de {{ $amigo->nome }}">
+                                                                                    <img src="{{ auth()->user()->Avatar($amigo->id) }}" alt="Foto de {{ $amigo->nome }}">
                                                                                     {{ $amigo->nome }}
                                                                                     <input id="input-grupo-amigo-{{ $amigo->id }}" type="hidden" name="id_aluno" value="{{ $amigo->nome }}">
                                                                                 </div>
@@ -125,7 +125,7 @@
                                                                         <div id="aluno-int-2-{{$amigo->id}}" class="col s6">
                                                                             @if($amigo->id != $thisUser->id)
                                                                                 <div id="amigo-dir-{{ $amigo->id }}" class="chip" onclick="removeAlunoGrupo({{ $amigo->id }}, {{ $grupo->id }})" style="margin-bottom: 10px; margin-right: 5px; cursor: pointer">
-                                                                                    <img src="{{ App\User::Avatar($amigo->id) }}" alt="Foto de {{ $amigo->nome }}">
+                                                                                    <img src="{{ auth()->user()->Avatar($amigo->id) }}" alt="Foto de {{ $amigo->nome }}">
                                                                                     {{ $amigo->nome }}
                                                                                 </div>
                                                                             @endif
@@ -156,7 +156,7 @@
                                                 <div class="col s12">
                                                     @if(isset($professores_int))
                                                         @foreach($professores_int as $professores)
-                                                            <div class="col s2"><img src="{{ App\User::avatar($professores->id) }}" alt="{{$professores->id == $thisUser->id ? 'Este é você' : App\User::verUser($professores->id)->nome }}" data-tooltip="{{ $professores->id == $thisUser->id ? 'Você' :App\User::verUser($professores->id)->nome }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
+                                                            <div class="col s2"><img src="{{ auth()->user()->avatar($professores->id) }}" alt="{{$professores->id == $thisUser->id ? 'Este é você' : auth()->user()->verUser($professores->id)->nome }}" data-tooltip="{{ $professores->id == $thisUser->id ? 'Você' :auth()->user()->verUser($professores->id)->nome }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
                                                         @endforeach
                                                     @else 
                                                     <p class="col s12">Ainda não há professores no grupo. {{ isset($expirado) ? '' : 'Você pode convidar algum, se quiser.' }} </p>
@@ -184,7 +184,7 @@
                                                         @if(isset($professores_nao_int))
                                                             @foreach($professores_nao_int as $professores)
                                                                 <div id="grupo-professor-dir-{{ $professores->id }}" class="chip" onclick="addProfessorGrupoDir({{ $professores->id }}, {{ $grupo->id }})" style="margin-bottom: 10px; margin-right: 5px; cursor: pointer">
-                                                                    <img src="{{ App\User::Avatar($professores->id) }}" alt="Foto de {{ $professores->nome }}">
+                                                                    <img src="{{ auth()->user()->Avatar($professores->id) }}" alt="Foto de {{ $professores->nome }}">
                                                                     {{ $professores->nome }}
                                                                     <input id="input-grupo-professor-{{ $professores->id }}" type="hidden" name="id_professor" value="{{ $professores->nome }}">
                                                                 </div>

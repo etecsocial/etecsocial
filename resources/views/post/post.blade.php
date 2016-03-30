@@ -75,7 +75,7 @@
                     @endforeach
 
                  @if($post->is_repost) 
-                    Compartilhado de <a href="{{ url(App\User::verUser($post->id_user)->username) }}">{{ App\User::verUser($post->id_user)->nome }}</a>
+                    Compartilhado de <a href="{{ url(auth()->user()->verUser($post->id_user)->username) }}">{{ auth()->user()->verUser($post->id_user)->nome }}</a>
                     @endif 
                 </span>
                 <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
@@ -87,7 +87,7 @@
         </div>
         <div class="row" id="autor-post">
             <div class="col s2">
-                <img src="{{ App\User::avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
             </div>
             <div class="col s6 m8"> 
                 Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
@@ -124,7 +124,7 @@
                         @endif
                     </div>
                         @endif
-                    <img src="{{ App\User::avatar($comentario->id_user) }}" data-tooltip="Este é {{ App\User::verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                    <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                     <p id="com-{{ $comentario->id }}-text">{{ $comentario->comentario }}</p>
                 </li>
                 @endforeach           

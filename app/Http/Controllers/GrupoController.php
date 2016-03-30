@@ -19,7 +19,6 @@ use App\Grupo;
 use App\User;
 use Response;
 use Input;
-use Auth;
 use DB;
 
 use Carbon\Carbon;
@@ -38,39 +37,39 @@ class GrupoController extends Controller {
 
     public function listar() {
         Carbon::setLocale('pt_BR');
-        $grupos = GrupoUsuario::where('id_user', Auth::user()->id)
+        $grupos = GrupoUsuario::where('id_user', auth()->user()->id)
                 ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
                 ->get();
 
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
-                ->where('users.id', "!=", Auth::user()->id)
+                ->where('users.id', "!=", auth()->user()->id)
                 ->select(['users.id', 'users.nome', 'users.info_academica'])
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
         $professores = User::where('tipo', 2)->get();
 
-        return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => Auth::user()]);
+        return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => auth()->user()]);
     }
 
     public function index($groupname) {
         Carbon::setLocale('pt_BR');
         if ($grupo = Grupo::where('url', $groupname)->first()) {//Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {//Verifica se é expirado
-                if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {//Verifica se o usuário é integrante e não está banido
-                    return view('grupo.grupo', $dados = $this->getGroupData($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
-                } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {//Verifica se o usuário é banido, já que a seleção anterior falhou
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
+                if (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {//Verifica se o usuário é integrante e não está banido
+                    return view('grupo.grupo', $dados = $this->getGroupData($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+                } elseif (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {//Verifica se o usuário é banido, já que a seleção anterior falhou
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
                 } else {//O usuário não é integrante do grupo
                     return abort(404);
                 }
             } else {//O grupo expirou.
-                if (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
-                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
-                } elseif (GrupoUsuario::where('id_user', Auth::user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {
+                if (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
+                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+                } elseif (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {
 
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
+                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
                 } else {//USUÁRIO NAO ESTÁ NO GRUPO
                     return abort(404);
                 }
@@ -96,7 +95,7 @@ class GrupoController extends Controller {
             $grupo->assunto = $request->assunto;
             $grupo->url = $request->url ? $request->url : $this->makeUrl($grupo->nome);
             $grupo->materia = $request->materia;
-            $grupo->id_criador = Auth::user()->id;
+            $grupo->id_criador = auth()->user()->id;
             $grupo->num_participantes = 1;
             $grupo->criacao = \Carbon\Carbon::today();
             if ($request->expiracao) {
@@ -155,7 +154,7 @@ class GrupoController extends Controller {
             $add->id_user = $request->id_amigo;
             if ($add->save()) {
                 Notificacao::create([
-                    'id_rem' => Auth::user()->id,
+                    'id_rem' => auth()->user()->id,
                     'id_dest' => $request->id_amigo,
                     'data' => time(),
                     'texto' => "Adicionou você ao grupo '" . Grupo::verGrupo($request->id_grupo)->nome . "'",
@@ -218,18 +217,18 @@ class GrupoController extends Controller {
         if ($request->titulo) {
             $disc->titulo = $request->titulo;
         }
-        $disc->id_autor = Auth::user()->id;
+        $disc->id_autor = auth()->user()->id;
         $disc->assunto = $request->assunto;
         $disc->discussao = $request->discussao;
         $disc->save();
 
         $this->incDiscussao($request->idgrupo);
-        $this->setAtiv($request->idgrupo, null, 'discussao', \Carbon\Carbon::now(), Auth::user()->id);
+        $this->setAtiv($request->idgrupo, null, 'discussao', \Carbon\Carbon::now(), auth()->user()->id);
 
-        $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('id_user', '<>', Auth::User()->id)->get();
+        $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('id_user', '<>', auth()->user()->id)->get();
         foreach ($id_dests as $id_dest) {
             Notificacao::create([
-                'id_rem' => Auth::user()->id,
+                'id_rem' => auth()->user()->id,
                 'id_dest' => $id_dest->id_user,
                 'data' => time(),
                 'texto' => 'Iniciou uma discussão no grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
@@ -268,17 +267,17 @@ class GrupoController extends Controller {
         if ($request->assunto) {
             $perg->assunto = $request->assunto;
         }
-        $perg->id_autor = Auth::user()->id;
+        $perg->id_autor = auth()->user()->id;
         $perg->pergunta = $request->pergunta;
         $perg->save();
 
         $this->incPergunta($request->idgrupo);
-        $this->setAtiv($request->idgrupo, $request->pergunta, 'pergunta', \Carbon\Carbon::now(), Auth::user()->id);
+        $this->setAtiv($request->idgrupo, $request->pergunta, 'pergunta', \Carbon\Carbon::now(), auth()->user()->id);
 
-        $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('id_user', '<>', Auth::User()->id)->get();
+        $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('id_user', '<>', auth()->user()->id)->get();
         foreach ($id_dests as $id_dest) {
             Notificacao::create([
-                'id_rem' => Auth::user()->id,
+                'id_rem' => auth()->user()->id,
                 'id_dest' => $id_dest->id_user,
                 'data' => time(),
                 'texto' => 'Perguntou no grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
@@ -306,12 +305,12 @@ class GrupoController extends Controller {
 
             $mat = new GrupoMaterial;
             $mat->id_grupo = $request->id_grupo;
-            $mat->id_autor = Auth::user()->id;
+            $mat->id_autor = auth()->user()->id;
             if (Input::hasFile('midia')) {
                 $ext = Input::file('midia')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionMidia)) {
-                    Input::file('midia')->move($this->MidiaDestinationPath, md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $mat->caminho = $this->MidiaDestinationPath . '/' . md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('midia')->move($this->MidiaDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
+                    $mat->caminho = $this->MidiaDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
                     $mat->nome = $request->nomeMid;
                     $mat->tipo = 'midia';
                 } else {
@@ -320,8 +319,8 @@ class GrupoController extends Controller {
             } elseif (Input::hasFile('documento')) {
                 $ext = Input::file('documento')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionDocs)) {
-                    Input::file('documento')->move($this->DocsDestinationPath, md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $mat->caminho = $this->DocsDestinationPath . '/' . md5(Auth::User()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('documento')->move($this->DocsDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
+                    $mat->caminho = $this->DocsDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
                     $mat->nome = $request->nomeDoc;
                     $mat->tipo = 'documento';
                 } else {
@@ -337,11 +336,11 @@ class GrupoController extends Controller {
                 //$mat->caminho = $request->documento;
                 $mat->tipo = 'documento';
             }
-            if ($mat->save() and ( $this->setAtiv($mat->id_grupo, $mat->nome, $mat->tipo, \Carbon\Carbon::now(), Auth::user()->id))) {
-                $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('id_user', '<>', Auth::User()->id)->get();
+            if ($mat->save() and ( $this->setAtiv($mat->id_grupo, $mat->nome, $mat->tipo, \Carbon\Carbon::now(), auth()->user()->id))) {
+                $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('id_user', '<>', auth()->user()->id)->get();
                 foreach ($id_dests as $id_dest) {
                     Notificacao::create([
-                        'id_rem' => Auth::user()->id,
+                        'id_rem' => auth()->user()->id,
                         'id_dest' => $id_dest->id_user,
                         'data' => time(),
                         'texto' => 'Adicionou um material no grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
@@ -380,7 +379,7 @@ class GrupoController extends Controller {
             $id_dests = GrupoUsuario::where('id_grupo', $request->idgrupo)->select(['id_user'])->where('is_admin', 0);
             foreach ($id_dests as $id_dest) {
                 Notificacao::create([
-                    'id_rem' => Auth::user()->id,
+                    'id_rem' => auth()->user()->id,
                     'id_dest' => $id_dest->id_user,
                     'data' => time(),
                     'texto' => 'Editou algumas informações do grupo "' . Grupo::verGrupo($request->idgrupo)->nome . '"',
@@ -407,9 +406,9 @@ class GrupoController extends Controller {
 
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
-                ->where('users.id', '!=', Auth::user()->id)
+                ->where('users.id', '!=', auth()->user()->id)
                 ->select(['users.id', 'users.nome', 'users.info_academica'])
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
         $amigos_nao_int = array();
@@ -459,7 +458,7 @@ class GrupoController extends Controller {
         }
 
         $integrante = GrupoUsuario::where('id_grupo', $grupo->id)
-                ->where('id_user', Auth::user()->id)
+                ->where('id_user', auth()->user()->id)
                 ->first();
 
         return ([
@@ -512,7 +511,7 @@ class GrupoController extends Controller {
         }
 
         $integrante = GrupoUsuario::where('id_grupo', $grupo->id)
-                ->where('id_user', Auth::user()->id)
+                ->where('id_user', auth()->user()->id)
                 ->first();
 
         return ([
@@ -531,28 +530,28 @@ class GrupoController extends Controller {
 
     public function getGroupDataBan($grupo) {
         $discussoes = GrupoDiscussao::where('id_grupo', $grupo->id)
-                ->where('id_autor', Auth::user()->id)
+                ->where('id_autor', auth()->user()->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
 
         $perguntas = GrupoPergunta::where('id_grupo', $grupo->id)
-                ->where('id_autor', Auth::user()->id)
+                ->where('id_autor', auth()->user()->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
 
         $materiais = GrupoMaterial::where('id_grupo', $grupo->id)
-                ->where('id_autor', Auth::user()->id)
+                ->where('id_autor', auth()->user()->id)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
 
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
-                ->where('users.id', '!=', Auth::user()->id)
+                ->where('users.id', '!=', auth()->user()->id)
                 ->select(['users.id', 'users.nome', 'users.info_academica'])
-                ->where('amizades.id_user2', Auth::user()->id)
+                ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
         $amigos_nao_int = array();
@@ -589,21 +588,21 @@ class GrupoController extends Controller {
 
     public function sair(Request $request) {
         $del = new GrupoUsuario;
-        if ($del->where('id_user', Auth::user()->id)
+        if ($del->where('id_user', auth()->user()->id)
                         ->where('id_grupo', $request->id_grupo)
                         ->delete()) {
             $saiu = new GrupoSaiu;
-            $saiu->id_user = Auth::user()->id;
+            $saiu->id_user = auth()->user()->id;
             $request->motivo ? $saiu->motivo = $request->motivo : null;
             $saiu->data = Carbon::now();
             $saiu->id_grupo = $request->id_grupo;
             $saiu->save();
             $this->decParticipante($request->id_grupo);
 
-            $texto = 'O usuário ' . User::verUser(Auth::user()->id)->nome . ' deixou o grupo "' . Grupo::verGrupo($request->id_grupo)->nome . '", pois segundo ele, ' . $request->motivo;
+            $texto = 'O usuário ' . User::verUser(auth()->user()->id)->nome . ' deixou o grupo "' . Grupo::verGrupo($request->id_grupo)->nome . '", pois segundo ele, ' . $request->motivo;
             if (DB::table('notificacaos')->insert([
 
-                        'id_rem' => Auth::user()->id,
+                        'id_rem' => auth()->user()->id,
                         'id_dest' => GrupoUsuario::where('id_grupo', $request->id_grupo)->where('is_admin', 1)->get(),
                         'data' => Carbon::today()->timestamp,
                         'texto' => $texto

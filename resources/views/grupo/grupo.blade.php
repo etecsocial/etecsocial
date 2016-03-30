@@ -206,7 +206,7 @@
                                                     <i class="material-icons circle blue">question_answer</i>
                                                     <span class="title">Discussões recentes no grupo</span>
 
-                                                    <p>Última discussão por <a href="{{url(App\User::verUser($atv[0]-> id_rem)-> username)}}">{{ App\User::verUser($atv[0]->id_rem)->nome }}</a>
+                                                    <p>Última discussão por <a href="{{url(auth()->user()->verUser($atv[0]-> id_rem)-> username)}}">{{ auth()->user()->verUser($atv[0]->id_rem)->nome }}</a>
                                                         <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[0]->created_at))->diffForHumans() }}</span>
                                                     </p>
                                                     <p class="secondary-content">{{ $grupo->num_discussoes }}</p>
@@ -215,7 +215,7 @@
                                             @if(isset($atv[1]))
                                                 <li class="collection-item avatar">
                                                     <i class="mdi-action-help circle orange"></i>
-                                                    <span class="title"><a href="{{url(App\User::verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'Você' : App\User::verUser($atv[1]->id_rem)->nome }}</a> perguntou:</span>
+                                                    <span class="title"><a href="{{url(auth()->user()->verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'Você' : auth()->user()->verUser($atv[1]->id_rem)->nome }}</a> perguntou:</span>
                                                     <p class="truncate">"{{ $atv[1]-> desc}}"
                                                         <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[1]->created_at))->diffForHumans() }}</span>
                                                     </p>
@@ -226,7 +226,7 @@
                                                 <li class="collection-item avatar">
                                                     <i class="material-icons circle green">description</i>
                                                     <span class="title">Materiais de apoio</span>
-                                                    <p class="truncate">Último enviado por <a href="{{url(App\User::verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'você' : App\User::verUser($atv[1]->id_rem)->nome }}</a>
+                                                    <p class="truncate">Último enviado por <a href="{{url(auth()->user()->verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'você' : auth()->user()->verUser($atv[1]->id_rem)->nome }}</a>
                                                         <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[2]->created_at))->diffForHumans() }}</span>
                                                     </p>
                                                     <p class="secondary-content">19</p>
@@ -235,7 +235,7 @@
                                             @if(isset($atv[3]))
                                                 <li class="collection-item avatar">
                                                     <i class="material-icons circle red">input</i>
-                                                    <span class="title"><a href="{{url(App\User::verUser($atv[3]-> id_user)-> username)}}">{{ App\User::verUser($atv[3]->id_user)->nome }}</a> deixou o grupo, pois</span>
+                                                    <span class="title"><a href="{{url(auth()->user()->verUser($atv[3]-> id_user)-> username)}}">{{ auth()->user()->verUser($atv[3]->id_user)->nome }}</a> deixou o grupo, pois</span>
                                                     <p class="truncate">{{ $atv[3]-> motivo}}
                                                         <br> <span class="ultra-small">Achamos que sabendo disso você poderá aprimorar o grupo.</span>
                                                     </p>
@@ -286,7 +286,7 @@
                                     <li class="collection-item">
                                         <div class="row">
                                             <div class="col s5 grey-text darken-1"><i class="mdi-social-cake"></i> Criador</div>
-                                            <div class="col s7 grey-text text-darken-4 right-align">{{ App\User::verUser($grupo->id_criador)->nome }}</div>
+                                            <div class="col s7 grey-text text-darken-4 right-align">{{ auth()->user()->verUser($grupo->id_criador)->nome }}</div>
                                         </div>
                                     </li>
                                 </ul>

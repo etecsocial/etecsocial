@@ -6,7 +6,7 @@
         <div class="row">
             <input type="hidden" name="idgrupo" value="{{ $grupo-> id}}">
             <div class="col s2">
-                <img src="{{ App\User::myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width:100px">
+                <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width:100px">
             </div>
             <div class="input-field col s10">
                 <input name="assunto" placeholder="Assunto" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
@@ -62,10 +62,10 @@
                 <p class="blog-post-content" style="height: 110px !important; max-height: 110px !important; overflow-y: scroll">"{{ $pergunta-> pergunta}}"</p>
                 <div class="row">
                     <div class="col s2">
-                        <img src="{{ App\User::avatar($pergunta->id_autor) }}" alt="{{ App\User::verUser($pergunta->id_autor)->nome }}." class="circle responsive-img valign profile-image">
+                        <img src="{{ auth()->user()->avatar($pergunta->id_autor) }}" alt="{{ auth()->user()->verUser($pergunta->id_autor)->nome }}." class="circle responsive-img valign profile-image">
                     </div>
-                    <div class="col s8"> Por <a href="{{ url(App\User::verUser($pergunta->id_autor)->username)}}">{{ App\User::verUser($pergunta->id_autor)->nome }}</a></div>
-                    @if(($thisUser->id == $pergunta->id_autor) or (($integranteEu->is_admin) and (!App\User::isTeacher($pergunta->id_autor))) or (App\User::isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $pergunta->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                    <div class="col s8"> Por <a href="{{ url(auth()->user()->verUser($pergunta->id_autor)->username)}}">{{ auth()->user()->verUser($pergunta->id_autor)->nome }}</a></div>
+                    @if(($thisUser->id == $pergunta->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($pergunta->id_autor))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $pergunta->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                     <a href="#modalExcluirPergunta" onclick="excluirPergunta({{ $pergunta-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
                     @else
                     <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $pergunta->id}}, 'pergunta')" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
@@ -84,7 +84,7 @@
                     @foreach($comments as $comm)
                     <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-                        <img src="{{ App\User::avatar($comm->id_user) }}" data-tooltip="Você" class="circle tooltipped">
+                        <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Você" class="circle tooltipped">
                         <div style="max-height: 80px; overflow: auto">
                             <p>{{ $comm->comentario}}</p>
                         </div>
@@ -99,10 +99,10 @@
                     @foreach($comments as $comm)
                     <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta->id }}" style="height: auto; min-height:65px" data-id="{{ $comm->id}}">
 
-                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!App\User::isTeacher($comm->id_user))) or (App\User::isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $comm->id_user)->where('is_admin', 0)))) 
+                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $comm->id_user)->where('is_admin', 0)))) 
                         <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm->id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                         @endif
-                        <img src="{{ App\User::avatar($comm->id_user) }}" data-tooltip="{{ App\User::verUser($comm->id_user)->nome }}" class="circle tooltipped">
+                        <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="{{ auth()->user()->verUser($comm->id_user)->nome }}" class="circle tooltipped">
                         <div style="max-height: 80px; overflow: auto">
                             <p>{{ $comm-> comentario}}</p>
                         </div>

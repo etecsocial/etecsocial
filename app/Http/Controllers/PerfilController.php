@@ -11,7 +11,6 @@ use App\User;
 use App\Post;
 use Carbon\Carbon;
 use App\Mensagens;
-use Auth;
 
 class PerfilController extends Controller {
 
@@ -84,7 +83,7 @@ class PerfilController extends Controller {
                 'num_grupos' => $num_grupos,
                 'amizade' => $amizade,
                 'tasks' => $tasks,
-                'thisUser' => Auth::user(),
+                'thisUser' => auth()->user(),
                 'msgsUnread' => Mensagens::countUnread()
             ]);
         } else {
@@ -132,7 +131,7 @@ class PerfilController extends Controller {
         }
 
 
-        User::where('id', Auth::user()->id)->update(array('status' => $request->status));
+        User::where('id', auth()->user()->id)->update(array('status' => $request->status));
 
 
         return Response::json(['error' => false, 'status' => $request->status]);
