@@ -9,15 +9,9 @@ use App\RelevanciaComentarios;
 use App\Post;
 use App\Notificacao;
 use Response;
-use Carbon\Carbon;
 use App\ComentarioDiscussao;
-use App\ComentarioPergunta;
 
 class ComentarioController extends Controller {
-
-    public function __construct() {
-        $this->middleware('auth');
-    }
 
     /**
      * Store a newly created resource in storage.

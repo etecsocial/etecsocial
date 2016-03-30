@@ -15,6 +15,8 @@ use Auth;
 use App\Mensagens;
 
 class AgendaController extends Controller {
+    
+
 
     /**
      * Display a listing of the resource.
@@ -22,7 +24,7 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function index() {
-        return view('agenda.home')->with(['thisUser' => Auth::user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('agenda.home')->with(['thisUser' => $lala, 'msgsUnread' => Mensagens::countUnread()]);
     }
 
     public function api(Request $request) {

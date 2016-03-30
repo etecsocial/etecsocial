@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use App\Post;
 use Auth;
 use DB;
-use Input;
 use App\Mensagens;
 use App\GrupoUsuario;
 
@@ -28,7 +26,7 @@ class HomeController extends Controller
 
     public function index() 
     {
-
+        
         /* if (Input::has('confirmation_code')) {
             $user = User::where('confirmation_code', Input::get('confirmation_code'))->first();
         } else {
@@ -38,9 +36,8 @@ class HomeController extends Controller
     }
     
     public function feed($id = 0) 
-    {   
-        Carbon::setLocale('pt_BR');
-        
+    {           
+        return \App::make('auth');
         $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->limit(9)
@@ -74,7 +71,6 @@ class HomeController extends Controller
     
     public function newpost(Request $request) 
     {
-        Carbon::setLocale('pt_BR');
         
         $posts = DB::table('posts')
                 ->join('users', 'users.id', '=', 'posts.id_user')
@@ -91,7 +87,6 @@ class HomeController extends Controller
     
     public function morepost(Request $request) 
     {
-        Carbon::setLocale('pt_BR');
         $n = 9 - $request->tamanho % 9;
                 
         $posts = DB::table('posts')
