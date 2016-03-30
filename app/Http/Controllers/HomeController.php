@@ -37,7 +37,7 @@ class HomeController extends Controller
     
     public function feed($id = 0) 
     {           
-        return \App::make('auth');
+        
         $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->limit(9)
