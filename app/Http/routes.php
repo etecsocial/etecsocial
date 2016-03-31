@@ -28,9 +28,7 @@ Route::group(['middleware' => 'web'], function () {
         //PESQUISA
         Route::get('/busca/{termo}', 'PesquisaController@index');
         //GRUPO
-        Route::get('grupos', ['middleware'=>'a', function(){
-            return 'PAGINA';
-        }]);
+        Route::get('/grupos', 'GrupoController@listar');
         Route::get('/grupo/{groupname}', 'GrupoController@index');
         //TAREFA
         Route::get('/tarefas', 'TarefaController@index');
@@ -65,6 +63,10 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/store', 'MensagemController@store');
             Route::post('/getConversa', 'MensagemController@getConversa');
             Route::post('/delMensagem', 'MensagemController@delMensagem');
+            Route::post('/delConversa', 'MensagemController@delConversa');
+            Route::post('/getUsersRecents', 'MensagemController@getUsersRecents');
+            Route::post('/getUsersFriends', 'MensagemController@getUsersFriends');
+            Route::post('/getUsersUnreads', 'MensagemController@getUsersUnreads');
         });
         //CHATS
         Route::group(['prefix' => 'chat'], function () {
@@ -133,3 +135,4 @@ Route::group(['middleware' => 'web'], function () {
         });
     });
 });
+

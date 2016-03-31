@@ -23,6 +23,8 @@ function novaMensagem(id_dest, nome_dest) {
     $('#modal-nova-mensagem').openModal();
 }
 
+////////////////////////////////////////////////////////////////////
+//NOVA MENSAGEM
 $('#nova-mensagem').ajaxForm({
     type: "POST",
     dataType: 'JSON',
@@ -30,14 +32,14 @@ $('#nova-mensagem').ajaxForm({
         if (data.status === true) {
             $('#modal-nova-mensagem').closeModal();
             Materialize.toast('<span>Mensagem enviada!</span>', 3000);
-            $('#qtd-msgs-'+data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
+            $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
             if (!data.last_msg === false) {//Há mensagens anteriores a que foi excluida.
-                $('#qtd-msgs-'+data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
+                $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
                 if (data.is_rem === true) {//O usuário atual é o remetente da última mensagem válida
                     $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
                 } else {//O usuário atual é o destinatário da última mensagem válida
                     $('#last-msg-' + data.id_user).html(data.last_msg).hide().fadeIn(300);
-                    
+
                     //Aqui a função getConversa() tem que ser chamada, mas não está funcionando...
                     getConversa(data.id_user);
                 }
@@ -47,7 +49,7 @@ $('#nova-mensagem').ajaxForm({
                         'Não há mensagens neste tópico!' +
                         '</div></div></div>').hide().fadeIn(300);
                 $('#last-msg-' + data.id_user).html(
-                        '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.auth_id + ', ' + data.id_user + ', \'' + data.nome_user + '\')">' +
+                        '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.id_user + ', \'' + data.nome_user + '\')">' +
                         'Clique para enviar uma mensagem' +
                         '</p>').hide().fadeIn(300);
             }
@@ -57,9 +59,36 @@ $('#nova-mensagem').ajaxForm({
         }
     }
 });
+
+////////////////////////////////////////////////////////////////////
+//DELETA CONVERSAS
+$('#delConversa').click(function () {
+    var uid = $('#delConversa').val();
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/delConversa",
+        data: "uid=" + uid,
+        dataType: "json",
+        success: function (data) {
+            if (data.status === true) {
+                getConversa(uid, 0);
+                $('#qtd-msgs-' + uid).html('Sem mensagens').hide().fadeIn(300);
+                $('#last-msg-' + uid).html(
+                        '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + uid + ', \'' + data.nome_user + '\')">' +
+                        'Clique para enviar uma mensagem' +
+                        '</p>').hide().fadeIn(300);
+                Materialize.toast('Toda as mensagens deste tópico foram apagadas', 5000);
+            }
+        },
+        error: function (data) {
+            Materialize.toast(erro_interno, 5000);
+        }
+    });
+});
+
 ////////////////////////////////////////////////////////////////////
 //GET CONVERSAS
-function getConversa(uid) {
+function getConversa(uid, nome) {
     $.ajax({
         type: "POST",
         url: "/ajax/mensagem/getConversa",
@@ -71,8 +100,14 @@ function getConversa(uid) {
                 return false
             } else {
                 $('#email-details').html(data.responseText);
+                if (nome !== 0) {
+                    $('#title-msg-details').html('Conversa com ' + nome);
+                }
+                $('.tooltipped').tooltip();
+                $('#icon-coord').removeClass('active');
+                $('#delConversa').attr({value: uid})
                 //  $('#email-details').scrollTop();
-                
+
                 //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
             }
         }
@@ -80,6 +115,81 @@ function getConversa(uid) {
     });
     return false;
 }
+
+$('#get-users-recents').click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getUsersRecents",
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast(erro_interno, 5000);
+                return false
+            } else {
+                $('#email-list').html(data.responseText);
+                $('#title-msg-list').html('Mensagens recentes');
+                $('.tooltipped').tooltip();
+                $('.icon-nav-list').removeClass('active');
+                $('.get-users-recents').addClass('active');
+                //  $('#email-details').scrollTop();
+
+                //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
+            }
+        }
+
+    });
+});
+
+
+$('#get-users-friends').click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getUsersFriends",
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast(erro_interno, 5000);
+                return false
+            } else {
+                $('#email-list').html(data.responseText);
+                $('#title-msg-list').html('Todos os contatos');
+                $('.tooltipped').tooltip();
+                $('.icon-nav-list').removeClass('active');
+                $('.get-users-friends').addClass('active');
+                //  $('#email-details').scrollTop();
+
+                //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
+            }
+        }
+
+    });
+});
+
+$('#get-users-unread').click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getUsersUnreads",
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast(erro_interno, 5000);
+                return false
+            } else {
+                $('#email-list').html(data.responseText);
+                $('#title-msg-list').html('Mensagens não lidas');
+                $('.tooltipped').tooltip();
+                $('.icon-nav-list').removeClass('active');
+                $('.get-users-unread').addClass('active');
+                //  $('#email-details').scrollTop();
+
+                //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
+            }
+        }
+
+    });
+});
+
+
 ////////////////////////////////////////////////////////////////////
 //APAGAR MENSAGENS
 function delMensagem(id) {
@@ -92,7 +202,7 @@ function delMensagem(id) {
             if (data.status === true) {//Mensagem deletada
                 $('#mensagem-' + id).fadeOut(300);
                 if (!data.last_msg === false) {
-                    $('#qtd-msgs-'+data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
+                    $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
                     if (data.is_rem === true) {
                         $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
                     } else {
@@ -107,7 +217,7 @@ function delMensagem(id) {
                             '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.id_user + ', \'' + data.nome_user + '\')">' +
                             'Clique para enviar uma mensagem' +
                             '</p>').hide().fadeIn(300);
-                    $('#qtd-msgs-'+data.id_user).html('Sem mensagens').hide().fadeIn(300);
+                    $('#qtd-msgs-' + data.id_user).html('Sem mensagens').hide().fadeIn(300);
                     //
                 }
             } else {

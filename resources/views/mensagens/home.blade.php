@@ -42,22 +42,28 @@ Mensagens | ETEC Social
                                 <ul>
                                     <li><a href="#!" class="email-menu"><i class="mdi-navigation-menu"></i></a>
                                     </li>
-                                    <li><a href="#!" class="email-type">Mensagens</a>
+                                    <li><a class="email-type" id="title-msg-list">Mensagens recentes</a>
                                     </li>
                                     <li class="right"><a href="#!"><i class="mdi-action-search"></i></a>
                                     </li>
                                 </ul>
                             </div>
                             <div class="col s12 m7 l7 hide-on-med-and-down">
+                                
+                                <ul class="left">
+                                    <li><a class="email-type" id="title-msg-details">Comunicados da coordenação</a>
+                                    </li>
+                                </ul>
                                 <ul class="right">
-                                    <li><a href="#!"><i class="mdi-content-archive"></i></a>
+                                    
+                                    <li class="active" id="icon-coord"><a href="#!"><i class="mdi-content-content-paste tooltipped" data-tooltip='Comunicados da coordenação' data-position='bottom'></i></a></li>
+                                    <li><a href="#!"><i class="mdi-content-archive tooltipped" data-tooltip='Arquivar conversa' data-position='bottom'></i></a>
                                     </li>
-                                    <li onclick="delConversa($('#id_'))"><a><i class="mdi-action-delete"></i></a>
+                                    <li id="delConversa"><a><i class="mdi-action-delete tooltipped" data-tooltip='Apagar conversa' data-position='bottom'></i></a>
                                     </li>
-                                    <li><a href="#!"><i class="mdi-content-mail"></i></a>
+                                    <li><a href="#!"><i class="mdi-content-mail tooltipped" data-tooltip='Arquivar conversa' data-position='bottom'></i></a>
                                     </li>
-                                    <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
-                                    </li>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -69,42 +75,15 @@ Mensagens | ETEC Social
                             <li>
                                 <img src="{{$myAvatar}}" alt="" class="circle responsive-img valign profile-image">
                             </li>
-                            <li><a href="#!"><i class="mdi-social-group active"></i></a></li>
-                            <li><a href="#!"><i class="mdi-social-group"></i></a></li>
-                            <li><a href="#!"><i class="mdi-maps-local-offer"></i></a></li>
-                            <li><a href="#!"><i class="mdi-alert-error"></i></a></li>
+                            <li id="get-users-recents"><a href="#!"><i class="get-users-recents icon-nav-list mdi-action-history tooltipped active" data-tooltip='Recentes' data-position='right'></i></a></li>
+                            <li id="get-users-unread"><a href="#!"><i class="get-users-unread icon-nav-list mdi-content-markunread tooltipped" data-tooltip='Não lidas' data-position='right'></i></a></li>
+                            <li id="get-users-friends"><a href="#!"><i class="get-users-friends icon-nav-list mdi-communication-contacts tooltipped" data-tooltip='Amigos' data-position='right'></i></a></li>
+                            <li id="get-users-archive"><a href="#!"><i class="get-users-archive icon-nav-list mdi-content-archive tooltipped" data-tooltip='Arquivadas' data-position='right'></i></a></li>
+                            <li id="get-users-help"><a href="#!"><i class="get-users-help icon-nav-list mdi-communication-live-help tooltipped" data-tooltip='Central de ajuda' data-position='right'></i></a></li>
                         </ul>
                     </div>
                     <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
-                        <ul class="collection">
-                            
-                            @if(isset($users))
-                                @foreach($users as $user)
-                                <li class="collection-item avatar" onclick="getConversa({{ $user->id }})" id="li-{{$user->id}}">
-                                    <span class="circle red lighten-1">{{$user->nome[0]}}</span>
-              <!--                      <img src="" alt="" class="circle">-->
-                                    <span class="email-title">{{ $user->nome }}</span>
-                                    @if($last = \App\Mensagens::lastMsg($user->id))
-                                        <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
-                                            @if( ($last->id_remetente) == $thisUser->id)
-                                            <b> Você: </b> 
-                                            @endif
-                                            {{ $last->msg }}
-                                        </p>
-                                    @else
-                                        <p id="last-msg-{{$user->id}}" class="truncate grey-text ultra-small" onclick="javascript: novaMensagem({{$user->id}}, '{{\auth()->user()->verUser($user->id)->nome}}')">
-                                            Clique para enviar uma mensagem
-                                        </p>
-                                    @endif
-                                        <a href="#!" class="secondary-content email-time">
-                                            <span class="blue-text ultra-small" id="qtd-msgs-{{ $user->id }}">{{ \App\Mensagens::countMsgsTopic($user->id) }}</span>
-                                        </a>                            
-                                </li>
-                                @endforeach
-                            @else
-                            Não há conversas
-                                @endif
-                        </ul>
+                        @include('mensagens.users')
                     </div>
 
                     <div id="email-details" class="col s12 m7 l7 card-panel">
@@ -164,7 +143,7 @@ Mensagens | ETEC Social
                             <div class="row">
                                 <div class="input-field col s12">
                                     <input id="destinatario-nova-mensagem" class="validate" type="text" disabled="disabled">
-<!--                                    <label class="active">Mensagem para</label> ARRUMAR-->
+                                    <!--                                    <label class="active">Mensagem para</label> ARRUMAR-->
                                 </div>
                             </div>
                             <div class="row">

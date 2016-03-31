@@ -16,6 +16,7 @@ class Mensagens extends Model {
         'created_at',
         'data',
         'visto',
+        'arquivado',
         'video',
         'img',
         'doc',
@@ -66,12 +67,20 @@ class Mensagens extends Model {
         return ($qtd) ? ($qtd > 1 ? $qtd . ' mensagens' : '1 mensagem') : 'Sem mensagens';
     }
 
-    public static function loadUsers() {
+    public static function loadFriends() {// @todo - otimizar os campos selecionados
         return Amizade::where('id_user1', auth()->user()->id)
                         ->where('aceitou', 1)
                         ->where('id_user2', '!=', auth()->user()->id)
                         ->join('users', 'users.id', '=', 'amizades.id_user2')
                         ->get();
+    }
+    
+    public static function loadUnreads() {// @todo - otimizar os campos selecionados
+        return Mensagens::where(['mensagens.id_destinatario' => auth()->user()->id, 'mensagens.visto' => 0])
+                ->join('users', 'users.id', '=', 'mensagens.id_remetente' )
+                ->select(['users.id as id', 'users.nome as nome'])
+                ->orderBy('mensagens.created_at', 'desc')
+                ->get();
     }
 
     public static function loadRecentes() {
@@ -89,7 +98,7 @@ class Mensagens extends Model {
                 ->groupBy('users.id')
                 ->orderBy('mensagens.created_at', 'asc')
                 ->get();
-            return $array1;
+            return ($array2);
     }
 
     public static function loadTurma() {
