@@ -1,35 +1,3 @@
-@extends('app')
-@section('title')
-{{ $post->titulo }}
-@stop
-
-@section('style')
-{!! Html::style('css/asset.css') !!}
-{!! Html::style('css/style.css') !!}
-@stop
-
-@section('jscript')
-{!! Html::script('js/jquery-1.11.2.min.js') !!}
-{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
-{!! Html::script('js/materialize.js') !!}
-{!! Html::script('js/form.min.js') !!}
-{!! Html::script('js/jquery.tagsinput.min.js') !!}
-
-{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
-{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
-{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
-{!! Html::script('js/plugins/sliders.js') !!}
-{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
-
-{!! Html::script('js/script.js') !!}
-{!! Html::script('js/plugins.js') !!}
-
-@stop
-
-@include('nav')
-
-@section('content')
 <div data-id="{{ $post->id }}" class="post blog col s12 m6 l4" style="margin-top: 20px">
     <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
@@ -70,11 +38,10 @@
         <div class="card-content">
             <p class="row">
                 <span class="left">
-                    @foreach($tags as $tag) 
+                    @foreach(App\Tag::where('id_post', $post->id)->get() as $tag) 
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
-
-                 @if($post->is_repost) 
+                    @if($post->is_repost) 
                     Compartilhado de <a href="{{ url(auth()->user()->verUser($post->id_user)->username) }}">{{ auth()->user()->verUser($post->id_user)->nome }}</a>
                     @endif 
                 </span>
@@ -90,12 +57,17 @@
                 <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
             </div>
             <div class="col s6 m8"> 
+                @if($post->id_user == $thisUser->id)
+                Publicado por <a href="{{ url($thisUser->username) }}">você</a>
+                @else
                 Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
+                @endif
             </div>
             @if($thisUser->id == $post->id_user) 
-            <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="material-icons dropdown-button waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom">close</i></a>
+            <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="mdi-action-delete waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom"></i></a>
+            <a href="#modalEditar" onclick="Materialize.toast('<span>Recurso em desenvolvimento.</span>', 3000)" class="wino"><i class="mdi-editor-mode-edit waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Editar Publicação" data-delay="50" data-position="bottom"></i></a>
             @else 
-            <a href="#modalDenunciar" onclick="denunciar({{ $post->id }})" class="wino"><i class="mdi-content-flag"></a>
+            <a href="#modalDenuncia" onclick="denunciar({{ $post->id }})" class="wino"><i class="mdi-content-flag tooltipped waves-light" style="opacity: 0.7" data-tooltip="Denunciar Publicação" data-delay="50" data-position="bottom"></i></a>
             @endif
         </div>
         <div class="card-reveal">                                            
@@ -105,25 +77,25 @@
                 <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->id_post }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
 
                     @if($thisUser->id == $comentario->id_user) 
-                   
+
                     <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-                    <i id="edita-comentario-{{ $comentario->id }}" onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}-text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
+                    <i id="edita-comentario-{{ $comentario->id }}" onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}- text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
                     @else
                     <div id="relevancia-com-{{ $comentario->id }}">
                         @if($rv = App\RelevanciaComentarios::where('id_usuario', $thisUser->id)->where('id_comentario', $comentario->id)->first())
-                            @if($rv->relevancia == 'up')
-                            <i class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5" data-tooltip='Avaliado como positivo'></i>                   
-                            <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
-                            @else
-                            <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'up')" class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como positivo'></i>                   
-                            <i class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #039be5"></i>                           
-                            @endif
+                        @if($rv->relevancia == 'up')
+                        <i class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5" data-tooltip='Avaliado como positivo'></i>                   
+                        <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
+                        @else
+                        <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'up')" class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como positivo'></i>                   
+                        <i class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #039be5"></i>                           
+                        @endif
                         @else
                         <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'up')" class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5; cursor: pointer" data-tooltip='Avaliar como positivo'></i>
                         <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #039be5; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
                         @endif
                     </div>
-                        @endif
+                    @endif
                     <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
                     <p id="com-{{ $comentario->id }}-text">{{ $comentario->comentario }}</p>
                 </li>
@@ -143,4 +115,3 @@
         </div>
     </div>
 </div>
-@stop

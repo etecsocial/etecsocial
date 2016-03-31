@@ -61,7 +61,7 @@ class HomeController extends Controller
                 ->orderBy('data')
                 ->limit(4)
                 ->get();
-        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count()]);
     }
     
     public function newpost(Request $request) 

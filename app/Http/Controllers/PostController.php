@@ -68,7 +68,7 @@ class PostController extends Controller {
                 ->where('posts.id', $id)
                 ->first();
 
-        return isset($post) ? view('post.post', [
+        return isset($post) ? view('post.home', [
             'post' => $post,
             'tags' => Tag::where('id_post', $post->id)->get(),
             'thisUser' => auth()->user(),

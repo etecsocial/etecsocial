@@ -14,8 +14,6 @@ use Response;
 use App\Mensagens;
 
 class AgendaController extends Controller {
-    
-
 
     /**
      * Display a listing of the resource.
@@ -23,7 +21,7 @@ class AgendaController extends Controller {
      * @return Response
      */
     public function index() {
-        return view('agenda.home')->with(['thisUser' => $lala, 'msgsUnread' => Mensagens::countUnread()]);
+        return view('agenda.home')->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
     }
 
     public function api(Request $request) {
@@ -35,8 +33,8 @@ class AgendaController extends Controller {
                 ->where(function ($query) {
                     $query->orWhere(function ($query) {
                         $query->where('agendas.id_turma', auth()->user()->id_turma)
-                            ->where('agendas.id_modulo', auth()->user()->id_modulo)
-                            ->where('is_publico', 1);
+                        ->where('agendas.id_modulo', auth()->user()->id_modulo)
+                        ->where('is_publico', 1);
                     })
                     ->orWhere('id_user', auth()->user()->id);
                 })
@@ -106,20 +104,21 @@ class AgendaController extends Controller {
      * @param  int  $id
      * @return Response
      */
+    public function makeUrl($nome) {
+        $url = str_replace(' ', '', $nome);
+        $cont = 1;
+        while (Grupo::where('url', $url)->select('id')->first()) {//fala deixar usar url de grupo expirado
+            $url = $url . $cont;
+            $cont++;
+        }return $url;
+    }
+
     public function CreateGrupoByTurma($id_turma, $titulo, $start, $end, $desc) {
-        $nome = str_replace(' ', '', $titulo);
-        if (Grupo::where('url', $nome)->first()) {
-            $url = $nome . 1;
-            $cont = 1;
-            while (Grupo::where('url', $url)->first()) {
-                $cont = $cont + 1;
-                $url = $nome . $cont;
-            }
-        }
+
         $grupo = new Grupo;
         $grupo->nome = $titulo;
         $grupo->assunto = isset($desc) ? $desc : 'Grupo de estudos';
-        $grupo->url = isset($url) ? $url : $nome;
+        $grupo->url = $this->makeUrl($titulo);
         $grupo->id_criador = auth()->user()->id;
         $grupo->num_participantes = 1;
         $grupo->criacao = \Carbon\Carbon::today();
@@ -202,4 +201,5 @@ class AgendaController extends Controller {
 
         return Response::json(['status' => true]);
     }
+
 }

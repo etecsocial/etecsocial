@@ -5,34 +5,39 @@ ETEC Social | Início
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
-                        '/css/asset.css',
-                        '/css/style.css',
-                        '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}
+'/css/asset.css',
+'/css/style.css',
+'/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}
 @stop
 
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
-                        '/js/plugins/lightbox-plus-jquery.min.js',
-                        '/js/materialize.js',
-                        '/js/form.min.js',
-                        
-                        '/js/plugins/jquery.nanoscroller.min.js',
-                        '/js/plugins/sparkline/jquery.sparkline.min.js',
-                        '/js/plugins/sparkline/sparkline-script.js',
-                        '/js/plugins/succinct-master/jQuery.succinct.min.js',
+'/js/plugins/lightbox-plus-jquery.min.js',
+'/js/materialize.js',
+'/js/form.min.js',
 
-                        '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
-                        '/js/plugins/fullcalendar/lib/moment.min.js',
-                        '/js/plugins/fullcalendar/js/fullcalendar.min.js',
-                        '/js/plugins/fullcalendar/fullcalendar-script.js',
+'/js/plugins/jquery.nanoscroller.min.js',
+'/js/plugins/sparkline/jquery.sparkline.min.js',
+'/js/plugins/sparkline/sparkline-script.js',
+'/js/plugins/succinct-master/jQuery.succinct.min.js',
 
-                        '/js/script.js',
-                        '/js/script-feed.js',
-                        '/js/plugins.js'
-                        ])->withFullURL() !!}
+'/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
+'/js/plugins/fullcalendar/lib/moment.min.js',
+'/js/plugins/fullcalendar/js/fullcalendar.min.js',
+'/js/plugins/fullcalendar/fullcalendar-script.js',
+
+'/js/script.js',
+'/js/script-feed.js',
+'/js/plugins.js'
+])->withFullURL() !!}
 
 @if($id)
-<script>$("#verpost").openModal(); abrirPost({{ $id }})</script>
+<script>$("#verpost").openModal(); abrirPost({
+        {
+            $id
+        }
+    }
+    )</script>
 @endif
 
 @stop
@@ -54,9 +59,9 @@ ETEC Social | Início
                         @foreach($tasks as $task)
                         <li class="tarefa collection-item dismissable" data-idtask="{{ $task->id }}" data-date="{{ $task->data }}">
                             @if($task->checked)
-                                <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')">
+                            <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')">
                             @else
-                                <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
+                            <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
                             @endif
                             <label for="{{ $task->id }}" class="truncate">{{ $task->desc }}
                                 <a class="secondary-content">
@@ -64,11 +69,11 @@ ETEC Social | Início
                                 </a>
                             </label>
                             @if($task->data > time() + 3*24*60*60)
-                                <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
+                            <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                             @elseif($task->data > time())
-                                <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
+                            <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                             @else
-                                <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
+                            <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                             @endif
                         </li>
                         @endforeach
@@ -205,7 +210,7 @@ ETEC Social | Início
                     <div class="card">
                         <div class="card-content green white-text center">
                             <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Postagens</p>
-                            <h4 class="card-stats-number" id="num-posts">{{ \App\Post::count() }}</h4>
+                            <h4 class="card-stats-number" id="num-posts">{{ $countPosts }}</h4>
                         </div>
                     </div>
                 </div>
@@ -213,25 +218,31 @@ ETEC Social | Início
             </div>
 
             <div class="col s12 m12 l8">
-            <ul class="tabs tab-profile cyan">
-                <li class="tab col s4"><a class="white-text waves-light">Agenda de estudos</a></li>
-            </ul>            
+                <ul class="tabs tab-profile cyan">
+                    <li class="tab col s4"><a class="white-text waves-light">Agenda de estudos</a></li>
+                </ul>            
                 <div id="full-calendar">              
                     <div class="col s12 m6 l12">
                         <div id="calendar"></div>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div id="card-widgets" class="seaction">
         <div class="row">
             <div class="col s12" id="post">
                 <div class="post"></div>
-                @include('home.posts')
                 @if(!isset($posts[0]))
                     <div data-id="0" class="post blog col s12 m6 l4" style="display:none"></div>
+                    <ul class="collection with-header">
+                        <li class="collection-item center darken-4">Ainda não há publicações para serem exibidas por aqui! Publique algo ou dicione seus amigos.</li>
+                    </ul>
+                @else
+                    @foreach($posts as $post)
+                        @include('post.post')
+                    @endforeach
                 @endif
             </div>
         </div>

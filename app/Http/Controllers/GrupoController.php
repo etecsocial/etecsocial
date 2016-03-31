@@ -22,7 +22,6 @@ use Input;
 use DB;
 
 use Carbon\Carbon;
-
 class GrupoController extends Controller {
 
     /**
@@ -84,7 +83,6 @@ class GrupoController extends Controller {
      * Requests - nome, url, assunto, expiracao.
      */
     public function criar(Request $request) {
-        Carbon::setLocale('pt_BR');
         if (($request->nome) and ( $request->assunto)) {
             if (Grupo::where('url', $request->url)->first()) {
                 return Response::json([ 'status' => 3]);
@@ -93,7 +91,7 @@ class GrupoController extends Controller {
             $grupo = new Grupo;
             $grupo->nome = $request->nome;
             $grupo->assunto = $request->assunto;
-            $grupo->url = $request->url ? $request->url : $this->makeUrl($grupo->nome);
+            $grupo->url = $request->url ? $request->url : $this->makeUrl($request->nome);
             $grupo->materia = $request->materia;
             $grupo->id_criador = auth()->user()->id;
             $grupo->num_participantes = 1;
@@ -119,12 +117,13 @@ class GrupoController extends Controller {
     }
     
     public function makeUrl($nome) {
-        $url = explode(' ', $nome);
+        $url = str_replace(' ', '', $nome);
         $cont = 1;
-        while (Grupo::where('url', $url)) {//fala deixar usar url de grupo expirado
+        while (Grupo::where('url', $url)->select('id')->first()) {//fala deixar usar url de grupo expirado
             $url = $url.$cont;
             $cont++;
-        }return $url;
+        }
+        return $url;
     }
 
     /**
