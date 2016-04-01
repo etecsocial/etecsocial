@@ -41,7 +41,7 @@ $('#nova-mensagem').ajaxForm({
                     $('#last-msg-' + data.id_user).html(data.last_msg).hide().fadeIn(300);
 
                     //Aqui a função getConversa() tem que ser chamada, mas não está funcionando...
-                    getConversa(data.id_user);
+                    getConversa(data.id_user, false);
                 }
             } else {//a excluida foi a ultima da conversa
                 $('.email-reply').html(
@@ -115,6 +115,35 @@ function getConversa(uid, nome) {
     });
     return false;
 }
+////////////////////////////////////////////////////////////////////
+//GET CONVERSAS ARQUIVADAS
+function getConversaArchives(uid, nome) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getConversaArchives",
+        data: "id_user=" + uid,
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast(erro_interno, 5000);
+                return false
+            } else {
+                $('#email-details').html(data.responseText);
+                if (nome !== 0) {
+                    $('#title-msg-details').html('Conversa com ' + nome);
+                }
+                $('.tooltipped').tooltip();
+                $('#icon-coord').removeClass('active');
+                $('#delConversa').attr({value: uid})
+                //  $('#email-details').scrollTop();
+
+                //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
+            }
+        }
+
+    });
+    return false;
+}
 
 $('#get-users-recents').click(function () {
     $.ajax({
@@ -140,6 +169,30 @@ $('#get-users-recents').click(function () {
     });
 });
 
+
+$('#get-users-archives').click(function () {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getUsersArchives",
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast(erro_interno, 5000);
+                return false
+            } else {
+                $('#email-list').html(data.responseText);
+                $('#title-msg-list').html('Mensagens Arquivadas');
+                $('.tooltipped').tooltip();
+                $('.icon-nav-list').removeClass('active');
+                $('.get-users-archives').addClass('active');
+                //  $('#email-details').scrollTop();
+
+                //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
+            }
+        }
+
+    });
+});
 
 $('#get-users-friends').click(function () {
     $.ajax({
@@ -188,6 +241,46 @@ $('#get-users-unread').click(function () {
 
     });
 });
+
+function arquivarMensagem(id) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/arquivarMensagem",
+        data: "id=" + id,
+        dataType: "json",
+        success: function (data) {
+            $('#mensagem-' + id).fadeOut(300);
+            Materialize.toast('Mensagem arquivada.', 5000);
+            getUsersArchives();
+
+        },
+        error: function () {
+            Materialize.toast(erro_interno, 5000);
+        }
+    });
+}
+
+function getUsersArchives() {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/getUsersArchives",
+        dataType: "json",
+        error: function (data) {
+            if (data.responseText === "empty") {
+                Materialize.toast(erro_interno, 5000);
+                return false
+            } else {
+                $('#email-list').html(data.responseText);
+                $('#title-msg-list').html('Mensagens Arquivadas');
+                $('.tooltipped').tooltip();
+                $('.icon-nav-list').removeClass('active');
+                $('.get-users-archives').addClass('active');
+            }
+        }
+
+    });
+}
+
 
 
 ////////////////////////////////////////////////////////////////////

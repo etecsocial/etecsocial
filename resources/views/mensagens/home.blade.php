@@ -78,7 +78,7 @@ Mensagens | ETEC Social
                             <li id="get-users-recents"><a href="#!"><i class="get-users-recents icon-nav-list mdi-action-history tooltipped active" data-tooltip='Recentes' data-position='right'></i></a></li>
                             <li id="get-users-unread"><a href="#!"><i class="get-users-unread icon-nav-list mdi-content-markunread tooltipped" data-tooltip='Não lidas' data-position='right'></i></a></li>
                             <li id="get-users-friends"><a href="#!"><i class="get-users-friends icon-nav-list mdi-communication-contacts tooltipped" data-tooltip='Amigos' data-position='right'></i></a></li>
-                            <li id="get-users-archive"><a href="#!"><i class="get-users-archive icon-nav-list mdi-content-archive tooltipped" data-tooltip='Arquivadas' data-position='right'></i></a></li>
+                            <li id="get-users-archives"><a href="#!"><i class="get-users-archive icon-nav-list mdi-content-archive tooltipped" data-tooltip='Arquivadas' data-position='right'></i></a></li>
                             <li id="get-users-help"><a href="#!"><i class="get-users-help icon-nav-list mdi-communication-live-help tooltipped" data-tooltip='Central de ajuda' data-position='right'></i></a></li>
                         </ul>
                     </div>

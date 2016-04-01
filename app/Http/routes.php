@@ -62,11 +62,14 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['prefix' => 'mensagem'], function () {
             Route::post('/store', 'MensagemController@store');
             Route::post('/getConversa', 'MensagemController@getConversa');
+            Route::post('/getConversaArchives', 'MensagemController@getConversaArchives');
             Route::post('/delMensagem', 'MensagemController@delMensagem');
             Route::post('/delConversa', 'MensagemController@delConversa');
             Route::post('/getUsersRecents', 'MensagemController@getUsersRecents');
             Route::post('/getUsersFriends', 'MensagemController@getUsersFriends');
             Route::post('/getUsersUnreads', 'MensagemController@getUsersUnreads');
+            Route::post('/getUsersArchives', 'MensagemController@getUsersArchives');
+            Route::post('/arquivarMensagem', 'MensagemController@arquivarMensagem');
         });
         //CHATS
         Route::group(['prefix' => 'chat'], function () {

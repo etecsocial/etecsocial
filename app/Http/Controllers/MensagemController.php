@@ -28,10 +28,12 @@ class MensagemController extends Controller {
 
     public function index() {
         Carbon::setLocale('pt_BR');
+        $rec = Mensagens::loadRecentes();
         return view('mensagens.home', [
             'myAvatar' => User::myAvatar(),
             'conversas' => Mensagens::loadConversas(),
-            'users' => Mensagens::loadRecentes(),
+            'users1' => $rec[0],
+            'users2' => $rec[1],
             'unread' => Mensagens::countUnread(),
             'thisUser' => auth()->user(),
             'msgsUnread' => Mensagens::countUnread()
@@ -39,14 +41,23 @@ class MensagemController extends Controller {
     }
     
     public function getUsersRecents() {
-        return view('mensagens.users')->with(['users' => Mensagens::loadRecentes(), 'thisUser' => auth()->user()]);
+        $rec = Mensagens::loadRecentes();
+        return view('mensagens.users')->with(['users1' => $rec[0], 'users2' => $rec[1], 'thisUser' => auth()->user()]); 
     }
-    
+        
     public function getUsersFriends() {
-        return view('mensagens.users')->with(['users' => Mensagens::loadFriends(), 'thisUser' => auth()->user()]);
+        return view('mensagens.users')->with(['users1' => Mensagens::loadFriends(), 'thisUser' => auth()->user()]);
+    }
+    public function getUsersArchives() {
+        $rec = Mensagens::loadArchives();
+        return view('mensagens.users')->with(['users1' => $rec[0], 'users2' => $rec[1], 'archives' => true, 'thisUser' => auth()->user()]);
     }
     public function getUsersUnreads() {
-        return view('mensagens.users')->with(['users' => Mensagens::loadUnreads(), 'thisUser' => auth()->user()]);
+        return view('mensagens.users')->with(['users1' => Mensagens::loadUnreads(), 'thisUser' => auth()->user()]);
+    }
+    
+    public function arquivarMensagem(Request $request) {
+        return Mensagens::archiveMensagem($request->id);
     }
     
 
@@ -68,8 +79,10 @@ class MensagemController extends Controller {
     }
 
     public function getConversa(Request $request) {
-        Carbon::setLocale('pt_BR');
         return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgs($request->id_user)]);
+    }
+    public function getConversaArchives(Request $request) {
+        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgsArchives($request->id_user)]);
     }
 
     public function delMensagem(Request $request) {
