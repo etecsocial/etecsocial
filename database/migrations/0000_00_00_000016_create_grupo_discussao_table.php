@@ -5,38 +5,36 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateGrupoDiscussaoTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('grupo_discussao', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('titulo', 40)->default('Sem título');
-			$table->string('assunto', 40);
-			$table->string('discussao', 2000);
-			$table->integer('id_autor')->unsigned();
-			$table->integer('id_grupo')->unsigned();
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        if (!Schema::hasTable('grupo_discussao')) {
+            Schema::create('grupo_discussao', function(Blueprint $table) {
+                $table->increments('id');
+                $table->string('titulo', 40)->default('Sem título');
+                $table->string('assunto', 40);
+                $table->string('discussao', 2000);
+                $table->integer('id_autor')->unsigned();
+                $table->integer('id_grupo')->unsigned();
 
-			$table->foreign('id_grupo')->references('id')->on('grupo');
-			$table->foreign('id_autor')->references('id')->on('users');
-		
-			$table->timestamps();
-		});
-	}
+                $table->foreign('id_grupo')->references('id')->on('grupo');
+                $table->foreign('id_autor')->references('id')->on('users');
 
+                $table->timestamps();
+            });
+        }
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('grupo_discussao');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        Schema::dropIfExists('grupo_discussao');
+    }
 
 }

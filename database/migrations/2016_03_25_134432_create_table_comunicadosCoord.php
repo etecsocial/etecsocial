@@ -10,17 +10,8 @@ class CreateTableComunicadosCoord extends Migration {
      *
      * @return void
      */
-    public function up() {
-        Schema::create('comunicados_coord', function(Blueprint $table) {
-            $table->integer('id', 11)->unsigned();
-            $table->string('id_etec')->references('id_etec')->on('lista_etecs');
-            $table->integer('titulo');
-            $table->date('comunicado');
-            $table->date('visualizacoes');
-            $table->integer('id_autor')->referencer('id')->on('users');
-
-            $table->timestamps();
-        });
+    public function up() { // esta migração estava com erro, não exclui porque ia dar mais erro ainda.
+         Schema::dropIfExists('comunicados_coord');
     }
 
     /**

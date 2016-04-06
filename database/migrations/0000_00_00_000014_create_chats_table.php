@@ -11,23 +11,23 @@ class CreateChatsTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('mensagens', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_remetente')->unsigned();
-            $table->integer('id_destinatario')->unsigned();
-            $table->string('msg');
-            $table->integer('data');
-            $table->boolean('visto')->default(false);
-            $table->text('doc')->nullable();
-            $table->text('video')->nullable();
-            $table->text('img')->nullable();
-            $table->integer('copia_dest')->default(1);
-            $table->integer('copia_rem')->default(1);
-            $table->foreign('id_destinatario')->references('id')->on('users');
-            $table->foreign('id_remetente')->references('id')->on('users');
+        if (!Schema::hasTable('chats')) {
+            Schema::create('chats', function(Blueprint $table) {
+                $table->increments('id');
+                $table->string('msg');
+                $table->integer('data');
+                $table->boolean('visto')->default(false);
+                $table->text('img')->nullable();
+                $table->integer('copia_dest')->default(1);
+                $table->integer('copia_rem')->default(1);
+                $table->integer('id_destinatario')->unsigned();
+                $table->integer('id_remetente')->unsigned();
+                $table->foreign('id_destinatario')->references('id')->on('users');
+                $table->foreign('id_remetente')->references('id')->on('users');
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -36,7 +36,7 @@ class CreateChatsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::drop('mensagens');
+        Schema::dropIfExists('chats');
     }
 
 }

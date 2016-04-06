@@ -5,30 +5,28 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreatePasswordResetsTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('password_resets', function(Blueprint $table)
-		{
-			$table->string('email', 45);
-			$table->string('token');
-			$table->timestamps();
-		});
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        if (!Schema::hasTable('password_resets')) {
+            Schema::create('password_resets', function(Blueprint $table) {
+                $table->string('email', 45);
+                $table->string('token');
+                $table->timestamps();
+            });
+        }
+    }
 
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('password_resets');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        Schema::dropIfExists('password_resets');
+    }
 
 }
