@@ -1,17 +1,5 @@
 /* 
- Scripts de funcionamento de recursos essenciais, abaixo lista na ordem em que são posicionados
- 
- ->Comentários
- -Comentar
- -Editar
- -Excluir
- -Up/Down
- ->Publicação
- -Favoritar
- -Repost
- ->
- ->
- ->
+ ...
  */
 var erro_interno = '<span>Ops... Algo deu errado, recarregue a página e tente novamente!</span>';
 
@@ -32,6 +20,7 @@ $('#nova-mensagem').ajaxForm({
         if (data.status === true) {
             $('#modal-nova-mensagem').closeModal();
             Materialize.toast('<span>Mensagem enviada!</span>', 3000);
+            $('#nova-mensagem').resetForm();
             $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
             if (!data.last_msg === false) {//Há mensagens anteriores a que foi excluida.
                 $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
@@ -54,37 +43,64 @@ $('#nova-mensagem').ajaxForm({
                         '</p>').hide().fadeIn(300);
             }
         } else {
-            Materialize.toast(erro_interno, 3000);
-            $('#modal-nova-mensagem').closeModal();
+            if (data.status === false) {
+                Materialize.toast('<span>Ops, parece que você se esqueceu de algo...</span>', 3000);
+            } else {
+                Materialize.toast(erro_interno, 3000);
+                $('#modal-nova-mensagem').closeModal();
+            }
         }
     }
 });
 
 ////////////////////////////////////////////////////////////////////
-//DELETA CONVERSAS
-$('#delConversa').click(function () {
-    var uid = $('#delConversa').val();
-    $.ajax({
-        type: "POST",
-        url: "/ajax/mensagem/delConversa",
-        data: "uid=" + uid,
-        dataType: "json",
-        success: function (data) {
-            if (data.status === true) {
-                getConversa(uid, 0);
-                $('#qtd-msgs-' + uid).html('Sem mensagens').hide().fadeIn(300);
-                $('#last-msg-' + uid).html(
-                        '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + uid + ', \'' + data.nome_user + '\')">' +
-                        'Clique para enviar uma mensagem' +
-                        '</p>').hide().fadeIn(300);
-                Materialize.toast('Toda as mensagens deste tópico foram apagadas', 5000);
+//DELETA CONVERSAS ARQUIVADAS
+function delConversa() {
+    var uid = $('#del').val();
+    if ($('#del').hasClass('delConversaArquivada')) {
+        $.ajax({
+            type: "POST",
+            url: "/ajax/mensagem/delConversaArquivada",
+            data: "uid=" + uid,
+            dataType: "json",
+            success: function (data) {
+                if (data.status === true) {
+                    getConversaArchives(uid, 0);
+                    $('#li-' + uid).fadeOut(300).remove();
+                    Materialize.toast('Toda as mensagens deste tópico foram apagadas', 5000);
+                }
+            },
+            error: function (data) {
+                Materialize.toast(erro_interno, 5000);
             }
-        },
-        error: function (data) {
-            Materialize.toast(erro_interno, 5000);
+        });
+    } else {
+        if ($('#del').hasClass('delConversa')) {
+            $.ajax({
+                type: "POST",
+                url: "/ajax/mensagem/delConversa",
+                data: "uid=" + uid,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status === true) {
+                        getConversa(uid, 0);
+                        $('#qtd-msgs-' + uid).html('Sem mensagens').hide().fadeIn(300);
+                        $('#last-msg-' + uid).html(
+                                '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + uid + ', \'' + data.nome_user + '\')">' +
+                                'Clique para enviar uma mensagem' +
+                                '</p>').hide().fadeIn(300);
+                        Materialize.toast('Toda as mensagens deste tópico foram apagadas', 5000);
+                    }
+                },
+                error: function (data) {
+                    Materialize.toast(erro_interno, 5000);
+                }
+            });
+        } else {
+            Materialize.toast('<span>Selecione uma conversa para apagar</span>', 5000);
         }
-    });
-});
+    }
+}
 
 ////////////////////////////////////////////////////////////////////
 //GET CONVERSAS
@@ -106,6 +122,13 @@ function getConversa(uid, nome) {
                 $('.tooltipped').tooltip();
                 $('#icon-coord').removeClass('active');
                 $('#delConversa').attr({value: uid})
+                $('#del').removeClass('delConversaArquivada').addClass('delConversa').attr({value: uid})
+                $('.user').removeClass('selected');
+                $('#li-'+uid).addClass('selected');
+                $("#nova-mensagem").attr({"action": "/ajax/mensagem/store"});
+                $("#id_dest").attr({"value": uid});
+                $("#destinatario-nova-mensagem").attr({"value": nome});
+                $('#newMsg').attr({value: uid})
                 //  $('#email-details').scrollTop();
 
                 //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
@@ -134,7 +157,13 @@ function getConversaArchives(uid, nome) {
                 }
                 $('.tooltipped').tooltip();
                 $('#icon-coord').removeClass('active');
-                $('#delConversa').attr({value: uid})
+                $('#del').removeClass('delConversa').addClass('delConversaArquivada').attr({value: uid})
+
+                $("#nova-mensagem").attr({"action": "/ajax/mensagem/store"});
+                $("#id_dest").attr({"value": uid});
+                $("#destinatario-nova-mensagem").attr({"value": nome});
+                $('#newMsg').attr({value: uid})
+
                 //  $('#email-details').scrollTop();
 
                 //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
@@ -187,11 +216,19 @@ $('#get-users-archives').click(function () {
                 $('.get-users-archives').addClass('active');
                 //  $('#email-details').scrollTop();
 
-                //$('#li-'+uid).addClass('active'); resolver, na deixa ativo certo
+               
             }
         }
 
     });
+});
+$('#newMsg').click(function () {
+    var uid = $('#newMsg').val();
+    if (uid) {
+        $('#modal-nova-mensagem').openModal();
+    } else {
+        Materialize.toast('<span>Selecione um usuário para enviar uma nova mensagem.</span>', 5000);
+    }
 });
 
 $('#get-users-friends').click(function () {
@@ -251,6 +288,23 @@ function arquivarMensagem(id) {
         success: function (data) {
             $('#mensagem-' + id).fadeOut(300);
             Materialize.toast('Mensagem arquivada.', 5000);
+            getUsersArchives();
+
+        },
+        error: function () {
+            Materialize.toast(erro_interno, 5000);
+        }
+    });
+}
+function desarquivarMensagem(id) {
+    $.ajax({
+        type: "POST",
+        url: "/ajax/mensagem/desarquivarMensagem",
+        data: "id=" + id,
+        dataType: "json",
+        success: function (data) {
+            $('#mensagem-' + id).fadeOut(300);
+            Materialize.toast('Mensagem removida deste tópico.', 5000);
             getUsersArchives();
 
         },

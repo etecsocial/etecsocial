@@ -2,9 +2,9 @@
     @if(isset($users1[0]))
     @foreach($users1 as $user)
     @if(!isset($archives))
-    <li class="collection-item avatar" onclick="getConversa({{ $user->id }}, '{{ explode(' ', $user->nome)[0] }}')" id="li-{{$user->id}}">
+    <li class="collection-item avatar user" onclick="getConversa({{ $user->id }}, '{{ explode(' ', $user->nome)[0] }}')" id="li-{{$user->id}}">
         @else
-    <li class="collection-item avatar" onclick="getConversaArchives({{ $user->id }}, '{{ explode(' ', $user->nome)[0] }}')" id="li-{{$user->id}}">
+    <li class="collection-item avatar user" onclick="getConversaArchives({{ $user->id }}, '{{ explode(' ', $user->nome)[0] }}')" id="li-{{$user->id}}">
         @endif
         <span class="circle red lighten-1">{{$user->nome[0]}}</span>
 <!--                      <img src="" alt="" class="circle">-->

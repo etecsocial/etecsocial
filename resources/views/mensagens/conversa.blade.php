@@ -17,7 +17,11 @@
             </div>
             <div class="col s2 m2 l2 email-actions">
                 <a><span onclick="delMensagem({{$conversa->id}})" style="cursor: pointer"><i class="mdi-action-delete tooltipped" data-tooltip='Excluir' data-position='bottom'></i></span></a>
+                @if(isset($archive))
+                <a><span onclick="desarquivarMensagem({{$conversa->id}})"><i class="mdi-navigation-close tooltipped" data-tooltip='Arquivar' data-position='bottom' style="cursor: pointer"></i></span></a>
+                @else
                 <a><span onclick="arquivarMensagem({{$conversa->id}})"><i class="mdi-content-archive tooltipped" data-tooltip='Arquivar' data-position='bottom' style="cursor: pointer"></i></span></a>
+                @endif
             </div>
         </div>
         <div class="email-content">{{$conversa->msg}}</div>

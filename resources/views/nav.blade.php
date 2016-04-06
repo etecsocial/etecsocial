@@ -7,7 +7,14 @@
 {{ session()->put('loading_screen', 'true') }}
 @endif
 
-
+<style>
+    @media only screen and (min-width:992px) {
+        #results-search {
+            padding-left: 240px;
+            margin-top: -13px;
+        }
+    }
+</style>
 <!-- MODAL ADD EVENTO -->
 <div id="novoevento" class="modal">
     <form method="POST" id="addevento" action="{{ url('ajax/agenda') }}">
@@ -203,7 +210,7 @@
     <div class="navbar-fixed">
         <nav class="red darken-1">
             <div class="nav-wrapper">
-                <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo">ETEC Social</a>
+                <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo"><img src="{{ url('images/logo.png') }}"></a>
                     <ul class="right icons-side">
                         <li class="hide-on-med-and-down">
                             <a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>
@@ -221,14 +228,7 @@
 
                         <input autocomplete="off" style="padding-left: 55px;width: 89%" type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por amigos, professores, postagens ou grupos" />
                     </div>
-                    <style>
-                        @media only screen and (min-width:992px) {
-                            #results-search {
-                                padding-left: 240px;
-                                margin-top: -13px;
-                            }
-                        }
-                    </style>
+
                     <div id="results-search" style="display: none; ">
                         <ul class="busca collection" style="width: 670px; background: #fff"></ul>
                     </div>
@@ -264,11 +264,11 @@
                             <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{auth()->user()->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                             <p class="user-roal">
                                 @if(auth()->user()->tipo == 1)
-                                    Aluno
+                                Aluno
                                 @elseif(auth()->user()->tipo == 2) 
-                                    Professor
+                                Professor
                                 @else
-                                    Moderador
+                                Moderador
                                 @endif
                             </p>
                         </div>
@@ -279,31 +279,31 @@
                 <li class="bold">
                     <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
                         @if($msgsUnread)
-                            <span class="new badge">{{ $msgsUnread }}</span>
+                        <span class="new badge">{{ $msgsUnread }}</span>
                         @endif
                     </a> 
                 </li>
 
                 <li class="bold">
                     @if(isset($grupos[0]))
-                        <a class="waves-effect waves-cyan collapsible-header">
-                            <i class="mdi-action-assessment color-sec-darken-text"></i> 
-                            Grupos
-                        </a>
-                        <div class="collapsible-body">
-                            <ul>
-                                @foreach($grupos as $grupo)
-                                    <li><a href="{{ url('grupo/'.$grupo->url) }}">{{ $grupo->nome }}</a></li>
-                                @endforeach
-                                <li><a href="{{ url('grupos') }}">Ver todos</a></li>
-                            </ul>
-                        </div>
+                    <a class="waves-effect waves-cyan collapsible-header">
+                        <i class="mdi-social-group color-sec-darken-text"></i> 
+                        Grupos
+                    </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            @foreach($grupos as $grupo)
+                            <li><a href="{{ url('grupo/'.$grupo->url) }}">{{ $grupo->nome }}</a></li>
+                            @endforeach
+                            <li><a href="{{ url('grupos') }}">Ver todos</a></li>
+                        </ul>
+                    </div>
 
                     @else
-                        <a class="waves-effect waves-cyan" href="{{ url('/grupos') }}">
-                            <i class="mdi-action-assessment color-sec-darken-text" ></i> 
-                            Grupos
-                        </a>
+                    <a class="waves-effect waves-cyan" href="{{ url('/grupos') }}">
+                        <i class="mdi-social-group color-sec-darken-text" ></i> 
+                        Grupos
+                    </a>
                     @endif
                 </li>
 
@@ -318,8 +318,8 @@
                 <li>
                     <div class="divider"></div>
                 </li>
-                <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-action-account-balance color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
-                <li class="bold"><a class="waves-effect waves-cyan collapsible-header"><i class="mdi-action-assessment color-sec-darken-text"></i> Ranking</a>
+                <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-social-whatshot color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
+                <li class="bold"><a class="waves-effect waves-cyan collapsible-header"><i class="mdi-action-trending-up color-sec-darken-text"></i> Ranking</a>
                     <div class="collapsible-body">
                         <ul>                                        
                             <li>
@@ -358,10 +358,13 @@
                     <div class="col s12 m12 14 transparent white-text">
                         <div id="tarefas" class="col s12 white-text" style="display: block;">
                             <p>Solicitações de Amizade</p>
-                            @if(!App\Amizade::carrega())
-                            <p>Não há novas solicitações de amizade.</p>
-                            @else
                             <ul class="collection transparent" id="solic">
+                                @if(!App\Amizade::carrega())
+                                <li class="collection-item transparent">
+                                    <i class="mdi-action-info-outline tiny"></i>
+                                    <small>Não há novas solicitações.</small>
+                                </li>
+                                @else
                                 @foreach(App\Amizade::carrega() as $ami)
                                 <li class="ami-{{ $ami->id_user1 }} collection-item avatar transparent">
                                     <img src="{{ auth()->user()->avatar($ami->id_user1) }}" alt="" class="circle">
@@ -374,58 +377,276 @@
                                     <a href="#!" class="secondary-content"><i class="mdi-social-person-add"></i></a>
                                 </li>
                                 @endforeach
+                                @endif
                             </ul>
-                            @endif
                         </div>
-                        <div id="notificacoes" class="col s12" style="display: block;">
-                            <p><span class="left-align">Notificações</span>
-                                <span class="right-align right"><small><a style="cursor:pointer" onclick="read()">Marcar como lido</a></small></span></p>
-                            @if(!App\Notificacao::carrega())
-                            <p>Não há novas notificações.</p>
-                            @else
-                                <ul class="collection transparent" id="abnot">
-                                    @foreach(App\Notificacao::carrega() as $not)
-                                        @if($not->is_post)
-                                            <li onclick="abrirPost({{ $not->action }})" class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
-                                                <img src="{{ auth()->user()->avatar($not->id_rem) }}" alt="" class="circle">
-                                                <span class="title">{{ auth()->user()->verUser($not->id_rem)->nome }}</span>
-                                                <small>
-                                                    <small>
-                                                        <p>{{ $not->texto }}</p>
-                                                        <i>{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</i>
-                                                        @if(!$not->visto)
-                                                            <span class="new badge"></span>
-                                                        @endif
-                                                    </small>
-                                                </small>
-                                            </li>
-                                        @else
-                                            <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
-                                                <img src="{{ auth()->user()->avatar($not->id_rem) }}" alt="" class="circle">
-                                                <span class="title">{{ auth()->user()->verUser($not->id_rem)->nome }}</span>
-                                                <small>
-                                                    <small>
-                                                        <p>{{ $not->texto }}</p>
-                                                        <i>{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</i>
-                                                        @if(!$not->visto)
-                                                        <span class="new badge"></span>
-                                                        @endif
-                                                    </small>
-                                                </small>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            @endif
-                        </div>
-                        <div id="chat" class="col s12">
-                            <div class="collection-item">
-                                <p>Quem disse que não fecha essa desgraça?
-                                    ô  SE FECHA, DEMÔNIO, FECHA COM FORÇA AINDA!!
 
-                                </p>
-                                PS: era só apagar oq tava dentro da div...
+                        <div id="notificacoes" class="col s12" style="display: block;">
+                            <p>Notificações</p>
+                            <ul class="collection transparent">
+                                @if(!$notificacoes = App\Notificacao::carrega())
+                                <li class="collection-item transparent">
+                                    <i class="mdi-action-info-outline tiny"></i>
+                                    <small>Não há novas notificações.</small>
+                                </li>
+                                @else
+
+                                @foreach($notificacoes as $not)          
+                                @if($not->is_post)
+                                <li onclick="abrirPost({{ $not->action }})" class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
+                                    <img src="{{ auth()->user()->avatar($not->id_rem) }}" class="circle">
+                                    <span class="title">{{ auth()->user()->verUser($not->id_rem)->nome }}</span>
+                                    <small>
+                                        <p>{{ $not->texto }}</p>
+                                        <span class="right-align">{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</span>
+                                        <span class="right-align right">
+                                            @if(!$not->visto)
+                                            <span class="new badge"></span>
+                                            @endif
+                                        </span>
+                                    </small>
+                                    <a href="#!" class="secondary-content"><i class="mdi-social-person-add"></i></a>
+                                </li>
+                                @else
+                                <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
+                                    <img src="{{ auth()->user()->avatar($not->id_rem) }}" class="circle">
+                                    <span class="title">{{ auth()->user()->verUser($not->id_rem)->nome }}</span>
+                                    <small>
+                                        <p>{{ $not->texto }}</p>
+                                        <span class="right-align">{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</span>
+                                        @if(!$not->visto)
+                                        <span class="new badge"></span>
+                                        @endif
+                                    </small>
+                                    <a href="#!" class="secondary-content"><i class="mdi-social-person-add"></i></a>
+                                </li>   
+                                @endif                             
+                                @endforeach
+                                @endif
+                            </ul>
+                        </div>
+
+
+                        <div id="chat" class="col s12" style="display: none;">
+
+
+                            <!-- Contacts -->
+                            <div class="contacts" style="margin-top: 30px;">
+
+
+                                <div class="nano">
+                                    <div class="nano-content">
+
+                                        <span class="label">Online</span>
+
+                                        <div class="user">
+                                            <img src="images/users/user2.jpg" alt="Felecia Castro" class="circle photo">
+
+                                            <div class="name">Felecia Castro</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="green-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user3.jpg" alt="Max Brooks" class="circle photo">
+
+                                            <div class="name">Max Brooks</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="green-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user4.jpg" alt="Patsy Griffin" class="circle photo">
+
+                                            <div class="name">Patsy Griffin</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="green-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user5.jpg" alt="Chloe Morgan" class="circle photo">
+
+                                            <div class="name">Chloe Morgan</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="green-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user6.jpg" alt="Vernon Garrett" class="circle photo">
+
+                                            <div class="name">Vernon Garrett</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="yellow-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user7.jpg" alt="Greg Mcdonalid" class="circle photo">
+
+                                            <div class="name">Greg Mcdonalid</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="yellow-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user8.jpg" alt="Christian Jackson" class="circle photo">
+
+                                            <div class="name">Christian Jackson</div>
+                                            <div class="status">Lorem status</div>
+
+                                            <div class="online"><i class="yellow-text fa fa-circle"></i>
+                                            </div>
+                                        </div>
+
+
+                                        <span class="label">Offline</span>
+
+                                        <div class="user">
+                                            <img src="images/users/user9.jpg" alt="Willie Kelly" class="circle photo">
+
+                                            <div class="name">Willie Kelly</div>
+                                            <div class="status">Lorem status</div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user10.jpg" alt="Jenny Phillips" class="circle photo">
+
+                                            <div class="name">Jenny Phillips</div>
+                                            <div class="status">Lorem status</div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user11.jpg" alt="Darren Cunningham" class="circle photo">
+
+                                            <div class="name">Darren Cunningham</div>
+                                            <div class="status">Lorem status</div>
+                                        </div>
+
+                                        <div class="user">
+                                            <img src="images/users/user12.jpg" alt="Sandra Cole" class="circle photo">
+
+                                            <div class="name">Sandra Cole</div>
+                                            <div class="status">Lorem status</div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
+                            <!-- /Contacts -->
+
+                            <!-- Messages -->
+                            <div class="messages">
+
+                                <!-- Top Bar with back link -->
+                                <div class="topbar">
+                                    <a href="#!" class="chat-toggle"><i class="mdi-navigation-close"></i></a>
+                                    <a href="#!" class="chat-back"><i class="mdi-hardware-keyboard-arrow-left"></i>Voltar</a>
+                                </div>
+                                <!-- /Top Bar with back link -->
+
+                                <!-- All messages list -->
+                                <div class="list">
+                                    <div class="nano scroll-bottom">
+                                        <div class="nano-content">
+
+                                            <div class="date">Monday, Feb 23, 8:23 pm</div>
+
+                                            <div class="from-me">
+                                                Hi, Felicia.
+                                                <br>How are you?
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-them">
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-me">
+                                                Glad to see you :)
+                                                <br>This long text is intended to show how the chat will display it.
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-them">
+                                                <img src="images/users/user2.jpg" alt="John Peter" class="circle photo">Also, we will send the longest word to show how it will fit in the chat window: <strong>Pneumonoultramicroscopicsilicovolcanoconiosis</strong>
+                                            </div>
+
+                                            <div class="date">Friday, Mar 10, 5:07 pm</div>
+
+                                            <div class="from-me">
+                                                Hi again!
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-them">
+                                                <img src="images/users/user2.jpg" alt="John Doe" class="circle photo">Hi! Glad to see you.
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-me">
+                                                I want to add you in my Facebook.
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-me">
+                                                Can you give me your page?
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-them">
+                                                <img src="images/users/user2.jpg" alt="John Doe" class="circle photo">I do not use Facebook. But you can follow me in Twitter.
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-me">
+                                                It's good idea!
+                                            </div>
+
+                                            <div class="clear"></div>
+
+                                            <div class="from-them">
+                                                <img src="images/users/user2.jpg" alt="John Doe" class="circle photo">You can find me here - <a href="../../twitter.com/nkdevv.html">https://twitter.com/nkdevv</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /All messages list -->
+
+                                <!-- Send message -->
+                                <div class="send">
+                                    <form action="#!">
+                                        <div class="input-field">
+                                            <input id="chat-message" type="text" name="chat-message">
+                                        </div>
+
+                                        <button class="btn waves-effect z-depth-0 cyan"><i class="mdi-content-send"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- /Send message -->
+
+                            </div>
+                            <!-- /Messages -->
                         </div>
                     </div>
                 </div>

@@ -10,9 +10,17 @@ class Tarefa extends Model
 {
     protected $fillable = [
         'desc',
-        'data'
+        'data',
+        'data_checked'
     ];
     
+    public function scopeAtiva($query) {
+        $query->where(function($queryy)
+                {
+                    $queryy->where('data_checked', '>', time() - 3*24*60*60)
+                          ->orWhere('checked', false);
+                });
+    }
     public static function carrega() {
          Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')

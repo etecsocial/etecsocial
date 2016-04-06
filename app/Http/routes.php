@@ -65,10 +65,12 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/getConversaArchives', 'MensagemController@getConversaArchives');
             Route::post('/delMensagem', 'MensagemController@delMensagem');
             Route::post('/delConversa', 'MensagemController@delConversa');
+            Route::post('/delConversaArquivada', 'MensagemController@delConversaArquivada');
             Route::post('/getUsersRecents', 'MensagemController@getUsersRecents');
             Route::post('/getUsersFriends', 'MensagemController@getUsersFriends');
             Route::post('/getUsersUnreads', 'MensagemController@getUsersUnreads');
             Route::post('/getUsersArchives', 'MensagemController@getUsersArchives');
+            Route::post('/desarquivarMensagem', 'MensagemController@desarquivarMensagem');
             Route::post('/arquivarMensagem', 'MensagemController@arquivarMensagem');
         });
         //CHATS

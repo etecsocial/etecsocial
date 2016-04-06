@@ -9,6 +9,7 @@ use DB;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
+use App\Http\Requests\CreateTaskRequest;
 
 
 class TarefaController extends Controller {
@@ -74,9 +75,8 @@ class TarefaController extends Controller {
      *
      * @return Response
      */
-    public function store(Request $request) {
+    public function store(CreateTaskRequest $request) {
         Carbon::setLocale('pt_BR');
-        $this->validate($request, ['desc' => 'required|min:3']);
 
         $exists = DB::table('tarefas')
                 ->select('id')

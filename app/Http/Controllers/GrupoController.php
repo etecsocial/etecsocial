@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\ComentarioDiscussao;
-use App\ComentarioPergunta;
 use App\Notificacao;
 use App\GrupoAtiv;
 use App\GrupoUsuario;
@@ -20,8 +17,8 @@ use App\User;
 use Response;
 use Input;
 use DB;
-
 use Carbon\Carbon;
+
 class GrupoController extends Controller {
 
     /**
@@ -87,7 +84,7 @@ class GrupoController extends Controller {
             if (Grupo::where('url', $request->url)->first()) {
                 return Response::json([ 'status' => 3]);
             }
-            
+
             $grupo = new Grupo;
             $grupo->nome = $request->nome;
             $grupo->assunto = $request->assunto;
@@ -115,15 +112,18 @@ class GrupoController extends Controller {
             }
         }return Response::json(['status' => 4]);
     }
-    
+
     public function makeUrl($nome) {
         $url = str_replace(' ', '', $nome);
         $cont = 1;
-        while (Grupo::where('url', $url)->select('id')->first()) {//fala deixar usar url de grupo expirado
-            $url = $url.$cont;
-            $cont++;
+        if (Grupo::where('url', $url)->select('id')->first()) {
+            $nova = $url.$cont;
+            while (Grupo::where('url', $nova)->select('id')->first()) {//falta deixar usar url de grupo expirado
+                $cont++;
+                $nova = $url.$cont;
+            }
         }
-        return $url;
+        return isset($nova) ? $nova : $url;
     }
 
     /**
@@ -210,7 +210,7 @@ class GrupoController extends Controller {
     public function setDisc(Request $request) {
         $this->validate($request, [ 'assunto' => 'required']);
         $this->validate($request, [ 'discussao' => 'required']);
-        
+
         $disc = new GrupoDiscussao;
         $disc->id_grupo = $request->idgrupo;
         if ($request->titulo) {
@@ -239,7 +239,7 @@ class GrupoController extends Controller {
     }
 
     public function delDisc(Request $request) {
-        if (GrupoDiscussao::where('id', $request->id_discussao)->first()) {
+        if (GrupoDiscussao::where('id', $request->id_discussao)->select(['id'])->first()) {
             if (GrupoDiscussao::where('id', $request->id_discussao)->delete()) {
                 $this->decDiscussao($request->id_grupo);
                 return Response::json([ 'response' => 1, 'id' => $request->id_discussao]); //passa junto o id da discussao para dar o fadeOut na view.
@@ -465,16 +465,16 @@ class GrupoController extends Controller {
             'grupo' => $grupo,
             'banido' => 0,
             'info' => $info,
-            'alunos_int' => $alunos_int, 
-            'alunos_nao_int' => $alunos_nao_int, 
-            'integrantes' => $integrantes, 
-            'discussoes' => $discussoes, 
-            'materiais' => $materiais, 
-            'integranteEu' => $integrante, 
-            'amigos' => $amigos, 
-            'amigos_nao_int' => $amigos_nao_int, 
-            'professores_int' => $professores_int, 
-            'professores_nao_int' => $professores_nao_int, 
+            'alunos_int' => $alunos_int,
+            'alunos_nao_int' => $alunos_nao_int,
+            'integrantes' => $integrantes,
+            'discussoes' => $discussoes,
+            'materiais' => $materiais,
+            'integranteEu' => $integrante,
+            'amigos' => $amigos,
+            'amigos_nao_int' => $amigos_nao_int,
+            'professores_int' => $professores_int,
+            'professores_nao_int' => $professores_nao_int,
             'perguntas' => $perguntas]);
     }
 
@@ -518,12 +518,12 @@ class GrupoController extends Controller {
             'banido' => 0,
             'expirado' => 1,
             'info' => $info,
-            'alunos_int' => $alunos_int, 
-            'integrantes' => $integrantes, 
-            'discussoes' => $discussoes, 
-            'materiais' => $materiais, 
-            'integranteEu' => $integrante, 
-            'professores_int' => $professores_int, 
+            'alunos_int' => $alunos_int,
+            'integrantes' => $integrantes,
+            'discussoes' => $discussoes,
+            'materiais' => $materiais,
+            'integranteEu' => $integrante,
+            'professores_int' => $professores_int,
             'perguntas' => $perguntas]);
     }
 
@@ -575,14 +575,14 @@ class GrupoController extends Controller {
         }
 
         return ([
-            'banido' => 1, 
-            'professores_nao_int' => $professores_nao_int, 
-            'alunos_nao_int' => $alunos_nao_int, 
-            'mat' => $materiais, 
-            'discussoes' => $discussoes, 
-            'perguntas' => $perguntas, 
+            'banido' => 1,
+            'professores_nao_int' => $professores_nao_int,
+            'alunos_nao_int' => $alunos_nao_int,
+            'mat' => $materiais,
+            'discussoes' => $discussoes,
+            'perguntas' => $perguntas,
             'grupo' => $grupo
-            ]);
+        ]);
     }
 
     public function sair(Request $request) {

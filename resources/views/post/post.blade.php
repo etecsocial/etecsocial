@@ -1,6 +1,7 @@
 <div data-id="{{ $post->id }}" class="post blog col s12 m6 l4" style="margin-top: 20px">
     <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
+            
             @if($post->is_imagem)
             <a href="{{ url($post->url_midia) }}" data-lightbox="img-post-1">
                 <img src="{{ url($post->url_midia) }}">
@@ -45,7 +46,6 @@
                     Compartilhado de <a href="{{ url(auth()->user()->verUser($post->id_user)->username) }}">{{ auth()->user()->verUser($post->id_user)->nome }}</a>
                     @endif 
                 </span>
-                <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span>
             </p>
             <h4 class="card-title grey-text text-darken-4"><a href="{{ url('/') }}/post/{{$post->id}}" class="grey-text text-darken-4">{{ $post->titulo }}</a></h4>
             <section class="scroll-post-feed" style="overflow-y: auto; max-height: 200px">
@@ -62,6 +62,7 @@
                 @else
                 Por <a href="{{ url($post->username) }}">{{ $post->nome }} </a>
                 @endif
+                <span class="small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->diffForHumans() }}</span> 
             </div>
             @if($thisUser->id == $post->id_user) 
             <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="mdi-action-delete waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom"></i></a>

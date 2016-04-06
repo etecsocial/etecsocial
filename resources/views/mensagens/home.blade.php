@@ -49,21 +49,17 @@ Mensagens | ETEC Social
                                 </ul>
                             </div>
                             <div class="col s12 m7 l7 hide-on-med-and-down">
-                                
+
                                 <ul class="left">
-                                    <li><a class="email-type" id="title-msg-details">Comunicados da coordenação</a>
-                                    </li>
+                                    <li><a class="email-type" id="title-msg-details">Comunicados da coordenação</a></li>
                                 </ul>
                                 <ul class="right">
-                                    
-                                    <li class="active" id="icon-coord"><a href="#!"><i class="mdi-content-content-paste tooltipped" data-tooltip='Comunicados da coordenação' data-position='bottom'></i></a></li>
-                                    <li><a href="#!"><i class="mdi-content-archive tooltipped" data-tooltip='Arquivar conversa' data-position='bottom'></i></a>
+                                    <li class="active" id="icon-coord"><a><i class="mdi-content-content-paste tooltipped" data-tooltip='Comunicados da coordenação' data-position='bottom'></i></a></li>
                                     </li>
-                                    <li id="delConversa"><a><i class="mdi-action-delete tooltipped" data-tooltip='Apagar conversa' data-position='bottom'></i></a>
+                                    <li onclick="delConversa()" id="del"><a><i class="mdi-action-delete tooltipped" data-tooltip='Apagar conversa' data-position='bottom'></i></a>
                                     </li>
-                                    <li><a href="#!"><i class="mdi-content-mail tooltipped" data-tooltip='Arquivar conversa' data-position='bottom'></i></a>
+                                    <li id="newMsg"><a><i class="mdi-content-add-circle-outline tooltipped" data-tooltip='Nova mensagem' data-position='bottom'></i></a>
                                     </li>
-                                    
                                 </ul>
                             </div>
                         </div>
@@ -75,11 +71,11 @@ Mensagens | ETEC Social
                             <li>
                                 <img src="{{$myAvatar}}" alt="" class="circle responsive-img valign profile-image">
                             </li>
-                            <li id="get-users-recents"><a href="#!"><i class="get-users-recents icon-nav-list mdi-action-history tooltipped active" data-tooltip='Recentes' data-position='right'></i></a></li>
-                            <li id="get-users-unread"><a href="#!"><i class="get-users-unread icon-nav-list mdi-content-markunread tooltipped" data-tooltip='Não lidas' data-position='right'></i></a></li>
-                            <li id="get-users-friends"><a href="#!"><i class="get-users-friends icon-nav-list mdi-communication-contacts tooltipped" data-tooltip='Amigos' data-position='right'></i></a></li>
-                            <li id="get-users-archives"><a href="#!"><i class="get-users-archive icon-nav-list mdi-content-archive tooltipped" data-tooltip='Arquivadas' data-position='right'></i></a></li>
-                            <li id="get-users-help"><a href="#!"><i class="get-users-help icon-nav-list mdi-communication-live-help tooltipped" data-tooltip='Central de ajuda' data-position='right'></i></a></li>
+                            <li id="get-users-recents"><a><i class="get-users-recents icon-nav-list mdi-action-history tooltipped active" data-tooltip='Recentes' data-position='right'></i></a></li>
+                            <li id="get-users-unread"><a><i class="get-users-unread icon-nav-list mdi-content-markunread tooltipped" data-tooltip='Não lidas' data-position='right'></i></a></li>
+                            <li id="get-users-friends"><a><i class="get-users-friends icon-nav-list mdi-communication-contacts tooltipped" data-tooltip='Amigos' data-position='right'></i></a></li>
+                            <li id="get-users-archives"><a><i class="get-users-archives icon-nav-list mdi-content-archive tooltipped" data-tooltip='Arquivadas' data-position='right'></i></a></li>
+                            <li id="get-users-help" onclick="Materialize.toast('<span>Este recurso ainda está em desenvolvimento!</span>', 3000);"><a><i class="get-users-help icon-nav-list mdi-communication-live-help tooltipped" data-tooltip='Central de ajuda' data-position='right'></i></a></li>
                         </ul>
                     </div>
                     <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
@@ -124,11 +120,11 @@ Mensagens | ETEC Social
                             </div>
                             <div class="col s12 m7 l7 hide-on-med-and-down">
                                 <ul class="right">
-                                    <li><a href="#!"><i class="mdi-editor-attach-file"></i></a>
+                                    <li class="tooltipped" data-tooltip="Anexar arquivo" data-position="bottom"><a href="#!"><i class="mdi-editor-attach-file"></i></a>
                                     </li>
-                                    <li><i class="modal-action modal-close  mdi-content-send"></i>
-                                    </li>
-                                    <li><a href="#!"><i class="mdi-navigation-more-vert"></i></a>
+                                    <li onclick="$('#nova-mensagem').submit()" style="cursor: pointer" class="tooltipped" data-tooltip="Enviar mensagem" data-position="bottom"><a><i class="modal-action mdi-content-send"></i>
+                                        </a></li>
+                                    <li style="cursor: pointer" class="tooltipped" data-tooltip="Fechar" data-position="bottom"><a href="#!"><i class="mdi-navigation-close"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -137,17 +133,16 @@ Mensagens | ETEC Social
                     </nav>
                 </div>
                 <div class="model-email-content">
-                    <form class="col s12" id="nova-mensagem" type="post">
+                    <form class="col s12" id="nova-mensagem" type="multipart">
                         <div class="row">
                             <input type="hidden" name="id_dest" id="id_dest">
                             <div class="row">
-                                <div class="input-field col s12">
+                                <div class="input-field col s6">
                                     <input id="destinatario-nova-mensagem" class="validate" type="text" disabled="disabled">
                                     <!--                                    <label class="active">Mensagem para</label> ARRUMAR-->
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
+
+                                <div class="input-field col s6">
                                     <input id="assunto-nova-mensagem" type="text" class="validate" name="assunto">
                                     <label for="assunto-nova-mensagem">Assunto</label>
                                 </div>
@@ -158,7 +153,22 @@ Mensagens | ETEC Social
                                     <label for="mensagem">Sua mensagem</label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn-info btn">ENVIAR</button>
+                            <div class="row">
+                                <div class="file-field input-field col s6">
+                                    <input class="file-path validate" type="text">
+                                    <div class="btn">
+                                        <span>Mídia</span>
+                                        <input type="file" name="midia">
+                                    </div>
+                                </div>
+                                <div class="file-field input-field col s6">
+                                    <input class="file-path validate" type="text">
+                                    <div class="btn">
+                                        <span>Documento</span>
+                                        <input type="file" name="doc">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

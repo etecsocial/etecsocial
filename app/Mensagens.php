@@ -54,11 +54,17 @@ class Mensagens extends Model {
                         ->orderBy('created_at', 'asc')
                         ->get();
     }
-    public static function archiveMensagem($id) {
+    public static function archiveMessage($id) {
         $rem = Mensagens::where("id", $id)->select(['id_remetente'])->first();
         if($rem->id_remetente == auth()->user()->id){
         return Mensagens::where("id", $id)->update(['arquivado_rem' => 1]);
         }return Mensagens::where("id", $id)->update(['arquivado_dest' => 1]);
+    }
+    public static function unArchiveMessage($id) {
+        $rem = Mensagens::where("id", $id)->select(['id_remetente'])->first();
+        if($rem->id_remetente == auth()->user()->id){
+        return Mensagens::where("id", $id)->update(['arquivado_rem' => 0]);
+        }return Mensagens::where("id", $id)->update(['arquivado_dest' => 0]);
     }
     public static function loadMsgsArchives($uid) {
         Mensagens::setRead($uid);
@@ -106,24 +112,18 @@ class Mensagens extends Model {
     public static function loadArchives() {// @todo - otimizar os campos selecionados
         $array1 = Mensagens::where(['id_destinatario' => auth()->user()->id, 'copia_dest' => 1, 'arquivado_dest' => 1])
                 ->join('users', 'users.id', '=', 'mensagens.id_remetente')
+                ->groupBy('users.id')
                 ->orderBy('mensagens.created_at', 'desc')
                 ->get();
         $array2 = Mensagens::where(['id_remetente' => auth()->user()->id, 'copia_rem' => 1, 'arquivado_rem' => 1])
                 ->join('users', 'users.id', '=', 'mensagens.id_destinatario')
+                ->groupBy('users.id')
                 ->orderBy('mensagens.created_at', 'desc')
                 ->get();
 
         return ([$array1, $array2]);
     }
     
-    public static function archiveMessage($id) {// @todo - otimizar os campos selecionados
-         $msgs1 = Mensagens::where([
-             'id_destinatario' => auth()->user()->id,
-             'id_remetente' => $id,
-             'copia_de' => 1,
-             
-             ])->get();
-    }
     
     
 

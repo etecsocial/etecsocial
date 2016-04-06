@@ -26,6 +26,15 @@ MENSAGENS
 RECURSOS A ADICIONAR
 ->CHAMADA por check-in
 ->Prova online - Jhonatan
+->Central de ajuda online
+->Opção selecionar materia publicação
+->opção pesquisar conteudos por materia
+->Grupo dinamico alunos mesma turma
+->professor coordenador elege alunos como gremio
+	-sistema cria grupo para o gremio
+->Professor nao pode ser amigo
+->Publicações de professor aparecem sempre para todos.
+
 ->Desafios - Eduardo e Marcio
 ->Correção ortográfica
 ->Denúncia de publicações do feed

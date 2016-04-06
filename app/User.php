@@ -52,6 +52,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'provider_user_id',
     ];
 
+    public function scopeGetFriends() {
+        $this->join('amizades', 'amizades.id_user1', '=', 'users.id')
+                ->where('amizades.aceitou', 1)
+                ->where('amizades.id_user2', auth()->user()->id);
+    }
     /**
      * The attributes excluded from the model's JSON form.
      *

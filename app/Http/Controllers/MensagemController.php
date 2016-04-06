@@ -57,7 +57,10 @@ class MensagemController extends Controller {
     }
     
     public function arquivarMensagem(Request $request) {
-        return Mensagens::archiveMensagem($request->id);
+        return Mensagens::archiveMessage($request->id);
+    }
+    public function desarquivarMensagem(Request $request) {
+        return Mensagens::unArchiveMessage($request->id);
     }
     
 
@@ -82,7 +85,7 @@ class MensagemController extends Controller {
         return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgs($request->id_user)]);
     }
     public function getConversaArchives(Request $request) {
-        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgsArchives($request->id_user)]);
+        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgsArchives($request->id_user), 'archive' => true]);
     }
 
     public function delMensagem(Request $request) {
@@ -108,6 +111,13 @@ class MensagemController extends Controller {
     public function delConversa(Request $request) {
         Mensagens::where(['id_remetente' => auth()->user()->id, 'id_destinatario' => $request->uid])->update(['copia_rem' => 0]);
         Mensagens::Where(['id_destinatario' => auth()->user()->id, 'id_remetente' => $request->uid])->update(['copia_dest' => 0]);
+        return Response::json([ 'status' => true,
+                    'auth_id' => auth()->user()->id,
+                    'nome_user' => User::verUser($request->uid)->nome]);
+    }
+    public function delConversaArquivada(Request $request) {
+        Mensagens::where(['id_remetente' => auth()->user()->id, 'id_destinatario' => $request->uid])->where('arquivado_rem', 1)->update(['copia_rem' => 0]);
+        Mensagens::Where(['id_destinatario' => auth()->user()->id, 'id_remetente' => $request->uid, 'arquivado_dest' => 1])->update(['copia_dest' => 0]);
         return Response::json([ 'status' => true,
                     'auth_id' => auth()->user()->id,
                     'nome_user' => User::verUser($request->uid)->nome]);
