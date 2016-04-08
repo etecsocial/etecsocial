@@ -39,3 +39,6 @@ RECURSOS A ADICIONAR
 ->Correção ortográfica
 ->Denúncia de publicações do feed
 ->Auxílios
+
+AGENDA
+->Table/migration primary key com problema

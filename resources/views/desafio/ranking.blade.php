@@ -5,8 +5,10 @@ Ranking | ETEC Social
 @stop
 
 @section('style')
-{!! Html::style('css/asset.css') !!}
-{!! Html::style('css/style.css') !!}
+{!! Minify::stylesheet(['/css/font.css',
+'/css/materialize.css',
+'/css/asset.css',
+'/css/style.css'])->withFullURL() !!}
 <style> .ranking li { padding: 25px 0; } </style>
 @stop
 

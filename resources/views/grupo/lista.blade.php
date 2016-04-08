@@ -5,6 +5,7 @@ Grupos | ETEC Social
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
+						'/css/materialize.css',
                         '/css/asset.css',
                         '/css/style.css'])->withFullURL() !!}
 @stop

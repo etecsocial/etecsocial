@@ -5,7 +5,8 @@
 @stop
 
 @section('style')
-{!! Minify::stylesheet(['/css/asset.css',
+{!! Minify::stylesheet(['/css/materialize.css',
+						'/css/asset.css',
                         '/css/style.css'])->withFullURL() !!}
 @stop
 
