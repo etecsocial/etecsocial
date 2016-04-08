@@ -69,7 +69,7 @@ class TurmasSeeder extends Seeder
         foreach($this->turmas as $turma){
             if(DB::table('turmas')->where('id', $turma['id'])->get() == null){
                 DB::table('turmas')->insert($turma);
-                echo '[ INFO ] Turma : ' . $turma['nome'] . " adicionada. \n";
+                echo '[ INFO ] Turma : ' . e($turma['nome']) . " adicionada. \n";
             }
         }
     }
