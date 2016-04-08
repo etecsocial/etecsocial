@@ -83,5 +83,11 @@ class AuthController extends Controller
 
         return $user;
     }
+
+    protected function logout() {
+        auth()->logout();
+        session()->flush();
+        return redirect('/');
+    }
     
 }

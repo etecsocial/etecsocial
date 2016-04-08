@@ -3,7 +3,6 @@ Route::group(['middleware' => 'web'], function () {
     
     // auth route resource
     Route::auth();
-    Route::get('/logout', 'HomeController@logout'); // custom logout
 
     // home
     Route::get('/', 'HomeController@index');
