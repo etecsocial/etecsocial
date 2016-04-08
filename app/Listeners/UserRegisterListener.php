@@ -27,7 +27,6 @@ class UserRegisterListener
      */
     public function handle(UserRegister $event)
     {
-        Amizade::insert(['id_user1' => $user->id, 'id_user2' => $user->id, 'aceitou' => 1]);
-        
+        Amizade::insert(['id_user1' => $event->user->id, 'id_user2' => $event->user->id, 'aceitou' => 1]);
     }
 }
