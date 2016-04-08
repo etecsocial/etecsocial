@@ -1,14 +1,14 @@
 CADASTRO
-1∫-> Diferenciar conta aluno/professor.
-2∫-> Amarrar informaÁıes acadÍmicas, cÛdigo etec com cadastro/login usu·rio.
-3∫-> Conferir verificaÁ„o por e-mail, mensagem de prazo de 30 dias para confirmar institucional
-4∫-> Facebook login
+1¬∫-> Diferenciar conta aluno/professor.
+2¬∫-> Amarrar informa√ß√µes acad√™micas, c√≥digo etec com cadastro/login usu√°rio.
+3¬∫-> Conferir verifica√ß√£o por e-mail, mensagem de prazo de 30 dias para confirmar institucional
+4¬∫-> Facebook login
 
 FEED
 ->Modal de evento no feed.
-->Conferir notiicaÁ„o de evento prÛximo
-->Fechar fucking negocio de notificaÁ„o
-->Status n„o atualiza direto
+->Conferir notiica√ß√£o de evento pr√≥ximo
+->Fechar fucking negocio de notifica√ß√£o
+->Status n√£o atualiza direto
 
 INICIAL
 ->Definir imagem de fundo
@@ -19,7 +19,7 @@ CADASTRO
 MENSAGENS
 ->Layout
 ->Enviar/Receber
-->Foto, vÌdeo e documentos
+->Foto, v√≠deo e documentos
 ->Excluir
 ->Denunciar
 
@@ -27,15 +27,15 @@ RECURSOS A ADICIONAR
 ->CHAMADA por check-in
 ->Prova online - Jhonatan
 ->Central de ajuda online
-->OpÁ„o selecionar materia publicaÁ„o
-->opÁ„o pesquisar conteudos por materia
+->Op√ß√£o selecionar materia publica√ß√£o
+->op√ß√£o pesquisar conteudos por materia
 ->Grupo dinamico alunos mesma turma
 ->professor coordenador elege alunos como gremio
 	-sistema cria grupo para o gremio
 ->Professor nao pode ser amigo
-->PublicaÁıes de professor aparecem sempre para todos.
+->Publica√ß√µes de professor aparecem sempre para todos.
 
 ->Desafios - Eduardo e Marcio
-->CorreÁ„o ortogr·fica
-->Den˙ncia de publicaÁıes do feed
-->AuxÌlios
+->Corre√ß√£o ortogr√°fica
+->Den√∫ncia de publica√ß√µes do feed
+->Aux√≠lios
