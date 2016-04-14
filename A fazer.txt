@@ -1,4 +1,4 @@
-CADASTRO
+﻿CADASTRO
 1º-> Diferenciar conta aluno/professor.
 2º-> Amarrar informações acadêmicas, código etec com cadastro/login usuário.
 3º-> Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional
@@ -24,6 +24,28 @@ MENSAGENS
 ->Denunciar
 
 RECURSOS A ADICIONAR
+
+------------------------ IMPORTANTE
+
+Quando aluno for se cadastrar, ao pedir turma, caso nao tenha, ele aiciona uma.
+
+pessoas de fora podem ter uma conta, e estas podem se cdastrar com o facebook sem necessidade de confirmação no email institucional.
+
+Alunos da instituição necessitam confirmar no e-mail institucional em 30 dias, caso contrario, passa a ter acesso ao numero limitado de recursos que
+as pessoas de fora terão acesso.
+
+Professores precisam confirmar no e-mail institucional para ter acesso à sua conta.
+
+Professor se "elege" como coordenador, inserindo um código que seria enviado à ele em seu e-mail institucional, após solicitá-lo na direção.
+Tem que ver como vai fazer, cada etec ja vai precisar ter um coordenador para "subir" os demais professores de nivel administrativo.
+
+Professores coordenadores elegem alunos como integrantes do grêmio, e o sistema cria autimaticamente um grupo para o grêmio, onde suas publicações
+são exibidas automaticamente para todos daquela escola.
+
+As denúncias de publicações do feed deverão ser encaminhadas aos professores daquela instituição.
+
+---------------------
+
 ->CHAMADA por check-in
 ->Prova online - Jhonatan
 ->Central de ajuda online
