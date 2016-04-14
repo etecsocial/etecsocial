@@ -1,27 +1,29 @@
 ﻿CADASTRO
 1º-> Diferenciar conta aluno/professor.
 2º-> Amarrar informações acadêmicas, código etec com cadastro/login usuário.
-3º-> Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional
-4º-> Facebook login
+3º-> Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional para alunos e exigir confirmação para professor.
+4º-> Facebook login OK
 
 FEED
 ->Modal de evento no feed.
 ->Conferir notiicação de evento próximo
-->Fechar fucking negocio de notificação
+->Fechar fucking negocio de notificação OK
 ->Status não atualiza direto
 
 INICIAL
-->Definir imagem de fundo
+->Definir imagem de fundo.
 
 CADASTRO
 ->Passar para AJAX (usar jQueryValidate)
 
 MENSAGENS
-->Layout
-->Enviar/Receber
-->Foto, vídeo e documentos
-->Excluir
-->Denunciar
+->Layout OK
+->Enviar/Receber OK
+->Foto, vídeo e documentos OK
+->Excluir OK
+->Denunciar OK
+->Arquivar OK
+->Centra de ajuda EM ANDAMENTO
 
 RECURSOS A ADICIONAR
 
