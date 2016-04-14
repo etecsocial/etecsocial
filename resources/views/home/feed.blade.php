@@ -5,6 +5,7 @@ ETEC Social | Início
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
+'/css/materialize.css',
 '/css/asset.css',
 '/css/style.css',
 '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}

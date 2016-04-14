@@ -12,19 +12,7 @@ use Carbon\Carbon;
 
 class HomeController extends Controller {
 
-    public function logout() {
-        auth()->logout();
-        session()->flush();
-        return redirect('/');
-    }
-
     public function index() {
-
-        /* if (Input::has('confirmation_code')) {
-          $user = User::where('confirmation_code', Input::get('confirmation_code'))->first();
-          } else {
-          $user = 'false';
-          } */
         return auth()->check() ? $this->feed() : view('home.home');
     }
 

@@ -15,11 +15,11 @@ class CreateMensagensTable extends Migration {
             Schema::create('mensagens', function(Blueprint $table) {
                 $table->increments('id');
                 
-                //$table->integer('id_remetente', 11);
-                //$table->foreign('id_remetente')->references('id')->on('users');
+                $table->integer('id_remetente')->unsigned();
+                $table->foreign('id_remetente')->references('id')->on('users');
                 
-                //$table->integer('id_destinatario', 11);
-                //$table->foreign('id_destinatario')->references('id')->on('users');
+                $table->integer('id_destinatario')->unsigned();
+                $table->foreign('id_destinatario')->references('id')->on('users');
                 
                 $table->longText('msg');
                 $table->string('assunto', 50);

@@ -1,14 +1,14 @@
 CADASTRO
-1º-> Diferenciar conta aluno/professor.
-2º-> Amarrar informações acadêmicas, código etec com cadastro/login usuário.
-3º-> Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional
-4º-> Facebook login
+1Âº-> Diferenciar conta aluno/professor.
+2Âº-> Amarrar informaÃ§Ãµes acadÃªmicas, cÃ³digo etec com cadastro/login usuÃ¡rio.
+3Âº-> Conferir verificaÃ§Ã£o por e-mail, mensagem de prazo de 30 dias para confirmar institucional
+4Âº-> Facebook login
 
 FEED
 ->Modal de evento no feed.
-->Conferir notiicação de evento próximo
-->Fechar fucking negocio de notificação
-->Status não atualiza direto
+->Conferir notiicaÃ§Ã£o de evento prÃ³ximo
+->Fechar fucking negocio de notificaÃ§Ã£o
+->Status nÃ£o atualiza direto
 
 INICIAL
 ->Definir imagem de fundo
@@ -19,7 +19,7 @@ CADASTRO
 MENSAGENS
 ->Layout
 ->Enviar/Receber
-->Foto, vídeo e documentos
+->Foto, vÃ­deo e documentos
 ->Excluir
 ->Denunciar
 
@@ -27,15 +27,18 @@ RECURSOS A ADICIONAR
 ->CHAMADA por check-in
 ->Prova online - Jhonatan
 ->Central de ajuda online
-->Opção selecionar materia publicação
-->opção pesquisar conteudos por materia
+->OpÃ§Ã£o selecionar materia publicaÃ§Ã£o
+->opÃ§Ã£o pesquisar conteudos por materia
 ->Grupo dinamico alunos mesma turma
 ->professor coordenador elege alunos como gremio
 	-sistema cria grupo para o gremio
 ->Professor nao pode ser amigo
-->Publicações de professor aparecem sempre para todos.
+->PublicaÃ§Ãµes de professor aparecem sempre para todos.
 
 ->Desafios - Eduardo e Marcio
-->Correção ortográfica
-->Denúncia de publicações do feed
-->Auxílios
+->CorreÃ§Ã£o ortogrÃ¡fica
+->DenÃºncia de publicaÃ§Ãµes do feed
+->AuxÃ­lios
+
+AGENDA
+->Table/migration primary key com problema

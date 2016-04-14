@@ -6,6 +6,7 @@ Mensagens | ETEC Social
 
 @section('style')
 {!! Html::style('css/font.css') !!}
+{!! Html::style('css/materialize.css') !!}
 {!! Html::style('css/asset.css') !!}
 {!! Html::style('css/style.css') !!}
 {!! Html::style('css/mensagens/custom-style.css') !!}

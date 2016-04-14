@@ -32,7 +32,7 @@ class EtecSeeder extends Seeder
         foreach($this->etecs as $etec){
             if(DB::table('lista_etecs')->where('nome', $etec['nome'])->get() == null){
                 DB::table('lista_etecs')->insert($etec);
-                echo '[ INFO ] ETEC : ' . $etec['nome'] . " adicionada. \n";
+                echo '[ INFO ] ETEC : ' . e($etec['nome']) . " adicionada. \n";
             }
         }
     }

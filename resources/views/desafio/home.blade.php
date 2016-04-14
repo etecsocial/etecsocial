@@ -6,6 +6,7 @@ Desafios | ETEC Social
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
+'/css/materialize.css',
 '/css/asset.css',
 '/css/style.css'])->withFullURL() !!}
 @stop
@@ -19,7 +20,6 @@ Desafios | ETEC Social
 {!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
 {!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
 {!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/jquery.bxslider.min.js') !!}
 {!! Html::script('js/plugins/sliders.js') !!}
 {!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
 
@@ -89,3 +89,4 @@ Desafios | ETEC Social
         </div>
     </div>            
 </div>
+@stop
