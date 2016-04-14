@@ -210,7 +210,7 @@
     <div class="navbar-fixed">
         <nav class="red darken-1">
             <div class="nav-wrapper">
-                <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo"><img src="{{ url('images/logo.png') }}"></a>
+                <div class="nav-wrapper container"><a id="logo-container" href="{{ url('/') }}" class="brand-logo"><img src="{{ url('images/logo-b.png') }}"></a>
                     <ul class="right icons-side">
                         <li class="hide-on-med-and-down">
                             <a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>

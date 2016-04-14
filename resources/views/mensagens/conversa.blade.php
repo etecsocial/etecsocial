@@ -1,9 +1,9 @@
 @foreach($conversas as $conversa)
 <section class="mensagem" id="mensagem-{{ $conversa->id }}">
-    
+
     <p class="email-subject truncate">{{$conversa->assunto}}</p>
     <hr class="grey-text text-lighten-2">
-    <div class="email-content-wrap">
+    <div class="email-content-wrap" style="overflow-x: hidden">
         <div class="row">
             <div class="col s10 m10 l10">
                 <ul class="collection">
@@ -24,9 +24,40 @@
                 @endif
             </div>
         </div>
-        <div class="email-content">{{$conversa->msg}}</div>
+        <div class="email-content">
+            <div class="row">
+                <div class="col s12">
+                
+                    @if($conversa->midia)
+                    <div class="col s6">
+                            <h6>Mídia em anexo</h6>
+                            <hr class="divider col s12">
+                        @if(substr_count($conversa->midia, 'imagens'))
+                        <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->id_remetente)->nome}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                            <img src="{{url($conversa->midia)}}" alt="" class="responsive-img valign img-rounded col s10">
+                        </a>
+                        @else 
+                        <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->id_remetente)->nome}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                            <video src="{{url($conversa->midia)}}" alt="" class="video-container col s10">
+                        </a>
+                        @endif
+                        </div>
+                    @endif
+                    @if($conversa->doc)
+                    <div class="col s6">
+                        <h6>Documento anexado</h6>
+                        <hr class="divider col s12">
+                    <a href="{{url($conversa->doc)}}" class="col s10">Baixar documento </a>
+                    </div>
+                    @endif
+                    <br>
+                    <div class="col s12">
+                        {{$conversa->msg}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
 </section>
 @endforeach
 @if(empty($conversas[0]))

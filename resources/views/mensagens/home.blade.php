@@ -133,7 +133,7 @@ Mensagens | ETEC Social
                     </nav>
                 </div>
                 <div class="model-email-content">
-                    <form class="col s12" id="nova-mensagem" type="multipart">
+                    <form class="col s12" id="nova-mensagem" type="post">
                         <div class="row">
                             <input type="hidden" name="id_dest" id="id_dest">
                             <div class="row">

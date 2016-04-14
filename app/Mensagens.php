@@ -16,22 +16,25 @@ class Mensagens extends Model {
         'created_at',
         'data',
         'visto',
-        'arquivado',
-        'video',
-        'img',
+        'arquivado_dest',
+        'arquivado_rem',
+        'midia',
         'doc',
         'copia_dest',
         'copia_rem',
         'visto'
     ];
 
-    public static function store($id_dest, $msg, $assunto) {
+    public static function store($id_dest, $msg, $assunto, $doc, $img) {
         return Mensagens::create([
                     'id_remetente' => auth()->user()->id,
                     'id_destinatario' => $id_dest,
                     'msg' => $msg,
+                    'doc' => isset($doc) ? $doc : null,
+                    'midia' => isset($img) ? $img : null,
                     'assunto' => $assunto
         ]);
+        
     }
 
     public static function loadConversas() {
