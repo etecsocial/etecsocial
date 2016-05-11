@@ -17,7 +17,7 @@ class PesquisaController extends Controller {
                 ->limit(10)
                 ->join('turmas', 'turmas.id', '=', 'users.id_turma')
                 ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
-                ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla', 'users.info_academica'])
+                ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla'])
                 ->get();
 
         $professores = User::where('nome', 'LIKE', '%' . $termo . '%')
@@ -70,7 +70,7 @@ class PesquisaController extends Controller {
             $usuarios = User::where('users.nome', 'LIKE', '%' . $request->termo . '%')
                     ->join('turmas', 'turmas.id', '=', 'users.id_turma')
                     ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
-                    ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla', 'users.info_academica'])
+                    ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla'])
                     ->limit(4)
                     ->get();
             $grupos = Grupo::where('nome', 'LIKE', '%' . $request->termo . '%')

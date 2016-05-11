@@ -25,8 +25,6 @@ class CreateUsersTable extends Migration {
                 $table->date('nasc')->nullable();
                 $table->string('cidade')->nullable();
 
-                $table->text('info_academica')->nullable();
-
                 $table->bigInteger('provider_user_id')->unique()->nullable();
 
                 $table->string('confirmation_code')->nullable();

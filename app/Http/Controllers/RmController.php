@@ -22,8 +22,6 @@ class PoliticaController extends Controller
         $username = strtolower($nomes[0] . $nomes[count($nomes)]);
         $senha = str_random(30);
         
-        $info_academica = NULL;
-        
         User::create([
             'email'             => $dados->email,
             'tipo'              => 1,
@@ -31,7 +29,6 @@ class PoliticaController extends Controller
             'username'          => $username,
             'nasc'              => $dados->nasc, 
             'nome'              => $nome,
-            'info_academica'    => $info_academica,
             'confirmed'         => 1,
             'confirmation_code' => NULL
         ]);

@@ -149,7 +149,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12 l6">
-                            <input type="text" name="instituicao" value="{{ auth()->user()->myInfoAcademica()->instituicao }}" placeholder="Instituicao" class="validate" disabled>
+                            <input type="text" name="instituicao" value="" placeholder="Instituicao" class="validate" disabled>
                         </div>
                         <div class="input-field col s12 l6">
                             <input type="text" name="cidade" value="{{auth()->user()->cidade ? auth()->user()->cidade : "" }}" placeholder="Cidade"  class="validate">
@@ -159,11 +159,11 @@
                     @if(auth()->user()->tipo == 1)
                     <div class="row">
                         <div class="input-field col s12 l6">
-                            <input type="text" name="modulo" value="{{ auth()->user()->myInfoAcademica()->modulo }}" placeholder="Módulo" class="validate" disabled>
+                            <input type="text" name="modulo" value="" placeholder="Módulo" class="validate" disabled>
                             <label for="modulo" class="active">Módulo</label>
                         </div>
                         <div class="input-field col s12 l6">
-                            <input type="text" name="curso" value="{{ auth()->user()->myInfoAcademica()->curso }}" placeholder="Curso" class="validate" disabled>
+                            <input type="text" name="curso" value="" placeholder="Curso" class="validate" disabled>
                             <label for="curso" class="active">Curso</label>
                         </div>
                     </div>

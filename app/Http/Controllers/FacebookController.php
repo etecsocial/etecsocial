@@ -40,10 +40,7 @@ class FacebookController extends Controller
             'id_modulo' => 1,
             'id_turma' => 1,
             'provider_user_id' => $user_facebook->id,
-            
-            // temp (info_academica)
-            'info_academica' => '{"is_prof":false,"instituicao":"ETEC Pedro Ferreira Alves","modulo":"3\u00ba S\u00e9rie","curso":"Ensino M\u00e9dio Integrado a Inform\u00e1tica para Internet","conclusao":"2015"}',
-            'password' => bcrypt('temp' . rand() . 'temp'),
+            'password' => bcrypt('temp' . rand() . 'temp'), // @TODO: algo não está certo aqui
         ]);
         Amizade::insert(['id_user1' => $user->id, 'id_user2' => $user->id, 'aceitou' => 1]);
 		$this->make_avatar($user->id, $user_facebook->avatar);
