@@ -56,7 +56,7 @@ class ContaController extends Controller
         
         $user->nome                 = $request->nome;
         $user->username             = $request->username;
-        $user->nasc                 = $request->nasc;
+        $user->nascimento           = $request->nascimento;
         $user->habilidades          = $request->habilidades;
         $user->empresa              = $request->empresa;
         $user->cidade               = $request->cidade;

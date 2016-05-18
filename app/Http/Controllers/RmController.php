@@ -27,7 +27,7 @@ class PoliticaController extends Controller
             'tipo'              => 1,
             'password'          => bcrypt($senha),
             'username'          => $username,
-            'nasc'              => $dados->nasc, 
+            'nascimento'        => $dados->nascimento, 
             'nome'              => $nome,
             'confirmed'         => 1,
             'confirmation_code' => NULL

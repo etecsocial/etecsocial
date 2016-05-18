@@ -133,8 +133,8 @@
                             <label for="username" class="active">Nome de usuário</label>
                         </div>
                         <div class="input-field col s12 l6">
-                            <input type="date" name="nasc" name="nasc" id="nasc" value="{{auth()->user()->nasc ?auth()->user()->nasc : "" }}"  placeholder="Data de Nascimento" class="validate">
-                            <label for="nasc" class="active">Data de nascimento</label>
+                            <input type="date" name="nascimento" id="nascimento" value="{{auth()->user()->nascimento ?auth()->user()->nascimento : "" }}"  placeholder="Data de Nascimento" class="validate">
+                            <label for="nascimento" class="active">Data de nascimento</label>
                         </div>
                     </div>
                     <div class="row">

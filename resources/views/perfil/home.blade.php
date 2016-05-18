@@ -345,11 +345,11 @@
                   </div>
                </li>
                @endif
-               @if(strtotime($user->nasc))
+               @if(strtotime($user->nascimento))
                <li class="collection-item">
                   <div class="row">
                      <div class="col s4 grey-text darken-1"><i class="mdi-social-cake"></i> Nascimento</div>
-                     <div class="col s8 grey-text text-darken-4 right-align truncate">{{ Carbon\Carbon::parse($infos->nasc)->format("d/M/Y")   }}</div>
+                     <div class="col s8 grey-text text-darken-4 right-align truncate">{{ Carbon\Carbon::parse($infos->nascimento)->format("d/M/Y")   }}</div>
                   </div>
                </li>
                @endif

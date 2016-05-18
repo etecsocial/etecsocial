@@ -7,6 +7,8 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use App\GrupoUsuario;
+use DB;
 
 class AuthController extends Controller
 {
@@ -48,15 +50,29 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'username' => 'required|max:255|unique:users',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-            'escola' => 'required',
-            'modulo' => 'required',
-            'turma' => 'required',
-        ]);
+        if($data['tipo'] == 1){ // aluno
+            
+            return Validator::make($data, [
+                'nome' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'username' => 'required|max:255|unique:users',
+                'email_instuticional' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6|confirmed',
+                'id_turma' => 'required|exists:lista_etecs,id_etec|integer',
+                'id_modulo' => 'required|exists:modulos,id|integer',
+                'id_turma' => 'required|exists:turmas,id|integer',
+                ]);
+
+        } else if($data['tipo'] == 2){ // professor
+            return Validator::make($data, [
+                'nome' => 'required|max:255',
+                'username' => 'required|max:255|unique:users',
+                'email' => 'required|email|max:255|unique:users',
+                'email_instuticional' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6|confirmed',
+                'formacao' => 'required',
+                ]);
+        }
     }
 
     /**
@@ -68,17 +84,43 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'nome' => $data['name'],
-            'email' => $data['email'],
-            'tipo' => 1, // @TODO: aluno
+            'nome' => $data['nome'],
             'username' => $data['username'],
-            'id_escola' => $data['escola'],
-            'id_modulo' => $data['modulo'],
-            'id_turma' => $data['turma'],
+            'email' => $data['email'],
+            'email_instuticional' => $data['email_instuticional'],
+            'username' => $data['username'],
+            'tipo' => $data['tipo'],
             'password' => bcrypt($data['password']),
         ]);
 
+        if($data['tipo'] == 1){
+            $this->create_aluno($user, $data);
+        } else if($data['tipo'] == 2) {
+            $this->create_professor($user, $data);
+        }
+
+        // amizade
+
         return $user;
+    }
+
+    protected function create_aluno($user, $data){
+        
+        // coloca num grupo
+        // $add = new GrupoUsuario;
+        // $add->id_grupo = $id_grupo;
+        // $add->id_user = $aluno;
+        // $add->save();
+        // $this->IncParticipante($id_grupo);
+        DB::table('alunos_info')->insert(['user_id' => $user->id, 
+                                   'id_turma' => $data['id_turma'],
+                                   'id_escola' => $data['id_escola'],
+                                   'id_modulo' => $data['id_modulo']]);
+    }
+
+    protected function create_professor($user, $data){
+        DB::table('professores_info')->insert(['user_id' => $user->id, 
+                                   'id_escola' => $data['id_escola']]);
     }
 
     protected function logout() {

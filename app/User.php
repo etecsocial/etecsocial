@@ -31,24 +31,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $fillable = [
         'id',
+        'nome',
         'username',
         'email',
-        'email_alternativo',
-        'username',
+        'email_instuticional',
         'tipo',
-        'id_turma',
-        'password',
-        'nome',
-        'info_academica',
         'status',
-        'confirmation_code',
-        'confirmed',
-        'reputacao',
-        'id_escola',
-        'nasc',
-        'habilidades',
-        'empresa',
-        'cidade',
+        'nascimento',
         'provider_user_id',
     ];
 
@@ -63,7 +52,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = [
-        'remember_token'
+        'remember_token', 'password'
     ];
     
     public static function verUser($id) 
@@ -81,21 +70,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
     }
     
-    public static function myAvatar() 
-    {
+    public static function myAvatar()  {
         return User::avatar(auth()->user()->id);
     }
     
-    public static function infoAcademica($id) 
-    {
-        $user = User::where('id', $id)->select('info_academica')->limit(1)->get()->first(); 
-        
-        return json_decode($user->info_academica);
+	// @deprecated
+    public static function infoAcademica(){
+        return [];
     }
     
-    public static function myInfoAcademica() 
-    {
-        return User::infoAcademica(auth()->user()->id);
+	// @deprecated
+    public static function myInfoAcademica(){
     }
     
     public static function infos() 
@@ -108,11 +93,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
        return User::select('tipo')->where('id', $id)->where('tipo', 2)->limit(1)->get()->first(); 
     }
     
+	// @TODO: refazer tudo
     public static function turmas() {
+		/*
        $info = User::myInfoAcademica();
        
        return []; // #@todo: rever isso daqui
 
-       return Turma::where('id_escola', $info->etecs->default)->get();
+       return Turma::where('id_escola', $info->etecs->default)->get(); */
+	   return [];
     }
 }
