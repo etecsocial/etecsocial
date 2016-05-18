@@ -211,13 +211,13 @@
                <div class="col s12 l3 offset-l2">
                   <h4 class="card-title grey-text text-darken-4">{{ $user->nome_usuario }} {{ $user->sobrenome}}</h4>
                   @if($user->tipo == 1)
-                  <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', auth()->user()->infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</p>
+                  <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', $user->nome_curso)[0] }} {{ $user->sigla }}</p>
                   @else
                   <p class="medium-small grey-text tooltipped" data-tooltip="{{ $infoacad->atuacao }}" data-position="botton" data-delay="50">{{ $infoacad->formacao }}</p>
                   @endif
                </div>
                <div class="col s4 l2">
-                  <h4 class="card-title grey-text text-darken-4">{{ $user->reputacao }}</h4>
+                  <h4 class="card-title grey-text text-darken-4">0</h4>
                   <p class="medium-small grey-text">Pontos de reputação</p>
                </div>
                <div class="col s4 l2">
@@ -229,9 +229,22 @@
                   <p class="medium-small grey-text">Auxílios prestados</p>
                </div>
                <div class="col s1 right-align hide-on-med-and-down">
-                  <a class="red btn-floating activator waves-effect waves-light darken-2 right">
-                  <i class="mdi-action-perm-identity"></i>
-                  </a>
+				  @if(!$is_my)
+                        @if($amizade['status'])
+                        <a class="add btn-floating waves-effect waves-light cyan darken-3" onclick="add({{ $user->id }})"><i class="add-icon mdi-social-people tooltipped" data-tooltip="Vocês são amigos"></i></a>
+                        @else
+                        @if($amizade['error'] == "NAO_ACEITOU")
+                        <a class="add btn-floating waves-effect waves-light grey darken-3" onclick="add({{ $user->id }})"><i class="add-icon mdi-social-person-add 
+                           tooltipped" data-tooltip="Aguardando resposta a solicitação de amizade"></i></a>
+                        @endif
+                        @if($amizade['error'] == "VOCE_NAO_ACEITOU")
+                        <a class="add btn-floating waves-effect waves-light red darken-3" onclick="add({{ $user->id }})"><i class="add-icon mdi-social-person-add tooltipped" data-tooltip="Aceitar solicitação de amizade"></i></a>
+                        @endif
+                        @if($amizade['error'] == "NAO_AMIGO")
+                        <a class="add btn-floating waves-effect waves-light cyan darken-3" onclick="add({{ $user->id }})"><i class="add-icon mdi-social-person-add tooltipped" data-tooltip="Enviar solicitação de amizade"></i></a>
+                        @endif
+                        @endif
+                        @endif
                </div>
             </div>
          </div>
@@ -335,7 +348,7 @@
                <li class="collection-item">
                   <div class="row">
                      <div class="col s4 grey-text darken-1"><i class="mdi-social-group"></i> <span class="hide-on-small-only">Turma</span></div>
-                     <div class="col s8 grey-text text-darken-4 right-align truncate">{{ explode(' ', auth()->user()->infoAcademica($user->id)->modulo)[0] }} {{ $user->sigla }}</div>
+                     <div class="col s8 grey-text text-darken-4 right-align truncate">{{ explode(' ', $user->nome_curso)[0] }} {{ $user->sigla }}</div>
                   </div>
                </li>
                <li class="collection-item">

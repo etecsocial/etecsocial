@@ -26,14 +26,15 @@ class PerfilController extends Controller {
 
             if ($u->tipo === 1) {
                 $dados = User::where('username', $username)
-                        ->join('turmas', 'turmas.id', '=', 'users.id_turma')
+						->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                        ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
                         ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
-                        ->select(['users.id', 'reputacao', 'users.status', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
+                        ->select(['users.id', 'users.status', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
                         ->limit(1)
                         ->first();
             } else {
                 $dados = User::where('username', $username)
-                        ->select(['users.id', 'reputacao', 'users.status', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'created_at'])
+                        ->select(['users.id', 'users.status', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'created_at'])
                         ->limit(1)
                         ->first();
             }

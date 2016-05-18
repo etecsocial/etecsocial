@@ -5,26 +5,28 @@
 @stop
 
 @section('style')
-{!! Html::style('css/font.css') !!}
-{!! Html::style('css/asset.css') !!}
-{!! Html::style('css/style.css') !!}
+{!! Minify::stylesheet(['/css/font.css',
+                        '/css/materialize.css',
+                        '/css/asset.css',
+                        '/css/style.css'])->withFullURL() !!}
 <style>.chip{display:inline-block;height:32px;font-size:13px;font-weight:500;color:rgba(0,0,0,.6);line-height:32px;padding:0 12px;border-radius:16px;background-color:#e4e4e4}.chip img{float:left;margin:0 8px 0 -12px;height:32px;width:32px;border-radius:50%}.chip i.material-icons{cursor:pointer;float:right;font-size:16px;line-height:32px;padding-left:8px}</style>
 @stop
 
 @section('jscript')
-{!! Html::script('js/jquery-1.11.2.min.js') !!}
-{!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
-{!! Html::script('js/materialize.js') !!}
-{!! Html::script('js/form.min.js') !!}
-{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
-{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
-{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
-{!! Html::script('js/plugins/sliders.js') !!}
-{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
-{!! Html::script('js/jquery.tagsinput.min.js') !!}
-{!! Html::script('js/script.js') !!}
-{!! Html::script('js/plugins.js') !!}
-{!! Html::script('js/script-grupo.js') !!}
+{!! Minify::javascript(['/js/jquery-1.11.2.min.js',
+                        '/js/plugins/lightbox-plus-jquery.min.js',
+                        '/js/materialize.js',
+                        '/js/form.min.js',
+                        '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
+                        '/js/plugins/fullcalendar/lib/moment.min.js',
+                        '/js/plugins/fullcalendar/js/fullcalendar.min.js',
+                        '/js/plugins/fullcalendar/fullcalendar-script.js',
+                        '/js/plugins/sparkline/jquery.sparkline.min.js',
+                        '/js/plugins/sparkline/sparkline-script.js',
+                        '/js/jquery.tagsinput.min.js',
+                        '/js/script.js',
+                        '/js/plugins.js',
+                        '/js/script-grupo.js']) !!}
 
 @if(isset($integranteEu->is_admin))
 <script>$("#modalAnalisarDenunciaGrupo").length&&$("#modalAnalisarDenunciaGrupo").openModal({dismissible:!0,opacity:.5,in_duration:1e3,out_duration:500});</script>

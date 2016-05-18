@@ -20,7 +20,7 @@ class ContaController extends Controller
     public function consultarEscola() {
         $termo = Input::get('termo');
         
-        return Escola::select([ 'id_etec', 'nome' ])
+        return Escola::select([ 'id_etec', 'nome'])
                 ->where('nome', 'LIKE', '%' . $termo . '%')
                 ->get();      
     }
@@ -29,7 +29,7 @@ class ContaController extends Controller
         $turma = Input::get('turma');
         $escola = Input::get('escola');
         
-        $turmas = Turma::select([ 'id', 'nome', 'sigla' ])
+        $turmas = Turma::select([ 'id', 'nome', 'sigla'])
                 ->where('id_escola', $escola)
                 ->where(function ($query) use ($turma) {
                     $query->where('nome', 'LIKE', '%' . $turma . '%')
@@ -37,8 +37,7 @@ class ContaController extends Controller
                 })
                 ->get();
                 
-        Return view('turma', [ 'turmas' => $turmas ]);
-      
+        return view('turma', [ 'turmas' => $turmas ]);
     }
     
     /**
@@ -57,9 +56,6 @@ class ContaController extends Controller
         $user->nome                 = $request->nome;
         $user->username             = $request->username;
         $user->nascimento           = $request->nascimento;
-        $user->habilidades          = $request->habilidades;
-        $user->empresa              = $request->empresa;
-        $user->cidade               = $request->cidade;
         $user->email_alternativo    = $request->email_alternativo;
         
         if($request->has('senha')) {

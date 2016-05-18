@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use App\GrupoUsuario;
 use DB;
+use App\Events\UserRegister;
 
 class AuthController extends Controller
 {
@@ -99,7 +100,7 @@ class AuthController extends Controller
             $this->create_professor($user, $data);
         }
 
-        // amizade
+         event(new UserRegister($user));
 
         return $user;
     }
