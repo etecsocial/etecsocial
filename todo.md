@@ -1,8 +1,13 @@
 ﻿CADASTRO
 1º-> Diferenciar conta aluno/professor.
-2º-> Amarrar informações acadêmicas, código etec com cadastro/login usuário.
-3º-> Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional para alunos e exigir confirmação para professor.
-4º-> Facebook login OK
+[ ] revisar tipo coulm db
+[ ] registro com dois botões (aluno e professor)
+
+2º-> [ ] Amarrar informações acadêmicas, código etec com cadastro/login usuário.
+
+3º-> [ ] Conferir verificação por e-mail, mensagem de prazo de 30 dias para confirmar institucional para alunos e exigir confirmação para professor.
+
+4º-> [ ] Facebook login
 
 FEED
 ->Modal de evento no feed.
