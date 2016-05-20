@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TurmasSeeder extends Seeder
+class Turmas extends Seeder
 {
     /** 
      * Todos as turmas devem ser colocados aqui

@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateListaEtecsTable extends Migration {
+class CreateEscolasTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,9 +11,9 @@ class CreateListaEtecsTable extends Migration {
      * @return void
      */
     public function up() {
-        if (!Schema::hasTable('lista_etecs')) {
-            Schema::create('lista_etecs', function(Blueprint $table) {
-                $table->increments('id_etec');
+        if (!Schema::hasTable('escolas')) {
+            Schema::create('escolas', function(Blueprint $table) {
+                $table->increments('id');
                 $table->string('nome', 150);
                 $table->integer('cod_prof')->nullable()->unique();
             });
@@ -26,7 +26,7 @@ class CreateListaEtecsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('lista_etecs');
+        Schema::dropIfExists('escolas');
     }
 
 }
