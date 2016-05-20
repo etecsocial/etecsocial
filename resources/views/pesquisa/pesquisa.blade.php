@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base')
 
 @section('title')
 {{ $termo }} - Pesquisa ETEC Social
@@ -13,7 +13,7 @@
 
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
-                        '/js/materialize.js',
+                        '/materialize-css/js/materialize.min.js',
                         '/js/form.min.js',
                         '/js/script.js',
                         '/js/plugins.js']) !!}
@@ -76,7 +76,7 @@
             <img src="{{ auth()->user()->avatar($aluno->id) }}" data-tooltip="{{ $aluno->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
             <span class="title"><a href="{{ url(auth()->user()->verUser($aluno->id)->username) }}"><strong>{{ $aluno->nome_usuario }}</strong></a></span>
             <p>{{ $aluno->nome_etec }}<br>
-               {{ explode(' ', auth()->user()->infoAcademica($aluno->id)->modulo)[0] }} {{ $aluno->sigla }}
+               {{ $aluno->sigla }}
             </p>
             <a href="{{ url(auth()->user()->verUser($aluno->id)->username) }}" class="secondary-content"><i class="material-icons color-pri-text">send</i></a>
          </li>

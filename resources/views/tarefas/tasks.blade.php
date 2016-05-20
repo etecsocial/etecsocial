@@ -1,20 +1,15 @@
-@extends('app')
+@extends('base')
 
 @section('title')
 Tarefas | ETEC Social
 @stop
 
-@section('style')
-{!! Minify::stylesheet(['/css/font.css',
-'/css/materialize.css',
-'/css/asset.css',
-'/css/style.css'])->withFullURL() !!}
-@stop
+@section('style') {!! Minify::stylesheet(['/css/style.css'])->withFullURL() !!} @stop
 
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
 '/js/plugins/lightbox-plus-jquery.min.js',
-'/js/materialize.js',
+'/materialize-css/js/materialize.min.js',
 '/js/form.min.js',
 '/js/script.js',
 '/js/script-tasks.js',
@@ -45,7 +40,7 @@ Tarefas | ETEC Social
                                     </div>
                                     <div class="input-field col s6">
                                         <i class="material-icons prefix color-sec-text">event</i>
-                                        <input type="date" id="datepicker" name="data">
+                                        <input type="date" class="datepicker" placeholder="Data" name="data">
                                     </div>
                                 </div>
                                 <button type="submit" class="waves-effect wafgves-light btn right color-sec-light">Adicionar</button>
@@ -55,26 +50,19 @@ Tarefas | ETEC Social
                     <a class="task-add btn-floating waves-effect waves-light color-sec-darken" id="task-add-button"><i class="mdi-content-add"></i></a>
                     <div class="container">
                         <div class="col s12">
-
                             @foreach($tasks as $task)
                             <li class=" col s4 tarefa collection-item dismissable" data-id="{{ $task->id }}" data-date="{{ $task->data }}">
                                 @if($task->checked)
-                                <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')">
-                                @else
-                                <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
-                                @endif
+                                <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')"> @else
+                                <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')"> @endif
                                 <label for="{{ $task->id }}">{{ $task->desc }}<a class="secondary-content"><span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span></a>
                                 </label>
                                 @if($task->data > time() + 3*24*60*60)
-                                <span class="task-cat green darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
-                                @elseif($task->data > time())
-                                <span class="task-cat yellow darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
-                                @else
-                                <span class="task-cat red darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
-                                @endif
+                                <span class="task-cat green darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @elseif($task->data > time())
+                                <span class="task-cat yellow darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @else
+                                <span class="task-cat red darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
                             </li>
                             @endforeach
-
                         </div>
                     </div>
                     @if(empty($tasks))
@@ -107,7 +95,6 @@ Tarefas | ETEC Social
             </div>
         </div>
     </div>
-</div>
+    </div>
 </section>
-@include('footer')
-@stop
+@include('footer') @stop

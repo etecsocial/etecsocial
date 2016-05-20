@@ -32,7 +32,7 @@ class PerguntaController extends Controller {
                     'comentario' => $request->comentario
                 ])) {
             if($this->notificaResposta($request->id_pergunta, $request->id_grupo)){
-                return view('comentarioPergunta', [ 'id_pergunta' => $request->id_pergunta, 'id_comentario' => $request->id_comentario]);
+                return view('comentarios.pergunta', [ 'id_pergunta' => $request->id_pergunta, 'id_comentario' => $request->id_comentario]);
             }
         }
     }

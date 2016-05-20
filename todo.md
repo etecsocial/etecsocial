@@ -1,7 +1,5 @@
-﻿CADASTRO
+CADASTRO
 1º-> Diferenciar conta aluno/professor.
-[ ] revisar tipo coulm db
-[ ] registro com dois botões (aluno e professor)
 
 2º-> [ ] Amarrar informações acadêmicas, código etec com cadastro/login usuário.
 
@@ -71,3 +69,10 @@ As denúncias de publicações do feed deverão ser encaminhadas aos professores
 
 AGENDA
 ->Table/migration primary key com problema
+
+------------------------------------
+Novas tarefas
+[ ] adicionar tarefas básicas como:
+	- adicionar próximas provas na agenda
+	- adicionar atividades para essa semana
+[ ]

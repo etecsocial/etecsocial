@@ -31,7 +31,7 @@ class DiscussaoController extends Controller {
             'comentario' => $request->comentario
         ]);
 
-        return view('comentarioDiscussao', ['id_discussao' => $request->id_discussao, 'id_comentario' => $request->id_comentario]);    
+        return view('comentarios.discussao', ['id_discussao' => $request->id_discussao, 'id_comentario' => $request->id_comentario]);    
     }
 
     /**

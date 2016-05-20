@@ -101,4 +101,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
        return Turma::where('id_escola', $info->etecs->default)->get(); */
 	   return [];
     }
+
+    public function escola(){
+        if($this->type == 1){
+            $dados = User::where('id', $this->id)
+                        ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                        ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
+                        ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                        ->select('escolas.nome as escola_nome')
+                        ->limit(1)
+                        ->first();
+        } else if($this->type == 2){
+            $dados = (object) ['escola_nome' => 'erro'];
+        }
+        return $dados->escola_nome;
+    }
 }

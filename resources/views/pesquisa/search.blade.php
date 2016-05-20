@@ -4,7 +4,7 @@
       <img src="{{ auth()->user()->avatar($usuario->id) }}" alt="" class="circle">
       <span class="title"><strong>{{ $usuario->nome_usuario }}</strong></span>
       <p>
-         {{ explode(' ', auth()->user()->infoAcademica($usuario->id)->modulo)[0] }} {{ $usuario->sigla }} <br>
+         {{ $usuario->sigla }} <br>
          {{ $usuario->nome_etec }}
       </p>
    </li>

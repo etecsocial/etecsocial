@@ -9,11 +9,13 @@ use DB;
 use App\Mensagens;
 use App\GrupoUsuario;
 use Carbon\Carbon;
+use App\Escola;
 
 class HomeController extends Controller {
 
     public function index() {
-        return auth()->check() ? $this->feed() : view('home.home');
+        $escolas = Escola::select('id', 'nome')->get();
+        return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $escolas]);
     }
 
     public function feed($id = 0) {
@@ -44,7 +46,7 @@ class HomeController extends Controller {
                 ->orderBy('data')
                 ->limit(4)
                 ->get();
-        return view('home.feed', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count()]);
+        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count()]);
     }
 
     public function newpost(Request $request) {
@@ -59,7 +61,7 @@ class HomeController extends Controller {
                 ->where('posts.id', '>', $request->id)
                 ->get();
 
-        return view('home.posts', ['posts' => $posts, 'thisUser' => auth()->user()]);
+        return view('feed.posts', ['posts' => $posts, 'thisUser' => auth()->user()]);
     }
 
     public function morepost(Request $request) {
@@ -76,7 +78,7 @@ class HomeController extends Controller {
                 ->where('posts.id', '<', $request->id)
                 ->get();
 
-        return view('home.posts', [ 'posts' => $posts, 'thisUser' => auth()->user()]);
+        return view('feed.posts', [ 'posts' => $posts, 'thisUser' => auth()->user()]);
     }
 
 }

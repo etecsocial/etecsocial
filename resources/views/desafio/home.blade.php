@@ -1,14 +1,11 @@
-@extends('app')
+@extends('base')
 
 @section('title')
 Desafios | ETEC Social
 @stop
 
 @section('style')
-{!! Minify::stylesheet(['/css/font.css',
-'/css/materialize.css',
-'/css/asset.css',
-'/css/style.css'])->withFullURL() !!}
+{!! Minify::stylesheet(['/css/style.css'])->withFullURL() !!}
 @stop
 
 @section('jscript')
@@ -45,7 +42,6 @@ Desafios | ETEC Social
 <div class="container">
     <p class="caption">Com o sistema de Reputação, alunos poderão desafiar seus colegas afim de adiquirir pontuação. Tais desafios consistirão tanto em questões de vestibular quanto outros tipos, que serão sugeridos pelo sistema.</p>
     <div class="divider"></div>
-
     <div id="borderless-table">
         <h4 class="header">Desafios por matéria</h4>
         <div class="row">
@@ -60,7 +56,6 @@ Desafios | ETEC Social
                             <th>Finaliza em: </th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr>
                             <td><a href="#">Qual a sequência?</a></td>
@@ -87,6 +82,6 @@ Desafios | ETEC Social
                 </table>
             </div>
         </div>
-    </div>            
+    </div>
 </div>
 @stop

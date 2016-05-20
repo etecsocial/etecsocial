@@ -34,7 +34,6 @@ class AgendaController extends Controller {
                 ->where(function ($query) {
                     $query->orWhere(function ($query) {
                         $query->where('agendas.id_turma', auth()->user()->id_turma)
-                        ->where('agendas.id_modulo', auth()->user()->id_modulo)
                         ->where('is_publico', 1);
                     })
                     ->orWhere('id_user', auth()->user()->id);
@@ -62,7 +61,7 @@ class AgendaController extends Controller {
     public function store(Request $request) {
         $this->validate($request, [ 'title' => 'required']);
 
-        if (auth()->user()->tipo == 1) {
+        if (auth()->user()->type == 1) {
             $data = $request->start ? $request->start : date("Y-m-d");
 
             Notificacao::create([
@@ -73,9 +72,8 @@ class AgendaController extends Controller {
                 'is_post' => false,
             ]);
 
-            $db = DB::table('alunos_info')->select('id_turma', 'id_modulo')->where('user_id', auth()->user()->id)->get();
+            $db = DB::table('alunos_info')->select('id_turma')->where('user_id', auth()->user()->id)->first();
             $id_turma = $db->id_turma;
-            $id_modulo = $db->id_modulo;
 
             return Agenda::create([
                         'title' => $request->title,
@@ -84,7 +82,6 @@ class AgendaController extends Controller {
                         'id_user' => auth()->user()->id,
                         'is_publico' => $request->publico,
                         'id_turma' => $id_turma,
-                        'id_modulo' => $id_modulo,
                         'description' => $request->description
             ]);
         } else {
@@ -97,7 +94,6 @@ class AgendaController extends Controller {
                         'id_user' => auth()->user()->id,
                         'is_publico' => $request->publico,
                         'id_turma' => 1,
-                        'id_modulo' => 1,
                         'description' => $request->description
             ]);
         }

@@ -53,6 +53,3 @@ $('#salvar-task').ajaxForm({
         Materialize.toast('<span>Ops... Algo está errado!</span>', 3000);
     }
 });
-$(document).ready(function () {
-    $("#datepicker").datepicker({dateFormat: "yy-mm-dd"}).val();
-});

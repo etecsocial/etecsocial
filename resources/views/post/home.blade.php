@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base')
 @section('title')
 {{ $post->titulo }}
 @stop

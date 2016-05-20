@@ -240,7 +240,7 @@
                   <label class="active">URL</label>
                </div>
                <div class="input-field col s6">
-                  <input name="expiracao" id="expiracao-grupo" type="date" data-position="bottom" data-delay="50" data-tooltip="O grupo é para um evento específico ou permanente?.">
+                  <input name="expiracao" id="expiracao-grupo" type="date" class="datepicker" placeholder="Data" data-position="bottom" data-delay="50" data-tooltip="O grupo é para um evento específico ou permanente?.">
                   <label class="active">Expiração</label>
                </div>
             </div>

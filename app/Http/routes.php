@@ -52,6 +52,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
         //CONTA
         Route::post('/config', 'ContaController@editar');
+
+        Route::post('/professor', 'ContaController@professor');
+
         //AGENDA
         Route::get('/agenda', 'AgendaController@api');
         Route::resource('/agenda', 'AgendaController');

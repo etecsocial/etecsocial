@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base')
 
 @section('title')
 {{ $grupo->nome }} - ETEC Social
@@ -15,7 +15,7 @@
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
                         '/js/plugins/lightbox-plus-jquery.min.js',
-                        '/js/materialize.js',
+                        '/materialize-css/js/materialize.min.js',
                         '/js/form.min.js',
                         '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
                         '/js/plugins/fullcalendar/lib/moment.min.js',

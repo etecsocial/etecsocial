@@ -15,7 +15,6 @@ class Agenda extends Model
         'id_user',
         'is_publico',
         'id_turma',
-        'id_modulo'
     ];
     
     public static function loada() {

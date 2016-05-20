@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ProfessoresInfo extends Migration
+class CreateProfessoresInfoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,13 +17,10 @@ class ProfessoresInfo extends Migration
                 $table->integer('user_id')->unsigned();
                 $table->foreign('user_id')->references('id')->on('users');
 
-                $table->integer('id_turma')->unsigned()->default(1);
+                $table->integer('id_turma')->unsigned();
                 $table->foreign('id_turma')->references('id')->on('turmas');
-
-                $table->integer('id_modulo')->unsigned()->default(1);
-                $table->foreign('id_modulo')->references('id')->on('modulos');
                 
-                $table->integer('id_escola')->unsigned()->default(1);
+                $table->integer('id_escola')->unsigned();
                 $table->foreign('id_escola')->references('id')->on('escolas');
             });
         }

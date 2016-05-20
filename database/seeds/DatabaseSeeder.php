@@ -13,6 +13,5 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(Escolas::class);
         $this->call(Turmas::class);
-        $this->call(Modulos::class);
     }
 }

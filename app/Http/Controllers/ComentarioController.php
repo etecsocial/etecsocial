@@ -44,7 +44,7 @@ class ComentarioController extends Controller {
             ]);
         }
 
-        return view('comentario', [ 'id_post' => $request->id_post, 'id_comentario' => $request->id_comentario]);
+        return view('comentarios.comentario', [ 'id_post' => $request->id_post, 'id_comentario' => $request->id_comentario]);
     }
 
     public function editar(Request $request) {

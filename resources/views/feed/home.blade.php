@@ -1,18 +1,12 @@
-@extends('app')
+@extends('base')
 @section('title') ETEC Social | Início @stop
 
-@section('style')
-{!! Minify::stylesheet(['/css/font.css',
-'/css/materialize.css',
-'/css/asset.css',
-'/css/style.css',
-'/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!}
-@stop
+@section('style') {!! Minify::stylesheet(['/css/style.css', '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!} @stop
 
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
 '/js/plugins/lightbox-plus-jquery.min.js',
-'/js/materialize.js',
+'/materialize-css/js/materialize.min.js',
 '/js/form.min.js',
 
 '/js/plugins/jquery.nanoscroller.min.js',
@@ -32,70 +26,16 @@
 
 @if(auth()->user()->first_login)
 <script>
-    $(document).ready(function() {
-        $("#modalFirst").openModal();  
-    });
+$(document).ready(function() {
+    $("#modalFirst").openModal();
+});
 </script>
-@endif
-
-@if($id)
-<script>$("#verpost").openModal(); abrirPost({
-        {
-            $id
-        }
-    }
-    )</script>
-@endif
-
-@stop
-
-@section('content')
-
-@include('nav')
-
-@if(auth()->user()->first_login)
-
-<div id="modalFirst" class="modal">
-    <div class="modal-content">
-        <h4>Continue seu Cadastro</h4>
-        <p>Você realizou seu cadastro pelo facebook, você ainda precisa terminar seu cadastro</p>
-        <form action="" method="post">
-        <div class="input-field col s12 m6 l6">
-          <select name="id_escola" id="id_escola" onchange="turmas()" required>
-             <option value="" disabled selected>Selecione sua ETEC</option>
-             @foreach(App\Escola::get() as $escola)
-             <option value="{{ $escola->id_etec }}" 
-             @if(old('escola') == $escola->id_etec)
-             selected
-             @endif
-             >{{ $escola->nome }}</option>
-             @endforeach
-          </select>
-          <label>Escola</label>
-       </div>
-       <div class="input-field col s12 m6 l6">
-          <select name="id_turma" id="loadturmas" required>
-             <option value="" disabled selected>Selecione sua ETEC primeiro</option>
-          </select>
-          <label>Turma</label>
-       </div>
-       <div class="input-field col s12 m6 l6">
-          <select name="id_modulo" required>
-             <option value="" disabled selected>Selecione o ano/modulo</option>
-             @foreach(App\Modulo::get() as $modulo)
-             <option value="{{ $modulo->id }}">{{ $modulo->modulo }}º</option>
-             @endforeach
-          </select>
-          <label>Ano/módulo</label>
-       </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Terminar cadastro</a>
-    </div>
-</div>
-@endif
-
+@endif @if($id)
+<script>
+$("#verpost").openModal();
+abrirPost({{ $id }})
+</script>
+@endif @stop @section('content') @include('nav')
 <section id="content">
     <div class="container">
         <div id="chart-dashboard">
@@ -106,36 +46,28 @@
                             <h4 class="task-card-title">Minhas Tarefas </h4>
                             <p class="task-card-date">{{ \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') }}</p>
                         </li>
-                        @if(isset($tasks[0]))
-                        @foreach($tasks as $task)
+                        @if(isset($tasks[0])) @foreach($tasks as $task)
                         <li class="tarefa collection-item dismissable" data-idtask="{{ $task->id }}" data-date="{{ $task->data }}">
                             @if($task->checked)
-                            <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')">
-                            @else
-                            <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')">
-                            @endif
+                            <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')"> @else
+                            <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')"> @endif
                             <label for="{{ $task->id }}" class="truncate">{{ $task->desc }}
                                 <a class="secondary-content">
                                     <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span>
                                 </a>
                             </label>
                             @if($task->data > time() + 3*24*60*60)
-                            <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
-                            @elseif($task->data > time())
-                            <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
-                            @else
-                            <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
-                            @endif
+                            <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @elseif($task->data > time())
+                            <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @else
+                            <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
                         </li>
-                        @endforeach
-                        @else 
+                        @endforeach @else
                         <li class="tarefa collection-item dismissable">
                             <p class="center-align">Você não ainda não criou nenhuma tarefa :(</p>
                         </li>
                         @endif
                     </ul>
                 </div>
-
                 <div id="profile-page-wall-share" class="col s12 m12 l8" style="margin: 10px 0px 36px 0">
                     <div class="col s12">
                         <ul class="tabs tab-profile cyan">
@@ -155,7 +87,7 @@
                                     <label for="tags">Tags (opcional)</label>
                                 </div>
                                 <div class="input-field col s12 l10">
-                                    <textarea name="publicacao"  class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
+                                    <textarea name="publicacao" class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
                                     <label for="publicacao">O que há de novo para compartilhar com seus amigos?</label>
                                 </div>
                             </div>
@@ -170,7 +102,7 @@
                                             <input type="checkbox" name="publico">
                                             <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="botom"></span> Todos
                                         </label>
-                                    </div>    
+                                    </div>
                                 </div>
                                 <div class="col s2 l2">
                                     <button type="submit" data-tooltip="Publicar" data-delay="50" data-position="botom" class="tooltipped waves-effect waves-light btn-flat red white-text"><i class="mdi-maps-rate-review"></i></button>
@@ -180,7 +112,7 @@
                                 <div class="modal-content">
                                     <h5>Adicionar imagem ou vídeo</h5>
                                     <div class="file-field input-field">
-                                        <input class="file-path validate" type="text"/>
+                                        <input class="file-path validate" type="text" />
                                         <div class="btn">
                                             <span>+</span>
                                             <input type="file" name="midia" />
@@ -202,8 +134,8 @@
                             </div>
                         </div>
                     </div>
-                </div>            
-            </div> 
+                </div>
+            </div>
         </div>
     </div>
     <div class="container">
@@ -214,16 +146,17 @@
                         <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')" onmouseout="javascript:$('#icon-edit-status').hide('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                         <div class="divider"></div>
                         @if(isset($thisUser->status))
-                        <div id="us"><p class="left" style="margin-top:15px">{{{ $thisUser->status }}}</p></div>
+                        <div id="us">
+                            <p class="left" style="margin-top:15px">{{{ $thisUser->status }}}</p>
+                        </div>
                         @else
-                        <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i>
-                        @endif
+                        <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i> @endif
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">Atualizar Status <i class="mdi-navigation-close right"></i></span>
                         <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ $thisUser->nome }}?</p>
                         <div class="input-field col s12 accent-4">
-                            <form method="POST" action="{{ url('ajax/status') }}" id="status">      
+                            <form method="POST" action="{{ url('ajax/status') }}" id="status">
                                 <input id="status" name="status" type="text" class="validate" style="color:black">
                                 <label for="status">Novo Status</label>
                                 <button type="submit" style="font-size:14px" class="card-title waves-effect waves-light btn red">Atualizar</button>
@@ -231,7 +164,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col s6 m6 l6">
                     <div class="card">
                         <div class="card-content blue white-text center">
@@ -247,7 +179,7 @@
                             <h4 class="card-stats-number">{{ $thisUser->num_desafios }}</h4>
                         </div>
                     </div>
-                </div>                            
+                </div>
                 <div class="col s6 m6 l6">
                     <div class="card">
                         <div class="card-content orange white-text center">
@@ -256,7 +188,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col s6 m6 l6">
                     <div class="card">
                         <div class="card-content green white-text center">
@@ -265,20 +196,17 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div class="col s12 m12 l8">
                 <ul class="tabs tab-profile cyan">
                     <li class="tab col s4"><a class="white-text waves-light">Agenda de estudos</a></li>
-                </ul>            
-                <div id="full-calendar">              
+                </ul>
+                <div id="full-calendar">
                     <div class="col s12 m6 l12">
                         <div id="calendar"></div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <div id="card-widgets" class="seaction">
@@ -286,15 +214,11 @@
             <div class="col s12" id="post">
                 <div class="post"></div>
                 @if(!isset($posts[0]))
-                    <div data-id="0" class="post blog col s12 m6 l4" style="display:none"></div>
-                    <ul class="collection with-header">
-                        <li class="collection-item center darken-4">Ainda não há publicações para serem exibidas por aqui! Publique algo ou dicione seus amigos.</li>
-                    </ul>
-                @else
-                    @foreach($posts as $post)
-                        @include('post.post')
-                    @endforeach
-                @endif
+                <div data-id="0" class="post blog col s12 m6 l4" style="display:none"></div>
+                <ul class="collection with-header">
+                    <li class="collection-item center darken-4">Ainda não há publicações para serem exibidas por aqui! Publique algo ou dicione seus amigos.</li>
+                </ul>
+                @else @foreach($posts as $post) @include('post.post') @endforeach @endif
             </div>
         </div>
         <div class="row" id="loader-post" style="display:none">
@@ -315,17 +239,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col s12 m4 center">
-            </div>
+            <div class="col s12 m4 center"> </div>
         </div>
     </div>
-</div>
+    </div>
 </section>
-
 @include('footer')
-
 <div id="modalExcluir" class="modal">
-    <form  id="excluir" method="DELETE">
+    <form id="excluir" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Publicação</h4>
             <p>Tem certeza que deseja excluir esse post?</p>
@@ -336,9 +257,8 @@
         </div>
     </form>
 </div>
-
 <div id="modalExcluirComentario" class="modal">
-    <form  id="excluirComentario" method="DELETE">
+    <form id="excluirComentario" method="DELETE">
         <div class="modal-content">
             <h4>Excluir Comentario</h4>
             <p>Tem certeza que deseja excluir esse comentario?</p>
@@ -349,17 +269,15 @@
         </div>
     </form>
 </div>
-
 <div id="modalDenuncia" class="modal modal-fixed-footer">
     <div class="modal-content">
-        <h4><strong>Denunciar Publição</strong></h4><li class="divider"></li>
+        <h4><strong>Denunciar Publição</strong></h4>
+        <li class="divider"></li>
         <p>O que está havendo?</p>
-
         <div class="painel">
             <div class="painelTitle" style="margin-top:15px">
                 Selecione uma opção
             </div>
-
         </div>
         <div class="modal-footer">
             <div>

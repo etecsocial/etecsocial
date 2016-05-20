@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base')
 
 @section('title')
 Recuperar Senha | ETEC Social

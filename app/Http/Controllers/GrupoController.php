@@ -44,7 +44,7 @@ class GrupoController extends Controller {
                 ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
-        $professores = User::where('tipo', 2)->get();
+        $professores = User::where('type', 2)->get();
 
         return view('grupo.lista', [ 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => auth()->user()]);
     }
@@ -417,7 +417,7 @@ class GrupoController extends Controller {
             }
         }
 
-        $alunos = User::where('tipo', 1)->get();
+        $alunos = User::where('type', 1)->get();
         $alunos_int = array();
         foreach ($alunos as $aluno) {
             if (GrupoUsuario::where('id_user', $aluno->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
@@ -440,7 +440,7 @@ class GrupoController extends Controller {
             }
         }
 
-        $professores = User::where('tipo', 2)->get();
+        $professores = User::where('type', 2)->get();
         $professores_int = array();
         foreach ($professores as $professor) {
             if (GrupoUsuario::where('id_user', $professor->id)->where('id_grupo', $grupo->id)->first()) {
@@ -492,7 +492,7 @@ class GrupoController extends Controller {
                 ->get();
 
 
-        $alunos = User::where('tipo', 1)->get();
+        $alunos = User::where('type', 1)->get();
         $alunos_int = array();
         foreach ($alunos as $aluno) {
             if (GrupoUsuario::where('id_user', $aluno->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
@@ -501,7 +501,7 @@ class GrupoController extends Controller {
         }
 
 
-        $professores = User::where('tipo', 2)->get();
+        $professores = User::where('type', 2)->get();
         $professores_int = array();
         foreach ($professores as $professor) {
             if (GrupoUsuario::where('id_user', $professor->id)->where('id_grupo', $grupo->id)->first()) {
@@ -559,7 +559,7 @@ class GrupoController extends Controller {
                 $amigos_nao_int[] = $amigo;
             }
         }
-        $alunos = User::where('tipo', 1)->get();
+        $alunos = User::where('type', 1)->get();
         $alunos_nao_int = array();
         foreach ($alunos as $aluno) {
             if (!GrupoUsuario::where('id_user', $aluno->id)->where('id_grupo', $grupo->id)->first()) {

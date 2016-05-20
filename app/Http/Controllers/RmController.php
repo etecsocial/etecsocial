@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use DB;
 
 class PoliticaController extends Controller
 {    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index(Request $request)
+
+    public function index(Request $request) // @no use
     {
         $dados = DB::table('alunos_pfa')->where('rm', $request->rm)->first();
         
@@ -27,10 +24,23 @@ class PoliticaController extends Controller
             'tipo'              => 1,
             'password'          => bcrypt($senha),
             'username'          => $username,
-            'nascimento'        => $dados->nascimento, 
+            'birthday'        => $dados->birthday, 
             'nome'              => $nome,
             'confirmed'         => 1,
             'confirmation_code' => NULL
         ]);
+    }
+
+    protected function convert_name($name){
+        return ucwords(strtolower($name));
+    }
+
+    public function get_aluno_info(Request $request){ // checar segurança disso daqui
+        $aluno = DB::table('alunos_pfa')->where('rm', $request->rm)->first();
+        if($aluno){
+            return response()->json($aluno);
+        } else {
+            return response('Nenhum aluno com o rm ' . $request->rm . ' encontrado');
+        }
     }
 }

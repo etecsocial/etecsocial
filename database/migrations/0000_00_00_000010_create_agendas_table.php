@@ -19,7 +19,6 @@ class CreateAgendasTable extends Migration {
                 $table->boolean('is_publico')->nullable()->default(false);
                 $table->integer('id_user')->unsigned();
                 $table->integer('id_turma')->unsigned()->default(0);
-                $table->integer('id_modulo');
                 $table->primary(['id', 'id_turma']);
 
                 $table->date('start')->nullable();

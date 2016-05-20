@@ -1,11 +1,12 @@
 @section('jscript2')
+{!! Minify::javascript(['/js/jquery-1.11.2.min.js', '/materialize-css/js/materialize.min.js']) !!}
 <script>
     $(document).ready(function () {
         $('.modal-trigger').leanModal();
         $('.button-collapse').sideNav();
         $('select').material_select();
 
-        @if (old('tipo') == 2)
+        @if (old('type') == 2)
          $('.aluno').hide();
          $('.professor').show();
        @else 

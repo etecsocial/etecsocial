@@ -44,7 +44,6 @@ class Pontuacao extends Model {
                         ->join('users', 'users.id', '=', 'pontuacaos.user_id')
                         ->where('users.id_escola', auth()->user()->id_escola)
                         ->where('users.id_turma', auth()->user()->id_turma)
-                        ->where('users.id_modulo', auth()->user()->id_modulo)
                         ->orderBy('pontos', 'DESC')
                         ->groupBy('user_id')
                         ->limit(50)

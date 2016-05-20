@@ -1,7 +1,5 @@
 <div id="perguntas" class="tab-content col s12">
-
-    @if(!$banido)
-    @if(!isset($expirado))
+    @if(!$banido) @if(!isset($expirado))
     <form method="post" id="publicarPergunta" action="{{ url('ajax/grupo/pergunta')}}" class="tab-content col s12  grey lighten-4">
         <div class="row">
             <input type="hidden" name="idgrupo" value="{{ $grupo-> id}}">
@@ -23,23 +21,19 @@
             </div>
         </div>
     </form>
-    @else 
+    @else
     <div class="col s12">
         <ul class="collection with-header">
             <li class="collection-item center"> A data de expiração do grupo já passou. Não é possível fazer novas perguntas, mas você ainda pode ver o conteúdo já publicado.</li>
         </ul>
     </div>
-    @endif
-    @else 
+    @endif @else
     <div class="col s12">
         <ul class="collection with-header">
             <li class="collection-item center"> Você não possui permissão para publicar nesse grupo, mas ainda pode ver as perguntas que fez.</li>
         </ul>
     </div>
-    @endif
-
-    @if(isset($perguntas[0]))
-    @foreach($perguntas as $pergunta)
+    @endif @if(isset($perguntas[0])) @foreach($perguntas as $pergunta)
     <div class="blog col s4" style="margin-top: 20px;" id="pergunta-{{$pergunta->id}}">
         <div class="card">
             <div class="card-image waves-effect waves-block waves-light">
@@ -66,22 +60,14 @@
                     </div>
                     <div class="col s8"> Por <a href="{{ url(auth()->user()->verUser($pergunta->id_autor)->username)}}">{{ auth()->user()->verUser($pergunta->id_autor)->nome }}</a></div>
                     @if(($thisUser->id == $pergunta->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($pergunta->id_autor))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $pergunta->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
-                    <a href="#modalExcluirPergunta" onclick="excluirPergunta({{ $pergunta-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
-                    @else
-                    <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $pergunta->id}}, 'pergunta')" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a>                                                                
-                    @endif
+                    <a href="#modalExcluirPergunta" onclick="excluirPergunta({{ $pergunta-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
+                    <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $pergunta->id}}, 'pergunta')" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                 </div>
-
             </div>
             <div class="card-reveal">
-
                 <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Respostas</span>
                 <ul class="collection" id="com-perg-{{ $pergunta->id}}" style="margin-top:15px">
-
-                    @if($banido)
-                    @if($comments = App\ComentarioPergunta::where('id_pergunta', $pergunta->id)->where('id_user', $thisUser->id)->get())
-
-                    @foreach($comments as $comm)
+                    @if($banido) @if($comments = App\ComentarioPergunta::where('id_pergunta', $pergunta->id)->where('id_user', $thisUser->id)->get()) @foreach($comments as $comm)
                     <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                         <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Você" class="circle tooltipped">
@@ -90,62 +76,51 @@
                         </div>
                         <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($comm->created_at))->diffForHumans() }}</span>
                     </li>
-                    @endforeach   
-
-                    @else
+                    @endforeach @else
                     <p>Você não pode mais responder esta pergunta.</p>
-                    @endif
-                    @elseif($comments = App\ComentarioPergunta::where('id_Pergunta', $pergunta->id)->get())
-                    @foreach($comments as $comm)
+                    @endif @elseif($comments = App\ComentarioPergunta::where('id_Pergunta', $pergunta->id)->get()) @foreach($comments as $comm)
                     <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta->id }}" style="height: auto; min-height:65px" data-id="{{ $comm->id}}">
-
-                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $comm->id_user)->where('is_admin', 0)))) 
-                        <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm->id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-                        @endif
+                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $comm->id_user)->where('is_admin', 0))))
+                        <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm->id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a> @endif
                         <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="{{ auth()->user()->verUser($comm->id_user)->nome }}" class="circle tooltipped">
                         <div style="max-height: 80px; overflow: auto">
                             <p>{{ $comm-> comentario}}</p>
                         </div>
                         <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($comm->created_at))->diffForHumans() }}</span>
                     </li>
-                    @endforeach   
-                    @else                                                       
-                    <p>Ninguém respondeu à esta pergunta{{ isset($expirado) ? '.' : ' ainda. '}}</p> 
-                    @endif         
-                </ul> 
-                @if(!$banido)
-                @if(!isset($expirado))
+                    @endforeach @else
+                    <p>Ninguém respondeu à esta pergunta{{ isset($expirado) ? '.' : ' ainda. '}}</p>
+                    @endif
+                </ul>
+                @if(!$banido) @if(!isset($expirado))
                 <div class="left row white" style="bottom: 0px; width: 105%">
                     <div class="col s12">
                         <div class="input-field col s12">
-                            <form method="POST" onsubmit="return responder({{ $pergunta-> id}}, {{ $grupo-> id}});" >
-                                <input type="hidden" name="id_pergunta" value="{{ $pergunta->id }}" >
+                            <form method="POST" onsubmit="return responder({{ $pergunta-> id}}, {{ $grupo-> id}});">
+                                <input type="hidden" name="id_pergunta" value="{{ $pergunta->id }}">
                                 <input id="perg-resp-{{ $pergunta->id}}" type="text" class="validate" autocomplete="off">
-                                <label for="resposta" >Responder</label>
+                                <label for="resposta">Responder</label>
                             </form>
                         </div>
                     </div>
                 </div>
-                @else 
+                @else
                 <div class="left row white" style="bottom: 0px; width: 105%">
                     <div class="col s12">
                         <p style="margin-left: 10px">Não é possível responder perguntas deste grupo.</p>
                     </div>
                 </div>
-                @endif
-                @else
+                @endif @else
                 <div class="left row white" style="bottom: 0px; width: 105%">
                     <div class="col s12">
                         <p style="margin-left: 10px">Você não pode responder perguntas deste grupo.</p>
                     </div>
                 </div>
-                @endif 
+                @endif
             </div>
         </div>
     </div>
-    @endforeach
-    @else
-    @if(isset($banido))
+    @endforeach @else @if(isset($banido))
     <div class="col s12">
         <ul class="collection with-header">
             <li class="collection-item center">{{ isset($expirado) ? 'Não há perguntas no grupo.' : 'Ainda não há perguntas nesse grupo.'}}</li>
@@ -157,7 +132,5 @@
             <li class="collection-item center">Não há perguntas que você possa ver.</li>
         </ul>
     </div>
-    @endif
-    @endif 
-
+    @endif @endif
 </div>

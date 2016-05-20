@@ -1,14 +1,11 @@
-@extends('app')
+@extends('base')
 
 @section('title')
 Ranking | ETEC Social
 @stop
 
 @section('style')
-{!! Minify::stylesheet(['/css/font.css',
-'/css/materialize.css',
-'/css/asset.css',
-'/css/style.css'])->withFullURL() !!}
+{!! Minify::stylesheet(['/css/style.css'])->withFullURL() !!}
 <style> .ranking li { padding: 25px 0; } </style>
 @stop
 
@@ -43,7 +40,6 @@ Ranking | ETEC Social
     <p class="caption">Com o sistema de Reputação, alunos poderão desafiar seus colegas afim de adiquirir pontuação. Tais desafios consistirão tanto em questões de vestibular quanto outros tipos, que serão sugeridos pelo sistema.</p>
     <div class="divider"></div>
     <ul class="ranking">
-        
         @foreach($usuarios as $usuario)
         <li class="row">
             <div class="col l2">
@@ -61,7 +57,6 @@ Ranking | ETEC Social
         </li>
         <div class="divider"></div>
         @endforeach
-        
-    </ul> 
+    </ul>
 </div>
 @stop

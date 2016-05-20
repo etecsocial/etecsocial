@@ -5,8 +5,8 @@
       <img src="{{ auth()->user()->avatar($resultado->id) }}" alt="" class="circle">
       <span class="title"><strong>{{ $resultado->nome }}</strong></span>
       <p>
-         {{ auth()->user()->infoAcademica($resultado->id)->modulo }} - {{ auth()->user()->infoAcademica($resultado->id)->curso }} <br>
-         {{ auth()->user()->infoAcademica($resultado->id)->instituicao }}
+		 {{ auth()->user()->turma() }} <br>
+         {{ auth()->user()->escola() }}
       </p>
    </li>
 </a>

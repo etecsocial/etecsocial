@@ -11,52 +11,32 @@ class Turmas extends Seeder
         
         [
             'id' => 1,
-            'nome' => 'Ensino Médio Integrado a Informática para Internet',
-            'sigla' => 'EMIA',
-            'id_escola' => 1,
-        ],
-
-        [
-            'id' => 1,
-            'nome' => 'Ensino Médio Integrado a Meio Ambiente',
-            'sigla' => 'EMMEIO',
+            'nome' => '1 Ensino Médio Integrado a Informática para Internet',
+            'sigla' => '1 EMIA',
             'id_escola' => 1,
         ],
 
         [
             'id' => 2,
-            'nome' => 'Ensino Médio Integrado a Mecânica',
-            'sigla' => 'EMMEC',
+            'nome' => '2 Ensino Médio Integrado a Informática para Internet',
+            'sigla' => '2 EMIA',
             'id_escola' => 1,
         ],
 
         [
             'id' => 3,
-            'nome' => 'Ensino Médio Integrado a Administração',
-            'sigla' => 'EMAD',
+            'nome' => '3 Ensino Médio Integrado a Informática para Internet',
+            'sigla' => '3 EMIA',
             'id_escola' => 1,
         ],
 
         [
             'id' => 4,
-            'nome' => 'Ensino Médio Turma A',
-            'sigla' => 'EMA',
+            'nome' => '1 Ensino Médio Integrado a Administração',
+            'sigla' => '1 EMAD',
             'id_escola' => 1,
         ],
 
-        [
-            'id' => 5,
-            'nome' => 'Ensino Médio Turma B',
-            'sigla' => 'EMB',
-            'id_escola' => 1,
-        ],
-
-        [
-            'id' => 6,
-            'nome' => 'Ensino Médio Integrado a Informática para Internet RA',
-            'sigla' => 'EMIRA',
-            'id_escola' => 1,
-        ],
     ];
 
     /**
