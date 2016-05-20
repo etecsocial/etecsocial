@@ -88,7 +88,7 @@ class GrupoController extends Controller {
             $grupo = new Grupo;
             $grupo->nome = $request->nome;
             $grupo->assunto = $request->assunto;
-            $grupo->url = $request->url ? $request->url : $this->makeUrl($request->nome);
+            $grupo->url = $request->url ? $request->url : $grupo->makeUrl($request->nome);
             $grupo->materia = $request->materia;
             $grupo->id_criador = auth()->user()->id;
             $grupo->num_participantes = 1;
@@ -111,19 +111,6 @@ class GrupoController extends Controller {
                 return Response::json(['status' => 0]);
             }
         }return Response::json(['status' => 4]);
-    }
-
-    public function makeUrl($nome) {
-        $url = str_replace(' ', '', $nome);
-        $cont = 1;
-        if (Grupo::where('url', $url)->select('id')->first()) {
-            $nova = $url.$cont;
-            while (Grupo::where('url', $nova)->select('id')->first()) {//falta deixar usar url de grupo expirado
-                $cont++;
-                $nova = $url.$cont;
-            }
-        }
-        return isset($nova) ? $nova : $url;
     }
 
     /**

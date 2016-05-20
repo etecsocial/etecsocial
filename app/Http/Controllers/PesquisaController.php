@@ -15,7 +15,8 @@ class PesquisaController extends Controller {
         $alunos = User::where('users.name', 'LIKE', '%' . $termo . '%')
                 ->where('tipo', 1)
                 ->limit(10)
-                ->join('turmas', 'turmas.id', '=', 'users.id_turma')
+                ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
                 ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                 ->select([ 'users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                 ->get();
@@ -68,8 +69,9 @@ class PesquisaController extends Controller {
     public function buscaRapida(Request $request) {
         if ($request->termo) {
             $usuarios = User::where('users.name', 'LIKE', '%' . $request->termo . '%')
-                    ->join('turmas', 'turmas.id', '=', 'users.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                        ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
+                        ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                     ->select([ 'users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                     ->limit(4)
                     ->get();

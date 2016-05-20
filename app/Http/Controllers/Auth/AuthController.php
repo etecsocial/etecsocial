@@ -88,7 +88,11 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-
+        if($data['type'] == 2){
+            $first_login = 3;
+        } else { 
+            $first_login = 0;
+        }
 
         $user = User::create([
             'name' => $data['name'],
@@ -96,7 +100,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'type' => $data['type'],
             'password' => bcrypt($data['password']),
-            'first_login' => 3,
+            'first_login' => $first_login,
         ]);
 
         if($data['type'] == 1){

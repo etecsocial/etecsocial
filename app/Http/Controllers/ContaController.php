@@ -26,13 +26,8 @@ class ContaController extends Controller
     }
     
     public function consultarTurma(Request $request) {
-    $turma = $request->turma;        
-        $turmas = Turma::select([ 'id', 'nome', 'sigla'])
-                ->where('id_escola', $request->escola)
-                ->where(function ($query) use ($turma) {
-                    $query->where('nome', 'LIKE', '%' . $turma . '%')
-                          ->orWhere('sigla', 'LIKE', '%' . $turma . '%');
-                })
+    $turmas = Turma::select([ 'id', 'nome', 'sigla'])
+                    ->where('id_escola', $request->escola)
                 ->get();
                 
         return view('ajax.turma', ['turmas' => $turmas]);

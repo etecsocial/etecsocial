@@ -115,10 +115,6 @@
                     @if(auth()->user()->type == 1)
                     <div class="row">
                         <div class="input-field col s12 l6">
-                            <input type="text" name="modulo" value="" placeholder="Módulo" class="validate" disabled>
-                            <label for="modulo" class="active">Módulo</label>
-                        </div>
-                        <div class="input-field col s12 l6">
                             <input type="text" name="curso" value="" placeholder="Curso" class="validate" disabled>
                             <label for="curso" class="active">Curso</label>
                         </div>
@@ -165,13 +161,15 @@
 <div id="modalFirst" class="modal">
     <div class="modal-content">
         <div class="row">
-            <h4>Continue seu Cadastro</h4> @if(auth()->user()->first_login == 1)
+            <h4>Continue seu Cadastro</h4> 
+
+            @if(auth()->user()->first_login == 1)
             <p>Você realizou seu cadastro pelo facebook, você ainda precisa terminar seu cadastro</p>
             <form action="" method="post">
                 <div class="input-field col s6 m6 l6">
                     <select name="id_escola" id="id_escola" onchange="turmas()" required>
                         <option value="" disabled selected>Selecione sua ETEC</option>
-                        @foreach(App\Escola::get() as $escola)
+                        @foreach(\App\Escola::all() as $escola)
                         <option value="{{ $escola->id_etec }}" @if(old( 'escola')==$escola->id_etec) selected @endif >{{ $escola->nome }}</option>
                         @endforeach
                     </select>
@@ -184,7 +182,9 @@
                     <label>Turma</label>
                 </div>
             </form>
-            @endif @if(auth()->user()->first_login == 3)
+            @endif 
+            
+            @if(auth()->user()->first_login == 3)
             <p>Professor selecione as turmas que você leciona</p>
 
             ETEC PEDRO FERREIRA ALVES

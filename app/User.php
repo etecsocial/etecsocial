@@ -104,7 +104,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function escola(){
         if($this->type == 1){
-            $dados = User::where('id', $this->id)
+            $dados = User::where('users.id', $this->id)
                         ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
                         ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
                         ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')

@@ -28,12 +28,9 @@
 
     function turmas() {
        var escola = $('#id_escola').val();
-       if(escola == null){
-          escola = 1;
-       }
    
        if (escola) {
-           var url = '/ajax/cadastro/turmas?escola_id=' + escola;
+           var url = '/ajax/cadastro/turmas?escola=' + escola;
            $.get(url, function (dataReturn) {
                $('#loadturmas').html(dataReturn);
                $('#loadturmas').material_select();
