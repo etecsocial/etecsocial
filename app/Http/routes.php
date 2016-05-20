@@ -8,9 +8,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'HomeController@index');
     Route::post('/', 'HomeController@login_or_cadastro');
 
-    // facebook login
-    Route::get('/facebook_login', 'FacebookController@login');
-    Route::get('/facebook_feedback', 'FacebookController@feedback');
+    // social login
+    Route::get('/login/{provider}', 'SocialLoginController@login')->where('provider', '[a-z-]+');
+    Route::get('/fallback/{provider}', 'SocialLoginController@fallback')->where('provider', '[a-z-]+');
 
     // auth routes
     Route::group(['middleware' => 'auth'], function() {    

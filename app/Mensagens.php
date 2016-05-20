@@ -107,7 +107,7 @@ class Mensagens extends Model {
     public static function loadUnreads() {// @todo - otimizar os campos selecionados
         return Mensagens::where(['mensagens.id_destinatario' => auth()->user()->id, 'mensagens.visto' => 0])
                         ->join('users', 'users.id', '=', 'mensagens.id_remetente')
-                        ->select(['users.id as id', 'users.nome as nome'])
+                        ->select(['users.id as id', 'users.name as nome'])
                         ->orderBy('mensagens.created_at', 'desc')
                         ->get();
     }

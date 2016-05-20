@@ -12,6 +12,7 @@ use App\GrupoUsuario;
 use Input;
 use Response;
 use App\Mensagens;
+use DB;
 
 class AgendaController extends Controller {
 
@@ -25,7 +26,7 @@ class AgendaController extends Controller {
     }
 
     public function api(Request $request) {
-        $agenda = Agenda::select(['agendas.id', 'id_user', 'is_publico', 'start', 'end', 'title', 'description', 'users.nome'])
+        $agenda = Agenda::select(['agendas.id', 'id_user', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
                 ->where(function ($query) use ($request) {
                     $query->where('start', '>=', $request->start)
                     ->where('end', '<', $request->end);
@@ -72,14 +73,18 @@ class AgendaController extends Controller {
                 'is_post' => false,
             ]);
 
+            $db = DB::table('alunos_info')->select('id_turma', 'id_modulo')->where('user_id', auth()->user()->id)->get();
+            $id_turma = $db->id_turma;
+            $id_modulo = $db->id_modulo;
+
             return Agenda::create([
                         'title' => $request->title,
                         'start' => $data,
                         'end' => $request->end ? $request->end : $request->start,
                         'id_user' => auth()->user()->id,
                         'is_publico' => $request->publico,
-                        'id_turma' => auth()->user()->id_turma,
-                        'id_modulo' => auth()->user()->id_modulo,
+                        'id_turma' => $id_turma,
+                        'id_modulo' => $id_modulo,
                         'description' => $request->description
             ]);
         } else {
@@ -91,8 +96,8 @@ class AgendaController extends Controller {
                         'end' => $request->end ? $request->end : $request->start,
                         'id_user' => auth()->user()->id,
                         'is_publico' => $request->publico,
-                        'id_turma' => $request->turma,
-                        'id_modulo' => $request->modulo,
+                        'id_turma' => 1,
+                        'id_modulo' => 1,
                         'description' => $request->description
             ]);
         }

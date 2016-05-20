@@ -20,7 +20,7 @@ class ContaController extends Controller
     public function consultarEscola() {
         $termo = Input::get('termo');
         
-        return Escola::select([ 'id_etec', 'nome'])
+        return Escola::select([ 'id', 'nome'])
                 ->where('nome', 'LIKE', '%' . $termo . '%')
                 ->get();      
     }
@@ -56,7 +56,9 @@ class ContaController extends Controller
         $user->nome                 = $request->nome;
         $user->username             = $request->username;
         $user->nascimento           = $request->nascimento;
-        $user->email_alternativo    = $request->email_alternativo;
+        $user->email    			= $request->email;
+		$user->email_instuticional  = $request->email_instuticional;
+		
         
         if($request->has('senha')) {
            // if (bcrypt($request->senha_atual) != auth()->user()->password) {

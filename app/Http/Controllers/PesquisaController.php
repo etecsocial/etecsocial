@@ -12,12 +12,12 @@ use DB;
 class PesquisaController extends Controller {
 
     public function index($termo = '') {
-        $alunos = User::where('users.nome', 'LIKE', '%' . $termo . '%')
+        $alunos = User::where('users.name', 'LIKE', '%' . $termo . '%')
                 ->where('tipo', 1)
                 ->limit(10)
                 ->join('turmas', 'turmas.id', '=', 'users.id_turma')
-                ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
-                ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla'])
+                ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                ->select([ 'users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                 ->get();
 
         $professores = User::where('nome', 'LIKE', '%' . $termo . '%')
@@ -28,7 +28,7 @@ class PesquisaController extends Controller {
         $posts_amigos = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->orderBy('created_at', 'desc')
-                ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('amizades.aceitou', 1)
                 ->where('amizades.id_user2', auth()->user()->id)
                 ->where('titulo', 'LIKE', '%' . $termo . '%')
@@ -38,7 +38,7 @@ class PesquisaController extends Controller {
 
         $posts_publico = Post::join('users', 'users.id', '=', 'posts.id_user')
                     ->orderBy('created_at', 'desc')
-                    ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                    ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                     ->where('is_publico', 1)
                     ->where('titulo', 'LIKE', '%' . $termo . '%')
                     ->orWhere('publicacao', 'LIKE', '%' . $termo . '%')
@@ -67,10 +67,10 @@ class PesquisaController extends Controller {
 
     public function buscaRapida(Request $request) {
         if ($request->termo) {
-            $usuarios = User::where('users.nome', 'LIKE', '%' . $request->termo . '%')
+            $usuarios = User::where('users.name', 'LIKE', '%' . $request->termo . '%')
                     ->join('turmas', 'turmas.id', '=', 'users.id_turma')
-                    ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
-                    ->select([ 'users.id', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla'])
+                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->select([ 'users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                     ->limit(4)
                     ->get();
             $grupos = Grupo::where('nome', 'LIKE', '%' . $request->termo . '%')

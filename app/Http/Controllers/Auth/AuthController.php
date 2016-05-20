@@ -54,19 +54,19 @@ class AuthController extends Controller
         if($data['tipo'] == 1){ // aluno
             
             return Validator::make($data, [
-                'nome' => 'required|max:255',
+                'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'username' => 'required|max:255|unique:users',
                 'email_instuticional' => 'required|email|max:255|unique:users',
                 'password' => 'required|min:6|confirmed',
-                'id_turma' => 'required|exists:lista_etecs,id_etec|integer',
+                'id_turma' => 'required|exists:escolas,id|integer',
                 'id_modulo' => 'required|exists:modulos,id|integer',
                 'id_turma' => 'required|exists:turmas,id|integer',
                 ]);
 
         } else if($data['tipo'] == 2){ // professor
             return Validator::make($data, [
-                'nome' => 'required|max:255',
+                'name' => 'required|max:255',
                 'username' => 'required|max:255|unique:users',
                 'email' => 'required|email|max:255|unique:users',
                 'email_instuticional' => 'required|email|max:255|unique:users',
@@ -92,6 +92,7 @@ class AuthController extends Controller
             'username' => $data['username'],
             'tipo' => $data['tipo'],
             'password' => bcrypt($data['password']),
+            'first_login' => false,
         ]);
 
         if($data['tipo'] == 1){

@@ -24,21 +24,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $table = 'users';
 
-    /**
+        /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id',
-        'nome',
-        'username',
-        'email',
-        'email_instuticional',
-        'tipo',
-        'status',
-        'nascimento',
-        'provider_user_id',
+        'name', 'username', 'email_instuticional', 
+        'email', 'password', 'type', 
+        'provider_id', 'provider_user_id',
+        'birthday', 'first_login'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token', 'provider_id', 'provider_user_id'
     ];
 
     public function scopeGetFriends() {
@@ -46,14 +50,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 ->where('amizades.aceitou', 1)
                 ->where('amizades.id_user2', auth()->user()->id);
     }
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'remember_token', 'password'
-    ];
     
     public static function verUser($id) 
     {
@@ -73,6 +69,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function myAvatar()  {
         return User::avatar(auth()->user()->id);
     }
+
+    public function makeAvatar() { }
     
 	// @deprecated
     public static function infoAcademica(){

@@ -28,13 +28,13 @@ class PerfilController extends Controller {
                 $dados = User::where('username', $username)
 						->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
                         ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                        ->join('lista_etecs', 'lista_etecs.id_etec', '=', 'turmas.id_escola')
-                        ->select(['users.id', 'users.status', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'lista_etecs.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
+                        ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                        ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
                         ->limit(1)
                         ->first();
             } else {
                 $dados = User::where('username', $username)
-                        ->select(['users.id', 'users.status', 'users.nome AS nome_usuario', 'users.username', 'users.tipo', 'created_at'])
+                        ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'created_at'])
                         ->limit(1)
                         ->first();
             }
@@ -45,14 +45,14 @@ class PerfilController extends Controller {
                 $posts = Post::where('id_user', $dados->id)
                         ->join('users', 'users.id', '=', 'posts.id_user')
                         ->orderBy('created_at', 'desc')
-                        ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                        ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                         ->limit(5)
                         ->get();
             } else {
                 $posts = Post::where('id_user', $dados->id)
                         ->join('users', 'users.id', '=', 'posts.id_user')
                         ->orderBy('created_at', 'desc')
-                        ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                        ->select([ 'posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                         ->where("posts.is_publico", 1)
                         ->limit(5)
                         ->get();
@@ -144,7 +144,7 @@ class PerfilController extends Controller {
         $posts = Post::where('id_user', $request->id_user)
                 ->join('users', 'users.id', '=', 'posts.id_user')
                 ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('posts.id', '>', $request->id_post)
                 ->get();
 
@@ -160,7 +160,7 @@ class PerfilController extends Controller {
                 ->join('users', 'users.id', '=', 'posts.id_user')
                 ->orderBy('created_at', 'desc')
                 ->limit($n)
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.nome', 'users.username'])
+                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('posts.id', '<', $request->id_post)
                 ->get();
 

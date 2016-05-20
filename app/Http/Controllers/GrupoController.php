@@ -40,7 +40,7 @@ class GrupoController extends Controller {
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
                 ->where('users.id', "!=", auth()->user()->id)
-                ->select(['users.id', 'users.nome'])
+                ->select(['users.id', 'users.name'])
                 ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
@@ -406,7 +406,7 @@ class GrupoController extends Controller {
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
                 ->where('users.id', '!=', auth()->user()->id)
-                ->select(['users.id', 'users.nome'])
+                ->select(['users.id', 'users.name'])
                 ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
@@ -549,7 +549,7 @@ class GrupoController extends Controller {
         $amigos = User::join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
                 ->where('users.id', '!=', auth()->user()->id)
-                ->select(['users.id', 'users.nome'])
+                ->select(['users.id', 'users.name'])
                 ->where('amizades.id_user2', auth()->user()->id)
                 ->get();
 
