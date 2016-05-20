@@ -1,19 +1,54 @@
 @section('jscript2')
-{!! Minify::javascript(['/js/jquery.min.js',
-                        '/js/materialize.min.js'])->withFullURL() !!}
 <script>
     $(document).ready(function () {
         $('.modal-trigger').leanModal();
         $('.button-collapse').sideNav();
         $('select').material_select();
+
+        @if (old('tipo') == 2)
+         $('.aluno').hide();
+         $('.professor').show();
+       @else 
+         $('.aluno').show();
+         $('.professor').hide();
+       @endif
+
+      $('#register-aluno').click(function(){
+         $('.professor').hide();
+         $('.aluno').show();
+      });
+
+      $('#register-professor').click(function(){
+         $('.aluno').hide();
+         $('.professor').show();
+      });
     });
+
+
+    function turmas() {
+       var escola = $('#id_escola').val();
+       if(escola == null){
+          escola = 1;
+       }
+   
+       if (escola) {
+           var url = '/ajax/cadastro/turmas?escola_id=' + escola;
+           $.get(url, function (dataReturn) {
+               $('#loadturmas').html(dataReturn);
+               $('#loadturmas').material_select();
+               $('.caret').hide();
+           });
+       }
+   }
 </script>
 @stop
 <nav class="red darken-1" role="navigation">
    <div class="nav-wrapper container">
-      <a id="logo-container" href="{{ url('/') }}" class="brand-logo">ETEC Social</a>
+      <a id="logo-container" href="{{ url('/') }}" class="brand-logo">
+         <img src="{{ url('/images/logo-b.png') }}" alt="ETEC Social" class="logo-img">
+      </a>
       <ul class="right hide-on-med-and-down">
-         <li><a href="#">Sobre</a></li>
+         <li><a href="#sobre" class="modal-trigger">Sobre</a></li>
          <li><a href="#termos" class="modal-trigger">Termos</a></li>
          <li><a href="#privacidade" class="modal-trigger">Privacidade</a></li>
       </ul>
@@ -51,10 +86,12 @@
       <p>Não existe qualquer obrigação da ETEC Social em guardar os conteúdos, textos, dados, imagens ou programas publicados neste website, podendo os mesmos ser destruídos a qualquer momento, sem que por tal fato advenha qualquer direito de indenização para o Utilizador ou quaisquer terceiros.</p>
    </div>
    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat blue white-text">OK :)</a>
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat blue white-text">Entendi</a>
    </div>
 </div>
-<div id="privacidade" class="modal">
+</div>
+
+<div id="privacidade" class="modal modal-fixed-footer">
    <div class="modal-content">
       <h4>Política de Privacidade</h4>
       <p>Todas as informações pessoais recolhidas, serão usadas para ajudar a tornar a sua visita no nosso site o mais produtiva e agradável possível, a garantia da confidencialidade dos dados pessoais dos utilizadores do nosso site é importante para a ETEC Social.</p>
@@ -62,5 +99,40 @@
       <p>O uso da ETEC Social pressupõe a aceitação deste Acordo de privacidade. A equipe da ETEC Social reserva-se ao direito de alterar este acordo sem aviso prévio. Deste modo, recomendamos que consulte a nossa política de privacidade com regularidade de forma a estar sempre atualizado.</p>
       <p>A ETEC Social como uma rede social possui ligações para outros sites, os quais, podem conter informações/ferramentas úteis para os Utilizadores. A nossa política de privacidade não é aplicada a sites de terceiros, pelo que, caso visite outro site a partir do nosso deverá ler a politica de privacidade do mesmo. Não nos responsabilizamos pela política de privacidade ou conteúdo presente nesses mesmos sites.</p>
    </div>
+   <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat blue white-text">Entendi</a>
+   </div>
 </div>
+
+<div id="sobre" class="modal modal-fixed-footer">
+   <div class="modal-content">
+      <h4>Sobre o ETEC Social</h4>
+     <p>Com o notório aumento do uso de redes sociais em ambientes escolares por discentes, seja ele para fins educativos ou não, notou-se a necessidade de um ambiente socioeducativo para facilitar a comunicação, interação e aprendizagem de alunos não apenas dentro, mas também fora do âmbito escolar.</p>
+   <p>Visando criar um ambiente comum de interação entre alunos e professores, o sistema proposto contará com uma série de ferramentas e funcionalidades que auxiliarão o aluno durante todo o período letivo, estimulando-o a aprender dentro e fora da escola, através de recursos cabíveis que despertarão o interesse do aluno pelos estudos.</p>
+   <p>Com base neste contexto, conclui-se que o projeto em questão estará difundindo conhecimento e facilitando a vida dos estudantes cada vez mais, sempre com métodos inovadores e interativos. A imagem causticante e tediosa que alguns possuíam sobre os estudos ganha uma nova forma e passa a ser mais divertida e atrativa.</p>
+   </div>
+   <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat blue white-text">Entendi</a>
+   </div>
+</div>
+
+<div id="login" class="modal">
+   <div class="modal-content center">
+         @include('auth.login-form')
+   </div>
+</div>
+
+<div id="register" class="modal">
+   <div class="modal-content center">
+      <div class="row margin">
+        <a class="waves-effect waves-light btn-large red darken-1" id="register-aluno"><i class="material-icons left">person_pin</i>Aluno</a>
+        <a class="waves-effect waves-light btn-large blue darken-1" id="register-professor"><i class="material-icons left">work</i>Professor</a>              
+      </div>
+      <div class="col s12 center">
+         <div class="row">
+            @include('auth.register.aluno')
+            @include('auth.register.professor')
+         </div>
+      </div>
+   </div>
 </div>

@@ -2,7 +2,7 @@
 $fields = ['nome' => 'Nome Completo', 'username' => 'Usuario', 
            'email' => 'Email', 'email_instuticional' => 'Email Institucional', 
            'password' => 'Senha', 'password_confirmation' => 'Confirme a senha',
-           'formacao' => 'Formação'];
+           'formacao' => 'Formação', 'cod_prof' => 'Código do Professor'];
 ?>
 <div class="professor">
    <form class="form-form" role="form" method="POST" action="{{ url('/register') }}">
@@ -30,21 +30,8 @@ $fields = ['nome' => 'Nome Completo', 'username' => 'Usuario',
       @endif
    </div>
    @endforeach
-   <div class="input-field col s12 m6 l6">
-      <select name="id_escola" id="id_escola" onchange="turmas()" required>
-         <option value="" disabled selected>Selecione sua ETEC</option>
-         @foreach(App\Escola::get() as $escola)
-         <option value="{{ $escola->id_etec }}" 
-         @if(old('escola') == $escola->id_etec)
-         selected
-         @endif
-         >{{ $escola->nome }}</option>
-         @endforeach
-      </select>
-      <label>Escola</label>
-   </div>
-   <div class="input-field col s12">
-                  <button type="submit" class="waves-effect waves-light btn-large red darken-1">Cadastrar</button>
-               </div>
-               </form>
+      <div class="input-field col s12">
+         <button type="submit" class="waves-effect waves-light btn-large red darken-1">Cadastrar</button>
+      </div>
+   </form>
 </div>

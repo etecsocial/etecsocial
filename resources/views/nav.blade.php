@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="row">
-                @if(auth()->user()->tipo == 2)
+                @if(auth()->user()->type == 2)
                 <div class="addturma input-field col s6" style="display:none">
                     <select name="modulo" id="modulo" type="text">
                         @foreach(App\Modulo::get() as $modulo)
@@ -123,7 +123,7 @@
                         </div>  
 
                         <div class="input-field col s12 l6">
-                            <input value="{{auth()->user()->nome }}" name="nome" placeholder="Nome completo" class="validate" type="text" name="nome" id="nome">
+                            <input value="{{auth()->user()->name }}" name="nome" placeholder="Nome completo" class="validate" type="text" name="nome" id="nome">
                             <label for="nome" class="active">Nome e sobrenome</label>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                             <label for="cidade" class="active">Cidade</label>
                         </div>
                     </div>
-                    @if(auth()->user()->tipo == 1)
+                    @if(auth()->user()->type == 1)
                     <div class="row">
                         <div class="input-field col s12 l6">
                             <input type="text" name="modulo" value="" placeholder="Módulo" class="validate" disabled>
@@ -261,11 +261,11 @@
                                 <li><a href="{{ url('/logout') }}">Sair</a>
                                 </li>
                             </ul>
-                            <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{auth()->user()->nome }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                            <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{auth()->user()->name }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                             <p class="user-roal">
-                                @if(auth()->user()->tipo == 1)
+                                @if(auth()->user()->type == 1)
                                 Aluno
-                                @elseif(auth()->user()->tipo == 2) 
+                                @elseif(auth()->user()->type == 2) 
                                 Professor
                                 @else
                                 Moderador

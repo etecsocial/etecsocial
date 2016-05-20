@@ -12,7 +12,8 @@
         "laravel/socialite": "^2.0",
         "intervention/image": "^2.3",
         "devfactory/minify": "1.0.*",
-        "barryvdh/laravel-debugbar": "^2.2"
+        "barryvdh/laravel-debugbar": "^2.2",
+        "skydiver/laravel-materialize-css": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -49,6 +50,7 @@
             "php artisan clear-compiled"
         ],
         "post-update-cmd": [
+            "php artisan vendor:publish --tag=materializecss --force",
             "php artisan optimize"
         ]
     },

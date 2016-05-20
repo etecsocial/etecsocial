@@ -1,7 +1,5 @@
 @extends('app')
-@section('title')
-ETEC Social | Início
-@stop
+@section('title') ETEC Social | Início @stop
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
@@ -32,6 +30,14 @@ ETEC Social | Início
 '/js/plugins.js'
 ])->withFullURL() !!}
 
+@if(auth()->user()->first_login)
+<script>
+    $(document).ready(function() {
+        $("#modalFirst").openModal();  
+    });
+</script>
+@endif
+
 @if($id)
 <script>$("#verpost").openModal(); abrirPost({
         {
@@ -46,6 +52,50 @@ ETEC Social | Início
 @section('content')
 
 @include('nav')
+
+@if(auth()->user()->first_login)
+
+<div id="modalFirst" class="modal">
+    <div class="modal-content">
+        <h4>Continue seu Cadastro</h4>
+        <p>Você realizou seu cadastro pelo facebook, você ainda precisa terminar seu cadastro</p>
+        <form action="" method="post">
+        <div class="input-field col s12 m6 l6">
+          <select name="id_escola" id="id_escola" onchange="turmas()" required>
+             <option value="" disabled selected>Selecione sua ETEC</option>
+             @foreach(App\Escola::get() as $escola)
+             <option value="{{ $escola->id_etec }}" 
+             @if(old('escola') == $escola->id_etec)
+             selected
+             @endif
+             >{{ $escola->nome }}</option>
+             @endforeach
+          </select>
+          <label>Escola</label>
+       </div>
+       <div class="input-field col s12 m6 l6">
+          <select name="id_turma" id="loadturmas" required>
+             <option value="" disabled selected>Selecione sua ETEC primeiro</option>
+          </select>
+          <label>Turma</label>
+       </div>
+       <div class="input-field col s12 m6 l6">
+          <select name="id_modulo" required>
+             <option value="" disabled selected>Selecione o ano/modulo</option>
+             @foreach(App\Modulo::get() as $modulo)
+             <option value="{{ $modulo->id }}">{{ $modulo->modulo }}º</option>
+             @endforeach
+          </select>
+          <label>Ano/módulo</label>
+       </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Terminar cadastro</a>
+    </div>
+</div>
+@endif
+
 <section id="content">
     <div class="container">
         <div id="chart-dashboard">

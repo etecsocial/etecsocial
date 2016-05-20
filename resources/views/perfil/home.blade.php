@@ -213,7 +213,7 @@
                   @if($user->tipo == 1)
                   <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', $user->nome_curso)[0] }} {{ $user->sigla }}</p>
                   @else
-                  <p class="medium-small grey-text tooltipped" data-tooltip="{{ $infoacad->atuacao }}" data-position="botton" data-delay="50">{{ $infoacad->formacao }}</p>
+                  <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->formacao }}" data-position="botton" data-delay="50">{{ $user->formacao }}</p>
                   @endif
                </div>
                <div class="col s4 l2">
@@ -316,14 +316,8 @@
                @if($user->tipo === 2)
                <li class="collection-item">
                   <div class="row">
-                     <div class="col s5 grey-text darken-1"><i class="mdi-social-school"></i> Leciona</div>
-                     <div class="col s7 grey-text text-darken-4 right-align">{{ $infoacad->atuacao ? $infoacad->atuacao : '?' }}</div>
-                  </div>
-               </li>
-               <li class="collection-item">
-                  <div class="row">
                      <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Formação</div>
-                     <div class="col s7 grey-text text-darken-4 right-align">{{ $infoacad->formacao ? $infoacad->formacao : '?'}}</div>
+                     <div class="col s7 grey-text text-darken-4 right-align">{{ $user->formacao ? $user->formacao : '?'}}</div>
                   </div>
                </li>
                @endif

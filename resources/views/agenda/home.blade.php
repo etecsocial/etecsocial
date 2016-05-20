@@ -53,7 +53,7 @@ Agenda | ETEC Social
 <div class="container">
    <div class="section">
       Crie eventos para datas de provas, trabalhos, apresentações, seminários e etc.
-      {{ auth()->user()->tipo == 1 ? 'Caso queira, crie eventos compartilhados com sua turma!' : 'Professor, lembre-se que você pode adicionar eventos compartilhados com as turmas as quais você leciona!' }}</p>
+      {{ auth()->user()->type == 1 ? 'Caso queira, crie eventos compartilhados com sua turma!' : 'Professor, lembre-se que você pode adicionar eventos compartilhados com as turmas as quais você leciona!' }}</p>
       <div class="divider"></div>
       <div style="margin-top:10px">
          <a href="#novoevento" class="wino btn waves-effect waves-light cyan darken-2">Adicionar evento</a>

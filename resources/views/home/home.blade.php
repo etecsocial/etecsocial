@@ -1,17 +1,9 @@
-@extends('app')
-@section('title')
-ETEC Social | Compartilhando conhecimentos
-@stop
+@extends('base')
+
+@section('title') ETEC Social | Compartilhando conhecimentos @stop
 
 @section('style')
-{!! Minify::stylesheet(['/css/font.css',
-                        '/css/materialize.min.css',
-                        '/css/home.css'])->withFullUrl() !!}
-@stop
-
-@section('jscript')
-{!! Minify::javascript(['/js/jquery.min.js',
-                        '/js/materialize.min.js'])->withFullURL() !!}
+{!! Minify::stylesheet(['/css/home.css'])->withFullUrl() !!}
 @stop
 
 @section('content')
@@ -25,8 +17,8 @@ ETEC Social | Compartilhando conhecimentos
             <h5 class="header col s12 red-text">Compartilhe conhecimentos juntos e desafie seus amigos!</h5>
          </div>
          <div class="row center">
-            <a href="{{ url('/login') }}" id="entrar-button" class="btn-large waves-effect waves-light red lighten-1 modal-trigger">Entrar</a>
-            <a href="{{ url('/register') }}" id="cadastrar-button" class="btn-large waves-effect waves-light red darken-2 modal-trigger">Cadastrar-se</a>
+            <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger">Entrar</a>
+            <a href="#register" id="cadastrar-button" class="modal-trigger btn-large waves-effect waves-light red darken-2 modal-trigger">Cadastrar-se</a>
          </div>
       </div>
    </div>

@@ -1,5 +1,5 @@
 <?php
-$fields = ['nome' => 'Nome Completo', 'username' => 'Usuario', 
+$fields = ['name' => 'Nome Completo', 'username' => 'Usuario', 
            'email' => 'Email', 'email_instuticional' => 'Email Institucional', 
            'password' => 'Senha', 'password_confirmation' => 'Confirme a senha'];
 ?>
@@ -7,7 +7,7 @@ $fields = ['nome' => 'Nome Completo', 'username' => 'Usuario',
 <div class="aluno">
    <form class="form-form" role="form" method="POST" action="{{ url('/register') }}">
    {!! csrf_field() !!}
-   <input type="hidden" name="tipo" value="1">
+   <input type="hidden" name="type" value="1">
    @foreach ($fields as $field => $name)
    <div class="input-field col s12 m6 l6">
       <input 
@@ -34,9 +34,9 @@ $fields = ['nome' => 'Nome Completo', 'username' => 'Usuario',
    <div class="input-field col s12 m6 l6">
       <select name="id_escola" id="id_escola" onchange="turmas()" required>
          <option value="" disabled selected>Selecione sua ETEC</option>
-         @foreach(App\Escola::get() as $escola)
-         <option value="{{ $escola->id_etec }}" 
-         @if(old('escola') == $escola->id_etec)
+         @foreach(\App\Escola::all() as $escola)
+         <option value="{{ $escola->id }}" 
+         @if(old('escola') == 1)
          selected
          @endif
          >{{ $escola->nome }}</option>
@@ -53,8 +53,8 @@ $fields = ['nome' => 'Nome Completo', 'username' => 'Usuario',
    <div class="input-field col s12 m6 l6">
       <select name="id_modulo" required>
          <option value="" disabled selected>Selecione o ano/modulo</option>
-         @foreach(App\Modulo::get() as $modulo)
-         <option value="{{ $modulo->id }}">{{ $modulo->modulo }}º</option>
+         @foreach(\App\Modulo::all() as $modulo)
+         <option value="{{ $modulo->id }}">{{$modulo->id}}º</option>
          @endforeach
       </select>
       <label>Ano/módulo</label>

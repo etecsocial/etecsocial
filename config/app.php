@@ -164,6 +164,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Devfactory\Minify\MinifyServiceProvider::class,
+        Skydiver\LaravelMaterializeCSS\MaterializeCSSServiceProvider::class,
 
     ],
 
@@ -219,6 +220,7 @@ return [
         'Socialize' => Laravel\Socialite\Facades\Socialite::class,
         'Image'     => Intervention\Image\Facades\Image::class,
         'Minify'    => Devfactory\Minify\Facades\MinifyFacade::class,
+        'MaterializeCSS' => Skydiver\LaravelMaterializeCSS\MaterializeCSS::class,
     ],
 
 ];
