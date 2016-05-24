@@ -71,20 +71,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function makeAvatar() { }
-    
-	// @deprecated
-    public static function infoAcademica(){
-        return [];
-    }
-    
-	// @deprecated
-    public static function myInfoAcademica(){
-    }
-    
-    public static function infos() 
-    {
-        return DB::table('outras_infos')->where('id_user', auth()->user()->id)->first();
-    }
        
     public static function isTeacher($id) 
     {
@@ -114,6 +100,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         } else if($this->type == 2){
             $dados = (object) ['escola_nome' => 'erro'];
         }
-        return $dados->escola_nome;
+        if(isset($dados->escola_nome)){
+            return $dados->escola_nome;
+        } else {
+            return "Não adicionado ainda";
+        }
     }
 }

@@ -29,6 +29,20 @@
 $(document).ready(function() {
     $("#modalFirst").openModal();
 });
+
+function turmas() {
+       var escola = $('#id_escola').val();
+   
+       if (escola) {
+           var url = '/ajax/cadastro/turmas?escola=' + escola;
+           $.get(url, function (dataReturn) {
+               $('#loadturmas').html(dataReturn);
+               $('#loadturmas').material_select();
+               $('.caret').hide();
+           });
+       }
+   }
+   
 </script>
 @endif @if($id)
 <script>

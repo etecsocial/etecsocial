@@ -170,7 +170,7 @@
                     <select name="id_escola" id="id_escola" onchange="turmas()" required>
                         <option value="" disabled selected>Selecione sua ETEC</option>
                         @foreach(\App\Escola::all() as $escola)
-                        <option value="{{ $escola->id_etec }}" @if(old( 'escola')==$escola->id_etec) selected @endif >{{ $escola->nome }}</option>
+                            <option value="{{ $escola->id_etec }}">{{ $escola->nome }}</option>
                         @endforeach
                     </select>
                     <label>Escola</label>

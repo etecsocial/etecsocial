@@ -368,6 +368,7 @@ header .brand-logo img{
     height: 40px;
     display: inline-block;
     position: relative;
+	margin-top: 24px
 }
 .header-search-wrapper i {
     position: absolute;
@@ -412,6 +413,10 @@ input.header-search-input {
     font-size:16px;
     font-weight:400
 }
+#results-search {
+	text-align: left;
+}
+
 .header-search-input::placeholder
 {
     color:#fff;
@@ -2499,4 +2504,14 @@ html.rtl .timeline-block:nth-child(even) .timeline-content:before {
 
         }}
     
-    
+    nav {
+    height: 80px;
+}
+
+nav ul li a{
+    padding: 5px 20px 10px 20px;
+}
+
+nav .logo-img {
+    padding:0;
+}

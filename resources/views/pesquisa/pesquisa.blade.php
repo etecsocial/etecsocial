@@ -91,8 +91,7 @@
          <li class="collection-item avatar">
             <img src="{{ auth()->user()->avatar($professor->id) }}" data-tooltip="{{ $professor->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
             <span class="title"><a href="{{ url(auth()->user()->verUser($professor->id)->username) }}"><strong>{{ $professor->nome }}</strong></a></span>
-            <p>Professor de {{ auth()->user()->infoAcademica($professor->id)->atuacao }}<br>
-               Formado em {{ auth()->user()->infoAcademica($professor->id)->formacao }}
+            <p>Professor de [INSERIR ESCOLA]<br>
             </p>
             <a href="#!" class="secondary-content"><i class="material-icons color-pri-text">send</i></a>
          </li>

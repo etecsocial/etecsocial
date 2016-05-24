@@ -58,7 +58,7 @@ class PerfilController extends Controller {
                         ->get();
             }
 
-            $infoacad = User::infoAcademica($dados->id);
+            $infoacad = [];
 
             $num_amigos = DB::table('amizades')->where([ 'id_user1' => $dados->id, 'aceitou' => 1])->count() - 1;
             $num_grupos = DB::table('grupo_usuario')->where([ 'id_user' => auth()->user()->id])->count();

@@ -33,15 +33,6 @@ class UserRegisterListener
         $turma_grupo = new GrupoUsuario;
         $turma_grupo->id_grupo = 1;
         $turma_grupo->id_user = $event->user->id;
-        $turma_grupo->save();
-
-        $tarefas = ['Adicionar próximas provas na agenda', 'Adicionar atividades para essa semana'];
-
-        foreach($tarefas as $tarefa){
-            $task= new Tarefa;
-            $task->desc = $tarefa;
-            $task->id_user = $event->user->id;
-            $task->save();    
-        }           
+        $turma_grupo->save();       
     }
 }
