@@ -553,7 +553,7 @@ class GrupoController extends Controller {
                 $alunos_nao_int[] = $aluno;
             }
         }
-        $professores = User::where("tipo", 2)->get();
+        $professores = User::where('type', 2)->get();
         $professores_nao_int = array();
         foreach ($professores as $professor) {
             if (!GrupoUsuario::where('id_user', $professor->id)->where('id_grupo', $grupo->id)->first()) {

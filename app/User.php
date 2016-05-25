@@ -74,7 +74,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
        
     public static function isTeacher($id) 
     {
-       return User::select('tipo')->where('id', $id)->where('tipo', 2)->limit(1)->get()->first(); 
+       return User::select('type')->where('id', $id)->where('type', 2)->limit(1)->get()->first(); 
     }
     
 	// @TODO: refazer tudo
