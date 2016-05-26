@@ -25,7 +25,7 @@ class TarefaRequest extends Request
     {
         return [
             'desc' => 'required|min:3',
-            'data' => 'required|date'
+            'data' => 'required|date',
         ];
     }
 }

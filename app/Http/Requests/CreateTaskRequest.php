@@ -24,7 +24,7 @@ class CreateTaskRequest extends Request
     public function rules()
     {
         return [
-            'desc' => 'required|min:3'
+            'desc' => 'required|min:3',
         ];
     }
 }

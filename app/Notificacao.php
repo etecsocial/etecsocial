@@ -6,27 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Notificacao extends Model
 {
-     protected $fillable = [
+    protected $fillable = [
         'id_dest',
         'id_rem',
         'data',
         'visto',
         'texto',
         'is_post',
-        'action'
+        'action',
     ];
-     
-     public static function carrega() {
+
+    public static function carrega()
+    {
         $not = Notificacao::where('id_dest', auth()->user()->id)->orderBy('data', 'desc')->limit(5)->get();
-        
-         if(empty($not[0])) {
+
+        if (empty($not[0])) {
             return false;
         }
-        
+
         return $not;
-     }
-     
-     public static function count() {
-        return Notificacao::where([ 'id_dest' => auth()->user()->id, 'visto' => 0 ])->orderBy('data', 'desc')->count();
-     }
+    }
+
+    public static function count()
+    {
+        return Notificacao::where(['id_dest' => auth()->user()->id, 'visto' => 0])->orderBy('data', 'desc')->count();
+    }
 }

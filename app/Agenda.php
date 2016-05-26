@@ -16,8 +16,9 @@ class Agenda extends Model
         'is_publico',
         'id_turma',
     ];
-    
-    public static function loada() {
+
+    public static function loada()
+    {
         $age = Agenda::where('id_user', auth()->user()->id)->where('start', '>', time())->get()->first();
 
         return (empty($age)) ? false : $age;

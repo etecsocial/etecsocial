@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Response;
 use App\Http\Controllers\Controller;
-use DB;
-use Input;
-use App\Comentario;
+use App\Mensagens;
+use App\Pontuacao;
 use App\Post;
 use App\Tag;
 use App\User;
-use App\Mensagens;
-use App\Pontuacao;
+use DB;
+use Illuminate\Http\Request;
+use Input;
+use Response;
 
-class PostController extends Controller {
+class PostController extends Controller
+{
 
     public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
     public $extensionVideos = ['flv', 'FLV', 'mp4', 'MP4'];
@@ -25,10 +25,11 @@ class PostController extends Controller {
      *
      * @return Response
      */
-    public function store(Request $request) {
-        $this->validate($request, [ 'publicacao' => 'required']);
+    public function store(Request $request)
+    {
+        $this->validate($request, ['publicacao' => 'required']);
 
-        $post = new Post;
+        $post          = new Post;
         $post->id_user = auth()->user()->id;
         if ($request->titulo) {
             $post->titulo = $request->titulo;
@@ -49,7 +50,7 @@ class PostController extends Controller {
             $this->addIcon($tags, $post);
         }
         Pontuacao::pontuar(10, 'novo post');
-        return Response::json([ "id" => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
+        return Response::json(["id" => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
     }
 
     /**
@@ -58,22 +59,23 @@ class PostController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         $post = Post::join('users', 'users.id', '=', 'posts.id_user')
-                ->join('amizades', 'amizades.id_user1', '=', 'users.id')
-                ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-                ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', auth()->user()->id)
-                ->where('posts.id', $id)
-                ->first();
+            ->join('amizades', 'amizades.id_user1', '=', 'users.id')
+            ->orderBy('created_at', 'desc')
+            ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+            ->where('amizades.aceitou', 1)
+            ->where('amizades.id_user2', auth()->user()->id)
+            ->where('posts.id', $id)
+            ->first();
 
         return isset($post) ? view('post.home', [
-            'post' => $post,
-            'tags' => Tag::where('id_post', $post->id)->get(),
-            'thisUser' => auth()->user(),
-            'msgsUnread' => Mensagens::countUnread()]) 
-                : abort(404);
+            'post'       => $post,
+            'tags'       => Tag::where('id_post', $post->id)->get(),
+            'thisUser'   => auth()->user(),
+            'msgsUnread' => Mensagens::countUnread()])
+        : abort(404);
     }
 
     /**
@@ -82,12 +84,15 @@ class PostController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $post = Post::where('id', $id)->first();
-        if (isset($request->titulo))
+        if (isset($request->titulo)) {
             $post->titulo = $request->titulo;
-        else
+        } else {
             $post->titulo = 'Sem título';
+        }
+
         $post->publicacao = $request->publicacao;
         $post->is_publico = $request->has('publico');
         $post->save();
@@ -101,43 +106,46 @@ class PostController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $post = Post::where('id', $id)->first();
 
         if ($post->id_user !== auth()->user()->id) {
-            return Response::json([ 'status' => false]);
+            return Response::json(['status' => false]);
         }
         $post->delete();
 
-        return Response::json([ 'status' => true, 'id' => $id]);
+        return Response::json(['status' => true, 'id' => $id]);
     }
 
-    public function favoritar(Request $request) {
+    public function favoritar(Request $request)
+    {
         $post = Post::where('id', $request->id_post)->first();
 
         try {
             DB::table('favoritos')
-                    ->insert(['id_post' => $request->id_post, 'id_user' => auth()->user()->id]);
+                ->insert(['id_post' => $request->id_post, 'id_user' => auth()->user()->id]);
 
             $post->num_favoritos += 1;
             $post->save();
 
-            return Response::json([ 'status' => true, 'num' => $post->num_favoritos - 1]);
+            return Response::json(['status' => true, 'num' => $post->num_favoritos - 1]);
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 DB::table('favoritos')
-                        ->where(['id_post' => $request->id_post, 'id_user' => auth()->user()->id])
-                        ->delete();
+                    ->where(['id_post' => $request->id_post, 'id_user' => auth()->user()->id])
+                    ->delete();
 
                 $post->num_favoritos -= 1;
                 $post->save();
 
-                return Response::json([ 'status' => false, 'num' => $post->num_favoritos]);
+                return Response::json(['status' => false, 'num' => $post->num_favoritos]);
             }
         }
     }
 
-    public function addFile($midia, $post) {
+    public function addFile($midia, $post)
+    {
         $ext = $midia->getClientOriginalExtension();
 
         if (in_array($ext, $this->extensionImages)) {
@@ -155,18 +163,20 @@ class PostController extends Controller {
         $post->save();
     }
 
-    public function addTags($tags, $id_post) {
+    public function addTags($tags, $id_post)
+    {
         $array = str_replace('#', '', explode(' ', $tags));
 
         $n = (count($array) > 3) ? 3 : count($array);
 
         for ($i = 0; $i < $n; $i++) {
-            $array != '# ' ? Tag::create([ 'id_post' => $id_post, 'tag' => $array[$i]]) : false;
+            $array != '# ' ? Tag::create(['id_post' => $id_post, 'tag' => $array[$i]]) : false;
         }
         return $array; //não deixar coisar tag vazia!!!
     }
 
-    public function addIcon($tags, $post) {
+    public function addIcon($tags, $post)
+    {
         foreach ($tags as $tag) {
             if ((strtolower($tag) == 'ajuda') || ($tag == 'Dúvida') || ($tag == 'socorro') || ($tag == 'pergunta') || ($tag == 'dúvida') || ($tag == 'duvida')) {
                 $post->url_midia = 'images/place-help.jpg';
@@ -181,21 +191,22 @@ class PostController extends Controller {
         }
     }
 
-    public function repost(Request $request) {
+    public function repost(Request $request)
+    {
         $post1 = Post::where('id', $request->id_post)->first();
         $post1->num_reposts += 1;
         $post1->save();
 
-        $post2 = new Post;
-        $post2->id_user = auth()->user()->id;
-        $post2->titulo = $post1->titulo;
-        $post2->publicacao = $post1->publicacao;
-        $post2->is_publico = $post1->is_publico;
-        $post2->is_imagem = $post1->is_imagem;
-        $post2->is_video = $post1->is_video;
-        $post2->url_midia = $post1->url_midia;
-        $post2->is_repost = true;
-        $post2->id_repost = $post1->id;
+        $post2              = new Post;
+        $post2->id_user     = auth()->user()->id;
+        $post2->titulo      = $post1->titulo;
+        $post2->publicacao  = $post1->publicacao;
+        $post2->is_publico  = $post1->is_publico;
+        $post2->is_imagem   = $post1->is_imagem;
+        $post2->is_video    = $post1->is_video;
+        $post2->url_midia   = $post1->url_midia;
+        $post2->is_repost   = true;
+        $post2->id_repost   = $post1->id;
         $post2->user_repost = $post1->id_user;
         $post2->save();
 

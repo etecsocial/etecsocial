@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use App\Group;
 use App\GrupoUsuario;
 use App\Turma;
+use Illuminate\Console\Command;
 
 class MakeGroups extends Command
 {
@@ -40,22 +39,21 @@ class MakeGroups extends Command
      */
     public function handle()
     {
-        foreach(Turma::all() as $turma){
-            $grupo = new \App\Grupo;
-            $grupo->nome = $turma->sigla;
-            $grupo->assunto = "Grupo da ETEC Pedro";
-            $grupo->url = $grupo->makeUrl($turma->sigla);
-            $grupo->id_criador = 1;
+        foreach (Turma::all() as $turma) {
+            $grupo                    = new \App\Grupo;
+            $grupo->nome              = $turma->sigla;
+            $grupo->assunto           = "Grupo da ETEC Pedro";
+            $grupo->url               = $grupo->makeUrl($turma->sigla);
+            $grupo->id_criador        = 1;
             $grupo->num_participantes = 1;
-            $grupo->criacao = \Carbon\Carbon::today();
+            $grupo->criacao           = \Carbon\Carbon::today();
             $grupo->save();
 
-            $grupoUsuario = new \App\GrupoUsuario;
+            $grupoUsuario           = new \App\GrupoUsuario;
             $grupoUsuario->id_grupo = $grupo->id;
-            $grupoUsuario->id_user = 1;
+            $grupoUsuario->id_user  = 1;
             $grupoUsuario->is_admin = 1;
         }
     }
 
-    
 }

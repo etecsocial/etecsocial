@@ -2,10 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Amizade;
+use Illuminate\Database\Eloquent\Model;
 
-class Chat extends Model {
+class Chat extends Model
+{
 
     protected $fillable = [
         'id_remetente',
@@ -19,40 +20,45 @@ class Chat extends Model {
         'doc',
         'copia_dest',
         'copia_rem',
-        'visto'
+        'visto',
     ];
 
-    public static function loadConversas() {
+    public static function loadConversas()
+    {
         return Mensagens::where(["id_destinatario" => auth()->user()->id])
-                        ->orWhere([ "id_remetente" => auth()->user()->id])
-                        ->limit(15)
-                        ->get();
+            ->orWhere(["id_remetente" => auth()->user()->id])
+            ->limit(15)
+            ->get();
     }
-    public static function loadMsgs($id_user) {
-        return Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
-                        ->orWhere([ "id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
-                        ->limit(15)
-                        ->get();
-    }
-
-    public static function count() {
-        return Mensagens::where([ "id_destinatario" => auth()->user()->id, "visto" => 0])
-                        ->count();
+    public static function loadMsgs($id_user)
+    {
+        return Mensagens::where(["id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
+            ->orWhere(["id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
+            ->limit(15)
+            ->get();
     }
 
-    public static function loadUsers($on = true) {
+    public static function count()
+    {
+        return Mensagens::where(["id_destinatario" => auth()->user()->id, "visto" => 0])
+            ->count();
+    }
+
+    public static function loadUsers($on = true)
+    {
         return Amizade::where('id_user1', auth()->user()->id)
-                        ->where('aceitou', 1)
-                        ->where('online', $on)
-                        ->join('users', 'users.id', '=', 'amizades.id_user2')
-                        ->get();
+            ->where('aceitou', 1)
+            ->where('online', $on)
+            ->join('users', 'users.id', '=', 'amizades.id_user2')
+            ->get();
     }
 
-    public static function lastMsg($id_user) {
-        $chat = Mensagens::where([ "id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
-                ->orWhere([ "id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
-                ->orderBy('data', 'desc')
-                ->first();
+    public static function lastMsg($id_user)
+    {
+        $chat = Mensagens::where(["id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
+            ->orWhere(["id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
+            ->orderBy('data', 'desc')
+            ->first();
         return isset($chat) ? $chat : false;
     }
 

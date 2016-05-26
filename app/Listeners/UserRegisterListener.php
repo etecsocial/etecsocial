@@ -2,12 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Events\UserRegister;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Amizade;
+use App\Events\UserRegister;
 use App\GrupoUsuario;
-use App\Tarefa;
 
 class UserRegisterListener
 {
@@ -30,9 +27,9 @@ class UserRegisterListener
     public function handle(UserRegister $event)
     {
         Amizade::insert(['id_user1' => $event->user->id, 'id_user2' => $event->user->id, 'aceitou' => 1]);
-        $turma_grupo = new GrupoUsuario;
+        $turma_grupo           = new GrupoUsuario;
         $turma_grupo->id_grupo = 1;
-        $turma_grupo->id_user = $event->user->id;
-        $turma_grupo->save();       
+        $turma_grupo->id_user  = $event->user->id;
+        $turma_grupo->save();
     }
 }

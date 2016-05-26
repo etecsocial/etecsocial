@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Escola extends Model
 {
     protected $table = 'escolas';
-    
-     protected $fillable = [
+
+    protected $fillable = [
         'id',
         'nome',
-        'cod_prof'
+        'cod_prof',
     ];
 }

@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
-use App\Notificacao; 
+use App\Notificacao;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Response;
 
-use Carbon\Carbon;
-
 class NotificacaoController extends Controller
-{    
+{
     /**
      * Display a listing of the resource.
      *
@@ -30,10 +28,10 @@ class NotificacaoController extends Controller
     public function create($texto, $id_dest)
     {
         DB::table('notificacao')->insert([
-           'id_rem'=> auth()->user()->id,
-           'id_dest' => $id_dest,
-           'data' => Carbon::today()->timestamp,
-           'texto'=>$texto               
+            'id_rem'  => auth()->user()->id,
+            'id_dest' => $id_dest,
+            'data'    => Carbon::today()->timestamp,
+            'texto'   => $texto,
         ]);
     }
 
@@ -90,88 +88,79 @@ class NotificacaoController extends Controller
     {
         //
     }
-    
-    public function newnoti(Request $request ) {
+
+    public function newnoti(Request $request)
+    {
         $not = Notificacao::where('id_dest', auth()->user()->id)
-                ->where('data', '>', $request->data)
-                ->where('data', '<', time())
-                ->orderBy('data', 'desc')
-                ->get();
-        
-         
-        return view('notificacao.new', ['nots' => $not ]);
+            ->where('data', '>', $request->data)
+            ->where('data', '<', time())
+            ->orderBy('data', 'desc')
+            ->get();
+
+        return view('notificacao.new', ['nots' => $not]);
     }
-        
-    
-    public function makeRead() {
-       Notificacao::where([ 'id_dest' => auth()->user()->id, 'visto' => 0 ])->update([ 'visto' => 1 ]);
-       
-       return Response::json(["status" => true]); 
+
+    public function makeRead()
+    {
+        Notificacao::where(['id_dest' => auth()->user()->id, 'visto' => 0])->update(['visto' => 1]);
+
+        return Response::json(["status" => true]);
     }
-    
-    public function channel(Request $request){
+
+    public function channel(Request $request)
+    {
         // How often to poll, in microseconds (1,000,000 μs equals 1 s)
-define('MESSAGE_POLL_MICROSECONDS', 500000);
- 
+        define('MESSAGE_POLL_MICROSECONDS', 500000);
+
 // How long to keep the Long Poll open, in seconds
-define('MESSAGE_TIMEOUT_SECONDS', 30);
- 
+        define('MESSAGE_TIMEOUT_SECONDS', 30);
+
 // Timeout padding in seconds, to avoid a premature timeout in case the last call in the loop is taking a while
-define('MESSAGE_TIMEOUT_SECONDS_BUFFER', 5);
- 
+        define('MESSAGE_TIMEOUT_SECONDS_BUFFER', 5);
 
- 
 // Close the session prematurely to avoid usleep() from locking other requests
-session_write_close();
- 
-// Automatically die after timeout (plus buffer)
-set_time_limit(MESSAGE_TIMEOUT_SECONDS+MESSAGE_TIMEOUT_SECONDS_BUFFER);
- 
-// Counter to manually keep track of time elapsed (PHP's set_time_limit() is unrealiable while sleeping)
-$counter = MESSAGE_TIMEOUT_SECONDS;
- 
-// Poll for messages and hang if nothing is found, until the timeout is exhausted
-while($counter > 0)
-{
-    if (!auth()->check()) {
-    return abort(401);
-}
+        session_write_close();
 
-    
-  $not = Notificacao::where('id_dest', auth()->user()->id)
+// Automatically die after timeout (plus buffer)
+        set_time_limit(MESSAGE_TIMEOUT_SECONDS + MESSAGE_TIMEOUT_SECONDS_BUFFER);
+
+// Counter to manually keep track of time elapsed (PHP's set_time_limit() is unrealiable while sleeping)
+        $counter = MESSAGE_TIMEOUT_SECONDS;
+
+// Poll for messages and hang if nothing is found, until the timeout is exhausted
+        while ($counter > 0) {
+            if (!auth()->check()) {
+                return abort(401);
+            }
+
+            $not = Notificacao::where('id_dest', auth()->user()->id)
                 ->where('data', '>', $request->data)
                 ->where('data', '<', time())
                 ->orderBy('data', 'desc')
                 ->count();
-  
-   $count = Notificacao::count();
+
+            $count = Notificacao::count();
 // Check for new data (not illustrated)
-    if($not AND ($count != $request->num))
-    {
-      
+            if ($not and ($count != $request->num)) {
 
-        
-       return $count;
-       
-    }
-    else
-    {
-     
-        // Otherwise, sleep for the specified time, after which the loop runs again
-        usleep(MESSAGE_POLL_MICROSECONDS);
- 
-        // Decrement seconds from counter (the interval was set in μs, see above)
-        $counter -= MESSAGE_POLL_MICROSECONDS / 1000000;
-    }
-    
+                return $count;
 
-}
- 
+            } else {
+
+                // Otherwise, sleep for the specified time, after which the loop runs again
+                usleep(MESSAGE_POLL_MICROSECONDS);
+
+                // Decrement seconds from counter (the interval was set in μs, see above)
+                $counter -= MESSAGE_POLL_MICROSECONDS / 1000000;
+            }
+
+        }
+
 // If we've made it this far, we've either timed out or have some data to deliver to the client
 
-    // Send data to client; you may want to precede it by a mime type definition header, eg. in the case of JSON or XML
+        // Send data to client; you may want to precede it by a mime type definition header, eg. in the case of JSON or XML
 
-return Notificacao::count();
+        return Notificacao::count();
 
-    } 
+    }
 }

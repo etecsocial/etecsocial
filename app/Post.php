@@ -2,12 +2,11 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
-use DB;
-
 class Post extends Model
-{    
+{
     protected $fillable = [
         'id',
         'id_user',
@@ -20,22 +19,22 @@ class Post extends Model
         'is_imagem',
         'is_video',
         'is_publico',
-        'is_repost'
+        'is_repost',
     ];
-    
-    public static function favoritou($id) 
+
+    public static function favoritou($id)
     {
         $count = DB::table('favoritos')
-                ->where([ "id_post" => $id, "id_user" => auth()->user()->id ])
-                ->count();
-         
+            ->where(["id_post" => $id, "id_user" => auth()->user()->id])
+            ->count();
+
         return isset($count) ? $count : false;
     }
-    public static function count() 
+    public static function count()
     {
         $count = DB::table('posts')
-                ->where(["id_user" => auth()->user()->id ])
-                ->count();
+            ->where(["id_user" => auth()->user()->id])
+            ->count();
         return isset($count) ? $count : 0;
     }
 }

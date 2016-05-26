@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GrupoMaterial extends Model {
-    
+class GrupoMaterial extends Model
+{
+
     protected $table = 'grupo_material';
 
     protected $fillable = [
@@ -15,6 +16,6 @@ class GrupoMaterial extends Model {
         'tipo',
         'caminho',
         'nome',
-        'id`_grupo'
+        'id`_grupo',
     ];
 }
