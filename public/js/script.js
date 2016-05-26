@@ -22,6 +22,19 @@ $('#edit-perfil').ajaxForm({
     }
 });
 
+//PROFESSOR
+$('#professor').ajaxForm({
+    success: function(data) {
+        if (data.status) {
+            $("#modalFirst").closeModal();
+            Materialize.toast('<span>Salas lecionadas adicionadas com sucesso</span>', 3000);
+        }
+    },
+    error: function(data) {
+        Materialize.toast('<span>Erro ao editar professor</span>', 3000);
+    }
+});
+
 //CHAT
 function abrirChat(id_user) {
     $("#id-chat").val(id_user);

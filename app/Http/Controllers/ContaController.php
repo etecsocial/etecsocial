@@ -96,5 +96,9 @@ class ContaController extends Controller
 
         auth()->user()->first_login = 0;
         auth()->user()->save();
+
+        return response()->json(['status' => true]);
     }
+
+    public function aluno(Request $request){ } // @TODO
 }

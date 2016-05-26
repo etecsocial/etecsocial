@@ -64,7 +64,7 @@ $('#criarGrupo').ajaxForm({
                 $('#modalAddGrupo').closeModal();
 
                 var html = '<li class="grupo-item collection-item avatar">' +
-                    '<span class="title"><a href="{{ url(' / grupo ') }}/' + data.url + '"><strong>' + data.nome +
+                    '<span class="title"><a href="{{ url('/grupo') }}/' + data.url + '"><strong>' + data.nome +
                     '</strong></a></span><div class="col s12"><p class="ultra-small">Criado agora mesmo</p><p class="ultra-small">Você é administrador</p></div></li>';
                 $(html).insertBefore(".grupo-item:first").hide().fadeIn(300);
                 $(".nenhum-grupo").hide();

@@ -156,7 +156,6 @@
         </div>
     </form>
 </div>
-
 @if(auth()->user()->first_login)
 <div id="modalFirst" class="modal">
     <div class="modal-content">
@@ -165,12 +164,12 @@
 
             @if(auth()->user()->first_login == 1)
             <p>Você realizou seu cadastro pelo facebook, você ainda precisa terminar seu cadastro</p>
-            <form action="" method="post">
+            <form action="{{ url('ajax/aluno') }}" method="post" id="aluno">
                 <div class="input-field col s6 m6 l6">
                     <select name="id_escola" id="id_escola" onchange="turmas()" required>
                         <option value="" disabled selected>Selecione sua ETEC</option>
                         @foreach(\App\Escola::all() as $escola)
-                            <option value="{{ $escola->id_etec }}">{{ $escola->nome }}</option>
+                            <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
                         @endforeach
                     </select>
                     <label>Escola</label>
@@ -185,25 +184,25 @@
             @endif 
             
             @if(auth()->user()->first_login == 3)
-            <p>Professor selecione as turmas que você leciona</p>
-
-            ETEC PEDRO FERREIRA ALVES
-            <form action="{{ url('ajax/professor') }}" method="post">
-                <div class="row">
-                    <input type="hidden" name="id_escola" value="1">
-                    <div class="input-field col s12 l6">
-                        <select name="turmas[]" multiple class="input-field col s6 m6 l6">
-                            @foreach(\App\Turma::where('id_escola', 1)->get() as $turma)
-                            <option value="{{$turma->id}}">
-                                {{$turma->sigla}}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
+            <p>Professor selecione a escola e turmas que você leciona:</p>
+            <form id="professor" action="{{ url('ajax/professor') }}" method="post" >
+                <div class="input-field col s6 m6 l6">
+                    <select name="id_escola" id="id_escola" onchange="turmas()" required>
+                        <option disabled selected>Selecione sua ETEC</option>
+                        @foreach(\App\Escola::all() as $escola)
+                            <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
+                        @endforeach
+                    </select>
+                    <label>Escola</label>
+                </div>
+                <div class="input-field col s6 m6 l6">
+                    <select name="turmas[]" multiple id="loadturmas" required>
+                        <option disabled selected>Selecione sua ETEC primeiro</option>
+                    </select>
+                    <label>Turmas</label>
                 </div>
                 <button type="submit" class="btn btn-primary">TERMINAR</button>
-            </form>
-            
+            </form>            
             @endif
         </div>
     </div>

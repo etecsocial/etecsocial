@@ -14,7 +14,12 @@ use App\Escola;
 class HomeController extends Controller {
 
     public function index() {
-        $escolas = Escola::select('id', 'nome')->get();
+        $escolas = Escola::select('escolas.id', 'escolas.nome')
+                         ->whereIn('id', function($query) {
+                                $query->select('id_escola')
+                                      ->from('turmas');
+                            })
+                         ->get();
         return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $escolas]);
     }
 

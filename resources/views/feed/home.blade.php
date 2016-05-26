@@ -24,15 +24,14 @@
 '/js/plugins.js'
 ])->withFullURL() !!}
 
-@if(auth()->user()->first_login)
+@if(auth()->user()->first_login != 0)
 <script>
 $(document).ready(function() {
     $("#modalFirst").openModal();
 });
 
-function turmas() {
+ function turmas() {
        var escola = $('#id_escola').val();
-   
        if (escola) {
            var url = '/ajax/cadastro/turmas?escola=' + escola;
            $.get(url, function (dataReturn) {
@@ -41,7 +40,7 @@ function turmas() {
                $('.caret').hide();
            });
        }
-   }
+    }
    
 </script>
 @endif @if($id)
@@ -57,7 +56,7 @@ abrirPost({{ $id }})
                 <div class="col s12 m12 l4">
                     <ul id="task-card" class="collection with-header">
                         <li class="collection-header cyan">
-                            <h4 class="task-card-title">Minhas Tarefas </h4>
+                            <h4 class="task-card-title">Minhas Tarefas</h4>
                             <p class="task-card-date">{{ \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') }}</p>
                         </li>
                         @if(isset($tasks[0])) @foreach($tasks as $task)
@@ -71,8 +70,10 @@ abrirPost({{ $id }})
                                 </a>
                             </label>
                             @if($task->data > time() + 3*24*60*60)
-                            <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @elseif($task->data > time())
-                            <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @else
+                            <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> 
+                            @elseif($task->data > time())
+                            <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> 
+                            @else
                             <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
                         </li>
                         @endforeach @else
