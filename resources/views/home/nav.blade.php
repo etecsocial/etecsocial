@@ -23,6 +23,13 @@
          $('.aluno').hide();
          $('.professor').show();
       });
+
+      var hash = window.location.hash;
+        if(hash == '#register'){
+          $('#register').openModal();
+        } else if(hash == '#login'){
+          $('#login').openModal();
+        }
     });
 
 
@@ -37,7 +44,9 @@
                $('.caret').hide();
            });
        }
-   }
+    }
+
+    
 </script>
 @stop
 <nav class="red darken-1" role="navigation">

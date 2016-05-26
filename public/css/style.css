@@ -2515,3 +2515,10 @@ nav ul li a{
 nav .logo-img {
     padding:0;
 }
+
+#slide-out {
+    margin-top: 16px;
+}
+.collapsible {
+    border: none;
+}

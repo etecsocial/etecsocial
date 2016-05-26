@@ -20,13 +20,16 @@
 </IfModule>
 
 
-# BEGIN Compress text files
-<ifModule mod_deflate.c>
-  <filesMatch ".(css|js|x?html?|php)$">
+<IfModule mod_deflate.c>
     SetOutputFilter DEFLATE
-  </filesMatch>
-</ifModule>
-# END Compress text files
+    #Don't compress
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+    #Dealing with proxy servers
+    <IfModule mod_headers.c>
+        Header append Vary User-Agent
+    </IfModule>
+</IfModule>
 
 # BEGIN Expire headers
 <ifModule mod_expires.c>
