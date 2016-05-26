@@ -56,14 +56,14 @@
                         </div>
                         <div class="col col s8 m8 l8">
                             <ul id="profile-dropdown" class="dropdown-content">
-                                <li><a href="{{ url(auth()->user()->username) }}">Perfil</a>
+                                <li><a href="{{ url(auth()->user()->username) }}"><i class="mdi-action-face-unlock"></i> Perfil</a>
                                 </li>
-                                <li><a href="#modalConta" class="wino">Conta</a>
+                                <li><a href="#modalConta" class="wino"><i class="mdi-action-settings"></i> Conta</a>
                                 </li>
-                                <li><a href="#modalAjuda" class="wino">Ajuda</a>
+                                <li><a href="#modalAjuda" class="wino"><i class="mdi-communication-live-help"></i> Ajuda</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="{{ url('/logout') }}">Sair</a>
+                                <li><a href="{{ url('/logout') }}"><i class="mdi-hardware-keyboard-tab"></i> Sair</a>
                                 </li>
                             </ul>
                             <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{auth()->user()->name }}<i class="mdi-navigation-arrow-drop-down right"></i></a>

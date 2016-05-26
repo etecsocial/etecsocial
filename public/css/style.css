@@ -2522,3 +2522,7 @@ nav .logo-img {
 .collapsible {
     border: none;
 }
+
+.dropdown-content li a{
+    padding: 10px 18px !important
+}
