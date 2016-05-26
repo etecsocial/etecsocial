@@ -14,8 +14,8 @@
                 <h5 class="header col s12 red-text">Compartilhe conhecimentos juntos e desafie seus amigos!</h5>
             </div>
             <div class="row center">
-                <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger">Entrar</a>
-                <a href="#register" id="cadastrar-button" class="modal-trigger btn-large waves-effect waves-light red darken-2 modal-trigger">Cadastrar-se</a>
+                <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger"><i class="material-icons left">input</i>Entrar</a>
+                <a href="#register" id="cadastrar-button" class="modal-trigger btn-large waves-effect waves-light red darken-2 modal-trigger"><i class="material-icons left">person_pin</i>Cadastrar-se</a>
             </div>
         </div>
     </div>

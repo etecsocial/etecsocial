@@ -17,7 +17,7 @@ $fields = ['name' => 'Nome Completo', 'email' => 'Email',
         @endforeach
         <div class="input-field col s12 m6 l6">
             <select name="id_escola" id="id_escola" onchange="turmas()" required>
-                <option value="" disabled>Selecione sua ETEC</option>
+                <option disabled>Selecione sua ETEC</option>
                 @foreach($escolas as $escola)
                 <option value="{{ $escola->id }}" @if(old('id_escola')==$escola->id ) selected @endif>{{ $escola->nome }}</option>
                 @endforeach
@@ -26,7 +26,7 @@ $fields = ['name' => 'Nome Completo', 'email' => 'Email',
         </div>
         <div class="input-field col s12 m6 l6">
             <select name="id_turma" id="loadturmas" required>
-                <option value="" disabled selected>Selecione sua ETEC primeiro</option>
+                <option disabled selected>Selecione sua ETEC primeiro</option>
             </select>
             <label>Turma</label>
         </div>

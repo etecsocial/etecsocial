@@ -139,4 +139,11 @@ class AuthController extends Controller
         return redirect('/');
     }
     
+    public function showRegistrationForm(){
+        return redirect('/#register');
+    }
+
+    public function showLoginForm(){
+        return redirect('/#login');
+    }
 }
