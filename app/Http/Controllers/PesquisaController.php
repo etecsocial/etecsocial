@@ -13,7 +13,7 @@ class PesquisaController extends Controller {
 
     public function index($termo = '') {
         $alunos = User::where('users.name', 'LIKE', '%' . $termo . '%')
-                ->where('tipo', 1)
+                ->where('type', 1)
                 ->limit(10)
                 ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
                 ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
@@ -21,8 +21,8 @@ class PesquisaController extends Controller {
                 ->select([ 'users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                 ->get();
 
-        $professores = User::where('nome', 'LIKE', '%' . $termo . '%')
-                ->where('tipo', 2)
+        $professores = User::where('name', 'LIKE', '%' . $termo . '%')
+                ->where('type', 2)
                 ->limit(10)
                 ->get();
 
@@ -62,7 +62,8 @@ class PesquisaController extends Controller {
             'professores' => $professores,
             'posts_amigos' => $posts_amigos,
             'posts_publico' => $posts_publico,
-            'grupos' => $grupos            
+            'grupos' => $grupos,
+            'msgsUnread' => [],            
         ]);
     }
 
