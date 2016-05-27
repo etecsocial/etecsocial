@@ -10,20 +10,20 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
     /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
+      |--------------------------------------------------------------------------
+      | Registration & Login Controller
+      |--------------------------------------------------------------------------
+      |
+      | This controller handles the registration of new users, as well as the
+      | authentication of existing users. By default, this controller uses
+      | a simple trait to add these behaviors. Why don't you explore it?
+      |
      */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+use AuthenticatesAndRegistersUsers,
+    ThrottlesLogins;
 
     /**
      * Where to redirect users after login / registration.
@@ -37,8 +37,7 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
@@ -48,38 +47,39 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
-    {
+    protected function validator(array $data) {
         if ($data['type'] == 1) {
             // aluno
             $validator = [
-                'name'      => 'required|max:255',
-                'email'     => 'required|email|max:255|unique:users',
-                'password'  => 'required|min:6|confirmed',
+                'name' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6|confirmed',
                 'id_escola' => 'required|exists:escolas,id|integer',
-                'id_turma'  => 'required|exists:turmas,id|integer',
+                'id_turma' => 'required|exists:turmas,id|integer',
             ];
-
         } else if ($data['type'] == 2) {
             // professor
             $validator = [
-                'name'      => 'required|max:255',
-                'email'     => 'required|email|max:255|unique:users',
-                'password'  => 'required|min:6|confirmed',
-                'cod_prof'  => 'required|exists:escolas,cod_prof|integer', // @TODO: melhorar isso daqui
+                'name' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6|confirmed',
+                'cod_prof' => 'required|exists:escolas,cod_prof|integer', // @TODO: melhorar isso daqui
                 'id_escola' => 'required|exists:escolas,id|integer',
             ];
-
         }
         return Validator::make($data, $validator);
     }
 
-    protected function create_username($name)
-    {
-        $name = strtolower($name);
-        $name = str_replace(' ', '', $name);
-        $name = $name . rand(1, 100);
-        return $name;
+    protected function create_username($name) {
+        $username = str_replace(' ', '', $name);
+        $cont = 1;
+        if (User::where('username', $username)->select('id')->first()) {
+            $nova = $username . $cont;
+            while (User::where('username', $nova)->select('id')->first()) {
+                $cont++;
+                $nova = $username . $cont;
+            }
+        }return isset($nova) ? $nova : $username;
     }
 
     /**
@@ -88,8 +88,7 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
-    {
+    protected function create(array $data) {
         if ($data['type'] == 2) {
             $first_login = 3;
         } else {
@@ -97,12 +96,12 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name'        => $data['name'],
-            'username'    => $this->create_username($data['name']),
-            'email'       => $data['email'],
-            'type'        => $data['type'],
-            'password'    => bcrypt($data['password']),
-            'first_login' => $first_login,
+                    'name' => $data['name'],
+                    'username' => $this->create_username($data['name']),
+                    'email' => $data['email'],
+                    'type' => $data['type'],
+                    'password' => bcrypt($data['password']),
+                    'first_login' => $first_login,
         ]);
 
         if ($data['type'] == 1) {
@@ -116,8 +115,7 @@ class AuthController extends Controller
         return $user;
     }
 
-    protected function create_aluno($user, $data)
-    {
+    protected function create_aluno($user, $data) {
 
         // coloca num grupo
         // $add = new GrupoUsuario;
@@ -126,31 +124,28 @@ class AuthController extends Controller
         // $add->save();
         // $this->IncParticipante($id_grupo);
         DB::table('alunos_info')->insert(['user_id' => $user->id,
-            'id_turma'                                  => $data['id_turma'],
-            'id_escola'                                 => $data['id_escola']]);
+            'id_turma' => $data['id_turma'],
+            'id_escola' => $data['id_escola']]);
     }
 
-    protected function create_professor($user, $data)
-    {
+    protected function create_professor($user, $data) {
         //DB::table('professores_info')->insert(['user_id' => $user->id,
         //                           'id_escola' => $data['id_escola']]);
         // @todo: adicionar todas as salas que o professor dá aula
     }
 
-    protected function logout()
-    {
+    protected function logout() {
         auth()->logout();
         session()->flush();
         return redirect('/');
     }
 
-    public function showRegistrationForm()
-    {
+    public function showRegistrationForm() {
         return redirect('/#register');
     }
 
-    public function showLoginForm()
-    {
+    public function showLoginForm() {
         return redirect('/#login');
     }
+
 }
