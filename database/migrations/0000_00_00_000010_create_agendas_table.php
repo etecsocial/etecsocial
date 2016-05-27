@@ -13,13 +13,12 @@ class CreateAgendasTable extends Migration {
     public function up() {
         if (!Schema::hasTable('agendas')) {
             Schema::create('agendas', function(Blueprint $table) {
-                $table->integer('id', false, true);
+                $table->increments('id');
                 $table->string('title')->nullable();
                 $table->text('description', 65535)->nullable();
                 $table->boolean('is_publico')->nullable()->default(false);
                 $table->integer('id_user')->unsigned();
-                $table->integer('id_turma')->unsigned()->default(0);
-                $table->primary(['id', 'id_turma']);
+                $table->integer('id_turma')->unsigned()->nullable();
 
                 $table->date('start')->nullable();
                 $table->date('end')->nullable();

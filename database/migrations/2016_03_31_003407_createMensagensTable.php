@@ -30,6 +30,8 @@ class CreateMensagensTable extends Migration {
                 $table->boolean('arquivado_dest')->default(0);
                 $table->mediumText('doc');
                 $table->mediumText('video');
+                $table->mediumText('midia');
+                
                 $table->timestamps();                
             });
         }

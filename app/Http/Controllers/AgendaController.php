@@ -29,6 +29,7 @@ class AgendaController extends Controller
 
     public function api(Request $request)
     {
+
         $agenda = Agenda::select(['agendas.id', 'id_user', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
             ->where(function ($query) use ($request) {
                 $query->where('start', '>=', $request->start)
@@ -36,7 +37,9 @@ class AgendaController extends Controller
             })
             ->where(function ($query) {
                 $query->orWhere(function ($query) {
-                    $query->where('agendas.id_turma', auth()->user()->id_turma)
+                    $db       = DB::table('alunos_info')->select('id_turma')->where('user_id', auth()->user()->id)->first();
+                    $id_turma = $db->id_turma;
+                    $query->where('agendas.id_turma', $id_turma)
                         ->where('is_publico', 1);
                 })
                     ->orWhere('id_user', auth()->user()->id);

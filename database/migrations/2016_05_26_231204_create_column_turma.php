@@ -26,8 +26,10 @@ class CreateColumnTurma extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('grupo', 'id_turma')) {
-            $table->dropColumn('id_turma');
-        }
+        Schema::table('grupo', function ($table) {
+            if (Schema::hasColumn('grupo', 'id_turma')) {
+                $table->dropColumn('id_turma');
+            }
+        });
     }
 }
