@@ -4,7 +4,9 @@ namespace App\Listeners;
 
 use App\Amizade;
 use App\Events\UserRegister;
+use App\Grupo;
 use App\GrupoUsuario;
+use DB;
 
 class UserRegisterListener
 {
@@ -27,9 +29,16 @@ class UserRegisterListener
     public function handle(UserRegister $event)
     {
         Amizade::insert(['id_user1' => $event->user->id, 'id_user2' => $event->user->id, 'aceitou' => 1]);
-        $turma_grupo           = new GrupoUsuario;
-        $turma_grupo->id_grupo = 1;
-        $turma_grupo->id_user  = $event->user->id;
-        $turma_grupo->save();
+
+        // adiciona no grupo da sala
+        if ($event->user->type == 1) {
+            $turma = DB::table('alunos_info')->select('id_turma')->where('user_id', $event->user->id)->limit(1)->first();
+            $grupo = Grupo::select('id')->where('id_turma', $turma->id_turma)->limit(1)->first();
+
+            $turma_grupo           = new GrupoUsuario;
+            $turma_grupo->id_grupo = $grupo->id;
+            $turma_grupo->id_user  = $event->user->id;
+            $turma_grupo->save();
+        }
     }
 }

@@ -42,10 +42,11 @@ class MakeGroups extends Command
         foreach (Turma::all() as $turma) {
             $grupo                    = new \App\Grupo;
             $grupo->nome              = $turma->sigla;
-            $grupo->assunto           = "Grupo da ETEC Pedro";
+            $grupo->assunto           = "Grupo da turma " . $turma->nome;
             $grupo->url               = $grupo->makeUrl($turma->sigla);
             $grupo->id_criador        = 1;
             $grupo->num_participantes = 1;
+            $grupo->id_turma          = $turma->id;
             $grupo->criacao           = \Carbon\Carbon::today();
             $grupo->save();
 
