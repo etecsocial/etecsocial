@@ -27,11 +27,11 @@
         <div class="email-content">
             <div class="row">
                 <div class="col s12">
-                
+
                     @if($conversa->midia)
                     <div class="col s6">
-                            <h6>Mídia em anexo</h6>
-                            <hr class="divider col s12">
+                        <h6>Mídia em anexo</h6>
+                        <hr class="divider col s12">
                         @if(substr_count($conversa->midia, 'imagens'))
                         <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->id_remetente)->name}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
                             <img src="{{url($conversa->midia)}}" alt="" class="responsive-img valign img-rounded col s10">
@@ -41,17 +41,42 @@
                             <video src="{{url($conversa->midia)}}" alt="" class="video-container col s10">
                         </a>
                         @endif
-                        </div>
-                    @endif
-                    @if($conversa->doc)
-                    <div class="col s6">
-                        <h6>Documento anexado</h6>
-                        <hr class="divider col s12">
-                    <a href="{{url($conversa->doc)}}" class="col s10">Baixar documento </a>
                     </div>
                     @endif
-                    <br>
-                    <div class="col s12">
+                    @if($conversa->doc)
+
+                    <div class="row">
+                        <h6>Documento anexado</h6>
+                        <hr class="divider col s12">
+                        <div class="col s4">
+                            <a href="{{url($conversa->doc)}}" class="col s10">
+                                @if(substr_count($conversa->doc, '.docx'))
+                                <img class="responsive-img" src="{{url('images/mensagens/office-word.png')}}">
+                                @elseif(substr_count($conversa->doc, '.ppt') or (substr_count($conversa->doc, '.ppt')))
+                                <img class="responsive-img" src="{{url('images/mensagens/office-ppt.png')}}">
+                                @elseif(substr_count($conversa->doc, '.xls'))
+                                <img class="responsive-img" src="{{url('images/mensagens/office-xls.png')}}">                                
+                                @elseif(substr_count($conversa->doc, '.pdf'))
+                                <img class="responsive-img" src="{{url('images/mensagens/pdf.png')}}">                                
+                                @elseif(substr_count($conversa->doc, '.txt'))
+                                <img class="responsive-img" src="{{url('images/mensagens/txt.png')}}">                                
+                                @else(substr_count($conversa->doc, '.txt'))
+                                <img class="responsive-img" src="{{url('images/mensagens/naotem.png')}}">  
+                                @endif
+                                Vizualizar online
+                            </a>
+                        </div>
+                        <div class="col s8">
+                            <a href="{{url($conversa->doc)}}">
+                                <div class="card-panel info" style="color: black">
+                                    Clique aqui para baixar o documento. Lembre-se de que não nos responsabilizamos pela existência de vírus em arquivos compartilhados.
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="col s12" style="margin-top: 30px">
                         {{$conversa->msg}}
                     </div>
                 </div>

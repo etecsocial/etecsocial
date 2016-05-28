@@ -79,7 +79,7 @@ class MensagemController extends Controller
 
             if (Input::hasFile('midia')) {
                 $ext = Input::file('midia')->getClientOriginalExtension();
-                if ((in_array($ext, $this->extensionImg)) || (in_array($ext, $this->extensionVideos))) {
+                if (in_array($ext, $this->extensionImg)) {
                     Input::file('midia')->move($this->ImgDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
                     $midia = $this->ImgDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
                 } elseif (in_array($ext, $this->extensionVideos)) {
