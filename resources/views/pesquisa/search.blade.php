@@ -14,7 +14,7 @@
 @foreach($grupos as $grupo)
 <a href="{{ url('grupo/' . $grupo->url) }}" style="color: #000; padding: 0">
    <li class="collection-item avatar">
-      <img src="{{ url('/images/default-user.png')}}" alt="" class="circle">
+      <img src="{{ url('/images/icons/icon-group.png')}}" alt="" class="circle">
       <span class="title">Grupo: <strong>{{ $grupo->nome }}</strong></span>
       <p>
          {{ $grupo->assunto}}

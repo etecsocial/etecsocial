@@ -64,7 +64,7 @@ class GrupoController extends Controller
                     return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
                 } else {
 //O usuário não é integrante do grupo
-                    return abort(404);
+                    return abort(405);
                 }
             } else {
 //O grupo expirou.
