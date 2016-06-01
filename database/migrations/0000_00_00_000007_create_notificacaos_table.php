@@ -13,7 +13,7 @@ class CreateNotificacaosTable extends Migration {
     public function up() {
         if (!Schema::hasTable('notificacaos')) {
             Schema::create('notificacaos', function(Blueprint $table) {
-                $table->increments('id', false, true);
+                $table->integer('id', false, true);
                 $table->integer('id_rem')->unsigned();
                 $table->integer('id_dest')->unsigned();
                 $table->primary(['id', 'id_dest']);
