@@ -110,7 +110,7 @@
                     <li>
                         <div class="divider"></div>
                     </li>
-                    <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-social-whatshot color-sec-darken-text"></i> Desafios <span class="new badge">1</span></a></li>
+                    <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-social-whatshot color-sec-darken-text"></i> Desafios </a></li>
                     <li class="bold"><a class="waves-effect waves-cyan collapsible-header"><i class="mdi-action-trending-up color-sec-darken-text"></i> Ranking</a>
                         <div class="collapsible-body">
                             <ul>
