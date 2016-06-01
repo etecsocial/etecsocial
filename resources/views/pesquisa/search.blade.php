@@ -28,6 +28,6 @@
 <a href="{{ url('busca/' . $termo) }}" style="color: #000; padding: 0">
    <li class="collection-item avatar">
       <i class="circle mdi-action-search"></i>
-      <span class="title"><strong>Mais usuarios para</strong> "{{ $termo }}"</span>
+      <span class="title"><strong>Mais resultados para</strong> "{{ $termo }}"</span>
    </li>
 </a>

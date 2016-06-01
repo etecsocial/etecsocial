@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Grupo;
+use App\GrupoUsuario;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\User;
@@ -78,10 +79,11 @@ class PesquisaController extends Controller
                 ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                 ->limit(4)
                 ->get();
-            $grupos = Grupo::where('nome', 'LIKE', '%' . $request->termo . '%')
-                ->orWhere('assunto', 'LIKE', '%' . $request->termo . '%')
+            $grupos = GrupoUsuario::where('id_user', auth()->user()->id) //Corrigido!
+                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
+                ->where('assunto', 'LIKE', '%' . $request->termo . '%')
                 ->orWhere('materia', 'LIKE', '%' . $request->termo . '%')
-                ->select(['id', 'nome', 'assunto', 'url', 'materia', 'num_participantes'])
+                ->select(['grupo.id', 'nome', 'assunto', 'url', 'materia', 'num_participantes'])
                 ->limit(3)
                 ->get();
             return view('pesquisa.search', ['usuarios' => $usuarios, 'grupos' => $grupos, 'termo' => $request->termo]);
