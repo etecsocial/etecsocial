@@ -108,4 +108,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return "Não adicionado ainda";
         }
     }
+
+    public static function create_username($name) {
+        $username = str_replace(' ', '', $name);
+        $cont = 1;
+        if (User::where('username', $username)->select('id')->first()) {
+            $nova = $username . $cont;
+            while (User::where('username', $nova)->select('id')->first()) {
+                $cont++;
+                $nova = $username . $cont;
+            }
+        }return isset($nova) ? $nova : $username;
+    }
 }

@@ -67,7 +67,7 @@ class SocialLoginController extends Controller
         $user_db                   = new User;
         $user_db->name             = $user->name;
         $user_db->email            = $user->email;
-        $user_db->username         = 'social' . rand(1, 100);
+        $user_db->username         = User::create_username($user->name);
         $user_db->provider_id      = 1;
         $user_db->provider_user_id = $user->id;
         $user_db->password         = bcrypt('temp' . rand() . 'temp');
@@ -100,13 +100,11 @@ class SocialLoginController extends Controller
         $user_1 = ['name' => $provider->name,
             'email'           => $provider->email];
         $user_2 = ['name' => $db->name,
-            'email'           => $db->email,
-            'gender'          => $db->gender];
+            'email'           => $db->email];
 
         if (!empty(array_diff($user_1, $user_2))) {
             $db->email  = $provider->email;
             $db->name   = $provider->name;
-            $db->gender = $provider->gender;
         }
     }
 }
