@@ -67,7 +67,7 @@ class SocialLoginController extends Controller
         $user_db                   = new User;
         $user_db->name             = $user->name;
         $user_db->email            = $user->email;
-        $user_db->username         = 'social' . rand(1, 100);
+        $user_db->username         = User::create_username($user->name);
         $user_db->provider_id      = 1;
         $user_db->provider_user_id = $user->id;
         $user_db->password         = bcrypt('temp' . rand() . 'temp');

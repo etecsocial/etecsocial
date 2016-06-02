@@ -70,18 +70,6 @@ use AuthenticatesAndRegistersUsers,
         return Validator::make($data, $validator);
     }
 
-    protected function create_username($name) {
-        $username = str_replace(' ', '', $name);
-        $cont = 1;
-        if (User::where('username', $username)->select('id')->first()) {
-            $nova = $username . $cont;
-            while (User::where('username', $nova)->select('id')->first()) {
-                $cont++;
-                $nova = $username . $cont;
-            }
-        }return isset($nova) ? $nova : $username;
-    }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -97,7 +85,7 @@ use AuthenticatesAndRegistersUsers,
 
         $user = User::create([
                     'name' => $data['name'],
-                    'username' => $this->create_username($data['name']),
+                    'username' => User::create_username($data['name']),
                     'email' => $data['email'],
                     'type' => $data['type'],
                     'password' => bcrypt($data['password']),
