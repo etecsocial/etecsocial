@@ -16,9 +16,6 @@
 '/js/form.min.js',
 
 '/js/plugins/jquery.nanoscroller.min.js',
-'/js/plugins/sparkline/jquery.sparkline.min.js',
-'/js/plugins/sparkline/sparkline-script.js',
-'/js/plugins/succinct-master/jQuery.succinct.min.js',
 
 '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
 '/js/plugins/fullcalendar/lib/moment.min.js',
@@ -237,7 +234,7 @@ abrirPost({{ $id }})
                 <ul class="collection with-header">
                     <li class="collection-item center darken-4">Ainda não há publicações para serem exibidas por aqui! Publique algo ou dicione seus amigos.</li>
                 </ul>
-                @else @foreach($posts as $post) @include('post.post') @endforeach @endif
+                @else @include('feed.posts') @endif
             </div>
         </div>
         <div class="row" id="loader-post" style="display:none">

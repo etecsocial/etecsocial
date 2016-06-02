@@ -6,7 +6,6 @@
 
 @section('style')
 {!! Minify::stylesheet(['/css/font.css',
-'/css/materialize.css',
 '/css/asset.css',
 '/css/style.css'])->withFullURL() !!}
 @stop
@@ -37,12 +36,7 @@
 </div>
 <div class="row">
     <div class="col s12">
-       
-
-      
-        @foreach($posts as $post)
-        @include('post.post')
-        @endforeach
+       @include('feed.posts')
        @if((empty($posts[0])))
         <ul class="collection with-header">
             <li class="collection-item center darken-4">Não foram encontradas publicações com a tag que você usou. Tente utilizar uma tag diferente ou utilize a barra de pesquisa para buscar o que você precisa.</li>
