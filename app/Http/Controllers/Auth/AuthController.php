@@ -104,22 +104,9 @@ use AuthenticatesAndRegistersUsers,
     }
 
     protected function create_aluno($user, $data) {
-
-        // coloca num grupo
-        // $add = new GrupoUsuario;
-        // $add->id_grupo = $id_grupo;
-        // $add->id_user = $aluno;
-        // $add->save();
-        // $this->IncParticipante($id_grupo);
         DB::table('alunos_info')->insert(['user_id' => $user->id,
             'id_turma' => $data['id_turma'],
             'id_escola' => $data['id_escola']]);
-    }
-
-    protected function create_professor($user, $data) {
-        //DB::table('professores_info')->insert(['user_id' => $user->id,
-        //                           'id_escola' => $data['id_escola']]);
-        // @todo: adicionar todas as salas que o professor dá aula
     }
 
     protected function logout() {
