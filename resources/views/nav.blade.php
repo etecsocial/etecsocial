@@ -203,7 +203,7 @@
                                         <span class="new badge"></span>
                                         @endif
                                     </small>
-                                    <a href="#!" class="secondary-content"><i class="mdi-social-person-add"></i></a>
+                                    <a href="#!" class="secondary-content"></a>
                                 </li>
                                 @endif @endforeach @endif
                             </ul>
