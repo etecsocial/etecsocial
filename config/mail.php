@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'contato@etecsocial.com.br', 'name' => 'ETEC Social'],
 
     /*
     |--------------------------------------------------------------------------
