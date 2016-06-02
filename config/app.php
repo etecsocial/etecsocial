@@ -165,7 +165,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Devfactory\Minify\MinifyServiceProvider::class,
         Skydiver\LaravelMaterializeCSS\MaterializeCSSServiceProvider::class,
-
+       
     ],
 
     /*
@@ -221,6 +221,7 @@ return [
         'Image'     => Intervention\Image\Facades\Image::class,
         'Minify'    => Devfactory\Minify\Facades\MinifyFacade::class,
         'MaterializeCSS' => Skydiver\LaravelMaterializeCSS\MaterializeCSS::class,
+        'LRedis'    => Illuminate\Support\Facades\Redis::class,
     ],
 
 ];

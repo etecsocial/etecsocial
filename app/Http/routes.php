@@ -14,6 +14,11 @@ Route::group(['middleware' => 'web'], function () {
 
     // auth routes
     Route::group(['middleware' => 'auth'], function() {    
+        //SOCKET
+        Route::get('socket', 'SocketController@index');
+        Route::post('sendmessage', 'SocketController@sendMessage');
+        Route::get('writemessage', 'SocketController@writemessage');
+        
         //DESAFIO
         Route::get('/desafios', 'DesafioController@index');
         Route::group(['prefix' => 'ranking'], function() {
