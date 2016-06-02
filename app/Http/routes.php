@@ -118,7 +118,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/agenda', 'AgendaController@api');
         //NOTIFICACAO
         Route::group(['prefix' => 'notificacao'], function () {
-            // Route::get('/makeread', 'NotificacaoController@makeread');
+             Route::get('/makeread', 'NotificacaoController@makeread');
             // Route::post('/new', 'NotificacaoController@newnoti');
             // Route::post('/channel', 'NotificacaoController@channel');
         });

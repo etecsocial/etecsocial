@@ -1,7 +1,13 @@
 @extends('base')
-@section('title') ETEC Social | Início @stop
+@section('title') Início | ETEC Social @stop
 
-@section('style') {!! Minify::stylesheet(['/css/style.css', '/js/plugins/fullcalendar/css/fullcalendar.min.css'])->withFullURL() !!} @stop
+@section('style') 
+{!! Minify::stylesheet(['/css/font.css',
+'/css/asset.css',
+'/css/style.css', 
+'/js/plugins/fullcalendar/css/fullcalendar.min.css',
+])->withFullURL() !!} 
+@stop
 
 @section('jscript')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
@@ -30,7 +36,7 @@ $(document).ready(function() {
     $("#modalFirst").openModal();
 });
 
- function turmas() {
+function turmas() {
        var escola = $('#id_escola').val();
        if (escola) {
            var url = '/ajax/cadastro/turmas?escola=' + escola;
@@ -40,8 +46,7 @@ $(document).ready(function() {
                $('.caret').hide();
            });
        }
-    }
-   
+}
 </script>
 @endif @if($id)
 <script>
@@ -50,7 +55,7 @@ abrirPost({{ $id }})
 </script>
 @endif @stop @section('content') @include('nav')
 <section id="content">
-    <div class="container">
+    <div class="container" style="margin-top:20px">
         <div id="chart-dashboard">
             <div class="row">
                 <div class="col s12 m12 l4">
@@ -191,7 +196,7 @@ abrirPost({{ $id }})
                     <div class="card">
                         <div class="card-content purple white-text center">
                             <p class="card-stats-title"><i class="mdi-editor-attach-money hide-on-med-and-down"></i>Desafios</p>
-                            <h4 class="card-stats-number">{{ $thisUser->num_desafios }}</h4>
+                            <h4 class="card-stats-number">@if( isset($thisUser->num_desafios) ) {{ $thisUser->num_desafios }} @else 0 @endif</h4>
                         </div>
                     </div>
                 </div>
@@ -199,7 +204,7 @@ abrirPost({{ $id }})
                     <div class="card">
                         <div class="card-content orange white-text center">
                             <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Auxílios</p>
-                            <h4 class="card-stats-number">{{ $thisUser->num_auxilios }}</h4>
+                            <h4 class="card-stats-number">@if( isset($thisUser->num_auxilios) ) {{ $thisUser->num_auxilios }} @else 0 @endif</h4>
                         </div>
                     </div>
                 </div>
@@ -227,7 +232,6 @@ abrirPost({{ $id }})
     <div id="card-widgets" class="seaction">
         <div class="row">
             <div class="col s12" id="post">
-                <div class="post"></div>
                 @if(!isset($posts[0]))
                 <div data-id="0" class="post blog col s12 m6 l4" style="display:none"></div>
                 <ul class="collection with-header">
@@ -259,7 +263,6 @@ abrirPost({{ $id }})
     </div>
     </div>
 </section>
-@include('footer')
 <div id="modalExcluir" class="modal">
     <form id="excluir" method="DELETE">
         <div class="modal-content">
@@ -302,4 +305,5 @@ abrirPost({{ $id }})
         </div>
     </div>
 </div>
+@include('footer')
 @stop

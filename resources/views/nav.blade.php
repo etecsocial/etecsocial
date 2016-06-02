@@ -170,7 +170,7 @@
                             </ul>
                         </div>
                         <div id="notificacoes" class="col s12" style="display: block;">
-                            <p>Notificações</p>
+                            <p>Notificações <span class="right-align right"><small><a style="cursor:pointer" onclick="read()">Marcar como lido</a></small></span></p>
                             <ul class="collection transparent">
                                 @if(!$notificacoes = App\Notificacao::carrega())
                                 <li class="collection-item transparent">
@@ -190,7 +190,7 @@
                                             @endif
                                         </span>
                                     </small>
-                                    <a href="#!" class="secondary-content"><i class="mdi-social-person-add"></i></a>
+                                    
                                 </li>
                                 @else
                                 <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
@@ -208,82 +208,29 @@
                                 @endif @endforeach @endif
                             </ul>
                         </div>
-                        <div id="chat" class="col s12" style="display: none;">
+                        <div id="chat" class="col s12" style="display: block;">
                             <!-- Contacts -->
                             <div class="contacts" style="margin-top: 30px;">
-                                <div class="nano">
+                                <div class="nano scroll-bottom">
                                     <div class="nano-content">
                                         <span class="label">Online</span>
+                                        
                                         <div class="user">
-                                            <img src="images/users/user2.jpg" alt="Felecia Castro" class="circle photo">
+                                            <img src="images/default-user.png" alt="Felecia Castro" class="circle photo">
                                             <div class="name">Felecia Castro</div>
                                             <div class="status">Lorem status</div>
                                             <div class="online"><i class="green-text fa fa-circle"></i>
                                             </div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user3.jpg" alt="Max Brooks" class="circle photo">
-                                            <div class="name">Max Brooks</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="green-text fa fa-circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user4.jpg" alt="Patsy Griffin" class="circle photo">
-                                            <div class="name">Patsy Griffin</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="green-text fa fa-circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user5.jpg" alt="Chloe Morgan" class="circle photo">
-                                            <div class="name">Chloe Morgan</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="green-text fa fa-circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user6.jpg" alt="Vernon Garrett" class="circle photo">
-                                            <div class="name">Vernon Garrett</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="yellow-text fa fa-circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user7.jpg" alt="Greg Mcdonalid" class="circle photo">
-                                            <div class="name">Greg Mcdonalid</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="yellow-text fa fa-circle"></i>
-                                            </div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user8.jpg" alt="Christian Jackson" class="circle photo">
-                                            <div class="name">Christian Jackson</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="yellow-text fa fa-circle"></i>
-                                            </div>
-                                        </div>
+                                        </div>                  
+                                               
                                         <span class="label">Offline</span>
+                                        
                                         <div class="user">
-                                            <img src="images/users/user9.jpg" alt="Willie Kelly" class="circle photo">
-                                            <div class="name">Willie Kelly</div>
+                                            <img src="images/default-user.png" alt="Felecia Castro" class="circle photo">
+                                            <div class="name">Felecia Castro</div>
                                             <div class="status">Lorem status</div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user10.jpg" alt="Jenny Phillips" class="circle photo">
-                                            <div class="name">Jenny Phillips</div>
-                                            <div class="status">Lorem status</div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user11.jpg" alt="Darren Cunningham" class="circle photo">
-                                            <div class="name">Darren Cunningham</div>
-                                            <div class="status">Lorem status</div>
-                                        </div>
-                                        <div class="user">
-                                            <img src="images/users/user12.jpg" alt="Sandra Cole" class="circle photo">
-                                            <div class="name">Sandra Cole</div>
-                                            <div class="status">Lorem status</div>
-                                        </div>
+                                            
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -292,7 +239,7 @@
                             <div class="messages">
                                 <!-- Top Bar with back link -->
                                 <div class="topbar">
-                                    <a href="#!" class="chat-toggle"><i class="mdi-navigation-close"></i></a>
+                                    <a href="#!" class="chat-toggle" style="margin-top:12px"><i class="mdi-navigation-close"></i></a>
                                     <a href="#!" class="chat-back"><i class="mdi-hardware-keyboard-arrow-left"></i>Voltar</a>
                                 </div>
                                 <!-- /Top Bar with back link -->
@@ -315,7 +262,7 @@
                                             </div>
                                             <div class="clear"></div>
                                             <div class="from-them">
-                                                <img src="images/users/user2.jpg" alt="John Peter" class="circle photo">Also, we will send the longest word to show how it will fit in the chat window: <strong>Pneumonoultramicroscopicsilicovolcanoconiosis</strong>
+                                                <img src="images/default-user.png" alt="John Peter" class="circle photo">Also, we will send the longest word to show how it will fit in the chat window: <strong>Pneumonoultramicroscopicsilicovolcanoconiosis</strong>
                                             </div>
                                             <div class="date">Friday, Mar 10, 5:07 pm</div>
                                             <div class="from-me">
@@ -323,7 +270,7 @@
                                             </div>
                                             <div class="clear"></div>
                                             <div class="from-them">
-                                                <img src="images/users/user2.jpg" alt="John Doe" class="circle photo">Hi! Glad to see you.
+                                                <img src="images/default-user.png" alt="John Doe" class="circle photo">Hi! Glad to see you.
                                             </div>
                                             <div class="clear"></div>
                                             <div class="from-me">
@@ -335,7 +282,7 @@
                                             </div>
                                             <div class="clear"></div>
                                             <div class="from-them">
-                                                <img src="images/users/user2.jpg" alt="John Doe" class="circle photo">I do not use Facebook. But you can follow me in Twitter.
+                                                <img src="images/default-user.png" alt="John Doe" class="circle photo">I do not use Facebook. But you can follow me in Twitter.
                                             </div>
                                             <div class="clear"></div>
                                             <div class="from-me">
@@ -343,7 +290,7 @@
                                             </div>
                                             <div class="clear"></div>
                                             <div class="from-them">
-                                                <img src="images/users/user2.jpg" alt="John Doe" class="circle photo">You can find me here - <a href="../../twitter.com/nkdevv.html">https://twitter.com/nkdevv</a>
+                                                <img src="images/default-user.png" alt="John Doe" class="circle photo">You can find me here - <a href="../../twitter.com/nkdevv.html">https://twitter.com/nkdevv</a>
                                             </div>
                                         </div>
                                     </div>

@@ -54,7 +54,7 @@
         </div>
         <div class="row" id="autor-post">
             <div class="col s2">
-                <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->name }}" class="circle responsive-img valign profile-image tooltipped">
             </div>
             <div class="col s6 m8"> 
                 @if($post->id_user == $thisUser->id)
@@ -66,7 +66,7 @@
             </div>
             @if($thisUser->id == $post->id_user) 
             <a href="#modalExcluir" onclick="excluir({{ $post->id }})" class="wino"><i class="mdi-action-delete waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Excluir Publicação" data-delay="50" data-position="bottom"></i></a>
-            <a href="#modalEditar" onclick="Materialize.toast('<span>Recurso em desenvolvimento.</span>', 3000)" class="wino"><i class="mdi-editor-mode-edit waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Editar Publicação" data-delay="50" data-position="bottom"></i></a>
+            <a href="#modalEditar" onclick="Materialize.toast('<span>Recurso em desenvolvimento.</span>', 3000)"><i class="mdi-editor-mode-edit waves-effect waves-light tooltipped" style="opacity: 0.7" data-tooltip="Editar Publicação" data-delay="50" data-position="bottom"></i></a>
             @else 
             <a href="#modalDenuncia" onclick="denunciar({{ $post->id }})" class="wino"><i class="mdi-content-flag tooltipped waves-light" style="opacity: 0.7" data-tooltip="Denunciar Publicação" data-delay="50" data-position="bottom"></i></a>
             @endif
