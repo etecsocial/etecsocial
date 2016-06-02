@@ -53,18 +53,17 @@
       </ul>
    </div>
    @if(isset($posts_publico[0]))
-   <?php $posts = $posts_publico; ?>
    <div id="publico" class="col s12">
       <ul class="collection">
-         @include('home.posts')
+         @include('feed.posts', ['posts'=> $posts_publico])
       </ul>
    </div>
    @endif
    @if(isset($posts_amigos[0]))
-   <?php $posts = $posts_amigos; ?>
+   
    <div id="amigos" class="col s12">
       <ul class="collection">
-         @include('home.posts')
+         @include('feed.posts', ['posts'=> $posts_amigos])
       </ul>
    </div>
    @endif
