@@ -12,6 +12,9 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/login/{provider}', 'SocialLoginController@login')->where('provider', '[a-z-]+');
     Route::get('/fallback/{provider}', 'SocialLoginController@fallback')->where('provider', '[a-z-]+');
 
+    // confirm email
+    Route::get('/confirm/verify/{confirm_code}', 'ContaController@confirmEmail');
+
     // auth routes
     Route::group(['middleware' => 'auth'], function() {    
         //SOCKET

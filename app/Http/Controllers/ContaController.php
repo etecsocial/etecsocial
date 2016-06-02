@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Image;
 use Input;
 use Response;
+use App\Notificacao;
 
 class ContaController extends Controller
 {
@@ -105,4 +106,27 @@ class ContaController extends Controller
 
     public function aluno(Request $request)
     {} // @TODO
+
+    public function confirmEmail(Request $request)
+    {
+        $confirmation_code = $request->confirmation_code;
+        if (!empty($confirmation_code)) {
+            $user               = User::where('confirmation_code', '=', $confirmation_code)->first();
+            $user->confirmed    = 1;
+            $user->confirmation_code = null;
+            $user->save();
+            
+            $notifica = new Notificacao;
+            $notifica->id_dest = $user->id;
+            $notifica->id_rem = $user->id;
+            
+            $notifica->data = '';
+            $notifica->texto = 'Você confirmou seu email!';
+            
+            
+            auth()->login($user);
+        }
+
+        return redirect('/');
+    }
 }

@@ -30,7 +30,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'name', 'username', 'email_instuticional',
         'email', 'password', 'type',
         'provider_id', 'provider_user_id',
-        'birthday', 'first_login',
+        'birthday', 'first_login', 'confirmation_code'
     ];
 
     /**
@@ -39,7 +39,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'provider_id', 'provider_user_id',
+        'password', 'remember_token', 'provider_id', 'provider_user_id', 'confirmation_code'
     ];
 
     public function scopeGetFriends()

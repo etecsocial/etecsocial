@@ -90,6 +90,7 @@ use AuthenticatesAndRegistersUsers,
                     'type' => $data['type'],
                     'password' => bcrypt($data['password']),
                     'first_login' => $first_login,
+                    'confirmation_code' => str_random(30),
         ]);
 
         if ($data['type'] == 1) {

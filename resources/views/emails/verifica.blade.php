@@ -8,7 +8,7 @@
         <div>
             <p>Obrigado por se cadastrar na ETEC Social.<p>
             <p>Por favor, confirme seu e-mail para finalizar seu cadastro:</p>
-            <a href="{{ URL::to('/?confirmation_code=' . $code) }}">Verificar agora</a><br><br>
+            <a href="{{ url('/confirm/verify/') . '/' . $confirmation_code }}">Verificar agora</a><br><br>
             <p>Atenciosamente,<br>ETEC Social.</p>
         </div>
     </body>
