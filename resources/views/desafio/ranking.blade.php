@@ -50,7 +50,7 @@ Ranking | ETEC Social
             <div class="col l5">
                 #1
                 <a href="{{ url($usuario->username) }}">
-                    <h4>{{$usuario->nome}}</h4>
+                    <h5>{{$usuario->name}}</h5>
                 </a>
                 <h6>{{$usuario->pontos}} pontos</h6>
             </div>

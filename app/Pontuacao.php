@@ -31,32 +31,37 @@ class Pontuacao extends Model
     public static function ranking($tipo = 'geral')
     {
         switch ($tipo) {
-            case 'etec':
+            case 'etec': // @todo
                 $pontuacao = DB::table('pontuacaos')
-                    ->selectRaw('sum(pontos) as pontos, nome, user_id, username')
+                    ->selectRaw('sum(pontos) as pontos, users.name, users.id, users.username')
                     ->join('users', 'users.id', '=', 'pontuacaos.user_id')
+                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                     ->orderBy('pontos', 'DESC')
-                    ->groupBy('user_id')
-                    ->where('users.id_escola', auth()->user()->id_escola)
+                    ->groupBy('users.id')
+                    ->where('turmas.id_escola', auth()->user()->id_escola)
                     ->limit(100)
                     ->get();
                 break;
 
-            case 'turma':
+            case 'turma': // @todo
                 $pontuacao = DB::table('pontuacaos')
-                    ->selectRaw('sum(pontos) as pontos, nome, user_id, username')
+                    ->selectRaw('sum(pontos) as pontos, users.name, users.id, users.username')
                     ->join('users', 'users.id', '=', 'pontuacaos.user_id')
-                    ->where('users.id_escola', auth()->user()->id_escola)
-                    ->where('users.id_turma', auth()->user()->id_turma)
+                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                     ->orderBy('pontos', 'DESC')
-                    ->groupBy('user_id')
-                    ->limit(50)
+                    ->groupBy('users.id')
+                    ->where('turmas.id_escola', auth()->user()->id_escola)
+                    ->limit(100)
                     ->get();
                 break;
 
             default:
                 $pontuacao = DB::table('pontuacaos')
-                    ->selectRaw('sum(pontos) as pontos, nome, user_id, username')
+                    ->selectRaw('sum(pontos) as pontos, name, user_id, username')
                     ->join('users', 'users.id', '=', 'pontuacaos.user_id')
                     ->orderBy('pontos', 'DESC')
                     ->groupBy('user_id')
