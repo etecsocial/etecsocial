@@ -100,13 +100,11 @@ class SocialLoginController extends Controller
         $user_1 = ['name' => $provider->name,
             'email'           => $provider->email];
         $user_2 = ['name' => $db->name,
-            'email'           => $db->email,
-            'gender'          => $db->gender];
+            'email'           => $db->email];
 
         if (!empty(array_diff($user_1, $user_2))) {
             $db->email  = $provider->email;
             $db->name   = $provider->name;
-            $db->gender = $provider->gender;
         }
     }
 }
