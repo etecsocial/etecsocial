@@ -60,7 +60,6 @@
    </div>
    @endif
    @if(isset($posts_amigos[0]))
-   
    <div id="amigos" class="col s12">
       <ul class="collection">
          @include('feed.posts', ['posts'=> $posts_amigos])
