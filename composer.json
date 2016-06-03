@@ -14,7 +14,7 @@
         "devfactory/minify": "1.0.*",
         "barryvdh/laravel-debugbar": "^2.2",
         "skydiver/laravel-materialize-css": "dev-master",
-        "predis/predis": "^1.0"
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
