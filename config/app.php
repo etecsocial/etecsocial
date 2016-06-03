@@ -213,15 +213,14 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         // vendor
-        'Debugbar'  => Barryvdh\Debugbar\Facade::class,
-        'Form'      => Collective\Html\FormFacade::class,
-        'Html'      => Collective\Html\HtmlFacade::class,
-        'Input'     => Illuminate\Support\Facades\Input::class,
-        'Socialize' => Laravel\Socialite\Facades\Socialite::class,
-        'Image'     => Intervention\Image\Facades\Image::class,
-        'Minify'    => Devfactory\Minify\Facades\MinifyFacade::class,
-        'MaterializeCSS' => Skydiver\LaravelMaterializeCSS\MaterializeCSS::class,
-        'LRedis'    => Illuminate\Support\Facades\Redis::class,
+        'Debugbar'          => Barryvdh\Debugbar\Facade::class,
+        'Form'              => Collective\Html\FormFacade::class,
+        'Html'              => Collective\Html\HtmlFacade::class,
+        'Input'             => Illuminate\Support\Facades\Input::class,
+        'Socialize'         => Laravel\Socialite\Facades\Socialite::class,
+        'Image'             => Intervention\Image\Facades\Image::class,
+        'Minify'            => Devfactory\Minify\Facades\MinifyFacade::class,
+        'MaterializeCSS'    => Skydiver\LaravelMaterializeCSS\MaterializeCSS::class,
     ],
 
 ];
