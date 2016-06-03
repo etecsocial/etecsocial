@@ -59,9 +59,9 @@ class GrupoController extends Controller
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ($grupo->expiracao == null)) {
                 //Verifica se é expirado
                 if (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) { //Verifica se o usuário é integrante e não está banido
-                    return view('grupo.grupo', $dados = $this->getGroupData($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+                    return view('grupo.home', $dados = $this->getGroupData($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
                 } elseif (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) { //Verifica se o usuário é banido, já que a seleção anterior falhou
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
+                    return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
                 } else {
 //O usuário não é integrante do grupo
                     return abort(405);
@@ -69,13 +69,13 @@ class GrupoController extends Controller
             } else {
 //O grupo expirou.
                 if (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 0)->first()) {
-                    return view('grupo.grupo', $dados = $this->getGroupDataExp($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+                    return view('grupo.home', $dados = $this->getGroupDataExp($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
                 } elseif (GrupoUsuario::where('id_user', auth()->user()->id)->where('id_grupo', $grupo->id)->where('is_banido', 1)->first()) {
 
-                    return view('grupo.grupo', $this->getGroupDataBan($grupo))->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+                    return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
                 } else {
 //USUÁRIO NAO ESTÁ NO GRUPO
-                    return abort(404);
+                    return abort(405);
                 }
             }
         } else {

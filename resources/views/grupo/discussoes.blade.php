@@ -58,9 +58,9 @@
                             <img src="{{ auth()->user()->avatar($discussao->id_autor)}}" alt="Este é {{ auth()->user()->verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
                         </div>
                         <div class="col s9">
-                            Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->nome }}</a>
+                            Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->name }}</a>
                         </div>
-                        @if(($thisUser->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->id_autor))) or (auth()->user()->isTeacher($thisUser->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                        @if((auth()->user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->id_autor))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                         <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
                         <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->id_autor }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                     </div>
@@ -73,7 +73,7 @@
             <span class="card-title grey-text text-darken-4"> Discussões</span>
             <div class="collection">
                 <ul class="collection" style="margin-top:0px;margin-bottom: 0;max-height: 420px;overflow-y: scroll" id="com-disc-{{ $discussao-> id}}">
-                    @if($banido) @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', $thisUser->id)->get()) @foreach($comments as $comm)
+                    @if($banido) @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', auth()->user()->id)->get()) @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                         <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Este é você" class="circle tooltipped">
@@ -86,7 +86,7 @@
                     <!--NÃO É BANIDO-->
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
-                        @if(($thisUser->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user))))
+                        @if((auth()->user()->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user))))
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a> @endif
                         <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comm->id_user)->nome }}" class="circle tooltipped">
                         <div style="max-height: 80px; overflow-y: auto">

@@ -21,9 +21,6 @@
                         '/js/plugins/fullcalendar/lib/moment.min.js',
                         '/js/plugins/fullcalendar/js/fullcalendar.min.js',
                         '/js/plugins/fullcalendar/fullcalendar-script.js',
-                        '/js/plugins/sparkline/jquery.sparkline.min.js',
-                        '/js/plugins/sparkline/sparkline-script.js',
-                        '/js/jquery.tagsinput.min.js',
                         '/js/script.js',
                         '/js/plugins.js',
                         '/js/script-grupo.js']) !!}
@@ -93,9 +90,8 @@
             <!-- profile-page-header -->
             <div id="profile-page-header" class="card">
                 <div class="card-image waves-effect waves-block waves-light hide-on-small-and-down">
-                    <img class="activator" src="../images/foto-capa.jpg" alt="user background">
+                    <img class="activator" src="../images/foto-capa.jpg">
                 </div>
-
 
                 <div class="card-content">
                         <div class="row">

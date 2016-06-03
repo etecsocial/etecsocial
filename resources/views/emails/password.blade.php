@@ -6,10 +6,11 @@
     <body>
         <h2>Recuperação de Senha</h2>
         <div>
-            <p>Olá {{ $user->name }},</p>
-            <p>Você solicitou a recuperação da senha de sua conta da ETEC Social, acesse o link a seguir para alterar sua senha.</p>
-            <a href="{{ URL::to('/password/reset/' . $token) }}">Recuperar agora</a><br><br>
-            <p>Se não foi você, por favor, ignore esse e-mail.<p>
+            <p>Olá {{ $user->name }}, como vai?</p>
+            <p>Você solicitou a recuperação da senha de sua conta da ETEC Social.
+            <p>Clique <a href="{{ URL::to('/password/reset/' . $token) }}">aqui</a> para alterar sua senha.
+            <br>
+            <p>Se não foi você quem solicitou isso, por favor, ignore esse e-mail.<p>
             <p>Atenciosamente,<br>ETEC Social.</p>
         </div>
     </body>

@@ -1,6 +1,6 @@
 @extends('base')
 @section('title')
-404 | Nada encontrado
+404 | Não encontrado
 @stop
 @section('style')
 {!! Minify::stylesheet('/css/materialize.min.css') !!}
@@ -14,10 +14,10 @@
         <div class="container">
             <br>
             <br>
-            <h1 class="header center red-text text-darken-2">ERRO 404</h1>
+            <h1 class="header center red-text text-darken-2">Epa, algo está errado!</h1>
             <div class="row center">
-                <h5 class="header col s12 red-text">Nada foi encontrado!</h5>
-                <h6 class="header col s12 red-text">Estamos fritos!</h6>
+                <h5 class="header col s12 red-text">O endereço que você está acessando não existe ou foi excluído.</h5>
+                <h6 class="header col s12 red-text">Verifique se o caminho está correto, ou volte para onde estava.</h6>
             </div>
             <div class="row center">
                 <a href="{{ ((\Request::header('referer')) ? Request::header('referer') : url('/')) }}" id="entrar-button" class="btn-large waves-effect waves-light red lighten-1 modal-trigger">Voltar</a>

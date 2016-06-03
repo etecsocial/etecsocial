@@ -45,7 +45,7 @@
                         @if(isset($alunos_int[0]) and isset($alunos_int[1])) 
                         @foreach($alunos_int as $aluno)
                         <div id="aluno-int-1-{{$aluno->id}}">
-                            @if($aluno->id == $thisUser->id)
+                            @if($aluno->id == auth()->user()->id)
                             <div class="col s2"><img src="{{ auth()->user()->avatar($aluno->id) }}" alt="Este é você." data-tooltip="Você" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
                             @else   
                             <div class="col s2"><img src="{{ auth()->user()->avatar($aluno->id) }}" alt="{{ auth()->user()->verUser($aluno->id)->name }}" data-tooltip="{{ auth()->user()->verUser($aluno->id)->name }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
@@ -123,7 +123,7 @@
                                 @if(isset($alunos_int))
                                 @foreach($alunos_int as $amigo)
                                 <div id="aluno-int-2-{{$amigo->id}}" class="col s6">
-                                    @if($amigo->id != $thisUser->id)
+                                    @if($amigo->id != auth()->user()->id)
                                     <div id="amigo-dir-{{ $amigo->id }}" class="chip" onclick="removeAlunoGrupo({{ $amigo->id }}, {{ $grupo->id }})" style="margin-bottom: 10px; margin-right: 5px; cursor: pointer">
                                         <img src="{{ auth()->user()->Avatar($amigo->id) }}" alt="Foto de {{ $amigo->name }}">
                                         {{ $amigo->name }}
@@ -156,7 +156,7 @@
                     <div class="col s12">
                         @if(isset($professores_int))
                         @foreach($professores_int as $professores)
-                        <div class="col s2"><img src="{{ auth()->user()->avatar($professores->id) }}" alt="{{$professores->id == $thisUser->id ? 'Este é você' : auth()->user()->verUser($professores->id)->name }}" data-tooltip="{{ $professores->id == $thisUser->id ? 'Você' :auth()->user()->verUser($professores->id)->name }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
+                        <div class="col s2"><img src="{{ auth()->user()->avatar($professores->id) }}" alt="{{$professores->id == auth()->user()->id ? 'Este é você' : auth()->user()->verUser($professores->id)->name }}" data-tooltip="{{ $professores->id == auth()->user()->id ? 'Você' :auth()->user()->verUser($professores->id)->name }}" data-delay="50" data-position="bottom" class="tooltipped circle responsive-img valign profile-image"></div>
                         @endforeach
                         @else 
                         <p class="col s12">Ainda não há professores no grupo. {{ isset($expirado) ? '' : 'Você pode convidar algum, se quiser.' }} </p>
