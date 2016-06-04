@@ -1,6 +1,6 @@
 <?php
-Route::group(['middleware' => 'web'], function () {
-    
+
+Route::group(['middleware' => 'web'], function () {    
     // auth route resource
     Route::auth();
 
@@ -18,10 +18,15 @@ Route::group(['middleware' => 'web'], function () {
     // auth routes
     Route::group(['middleware' => 'auth'], function() {    
         //SOCKET
-        Route::get('socket', 'SocketController@index');
-        Route::post('sendmessage', 'SocketController@sendMessage');
-        Route::get('writemessage', 'SocketController@writemessage');
+        Route::get('test', function () {
+            return view('socket.test');
+        });
         
+        Route::get('fire', function () {
+            event(new App\Events\EventName());
+            return "event fired";
+        });
+     
         //DESAFIO
         Route::get('/desafios', 'DesafioController@index');
         Route::group(['prefix' => 'ranking'], function() {
@@ -89,7 +94,7 @@ Route::group(['middleware' => 'web'], function () {
            // Route::post('/abrir', 'ChatController@abrir');
            // Route::post('/channel', 'ChatController@channel');
         });
-         //PESQUISAR
+        //PESQUISAR
         Route::get('/buscar', 'PesquisaController@buscaRapida');
         //STATUS
         Route::post('/status', 'PerfilController@status');
