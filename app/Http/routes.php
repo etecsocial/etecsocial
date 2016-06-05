@@ -132,7 +132,7 @@ Route::group(['middleware' => 'web'], function () {
         //NOTIFICACAO
         Route::group(['prefix' => 'notificacao'], function () {
              Route::get('/makeread', 'NotificacaoController@makeread');
-            // Route::post('/new', 'NotificacaoController@newnoti');
+             Route::post('/new', 'NotificacaoController@newnoti');
             // Route::post('/channel', 'NotificacaoController@channel');
         });
         //GRUPO
