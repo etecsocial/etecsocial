@@ -63,7 +63,6 @@ function enviarMsg() {
 }
 
 //PESQUISA
-
 $("body").click(function() {
     $("#results-search").fadeOut(150);
 });
@@ -79,7 +78,6 @@ function buscar(busca) {
 }
 
 //STATUS
-
 $('#status').ajaxForm({
     dataType: 'JSON',
     success: function(data) {
@@ -114,7 +112,6 @@ $('#conta').ajaxForm({
 });
 
 //ADICIONAR
-
 function add(id_user) {
     $.ajax({
         type: "POST",
@@ -166,7 +163,6 @@ function add(id_user) {
 }
 
 //RECUSAR
-
 function recusar(id_user) {
     $.ajax({
         type: "POST",
@@ -192,7 +188,6 @@ function recusar(id_user) {
 }
 
 //NOTIFICACAO
-
 function newnoti() {
     var data = $(".nota:first").data("date");
 
@@ -218,36 +213,11 @@ function read() {
     return false;
 }
 
-var evento = true;
-
-$(function() {
-    function longPoll(num) {
-        var data = $(".nota:first").data("date");
-
-        if (evento) {
-            num = $("#num").data("num");
-        }
-
-        if (data == null) {
-            data = 0;
-        }
-
-        $.post('/ajax/notificacao/channel', {
-            data: data,
-            num: num
-        }, function(data) {
-            $(".noti").html(data);
-
-            evento = false;
-            longPoll(data);
-        });
-    }
-
-    longPoll();
+socket.on("channel:App\\Events\\Notificacao", function(message){
+    $('#num_not').text(parseInt($('#num_not').text()) + parseInt(message.num));
 });
 
 //TAREFA
-
 function checkTask(id) {
     $.post("/ajax/tarefas/check", {
         id: id
@@ -265,7 +235,6 @@ function checkTask(id) {
 }
 
 //AGENDA
-
 $('#addevento').ajaxForm({
     dataType: 'JSON',
     success: function(data) {
@@ -298,7 +267,6 @@ $('input[type=radio][name=publico]').change(function() {
 });
 
 //POST
-
 function abrirPost(id) {
     $.get('/ajax/post/' + id, function(data) {
         $("#modalpost").html(data);

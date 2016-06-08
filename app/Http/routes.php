@@ -3,10 +3,22 @@
 Route::group(['middleware' => 'web'], function () {    
     // auth route resource
     Route::auth();
+    
+    
+        Route::get('fire', function () {
+            \Event::fire(new App\Events\Notificacao(1));
+            return "event fired";
+        });
 
     // home
     Route::get('/', 'HomeController@index');
     Route::post('/', 'HomeController@login_or_cadastro');
+    
+    // register
+    Route::group(['prefix' => '/ajax/cadastro'], function () {
+        Route::get('/escolas', 'ContaController@consultarEscola');
+        Route::get('/turmas', 'ContaController@consultarTurma');
+    });
 
     // social login
     Route::get('/login/{provider}', 'SocialLoginController@login')->where('provider', '[a-z-]+');
@@ -17,16 +29,6 @@ Route::group(['middleware' => 'web'], function () {
 
     // auth routes
     Route::group(['middleware' => 'auth'], function() {    
-        //SOCKET
-        Route::get('test', function () {
-            return view('socket.test');
-        });
-        
-        Route::get('fire', function () {
-            event(new App\Events\EventName());
-            return "event fired";
-        });
-     
         //DESAFIO
         Route::get('/desafios', 'DesafioController@index');
         Route::group(['prefix' => 'ranking'], function() {
@@ -54,13 +56,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/{username}', 'PerfilController@index');
         Route::get('/perfil/editar', 'PerfilController@update');
     });
-
-    // register
-    Route::group(['prefix' => '/ajax/cadastro'], function () {
-        Route::get('/escolas', 'ContaController@consultarEscola');
-        Route::get('/turmas', 'ContaController@consultarTurma');
-    });
-
+    
     //AJAX
     Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
         //CONTA
@@ -71,7 +67,6 @@ Route::group(['middleware' => 'web'], function () {
         //AGENDA
         Route::get('/agenda', 'AgendaController@api');
         Route::resource('/agenda', 'AgendaController');
-        //CONTA
         
         //MENSAGEM
         Route::group(['prefix' => 'mensagem'], function () {
@@ -87,12 +82,6 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/getUsersArchives', 'MensagemController@getUsersArchives');
             Route::post('/desarquivarMensagem', 'MensagemController@desarquivarMensagem');
             Route::post('/arquivarMensagem', 'MensagemController@arquivarMensagem');
-        });
-        //CHATS
-        Route::group(['prefix' => 'chat'], function () {
-           // Route::post('/enviar', 'ChatController@enviar');
-           // Route::post('/abrir', 'ChatController@abrir');
-           // Route::post('/channel', 'ChatController@channel');
         });
         //PESQUISAR
         Route::get('/buscar', 'PesquisaController@buscaRapida');
@@ -111,10 +100,18 @@ Route::group(['middleware' => 'web'], function () {
         //FAVORITAR
         Route::post('/post/favoritar', 'PostController@favoritar');
         //COMENTARIO
-        Route::resource('/comentario', 'ComentarioController', ['except' => ['index', 'create', 'edit']]);
-        Route::resource('/comentario/editar/post', 'ComentarioController@editar', ['except' => ['index', 'create', 'edit']]);
-        Route::resource('/comentario/editar/discussao', 'ComentarioController@editarDiscussao', ['except' => ['index', 'create', 'edit']]);
-        Route::resource('/comentario/relevancia/post', 'ComentarioController@relevancia', ['except' => ['index', 'create', 'edit']]);
+        Route::resource('/comentario', 'ComentarioController', [
+            'except' => ['index', 'create', 'edit']
+        ]);
+        Route::resource('/comentario/editar/post', 'ComentarioController@editar', [
+            'except' => ['index', 'create', 'edit']
+        ]);
+        Route::resource('/comentario/editar/discussao', 'ComentarioController@editarDiscussao', [
+            'except' => ['index', 'create', 'edit']
+        ]);
+        Route::resource('/comentario/relevancia/post', 'ComentarioController@relevancia', [
+            'except' => ['index', 'create', 'edit']
+        ]);
         Route::resource('/discussao', 'DiscussaoController', ['except' => ['index', 'create', 'edit']]);
         Route::resource('/pergunta', 'PerguntaController', ['except' => ['index', 'create', 'edit']]);
         //TAREFA
@@ -127,28 +124,25 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/adicionar', 'PerfilController@addAmigo');
         //RECAMIGO
         Route::post('/recusar', 'PerfilController@recusarAmigo');
-        //AGENDA
-        Route::get('/agenda', 'AgendaController@api');
         //NOTIFICACAO
         Route::group(['prefix' => 'notificacao'], function () {
              Route::get('/makeread', 'NotificacaoController@makeread');
              Route::post('/new', 'NotificacaoController@newnoti');
-            // Route::post('/channel', 'NotificacaoController@channel');
         });
         //GRUPO
         Route::group(['prefix' => 'grupo'], function () {
             Route::post('/criar', 'GrupoController@criar');
             Route::post('/edit', 'GrupoController@edit');
             Route::post('/sair', 'GrupoController@sair');
+            Route::post('/discussao/delete', 'GrupoController@delDisc');
+            Route::post('/pergunta/delete', 'GrupoController@delPerg');
+            Route::post('/removeAlunoGrupo', 'GrupoController@removeAlunoGrupo');
             Route::post('/excluir', 'GrupoController@excluir');
             Route::post('/discussao', 'GrupoController@setDisc');
             Route::post('/pergunta', 'GrupoController@setPerg');
             Route::post('/material', 'GrupoController@setMat');
             Route::post('/addAlunoDir', 'GrupoController@addAlunoDir');
-            Route::post('/addProfGrupo', 'GrupoController@addProfGrupo');
-            Route::post('/removeAlunoGrupo', 'GrupoController@removeAlunoGrupo');
-            Route::post('/discussao/delete', 'GrupoController@delDisc');
-            Route::post('/pergunta/delete', 'GrupoController@delPerg');
+            Route::post('/addProfGrupo', 'GrupoController@addProfGrupo');   
             //DENUNCIA
             Route::post('/denuncia/create', 'DenunciaController@createDenunciaGrupo');
             Route::post('/denuncia/analisa', 'DenunciaController@analisaDenunciaGrupo');

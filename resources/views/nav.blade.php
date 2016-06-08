@@ -1,3 +1,4 @@
+
 @if ( ! session()->has('loading_screen'))
 <div id="loader-wrapper">
     <div id="loader"></div>
@@ -25,7 +26,7 @@
                             <a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>
                         </li>
                         <li>
-                            <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text">{{ App\Notificacao::count() }}</span></i></a>
+                            <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text" id="num_not">{{ App\Notificacao::count() }}</span></i></a>
                         </li>
                         <li class="hide-on-med-and-down">
                             <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-communication-forum"><span class="badge noti white-text">{{ App\Chat::count() }}</span></i></a>

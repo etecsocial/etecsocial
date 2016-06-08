@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{{ \Lang::getLocale() }}">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,11 +13,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
     @yield('style')
 </head>
-
 <body>
     @yield('content')
-    @yield('jscript2') 
+    @yield('jscript2')
+    <script src="//cdn.socket.io/socket.io-1.3.4.js"></script>
+    <script>
+    var socket = io('{{ env('SOCKET') }}');        
+    socket.emit("add-user", {"id_user": {{ auth()->user()->id }} });
+    </script>
     @yield('jscript')
 </body>
-
 </html>
