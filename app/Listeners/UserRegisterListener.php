@@ -38,7 +38,7 @@ class UserRegisterListener
             $grupo = Grupo::select('id')->where('id_turma', $turma->id_turma)->limit(1)->first();
 
             $turma_grupo           = new GrupoUsuario;
-            $turma_grupo->id_grupo = $grupo->id;
+            $turma_grupo->id_grupo = $grupo->id; //@TODO: checar se o grupo existe
             $turma_grupo->id_user  = $event->user->id;
             $turma_grupo->save();
         }
