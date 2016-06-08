@@ -1,4 +1,3 @@
-
 @if ( ! session()->has('loading_screen'))
 <div id="loader-wrapper">
     <div id="loader"></div>

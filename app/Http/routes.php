@@ -3,12 +3,6 @@
 Route::group(['middleware' => 'web'], function () {    
     // auth route resource
     Route::auth();
-    
-    
-        Route::get('fire', function () {
-            \Event::fire(new App\Events\Notificacao(1));
-            return "event fired";
-        });
 
     // home
     Route::get('/', 'HomeController@index');
