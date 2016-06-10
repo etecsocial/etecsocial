@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\UserRegister;
 use App\User;
 use Illuminate\Http\Request;
 use Socialize;
@@ -76,8 +75,6 @@ class SocialLoginController extends Controller
         $user_db->save();
 
         $user_db->makeAvatar($user->avatar);
-
-        event(new UserRegister($user_db));
 
         return redirect($this->redirect);
     }
