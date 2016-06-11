@@ -31,7 +31,14 @@ $factory->define(App\Desafio::class, function (Faker\Generator $faker) {
         },
         'finish' => $faker->dateTimeThisMonth,
         'reward_points' => rand(80, 1000),
-        'responsible_id' => App\User::select('id')->where('type', 2)->orderByRaw('RAND()')->first()->id,
+        'responsible_id' => function(){
+            $professor = App\User::select('id')->where('type', 2)->orderByRaw('RAND()')->first();
+            if($professor){
+              return $professor->id;
+            } else {
+              return 1;
+            }
+        },
     ];
 });
 
