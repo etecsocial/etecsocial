@@ -77,15 +77,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return User::select('type')->where('id', $id)->where('type', 2)->limit(1)->get()->first();
     }
 
-    // @TODO: refazer tudo
-    public static function turmas()
-    {
-        /*
-        $info = User::myInfoAcademica();
+    public function turma(){
+        if($this->type == 1){
+          $dados = User::where('users.id', $this->id)
+              ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+              ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
+              ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+              ->select('turmas.id as turma_id')
+              ->limit(1)
+              ->first();
 
-        return []; // #@todo: rever isso daqui
+              return $dados['turma_id'];
+        }
+    }
 
-        return Turma::where('id_escola', $info->etecs->default)->get(); */
+    public function turmas(){
         return [];
     }
 
