@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Events\UserRegister;
 use App\Http\Controllers\Controller;
 use App\User;
 use DB;
@@ -98,8 +97,6 @@ use AuthenticatesAndRegistersUsers,
         } else if ($data['type'] == 2) {
             $this->create_professor($user, $data);
         }
-
-        event(new UserRegister($user));
 
         return $user;
     }

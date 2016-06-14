@@ -28,7 +28,7 @@
                             <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text" id="num_not">{{ App\Notificacao::count() }}</span></i></a>
                         </li>
                         <li class="hide-on-med-and-down">
-                            <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-communication-forum"><span class="badge noti white-text">{{ App\Chat::count() }}</span></i></a>
+                            <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-communication-forum"><span class="badge noti white-text" id="num_chat">{{ App\Chat::count() }}</span></i></a>
                         </li>
                     </ul>
                     <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
@@ -215,7 +215,7 @@
                                     <div class="nano-content">
                                         <span class="label">Online</span>
                                         
-                                        <div class="user">
+                                        <div class="user" onclick="javascript:abrirChat(2)">
                                             <img src="images/default-user.png" alt="Felecia Castro" class="circle photo">
                                             <div class="name">Felecia Castro</div>
                                             <div class="status">Lorem status</div>
@@ -225,7 +225,7 @@
                                                
                                         <span class="label">Offline</span>
                                         
-                                        <div class="user">
+                                        <div class="user" onclick="javascript:abrirChat(1)">
                                             <img src="images/default-user.png" alt="Felecia Castro" class="circle photo">
                                             <div class="name">Felecia Castro</div>
                                             <div class="status">Lorem status</div>
@@ -240,69 +240,29 @@
                                 <!-- Top Bar with back link -->
                                 <div class="topbar">
                                     <a href="#!" class="chat-toggle" style="margin-top:12px"><i class="mdi-navigation-close"></i></a>
-                                    <a href="#!" class="chat-back"><i class="mdi-hardware-keyboard-arrow-left"></i>Voltar</a>
+                                    <a href="#!" class="chat-back" onclick="javacript:fecharChat()"><i class="mdi-hardware-keyboard-arrow-left"></i>Voltar</a>
                                 </div>
                                 <!-- /Top Bar with back link -->
                                 <!-- All messages list -->
                                 <div class="list">
                                     <div class="nano scroll-bottom">
-                                        <div class="nano-content">
-                                            <div class="date">Monday, Feb 23, 8:23 pm</div>
-                                            <div class="from-me">
-                                                Hi, Felicia.
-                                                <br>How are you?
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-them">
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-me">
-                                                Glad to see you :)
-                                                <br>This long text is intended to show how the chat will display it.
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-them">
-                                                <img src="images/default-user.png" alt="John Peter" class="circle photo">Also, we will send the longest word to show how it will fit in the chat window: <strong>Pneumonoultramicroscopicsilicovolcanoconiosis</strong>
-                                            </div>
-                                            <div class="date">Friday, Mar 10, 5:07 pm</div>
-                                            <div class="from-me">
-                                                Hi again!
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-them">
-                                                <img src="images/default-user.png" alt="John Doe" class="circle photo">Hi! Glad to see you.
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-me">
-                                                I want to add you in my Facebook.
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-me">
-                                                Can you give me your page?
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-them">
-                                                <img src="images/default-user.png" alt="John Doe" class="circle photo">I do not use Facebook. But you can follow me in Twitter.
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-me">
-                                                It's good idea!
-                                            </div>
-                                            <div class="clear"></div>
-                                            <div class="from-them">
-                                                <img src="images/default-user.png" alt="John Doe" class="circle photo">You can find me here - <a href="../../twitter.com/nkdevv.html">https://twitter.com/nkdevv</a>
-                                            </div>
+
+                                        <div class="nano-content" id="msgs" class="messages-chat">
+                                            <br>
+                                            <center><img src="images/loading.gif"></center>
                                         </div>
-                                    </div>
+                                    
+                                </div>
                                 </div>
                                 <!-- /All messages list -->
                                 <!-- Send message -->
                                 <div class="send">
                                     <form action="#!">
+                                        <input id="id-chat" type="hidden" value="">
                                         <div class="input-field">
                                             <input id="chat-message" type="text" name="chat-message">
                                         </div>
-                                        <button class="btn waves-effect z-depth-0 cyan"><i class="mdi-content-send"></i>
+                                        <button class="btn waves-effect z-depth-0 cyan" onclick="enviarMsg()"><i class="mdi-content-send"></i>
                                         </button>
                                     </form>
                                 </div>

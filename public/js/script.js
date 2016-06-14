@@ -62,6 +62,19 @@ function enviarMsg() {
     }
 }
 
+function fecharChat() {
+    $("#id-chat").val('0');
+    $("#msgs").html('<br><center><img src="images/loading.gif"></center>');
+}
+
+socket.on("channel:App\\Events\\MensagemChat", function(message){
+    if($("#id-chat").val() == message.id_rem) {
+        $('<div class="chatn clear"></div><div class="chatm from-them" data-date="' + message.data + '"><img class="circle photo" alt="John Peter" src="' + message.foto_rem + '"> ' + message.msg + ' </div>').insertAfter(".chatn:last").hide().fadeIn(1000);
+    } else {
+        $('#num_chat').text(parseInt($('#num_chat').text()) + 1);
+    }
+});
+
 //PESQUISA
 $("body").click(function() {
     $("#results-search").fadeOut(150);

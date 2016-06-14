@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Turma;
 
 class Turmas extends Seeder
 {
@@ -109,9 +110,15 @@ class Turmas extends Seeder
     public function run()
     {
         foreach ($this->turmas as $turma) {
-            if (DB::table('turmas')->where('id', $turma['id'])->get() == null) {
-                DB::table('turmas')->insert($turma);
-                echo '[ INFO ] Turma : ' . e($turma['nome']) . " adicionada. \n";
+            if(!Turma::where('id', $turma['id'])->first()){
+              $db_turma = new Turma;
+              $db_turma->nome = $turma['nome'];
+              $db_turma->sigla = $turma['sigla'];
+              $db_turma->id_escola = $turma['id_escola'];
+              if($db_turma->save()){
+                $this->command->info('Turma: ' . e($turma['nome']) . 'adicionada. ');
+              }
+
             }
         }
     }

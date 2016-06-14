@@ -7,7 +7,7 @@ var redis   = new Redis();
 var clients = {};
 
 io.sockets.on('connection', function (socket) {
-    socket.on('add-user', function (data) {
+    socket.on('add-user', function (data) {        
         clients[data.id_user] = {
             "socket" : socket.id
         };
@@ -16,6 +16,7 @@ io.sockets.on('connection', function (socket) {
     redis.on('message', function (channel, message) {
         message = JSON.parse(message);
         
+        console.log(message);
         var data = message.data.data;
         
         if (clients[data.id_user]) {
@@ -28,7 +29,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', function () {        
         for (var id_user in clients) {
             if (clients[id_user].socket === socket.id) {
-                delete clients[id_user]; break;
+                delete clients[id_user].socket; break;
             }
     }});
 });

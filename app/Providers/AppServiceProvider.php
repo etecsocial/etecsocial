@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Events\UserRegister;
+use App\User;
+use App\Grupo;
+use App\GrupoUsuario;
+use App\Turma;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +18,27 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::created(function ($user) {
+            event(new UserRegister($user));
+        });
+
+        Turma::created(function ($turma){
+          $grupo                    = new Grupo;
+          $grupo->nome              = $turma->sigla;
+          $grupo->assunto           = "Grupo da turma " . $turma->nome;
+          $grupo->url               = $grupo->makeUrl($turma->sigla);
+          $grupo->id_criador        = 1;
+          $grupo->num_participantes = 1;
+          $grupo->id_turma          = $turma->id;
+          $grupo->criacao           = \Carbon\Carbon::today();
+          $grupo->save();
+
+          $grupoUsuario           = new GrupoUsuario;
+          $grupoUsuario->id_grupo = $grupo->id;
+          $grupoUsuario->id_user  = 1;
+          $grupoUsuario->is_admin = 1;
+          $grupoUsuario->save();
+        });
     }
 
     /**

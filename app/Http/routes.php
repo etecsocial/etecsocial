@@ -57,6 +57,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/config', 'ContaController@editar');
         Route::post('/professor', 'ContaController@professor');
         Route::post('/aluno', 'ContaController@aluno');
+        
+        //CHATS
+        Route::group(['prefix' => 'chat'], function () {
+           Route::post('/enviar', 'ChatController@enviar');
+           Route::post('/abrir', 'ChatController@abrir');
+        });
 
         //AGENDA
         Route::get('/agenda', 'AgendaController@api');
