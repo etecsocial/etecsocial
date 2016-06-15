@@ -290,33 +290,6 @@
 
                                 <!--/  DETALHES DO GRUPO -->
 
-
-                                <!--TASK CARD-->
-                                <ul id="task-card" class="collection with-header">
-                                    <li class="collection-header color-pri bg-card-tasks">
-                                        <h5 class="task-card-title">Notas do professor</h5>
-
-                                        <p class="task-card-date">Tarefas, avisos ou dicas.</p>
-
-                                    </li>
-                                    <div style="max-height: 300px; overflow-y: scroll">
-                                        <li class="collection-item dismissable">
-                                            <p> Recurso em desenvolvimento.</p>
-        <!--                                    <input type="checkbox" id="todo.id" class="cyan">
-                                           <label for="todo.id">Recurso indisponível<a href="#" class="secondary-content"><span class="ultra-small">todo.date</span></a>
-                                           </label>
-                                           <span class="task-cat yellow darken-3">todo.day</span>-->
-                                        </li>
-
-                                    </div>
-                                    <!--                            <form>
-                                                                    <li class="collection-item dismissable">
-                                                                        <i class="left mdi-action-assignment"></i>Adicionar objetivo
-                                                                        <input placeholder="Seja específico" class="validate" type="text" alt="Digite o objetivo" dir="ltr" autocomplete="off" id="NovoObjetivoGrupo">
-                                                                    </li>
-                                                                </form>-->
-                                </ul>
-                                <!--END TASK CARD-->
                             @else <!--É BANIDO-->
                             <div class="card color-sec">
                                 <div class="card-content white-text">

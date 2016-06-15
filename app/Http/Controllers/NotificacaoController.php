@@ -8,8 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;
 
-use Event;
-use App\Events\Notificacao;
+//use Event;
+//use App\Events\Notificacao;
 
 class NotificacaoController extends Controller
 {
@@ -37,7 +37,7 @@ class NotificacaoController extends Controller
             'texto'   => $texto,
         ]);
         
-        Event::fire(new Notificacao($id_dest));
+        //Event::fire(new Notificacao($id_dest));
     }
 
     /**

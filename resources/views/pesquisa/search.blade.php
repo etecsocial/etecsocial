@@ -1,6 +1,6 @@
 @foreach($usuarios as $usuario)
 <a href="{{ url($usuario->username) }}" style="color: #000">
-    <li class="collection-item avatar">
+    <li class="collection-item avatar" style="margin-left:-15px">
         <img src="{{ auth()->user()->avatar($usuario->id) }}" alt="" class="circle">
         <span class="title"><strong>{{ $usuario->nome_usuario }}</strong></span>
         <p>

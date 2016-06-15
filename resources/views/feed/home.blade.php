@@ -124,7 +124,7 @@ abrirPost({{ $id }})
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col s2 l2">
+                                <div class="col s2 l2" style="margin-bottom:10px">
                                     <button type="submit" data-tooltip="Publicar" data-delay="50" data-position="botom" class="tooltipped waves-effect waves-light btn-flat red white-text"><i class="mdi-maps-rate-review"></i></button>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@ abrirPost({{ $id }})
                         <div id="modalAjuda" class="modal">
                             <div class="modal-content">
                                 <h4>Ajuda</h4>
-                                <p>Caso queira perguntar algo, adcione a Tag "ajuda". Para links, utilize a "link". </p>
+                                <p>Caso queira perguntar algo, adicione a Tag "ajuda". Para links, utilize a "link". </p>
                             </div>
                             <div class="modal-footer">
                                 <a class=" modal-action modal-close waves-effect waves-green btn-flat">Ok, entendi</a>
@@ -235,7 +235,7 @@ abrirPost({{ $id }})
                 @if(!isset($posts[0]))
                 <div data-id="0" class="post blog col s12 m6 l4" style="display:none"></div>
                 <ul class="collection with-header">
-                    <li class="collection-item center darken-4">Ainda não há publicações para serem exibidas por aqui! Publique algo ou dicione seus amigos.</li>
+                    <li class="collection-item center darken-4">Ainda não há publicações para serem exibidas por aqui! Publique algo ou adicione seus amigos.</li>
                 </ul>
                 @else @include('feed.posts') @endif
             </div>

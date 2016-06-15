@@ -28,7 +28,7 @@
                             <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text" id="num_not">{{ App\Notificacao::count() }}</span></i></a>
                         </li>
                         <li class="hide-on-med-and-down">
-                            <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-communication-forum"><span class="badge noti white-text" id="num_chat">{{ App\Chat::count() }}</span></i></a>
+                            <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-action-done-all"><span class="badge noti white-text" id="num_chat">{{ App\Chat::count() }}</span></i></a>
                         </li>
                     </ul>
                     <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
@@ -139,7 +139,7 @@
                             </li>
                             <li class="tab col s3" style="width: 25%;"><a onclick="newnoti()" id="tabNot" href="#notificacoes" class="white-text"><i style="margin-top:12px" class="mdi-social-notifications"><span data-num="{{ App\Notificacao::count() }}" id="num" class="badge noti">{{ App\Notificacao::count() }}</span></i></a>
                             </li>
-                            <li class="tab col s3" style="width: 25%;"><a id="tabChat" href="#chat" class="white-text"><i style="margin-top:12px" class="mdi-communication-forum"><span class="badge">{{ App\Chat::count() }}</span></i></a>
+                            <li class="tab col s3" style="width: 25%;"><a id="tabChat" href="#chat" class="white-text"><i style="margin-top:12px" class="mdi-action-done-all"><span class="badge">{{ App\Chat::count() }}</span></i></a>
                             </li>
                         </ul>
                         <div class="indicator" style="right: 598px; left: 0px;"></div>
@@ -209,66 +209,7 @@
                             </ul>
                         </div>
                         <div id="chat" class="col s12" style="display: block;">
-                            <!-- Contacts -->
-                            <div class="contacts" style="margin-top: 30px;">
-                                <div class="nano scroll-bottom">
-                                    <div class="nano-content">
-                                        <span class="label">Online</span>
-                                        
-                                        <div class="user" onclick="javascript:abrirChat(2)">
-                                            <img src="images/default-user.png" alt="Felecia Castro" class="circle photo">
-                                            <div class="name">Felecia Castro</div>
-                                            <div class="status">Lorem status</div>
-                                            <div class="online"><i class="green-text fa fa-circle"></i>
-                                            </div>
-                                        </div>                  
-                                               
-                                        <span class="label">Offline</span>
-                                        
-                                        <div class="user" onclick="javascript:abrirChat(1)">
-                                            <img src="images/default-user.png" alt="Felecia Castro" class="circle photo">
-                                            <div class="name">Felecia Castro</div>
-                                            <div class="status">Lorem status</div>
-                                            
-                                        </div> 
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /Contacts -->
-                            <!-- Messages -->
-                            <div class="messages">
-                                <!-- Top Bar with back link -->
-                                <div class="topbar">
-                                    <a href="#!" class="chat-toggle" style="margin-top:12px"><i class="mdi-navigation-close"></i></a>
-                                    <a href="#!" class="chat-back" onclick="javacript:fecharChat()"><i class="mdi-hardware-keyboard-arrow-left"></i>Voltar</a>
-                                </div>
-                                <!-- /Top Bar with back link -->
-                                <!-- All messages list -->
-                                <div class="list">
-                                    <div class="nano scroll-bottom">
-
-                                        <div class="nano-content" id="msgs" class="messages-chat">
-                                            <br>
-                                            <center><img src="images/loading.gif"></center>
-                                        </div>
-                                    
-                                </div>
-                                </div>
-                                <!-- /All messages list -->
-                                <!-- Send message -->
-                                <div class="send">
-                                    <form action="#!">
-                                        <input id="id-chat" type="hidden" value="">
-                                        <div class="input-field">
-                                            <input id="chat-message" type="text" name="chat-message">
-                                        </div>
-                                        <button class="btn waves-effect z-depth-0 cyan" onclick="enviarMsg()"><i class="mdi-content-send"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                                <!-- /Send message -->
-                            </div>
-                            <!-- /Messages -->
+                            
                         </div>
                     </div>
                 </div>
@@ -282,12 +223,10 @@
         <ul>
             <li class="tooltipped" data-tooltip="Meu Perfil" data-position="left" data-delay="50"><a href="{{ url(auth()->user()->username) }}" class="btn-floating blue"><i class="large mdi-social-mood"></i></a></li>
             <li class="tooltipped" data-tooltip="Novo Evento" data-position="left" data-delay="50"><a href="#novoevento" class="btn-floating green wino"><i class="large mdi-editor-insert-invitation"></i></a></li>
-            <li class="tooltipped" data-tooltip="Minhas tarefas" data-position="left" data-delay="50"><a href="{{ url('/tarefas') }}" class="btn-floating red"><i class="large mdi-action-done-all"></i></a></li>
-            <li class="tooltipped" data-tooltip="Novo desafio" data-position="left" data-delay="50"><a href="#!" onclick="javascript:Materialize.toast('<span>Recurso não disponível ainda.</span>', 3000);" class="btn-floating yellow darken-1"><i class="large mdi-social-whatshot"></i></a></li>
         </ul>
     </div>
     <section id="content">
         <div class="header-search-wrapper blue lighten-1 hide-on-large-only">
             <i class="mdi-action-search active"></i>
-            <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por alunos, grupos, prof..." />
+            <input type="text" name="Search" onkeyup="buscar(this.value)" id="search-input" class="header-search-input z-depth-2" placeholder="Procure por alunos, grupos, professor..." />
         </div>

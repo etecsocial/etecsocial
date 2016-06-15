@@ -67,13 +67,13 @@ function fecharChat() {
     $("#msgs").html('<br><center><img src="images/loading.gif"></center>');
 }
 
-socket.on("channel:App\\Events\\MensagemChat", function(message){
-    if($("#id-chat").val() == message.id_rem) {
-        $('<div class="chatn clear"></div><div class="chatm from-them" data-date="' + message.data + '"><img class="circle photo" alt="John Peter" src="' + message.foto_rem + '"> ' + message.msg + ' </div>').insertAfter(".chatn:last").hide().fadeIn(1000);
-    } else {
-        $('#num_chat').text(parseInt($('#num_chat').text()) + 1);
-    }
-});
+//socket.on("channel:App\\Events\\MensagemChat", function(message){
+    //if($("#id-chat").val() == message.id_rem) {
+        //$('<div class="chatn clear"></div><div class="chatm from-them" data-date="' + message.data + '"><img class="circle photo" alt="John Peter" src="' + message.foto_rem + '"> ' + message.msg + ' </div>').insertAfter(".chatn:last").hide().fadeIn(1000);
+    //} else {
+        //$('#num_chat').text(parseInt($('#num_chat').text()) + 1);
+    //}
+//});
 
 //PESQUISA
 $("body").click(function() {
@@ -226,9 +226,9 @@ function read() {
     return false;
 }
 
-socket.on("channel:App\\Events\\Notificacao", function(message){
-    $('#num_not').text(parseInt($('#num_not').text()) + parseInt(message.num));
-});
+//socket.on("channel:App\\Events\\Notificacao", function(message){
+    //$('#num_not').text(parseInt($('#num_not').text()) + parseInt(message.num));
+//});
 
 //TAREFA
 function checkTask(id) {

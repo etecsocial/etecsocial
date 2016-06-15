@@ -24,8 +24,9 @@ class CreateNotificacaosTable extends Migration {
                 $table->string('action', 90)->default('0');
                 $table->integer('data');
 
-                $table->foreign('id_rem')->references('id')->on('users');
-                $table->foreign('id_dest')->references('id')->on('users');
+                //$table->foreign('id_rem')->references('id')->on('users');
+                //$table->foreign('id_dest')->references('id')->on('users');
+                // Foreign não deixa repetir tais dados!
 
                 $table->timestamps();
             });

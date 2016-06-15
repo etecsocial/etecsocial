@@ -196,8 +196,7 @@ function newpost() {
     var post_id = $(".post:first").data("id");
     $.post("/ajax/newpost", {id: post_id}, function (data) {
         $(data).insertBefore(".post:first").hide().fadeIn(2000);
-    });
-    
+    }); 
 }
 ///////////////////////////////////////////////////////////////////////////////
 

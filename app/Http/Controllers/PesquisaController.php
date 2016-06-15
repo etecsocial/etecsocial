@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Grupo;
 use App\GrupoUsuario;
 use App\Http\Controllers\Controller;
 use App\Post;

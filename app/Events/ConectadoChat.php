@@ -12,7 +12,7 @@ class ConectadoChat extends Event implements ShouldBroadcast
 
     public $data;
 
-    public function __construct($id_user)
+    public function __construct()
     {
         
     }

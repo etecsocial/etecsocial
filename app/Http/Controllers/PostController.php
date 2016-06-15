@@ -7,7 +7,6 @@ use App\Mensagens;
 use App\Pontuacao;
 use App\Post;
 use App\Tag;
-use App\User;
 use DB;
 use Illuminate\Http\Request;
 use Input;
