@@ -186,7 +186,6 @@ $('#get-users-recents').click(function () {
             } else {
                 $('#email-list').html(data.responseText);
                 $('#title-msg-list').html('Mensagens recentes');
-                $('.tooltipped').tooltip();
                 $('.icon-nav-list').removeClass('active');
                 $('.get-users-recents').addClass('active');
                 //  $('#email-details').scrollTop();
@@ -211,7 +210,6 @@ $('#get-users-archives').click(function () {
             } else {
                 $('#email-list').html(data.responseText);
                 $('#title-msg-list').html('Mensagens Arquivadas');
-                $('.tooltipped').tooltip();
                 $('.icon-nav-list').removeClass('active');
                 $('.get-users-archives').addClass('active');
                 //  $('#email-details').scrollTop();
@@ -243,7 +241,6 @@ $('#get-users-friends').click(function () {
             } else {
                 $('#email-list').html(data.responseText);
                 $('#title-msg-list').html('Todos os contatos');
-                $('.tooltipped').tooltip();
                 $('.icon-nav-list').removeClass('active');
                 $('.get-users-friends').addClass('active');
                 //  $('#email-details').scrollTop();
@@ -267,7 +264,6 @@ $('#get-users-unread').click(function () {
             } else {
                 $('#email-list').html(data.responseText);
                 $('#title-msg-list').html('Mensagens não lidas');
-                $('.tooltipped').tooltip();
                 $('.icon-nav-list').removeClass('active');
                 $('.get-users-unread').addClass('active');
                 //  $('#email-details').scrollTop();
