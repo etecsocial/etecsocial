@@ -29,7 +29,6 @@ Mensagens | ETEC Social
 
 @section('content')
 
-@include('nav')
 
 <!-- //////////////////////////////////////////////////////////////////////////// -->
 <!-- START CONTENT -->
@@ -69,7 +68,7 @@ Mensagens | ETEC Social
                     </nav>
                 </div>
                 <div class="col s12">
-                    <div id="email-sidebar" class="col s2 m1 s1 card-panel" style="height: 200px !important">
+                    <div id="email-sidebar" class="col s2 m1 s1 card-panel" style="height: 400px !important">
                         <ul>
                             <li>
                                 <img src="{{$myAvatar}}" alt="" class="circle responsive-img valign profile-image">
@@ -78,6 +77,7 @@ Mensagens | ETEC Social
                             <li id="get-users-unread"><a><i class="get-users-unread icon-nav-list mdi-content-markunread tooltipped" data-tooltip='Não lidas' data-position='right'></i></a></li>
                             <li id="get-users-friends"><a><i class="get-users-friends icon-nav-list mdi-communication-contacts tooltipped" data-tooltip='Amigos' data-position='right'></i></a></li>
                             <li id="get-users-archives"><a><i class="get-users-archives icon-nav-list mdi-content-archive tooltipped" data-tooltip='Arquivadas' data-position='right'></i></a></li>
+                            <li id="get-users-help" onclick="Materialize.toast('<span>Este recurso ainda está em desenvolvimento!</span>', 3000);"><a><i class="get-users-help icon-nav-list mdi-communication-live-help tooltipped" data-tooltip='Central de ajuda' data-position='right'></i></a></li>
                         </ul>
                     </div>
                     <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
@@ -184,3 +184,5 @@ Mensagens | ETEC Social
 </section>
 <!-- END CONTENT --> 
 @stop
+@include('nav')
+
