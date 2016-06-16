@@ -69,9 +69,9 @@ abrirPost({{ $id }})
                         @if(isset($tasks[0])) @foreach($tasks as $task)
                         <li class="tarefa collection-item dismissable" data-idtask="{{ $task->id }}" data-date="{{ $task->data }}">
                             @if($task->checked)
-                            <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')"> @else
-                            <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')"> @endif
-                            <label for="{{ $task->id }}" class="truncate">{{ $task->desc }}
+                            <input type="checkbox" id="{{ $task->id }}-tab" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')"> @else
+                            <input type="checkbox" id="{{ $task->id }}-tab" onclick="javascript:checkTask('{{ $task->id }}')"> @endif
+                            <label for="{{ $task->id }}-tab" class="truncate">{{ $task->desc }}
                                 <a class="secondary-content">
                                     <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span>
                                 </a>
@@ -176,7 +176,7 @@ abrirPost({{ $id }})
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">Atualizar Status <i class="mdi-navigation-close right"></i></span>
-                        <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ $thisUser->nome }}?</p>
+                        <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ $thisUser->name }}?</p>
                         <div class="input-field col s12 accent-4">
                             <form method="POST" action="{{ url('ajax/status') }}" id="status">
                                 <input id="status" name="status" type="text" class="validate" style="color:black">

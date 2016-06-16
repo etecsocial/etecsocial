@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ComentarioDiscussao;
 use App\Http\Controllers\Controller;
-use App\User;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;

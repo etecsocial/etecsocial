@@ -116,14 +116,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public static function create_username($name) {
-        $username = str_replace(' ', '', $name);
+        $username = strtolower(strtr(str_replace(' ', '', $name), 
+                "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC"));
+        
         $cont = 1;
         if (User::where('username', $username)->select('id')->first()) {
-            $nova = $username . $cont;
+            $nova = $username . '.' . $cont;
             while (User::where('username', $nova)->select('id')->first()) {
                 $cont++;
-                $nova = $username . $cont;
+                $nova = $username . '.' . $cont;
             }
-        }return isset($nova) ? $nova : $username;
+        } return isset($nova) ? $nova : $username;
     }
 }

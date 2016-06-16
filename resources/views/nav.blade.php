@@ -230,7 +230,7 @@
                                 
                             </ul>
                         </div>
-                        <a class="btn-flat waves-effect blue accent-2 white-text"><i class="mdi-editor-mode-edit right"></i>Editar tarefas</a>
+                        <a class="btn-flat waves-effect blue accent-2 white-text"><i class="mdi-editor-mode-edit right"></i>Adicionar tarefa</a>
 
                     </div>
                     
