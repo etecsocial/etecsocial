@@ -14,6 +14,10 @@ Ranking | ETEC Social
 {!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
 {!! Html::script('js/materialize.js') !!}
 {!! Html::script('js/form.min.js') !!}
+{!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
+{!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}
+{!! Html::script('js/plugins/sparkline/sparkline-script.js') !!}
+{!! Html::script('js/plugins/succinct-master/jQuery.succinct.min.js') !!}
 
 {!! Html::script('js/script.js') !!}
 {!! Html::script('js/plugins.js') !!}

@@ -16,7 +16,6 @@ Mensagens | ETEC Social
 {!! Html::script('js/jquery-1.11.2.min.js') !!}
 {!! Html::script('js/plugins/lightbox-plus-jquery.min.js') !!}
 {!! Html::script('js/materialize.js') !!}
-{!! Html::script('js/firebase.js') !!}
 {!! Html::script('js/form.min.js') !!}
 {!! Html::script('js/plugins/jquery.nanoscroller.min.js') !!}
 {!! Html::script('js/plugins/sparkline/jquery.sparkline.min.js') !!}

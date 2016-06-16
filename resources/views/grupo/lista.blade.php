@@ -14,6 +14,10 @@ Grupos | ETEC Social
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js',
                         '/js/plugins/lightbox-plus-jquery.min.js',
                         '/materialize-css/js/materialize.min.js',
+                                                '/js/plugins/jquery.nanoscroller.min.js',
+                        '/js/plugins/sparkline/jquery.sparkline.min.js',
+                        '/js/plugins/sparkline/sparkline-script.js',
+                        '/js/plugins/succinct-master/jQuery.succinct.min.js',
                         '/js/form.min.js',
                         '/js/script.js',
                         '/js/plugins.js']) !!}

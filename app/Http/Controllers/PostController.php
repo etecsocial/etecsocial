@@ -48,7 +48,9 @@ class PostController extends Controller
         } else {
             $this->addIcon($tags, $post);
         }
+        
         Pontuacao::pontuar(10, 'novo post');
+        
         return Response::json(["id" => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
     }
 

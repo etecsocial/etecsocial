@@ -16,7 +16,7 @@ class CreateNotificacaosTable extends Migration {
                 $table->integer('id', false, true);
                 $table->integer('id_rem')->unsigned();
                 $table->integer('id_dest')->unsigned();
-                $table->primary(['id', 'id_dest']);
+                //$table->primary(['id', 'id_dest']);
 
                 $table->string('texto', 60);
                 $table->boolean('is_post')->default(0);

@@ -22,13 +22,13 @@
                     <a id="logo-container" href="{{ url('/') }}" class="brand-logo"><img src="{{ url('images/logo-b.png') }}"></a>
                     <ul class="right icons-side">
                         <li class="hide-on-med-and-down">
-                            <a href="#tarefas" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>
+                            <a href="#chat" id="tasks" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-people"><span class="badge amc white-text">{{ App\Amizade::count() }}</span></i></a>
                         </li>
                         <li>
                             <a href="#notificacoes" onclick="newnoti()" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-social-notifications"><span class="badge noti white-text" id="num_not">{{ App\Notificacao::count() }}</span></i></a>
                         </li>
                         <li class="hide-on-med-and-down">
-                            <a href="#chat" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-action-done-all"><span class="badge noti white-text" id="num_chat">{{ App\Chat::count() }}</span></i></a>
+                            <a href="#tarefas" class="waves-effect waves-block waves-light chat-toggle"><i class="mdi-action-done-all"><span class="badge noti white-text" id="num_chat">{{ App\Chat::count() }}</span></i></a>
                         </li>
                     </ul>
                     <div class="header-search-wrapper hide-on-med-and-down" style="margin-top:10px">
@@ -73,15 +73,9 @@
                         </div>
                     </div>
                 </li>
-                <li class="bold active"><a href="{{ url('/') }}" class="waves-effect waves-cyan"><i class="mdi-action-dashboard color-sec-darken-text"></i> Página Inicial</a>
+                <li class="bold {!! active_class_path(['/']) !!}"><a href="{{ url('/') }}" class="waves-effect waves-cyan"><i class="mdi-action-dashboard color-sec-darken-text"></i> Página Inicial</a>
                 </li>
-                <li class="bold">
-                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
-                        @if($msgsUnread)
-                        <span class="new badge">{{ $msgsUnread }}</span>
-                        @endif
-                    </a>
-                </li>
+                
                 <li class="bold">
                     @if(isset($grupos[0]))
                     <a class="waves-effect waves-cyan collapsible-header">
@@ -101,16 +95,18 @@
                     </a>
                     @endif
                 </li>
-                <li>
-                    <div class="divider"></div>
+                <li class="bold {!! active_class_path(['mensagens']) !!}">
+                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
+                        @if($msgsUnread)
+                        <span class="new badge">{{ $msgsUnread }}</span>
+                        @endif
+                    </a>
                 </li>
-                <li class="bold"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda</a>
-                    <li class="bold"><a href="{{ url('/tarefas') }}" class="waves-effect waves-cyan"><i class="mdi-content-content-paste color-sec-darken-text"></i> Tarefas</a>
-                    </li>
+                <li class="bold {!! active_class_path(['agenda']) !!}"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda</a>
                     <li>
                         <div class="divider"></div>
                     </li>
-                    <li class="bold"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-social-whatshot color-sec-darken-text"></i> Desafios </a></li>
+                    <li class="bold {!! active_class_path(['desafios']) !!}"><a href="{{ url('/desafios') }}" class="waves-effect waves-cyan"><i class="mdi-social-whatshot color-sec-darken-text"></i> Desafios </a></li>
                     <li class="bold"><a class="waves-effect waves-cyan collapsible-header"><i class="mdi-action-trending-up color-sec-darken-text"></i> Ranking</a>
                         <div class="collapsible-body">
                             <ul>
@@ -127,6 +123,7 @@
                         </div>
                     </li>
             </ul>
+             </div>
             <a href="#" data-activates="slide-out" style="z-index:1000" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only red darken-3"><i class="mdi-navigation-menu"></i></a>
         </aside>
         <div class="chat">
@@ -135,11 +132,11 @@
                 <div class="row">
                     <div class="col s12">
                         <ul class="tabs transparent" style="width: 100%;">
-                            <li class="tab col s3" style="width: 25%;"><a id="tabTasks" class="white-text" href="#tarefas"><i style="margin-top:12px" class="mdi-social-people"><span class="badge amc">{{ App\Amizade::count() }}</span></i></a>
+                            <li class="tab col s3" style="width: 25%;"><a id="tabTasks" class="white-text" href="#chat"><i style="margin-top:12px" class="mdi-social-people"><span class="badge amc">{{ App\Amizade::count() }}</span></i></a>
                             </li>
                             <li class="tab col s3" style="width: 25%;"><a onclick="newnoti()" id="tabNot" href="#notificacoes" class="white-text"><i style="margin-top:12px" class="mdi-social-notifications"><span data-num="{{ App\Notificacao::count() }}" id="num" class="badge noti">{{ App\Notificacao::count() }}</span></i></a>
                             </li>
-                            <li class="tab col s3" style="width: 25%;"><a id="tabChat" href="#chat" class="white-text"><i style="margin-top:12px" class="mdi-action-done-all"><span class="badge">{{ App\Chat::count() }}</span></i></a>
+                            <li class="tab col s3" style="width: 25%;"><a id="tabChat" href="#tarefas" class="white-text"><i style="margin-top:12px" class="mdi-action-done-all"><span class="badge">{{ App\Chat::count() }}</span></i></a>
                             </li>
                         </ul>
                         <div class="indicator" style="right: 598px; left: 0px;"></div>
@@ -147,7 +144,7 @@
                         <div class="indicator" style="right: 598px; left: 0px;"></div>
                     </div>
                     <div class="col s12 m12 14 transparent white-text">
-                        <div id="tarefas" class="col s12 white-text" style="display: block;">
+                        <div id="chat" class="col s12 white-text" style="display: block;">
                             <p>Solicitações de Amizade</p>
                             <ul class="collection transparent" id="solic">
                                 @if(!App\Amizade::carrega())
@@ -208,10 +205,35 @@
                                 @endif @endforeach @endif
                             </ul>
                         </div>
-                        <div id="chat" class="col s12" style="display: block;">
+                        
+                    <div id="tarefas" class="col s12 white-text" style="display: block;">
+                        <p>Suas tarefas</p>
+                        <div class="col s12 m12 transparent white-text">
+                            <ul id="task-card" class="collection white-text" style="margin-left: -10px">
+
+                                
+                                 @foreach(\App\Tarefa::carrega() as $task)
+                            <li class="tarefa collection-item dismissable none-bg" data-id="{{ $task->id }}" data-date="{{ $task->data }}">
+                                @if($task->checked)
+                                <input type="checkbox" id="{{ $task->id }}" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')"> @else
+                                <input type="checkbox" id="{{ $task->id }}" onclick="javascript:checkTask('{{ $task->id }}')"> @endif
+                                <label for="{{ $task->id }}" class="white-text">{{ $task->desc }}<a class="secondary-content"><span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp($task->data)->diffForHumans()  }}</span></a>
+                                </label>
+                                @if($task->data > time() + 3*24*60*60)
+                                <span class="task-cat green darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @elseif($task->data > time())
+                                <span class="task-cat yellow darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @else
+                                <span class="task-cat red darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
+                            </li>
+                            @endforeach
                             
+                             
+                                
+                            </ul>
                         </div>
+                        <a class="btn-flat waves-effect blue accent-2 white-text"><i class="mdi-editor-mode-edit right"></i>Editar tarefas</a>
+
                     </div>
+                    
                 </div>
             </div>
         </div>

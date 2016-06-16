@@ -21,6 +21,10 @@
                         '/js/plugins/fullcalendar/lib/moment.min.js',
                         '/js/plugins/fullcalendar/js/fullcalendar.min.js',
                         '/js/plugins/fullcalendar/fullcalendar-script.js',
+                        '/js/plugins/jquery.nanoscroller.min.js',
+                        '/js/plugins/sparkline/jquery.sparkline.min.js',
+                        '/js/plugins/sparkline/sparkline-script.js',
+                        '/js/plugins/succinct-master/jQuery.succinct.min.js',
                         '/js/script.js',
                         '/js/plugins.js',
                         '/js/script-grupo.js']) !!}

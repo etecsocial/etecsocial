@@ -15,10 +15,12 @@
 '/materialize-css/js/materialize.min.js',
 '/js/form.min.js',
 
+
 '/js/plugins/jquery.nanoscroller.min.js',
 '/js/plugins/sparkline/jquery.sparkline.min.js',
 '/js/plugins/sparkline/sparkline-script.js',
 '/js/plugins/succinct-master/jQuery.succinct.min.js',
+
 
 '/js/plugins/fullcalendar/lib/jquery-ui.custom.min.js',
 '/js/plugins/fullcalendar/lib/moment.min.js',
@@ -54,7 +56,7 @@ $("#verpost").openModal();
 abrirPost({{ $id }})
 </script>
 @endif @stop @section('content') @include('nav')
-<section id="content">
+
     <div class="container" style="margin-top:20px">
         <div id="chart-dashboard">
             <div class="row">
@@ -259,10 +261,16 @@ abrirPost({{ $id }})
                 </div>
             </div>
             <div class="col s12 m4 center"> </div>
-        </div>
+         </div>
     </div>
-    </div>
-</section>
+    </section>
+</div>
+
+   
+    
+
+    
+    
 <div id="modalExcluir" class="modal">
     <form id="excluir" method="DELETE">
         <div class="modal-content">
