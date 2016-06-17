@@ -19,7 +19,6 @@ class CreateComunicadosCoordTable extends Migration {
                 $table->integer('id_etec')->unsigned();
                 $table->foreign('id_etec')->references('id')->on('escolas');
                 $table->text('comunicado', 1000);
-                $table->integer('id_pergunta')->nullable();
                 $table->timestamps();
             });
         }

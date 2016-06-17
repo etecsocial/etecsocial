@@ -68,7 +68,7 @@
                             </ul>
                             <a class="btn-flat dropdown-button waves-effect white-text profile-btn" href="#" data-activates="profile-dropdown">{{auth()->user()->name }}<i class="mdi-navigation-arrow-drop-down right"></i></a>
                             <p class="user-roal">
-                                @if(auth()->user()->type == 1) Aluno @elseif(auth()->user()->type == 2) Professor @else Moderador @endif
+                                @if(auth()->user()->type == 1) Aluno @elseif(auth()->user()->type == 2) Professor @else Coordenador @endif
                             </p>
                         </div>
                     </div>

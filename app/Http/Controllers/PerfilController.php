@@ -109,9 +109,7 @@ class PerfilController extends Controller
                 'nome'     => isset($request->nome) ? $request->nome : $u->nome,
             ]);
         } else {
-            //NÃO É USUÁRIO / NÃO LOGADO / HACK / HAUHAUA / JÁ CHEGA
-            //Neste caso, sugiro a divisão da tabela users em dois, aluno e professor, pois mais a frente
-            //será necessário uma maior manipulação de dados e diferentes relações para funções diferentes para cada tipo de usuario
+           //algum erro aqui, qualquer instrução se torna inacessível nesta seção.
         }
     }
 

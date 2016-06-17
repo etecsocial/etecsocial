@@ -44,11 +44,11 @@ class UserRegisterListener
         }
 
         // envia o email de confirmação
-        $data = ['name' => $event->user->name, 'email' => $event->user->email, 'confirmation_code' => $event->user->confirmation_code];
-        Mail::send('emails.verifica', $data, function ($message) use ($data) {
-            $message->from('contato@etecsocial.com.br', 'ETEC Social');
-            $message->subject('Confirmação do ETEC Social');
-            $message->to($data['email']);
-        });
+//        $data = ['name' => $event->user->name, 'email' => $event->user->email, 'confirmation_code' => $event->user->confirmation_code];
+//        Mail::send('emails.verifica', $data, function ($message) use ($data) {
+//            $message->from('contato@etecsocial.com.br', 'ETEC Social');
+//            $message->subject('Confirmação do ETEC Social');
+//            $message->to($data['email']);
+//        });
     }
 }

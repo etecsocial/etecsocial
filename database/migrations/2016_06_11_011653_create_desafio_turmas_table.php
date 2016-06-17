@@ -10,15 +10,12 @@ class CreateDesafioTurmasTable extends Migration
      *
      * @return void
      */
-    public function up()
+   public function up()
     {
-        Schema::create('desafio_turmas', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('desafio_id')->unsigned();
-            $table->integer('turma_id')->unsigned();
-            $table->foreign('desafio_id')->references('id')->on('desafios');
-            $table->foreign('turma_id')->references('id')->on('turmas');
-            $table->timestamps();
+        Schema::table('escolas', function ($table) {
+            if (!Schema::hasColumn('escolas', 'cod_coord')) {
+                $table->integer('cod_coord')->nullable();
+            }
         });
     }
 
@@ -29,6 +26,10 @@ class CreateDesafioTurmasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('desafio_turmas');
+        Schema::table('escolas', function ($table) {
+            if (Schema::hasColumn('escolas', 'cod_coord')) {
+                $table->dropColumn('cod_coord');
+            }
+        });
     }
 }

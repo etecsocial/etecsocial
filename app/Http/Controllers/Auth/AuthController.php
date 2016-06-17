@@ -47,25 +47,46 @@ use AuthenticatesAndRegistersUsers,
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data) {
-        if ($data['type'] == 1) {
-            // aluno
-            $validator = [
-                'name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|min:6|confirmed',
-                'id_escola' => 'required|exists:escolas,id|integer',
-                'id_turma' => 'required|exists:turmas,id|integer',
-            ];
-        } else if ($data['type'] == 2) {
-            // professor
-            $validator = [
-                'name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|min:6|confirmed',
-                'cod_prof' => 'required|exists:escolas,cod_prof|integer', // @TODO: melhorar isso daqui
-                'id_escola' => 'required|exists:escolas,id|integer',
-            ];
+
+
+        switch ($data['type']) {
+            case 1: //ALUNO
+                $validator = [
+                    'name' => 'required|max:255',
+                    'email' => 'required|email|max:255|unique:users',
+                    'password' => 'required|min:6|confirmed',
+                    'id_escola' => 'required|exists:escolas,id|integer',
+                    'id_turma' => 'required|exists:turmas,id|integer'
+                ];
+                break;
+            case 2: //PROFESSOR
+                //if ($this->hasCoord($data['id_escola'])) {// VERIFICA SE HÁ COORDENADOR NA ESCOLA
+                    $validator = [
+                        'name' => 'required|max:255',
+                        'email' => 'required|email|max:255|unique:users',
+                        'password' => 'required|min:6|confirmed',
+                        'id_escola' => 'required|exists:escolas,id|integer',
+                        'cod_prof' => 'required|exists:escolas,cod_prof,id,'.$data['id_escola'] 
+                    ];
+//                } else {
+//                    //Não pode ser cadastrado! Não há coordenador cadastrado!
+//                    return false;
+//                }
+                break;
+            case 3: //COORDENADOR
+                $validator = [
+                    'name' => 'required|max:255',
+                    'email' => 'required|email|max:255|unique:users',
+                    'password' => 'required|min:6|confirmed',
+                    'id_escola' => 'required|exists:escolas,id|integer',
+                    'cod_coord' => 'required|exists:escolas,cod_coord,id,'.$data['id_escola'] 
+                ];
+                break;
+
+            default:
+                break;
         }
+
         return Validator::make($data, $validator);
     }
 
@@ -76,7 +97,7 @@ use AuthenticatesAndRegistersUsers,
      * @return User
      */
     protected function create(array $data) {
-        if ($data['type'] == 2) {
+        if ($data['type'] > 1) {
             $first_login = 3;
         } else {
             $first_login = 0;
@@ -86,18 +107,13 @@ use AuthenticatesAndRegistersUsers,
                     'name' => $data['name'],
                     'username' => User::create_username($data['name']),
                     'email' => $data['email'],
-                    'type' => $data['type'],
+                    'type' => isset($this->is_coord) ? 3 : $data['type'],
                     'password' => bcrypt($data['password']),
                     'first_login' => $first_login,
                     'confirmation_code' => str_random(30),
         ]);
 
-        if ($data['type'] == 1) {
-            $this->create_aluno($user, $data);
-        } else if ($data['type'] == 2) {
-            $this->create_professor($user, $data);
-        }
-
+        $data['type'] == 1 ? $this->create_aluno($user, $data) : false;
         return $user;
     }
 
@@ -119,6 +135,14 @@ use AuthenticatesAndRegistersUsers,
 
     public function showLoginForm() {
         return redirect('/#login');
+    }
+
+    public function hasCoord($id) {
+        return DB::table('users')
+                        ->join('professores_info', 'users.id', '=', 'professores_info.user_id')
+                        ->select('users.id')
+                        ->where('users.type', 3)
+                        ->where('professores_info.id_escola', $id)->first();
     }
 
 }

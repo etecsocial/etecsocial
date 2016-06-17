@@ -163,7 +163,7 @@
             <h4>Continue seu Cadastro</h4> 
 
             @if(auth()->user()->first_login == 1)
-            <p>Você realizou seu cadastro pelo facebook, você ainda precisa terminar seu cadastro</p>
+            <p>Você realizou seu cadastro pelo facebook, faltam apenas algumas informações.</p>
             <form action="{{ url('ajax/aluno') }}" method="post" id="aluno">
                 <div class="input-field col s6 m6 l6">
                     <select name="id_escola" id="id_escola" onchange="turmas()" required>
@@ -204,6 +204,21 @@
                 <button type="submit" class="btn btn-primary">TERMINAR</button>
             </form>            
             @endif
+            
+            @if(auth()->user()->first_login == 4)
+            <p>Coordenador, insira as turmas existentes em sua escola</p>
+            <form id="coordenador" action="{{ url('ajax/coordenador') }}" method="post" >
+                <div class="input-field col s6 m6 l6">
+                    <label>Sigla</label>
+                </div>
+                <div class="input-field col s6 m6 l6">
+                    <label>Nome</label>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="mdi-navigation-check left"></i> Adicionar</button>
+                <button type="submit" class="btn btn-primary" name="finalizar" value="1"><i class="mdi-navigation-check left"></i> Concluir</button>
+            </form>            
+            @endif
+            
         </div>
     </div>
 </div>
