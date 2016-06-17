@@ -97,11 +97,6 @@ use AuthenticatesAndRegistersUsers,
      * @return User
      */
     protected function create(array $data) {
-        if ($data['type'] > 1) {
-            $first_login = 3;
-        } else {
-            $first_login = 0;
-        }
 
         $user = User::create([
                     'name' => $data['name'],
@@ -109,7 +104,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => $data['email'],
                     'type' => isset($this->is_coord) ? 3 : $data['type'],
                     'password' => bcrypt($data['password']),
-                    'first_login' => $first_login,
+                    'first_login' => $data['type'],
                     'confirmation_code' => str_random(30),
         ]);
 

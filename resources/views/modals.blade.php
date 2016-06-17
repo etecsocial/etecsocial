@@ -183,7 +183,7 @@
             </form>
             @endif 
             
-            @if(auth()->user()->first_login == 3)
+            @if(auth()->user()->first_login == 2)
             <p>Professor selecione a escola e turmas que você leciona:</p>
             <form id="professor" action="{{ url('ajax/professor') }}" method="post" >
                 <div class="input-field col s6 m6 l6">
@@ -205,7 +205,7 @@
             </form>            
             @endif
             
-            @if(auth()->user()->first_login == 4)
+            @if(auth()->user()->first_login == 3)
             <p>Coordenador, insira as turmas existentes em sua escola</p>
             <form id="coordenador" action="{{ url('ajax/coordenador') }}" method="post" >
                 <div class="input-field col s6 m6 l6">
