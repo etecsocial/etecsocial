@@ -15,23 +15,23 @@ $fields = ['name' => 'Nome Completo', 'email' => 'Email',
      </span> @endif
         </div>
         @endforeach
-        <div class="input-field col s12 m6 l6">
+        <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua escola não esteja listada, talvez nenhum coordenador tenha se cadastrado ainda.">
             <select name="id_escola" id="id_escola" onchange="turmas()" required>
-                <option disabled>Selecione sua ETEC</option>
+                <option disabled selected="selected">Selecione sua ETEC</option>
                 @foreach($escolas as $escola)
                 <option value="{{ $escola->id }}" @if(old('id_escola')==$escola->id ) selected @endif>{{ $escola->nome }}</option>
                 @endforeach
             </select>
             <label>Escola</label>
         </div>
-        <div class="input-field col s12 m6 l6">
+        <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
             <select name="id_turma" id="loadturmas" required>
                 <option disabled selected>Selecione sua ETEC primeiro</option>
             </select>
             <label>Turma</label>
         </div>
         <div class="input-field col s12">
-            <button type="submit" class="waves-effect waves-light btn-large red darken-1">Cadastrar</button>
+            <button type="submit" class="waves-effect waves-light btn-large blue darken-1">Cadastrar</button>
         </div>
     </form>
 </div>

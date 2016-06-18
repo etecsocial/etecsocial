@@ -184,8 +184,8 @@
             @endif 
             
             @if(auth()->user()->first_login == 2)
-            <p>Professor selecione a escola e turmas que você leciona:</p>
-            <form id="professor" action="{{ url('ajax/professor') }}" method="post" >
+            <p>Professor, selecione a escola e turmas que você leciona:</p>
+            <form id="professor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get" >
                 <div class="input-field col s6 m6 l6">
                     <select name="id_escola" id="id_escola" onchange="turmas()" required>
                         <option disabled selected>Selecione sua ETEC</option>

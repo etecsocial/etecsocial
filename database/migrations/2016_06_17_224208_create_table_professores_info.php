@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProfessoresInfoTable extends Migration
+class CreateTableProfessoresInfo extends Migration
 {
     /**
      * Run the migrations.
@@ -14,6 +14,7 @@ class CreateProfessoresInfoTable extends Migration
     {
         if (!Schema::hasTable('professores_info')) {
             Schema::create('professores_info', function(Blueprint $table) {
+                $table->increments('id');
                 $table->integer('user_id')->unsigned();
                 $table->foreign('user_id')->references('id')->on('users');
 
@@ -22,6 +23,8 @@ class CreateProfessoresInfoTable extends Migration
                 
                 $table->integer('id_escola')->unsigned();
                 $table->foreign('id_escola')->references('id')->on('escolas');
+                
+                $table->timestamps();
             });
         }
     }

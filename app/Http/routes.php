@@ -12,6 +12,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => '/ajax/cadastro'], function () {
         Route::get('/escolas', 'ContaController@consultarEscola');
         Route::get('/turmas', 'ContaController@consultarTurma');
+        Route::get('/setTurmasProfessor', 'ContaController@setTurmasProfessor');
     });
 
     // social login

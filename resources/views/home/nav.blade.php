@@ -58,8 +58,6 @@
             });
         }
     }
-
-
 </script>
 @stop
 <nav class="red darken-1" role="navigation">
@@ -145,9 +143,9 @@
 <div id="register" class="modal">
     <div class="modal-content center">
         <div class="row margin">
-            <a class="waves-effect waves-light btn-large red darken-1" id="register-aluno"><i class="material-icons left">person_pin</i>Aluno</a>
-            <a class="waves-effect waves-light btn-large blue darken-1" id="register-professor"><i class="material-icons left">work</i>Professor</a>              
-            <a class="waves-effect waves-light btn-large blue darken-1" id="register-coordenador"><i class="material-icons left">work</i>Coordenador</a>              
+            <a class="waves-effect waves-light btn-large blue darken-1" id="register-aluno"><i class="material-icons left">person_pin</i>Aluno</a>
+            <a class="waves-effect waves-light btn-large teal darken-1" id="register-professor"><i class="material-icons left">work</i>Professor</a>              
+            <a class="waves-effect waves-light btn-large red darken-1" id="register-coordenador"><i class="material-icons left">work</i>Coordenador</a>              
         </div>
         <div class="col s12 center">
             <div class="row">

@@ -8,6 +8,8 @@ use DB;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
+use App\ProfessoresInfo;
+use App\AlunosInfo;
 
 class AuthController extends Controller {
     /*
@@ -60,18 +62,13 @@ use AuthenticatesAndRegistersUsers,
                 ];
                 break;
             case 2: //PROFESSOR
-                //if ($this->hasCoord($data['id_escola'])) {// VERIFICA SE HÁ COORDENADOR NA ESCOLA
                     $validator = [
                         'name' => 'required|max:255',
                         'email' => 'required|email|max:255|unique:users',
                         'password' => 'required|min:6|confirmed',
                         'id_escola' => 'required|exists:escolas,id|integer',
-                        'cod_prof' => 'required|exists:escolas,cod_prof,id,'.$data['id_escola'] 
+                        'cod_prof' => 'required|exists:escolas,cod_prof,id,' . $data['id_escola']
                     ];
-//                } else {
-//                    //Não pode ser cadastrado! Não há coordenador cadastrado!
-//                    return false;
-//                }
                 break;
             case 3: //COORDENADOR
                 $validator = [
@@ -79,7 +76,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|max:255|unique:users',
                     'password' => 'required|min:6|confirmed',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'cod_coord' => 'required|exists:escolas,cod_coord,id,'.$data['id_escola'] 
+                    'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['id_escola']
                 ];
                 break;
 
@@ -108,13 +105,20 @@ use AuthenticatesAndRegistersUsers,
                     'confirmation_code' => str_random(30),
         ]);
 
-        $data['type'] == 1 ? $this->create_aluno($user, $data) : false;
+        $data['type'] == 1 ? $this->create_aluno($user, $data) : $this->create_prof($user, $data);
+;
         return $user;
     }
 
     protected function create_aluno($user, $data) {
-        DB::table('alunos_info')->insert(['user_id' => $user->id,
+        AlunosInfo::create(['user_id' => $user->id,
             'id_turma' => $data['id_turma'],
+            'id_escola' => $data['id_escola']]);
+    }
+    
+    protected function create_prof($user, $data) {
+        ProfessoresInfo::create([
+            'user_id' => $user->id,
             'id_escola' => $data['id_escola']]);
     }
 
