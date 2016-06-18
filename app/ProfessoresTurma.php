@@ -4,13 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AlunosInfo extends Model {
+class ProfessoresTurma extends Model {
 
-    protected $table = 'alunos_info';
+    protected $table = 'professores_turma';
     protected $fillable = [
         'user_id',
         'id_turma',
         'id_escola',
+        'modulo'
     ];
 
 }

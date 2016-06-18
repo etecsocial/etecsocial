@@ -13,7 +13,7 @@ use Image;
 use Input;
 use Response;
 use App\Notificacao;
-use App\ProfessoresInfo;
+use App\ProfessoresTurma;
 
 class ContaController extends Controller {
 
@@ -27,8 +27,8 @@ class ContaController extends Controller {
     }
 
     public function hasCoord(Request $request) {
-                return ProfessoresInfo::where('id_escola', $request->escola)
-                        ->join('users', 'professores_info.user_id', '=', 'users.id')
+        return ProfessoresTurma::where('id_escola', $request->escola)
+                        ->join('users', 'professores_turma.user_id', '=', 'users.id')
                         ->select('users.id')
                         ->where('type', '=', 3)
                         ->get();
@@ -97,10 +97,12 @@ class ContaController extends Controller {
 
     public function setTurmasProfessor(Request $request) {
         foreach ($request->turmas as $turma) {
-            ProfessoresInfo::create([
+            ProfessoresTurma::create([
                 'user_id' => auth()->user()->id,
                 'id_turma' => $turma,
-                'id_escola' => $request->id_escola]);
+                'id_escola' => $request->id_escola,
+                'modulo' => $request->id_escola
+            ]);
         }
 
         auth()->user()->first_login = 0;

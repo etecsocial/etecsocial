@@ -8,8 +8,8 @@ use DB;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
-use App\ProfessoresInfo;
-use App\AlunosInfo;
+use App\ProfessoresTurma;
+use App\AlunosTurma;
 
 class AuthController extends Controller {
     /*
@@ -111,13 +111,14 @@ use AuthenticatesAndRegistersUsers,
     }
 
     protected function create_aluno($user, $data) {
-        AlunosInfo::create(['user_id' => $user->id,
+        AlunosTurma::create(['user_id' => $user->id,
             'id_turma' => $data['id_turma'],
             'id_escola' => $data['id_escola']]);
     }
     
     protected function create_prof($user, $data) {
-        ProfessoresInfo::create([
+        //Apenas para amarrar o professor com a escola.
+        ProfessoresTurma::create([
             'user_id' => $user->id,
             'id_escola' => $data['id_escola']]);
     }
@@ -138,10 +139,10 @@ use AuthenticatesAndRegistersUsers,
 
     public function hasCoord($id) {
         return DB::table('users')
-                        ->join('professores_info', 'users.id', '=', 'professores_info.user_id')
+                        ->join('professores_turma', 'users.id', '=', 'professores_turma.user_id')
                         ->select('users.id')
                         ->where('users.type', 3)
-                        ->where('professores_info.id_escola', $id)->first();
+                        ->where('professores_turma.id_escola', $id)->first();
     }
 
 }

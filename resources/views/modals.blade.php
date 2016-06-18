@@ -133,7 +133,7 @@
                         </div>
                     </div>
                     <div class="row">
-                    	<div class="input-field col s4">
+                        <div class="input-field col s4">
                             <input type="password" name="senha_atual" placeholder="Senha atual" class="validate">
                             <label for="senha" class="active">Senha atual</label>
                         </div>
@@ -145,7 +145,7 @@
                             <input type="password" name="senha_confimation" placeholder="Repita a nova senha" class="validate">
                             <label for="senha" class="active">Confirmar nova senha</label>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                     <select name="id_escola" id="id_escola" onchange="turmas()" required>
                         <option value="" disabled selected>Selecione sua ETEC</option>
                         @foreach(\App\Escola::all() as $escola)
-                            <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
+                        <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
                         @endforeach
                     </select>
                     <label>Escola</label>
@@ -182,29 +182,42 @@
                 </div>
             </form>
             @endif 
-            
+
             @if(auth()->user()->first_login == 2)
             <p>Professor, selecione a escola e turmas que você leciona:</p>
-            <form id="professor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get" >
-                <div class="input-field col s6 m6 l6">
-                    <select name="id_escola" id="id_escola" onchange="turmas()" required>
-                        <option disabled selected>Selecione sua ETEC</option>
-                        @foreach(\App\Escola::all() as $escola)
+            <form id="professor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get">
+                <div class="col s12">
+                    <div class="input-field col s12 m12 l5">
+                        <select name="id_escola" id="id_escola" onchange="turmas()" required>
+                            <option disabled selected>Selecione sua ETEC</option>
+                            @foreach(\App\Escola::all() as $escola)
                             <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
-                        @endforeach
-                    </select>
-                    <label>Escola</label>
+                            @endforeach
+                        </select>
+                        <label>Escola</label>
+                    </div>
+                    <div class="input-field col s12 m9 l5">
+                        <select name="turmas[]" multiple id="loadturmas" required>
+                            <option disabled selected>Selecione sua ETEC primeiro</option>
+                        </select>
+                        <label>Turmas</label>
+                    </div>
+                    <div class="input-field col s12 m3 l2">
+                        <select name="modulos[]" multiple id="modulo" required>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                        </select>
+                        <label>Módulos</label>
+                    </div>
                 </div>
-                <div class="input-field col s6 m6 l6">
-                    <select name="turmas[]" multiple id="loadturmas" required>
-                        <option disabled selected>Selecione sua ETEC primeiro</option>
-                    </select>
-                    <label>Turmas</label>
-                </div>
-                <button type="submit" class="btn btn-primary">TERMINAR</button>
+                <button type="submit" class="btn btn-primary right">Concluir</button>
             </form>            
             @endif
-            
+
             @if(auth()->user()->first_login == 3)
             <p>Coordenador, insira as turmas existentes em sua escola</p>
             <form id="coordenador" action="{{ url('ajax/coordenador') }}" method="post" >
@@ -218,7 +231,7 @@
                 <button type="submit" class="btn btn-primary" name="finalizar" value="1"><i class="mdi-navigation-check left"></i> Concluir</button>
             </form>            
             @endif
-            
+
         </div>
     </div>
 </div>

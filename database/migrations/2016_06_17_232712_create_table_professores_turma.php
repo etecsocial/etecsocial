@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableProfessoresInfo extends Migration
+class CreateTableProfessoresTurma extends Migration
 {
     /**
      * Run the migrations.
@@ -12,17 +12,19 @@ class CreateTableProfessoresInfo extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('professores_info')) {
-            Schema::create('professores_info', function(Blueprint $table) {
+        if (!Schema::hasTable('professores_turma')) {
+            Schema::create('professores_turma', function(Blueprint $table) {
                 $table->increments('id');
+                
                 $table->integer('user_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+                $table->integer('modulo');
                 $table->integer('id_turma')->unsigned();
-                $table->foreign('id_turma')->references('id')->on('turmas');
+                $table->foreign('id_turma')->references('id')->on('turmas')->onDelete('cascade');
                 
                 $table->integer('id_escola')->unsigned();
-                $table->foreign('id_escola')->references('id')->on('escolas');
+                $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
                 
                 $table->timestamps();
             });
@@ -36,6 +38,6 @@ class CreateTableProfessoresInfo extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('professores_info');
+        Schema::dropIfExists('professores_turma');
     }
 }
