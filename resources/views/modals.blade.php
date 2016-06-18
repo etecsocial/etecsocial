@@ -187,7 +187,7 @@
             <p>Professor, selecione a escola e turmas que você leciona:</p>
             <form id="professor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get">
                 <div class="col s12">
-                    <div class="input-field col s12 m12 l5">
+                    <div class="input-field col s12 m6 l6">
                         <select name="id_escola" id="id_escola" onchange="turmas()" required>
                             <option disabled selected>Selecione sua ETEC</option>
                             @foreach(\App\Escola::all() as $escola)
@@ -196,11 +196,28 @@
                         </select>
                         <label>Escola</label>
                     </div>
-                    <div class="input-field col s12 m9 l5">
+                    <div class="input-field col s12 m6 l6">
                         <select name="turmas[]" multiple id="loadturmas" required>
                             <option disabled selected>Selecione sua ETEC primeiro</option>
                         </select>
                         <label>Turmas</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary right">Concluir</button>
+            </form>            
+            @endif
+
+            @if(auth()->user()->first_login == 3)
+            <p>Coordenador, insira as turmas existentes em sua escola</p>
+            <form id="coordenador" action="{{ url('ajax/cadastro/setTurmasCoordenador') }}" method="get">
+                <div class="col s12">
+                    <div class="input-field col s12 m12 l5">
+                        <input name="desc" placeholder="Exemplo: Informática para internet integrado ao Ensino Médio" id="desc" type="text" class="validate">
+                        <label for="desc" class="active">Turma</label>  
+                    </div>
+                    <div class="input-field col s12 m12 l5">
+                        <input name="sigla" placeholder="Exemplo: EMIA" id="sigla" type="text" class="validate">
+                        <label for="sigla" class="active">Sigla</label>  
                     </div>
                     <div class="input-field col s12 m3 l2">
                         <select name="modulos[]" multiple id="modulo" required>
@@ -213,22 +230,15 @@
                         </select>
                         <label>Módulos</label>
                     </div>
+                    
+                    CONTINUAR... FAZER RECONHECER O AJAX NO JS!! 
+                    CENAS DO PRÓXIMO CAPÍTULO
+                    
+                    
+                    
                 </div>
+                <button type="submit" class="btn btn-primary right">Adicionar</button>
                 <button type="submit" class="btn btn-primary right">Concluir</button>
-            </form>            
-            @endif
-
-            @if(auth()->user()->first_login == 3)
-            <p>Coordenador, insira as turmas existentes em sua escola</p>
-            <form id="coordenador" action="{{ url('ajax/coordenador') }}" method="post" >
-                <div class="input-field col s6 m6 l6">
-                    <label>Sigla</label>
-                </div>
-                <div class="input-field col s6 m6 l6">
-                    <label>Nome</label>
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="mdi-navigation-check left"></i> Adicionar</button>
-                <button type="submit" class="btn btn-primary" name="finalizar" value="1"><i class="mdi-navigation-check left"></i> Concluir</button>
             </form>            
             @endif
 

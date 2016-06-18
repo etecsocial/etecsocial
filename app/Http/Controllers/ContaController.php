@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Turma;
 use App\User;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 use Image;
 use Input;
@@ -96,23 +95,37 @@ class ContaController extends Controller {
     }
 
     public function setTurmasProfessor(Request $request) {
+
+        //@TODO VALIDAR COM VALIDATE!
+
         foreach ($request->turmas as $turma) {
             ProfessoresTurma::create([
                 'user_id' => auth()->user()->id,
                 'id_turma' => $turma,
                 'id_escola' => $request->id_escola,
-                'modulo' => $request->id_escola
             ]);
         }
-
         auth()->user()->first_login = 0;
         auth()->user()->save();
 
         return response()->json(['status' => true]);
     }
 
-    public function aluno(Request $request) {
-        
+    public function setTurmasCoordenador(Request $request) {
+
+        //@TODO VALIDAR COM VALIDATE!
+
+        foreach ($request->modulos as $modulo) {
+            Turma::create([
+                'id_escola' => $request->escola,
+                'sigla' => $modulo . 'º ' . $request->sigla,
+                'nome' => $request->desc,
+            ]);
+        }
+        auth()->user()->first_login = 0;
+        auth()->user()->save();
+
+        return response()->json(['status' => true]);
     }
 
 // @TODO

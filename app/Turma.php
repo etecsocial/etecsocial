@@ -9,7 +9,6 @@ class Turma extends Model
 	public $timestamps = false;
     
     protected $fillable = [
-        'id',
         'id_escola',
         'nome',
         'sigla'
