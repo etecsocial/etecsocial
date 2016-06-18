@@ -47,16 +47,23 @@
     });
 
 
-    function turmas() {
+    function getTurmas() {
         var escola = $('#id_escola').val();
         if (escola) {
-            var url = '/ajax/cadastro/turmas?escola=' + escola;
+            var url = '/ajax/cadastro/getTurmas?id_escola=' + escola;
             $.get(url, function (dataReturn) {
-                $('#loadturmas').html(dataReturn);
-                $('#loadturmas').material_select();
+                $('#loadturmas').html(dataReturn).material_select();
+                $('#loadmodulos').html('');
                 $('.caret').hide();
             });
         }
+    }
+    function getModulos(id_turma = $('#loadturmas').val()) {
+            var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+            $.get(url, function (dataReturn) {
+                $('#loadmodulos').html(dataReturn).material_select();
+                $('.caret').hide();
+            });
     }
 </script>
 @stop

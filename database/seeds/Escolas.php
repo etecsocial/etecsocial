@@ -13,7 +13,8 @@ class Escolas extends Seeder
             if (Escola::select('nome')->where('nome', $etec)->first() == null){
                 $escola = new Escola;
                 $escola->nome = $etec;
-                $escola->cod_prof = rand(100000, 500000);
+                $escola->cod_prof = rand(1000, 5000);
+                $escola->cod_coord = rand(5000, 9000);
 
                 if($escola->save()){
                   $this->command->info(e($etec) . " adicionada.");

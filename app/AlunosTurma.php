@@ -11,6 +11,7 @@ class AlunosTurma extends Model {
         'user_id',
         'id_turma',
         'id_escola',
+        'modulo'
     ];
 
 }

@@ -35,7 +35,7 @@ $('#addTurmasProfessor').ajaxForm({
     }
 });
 
-//PROFESSOR
+//COORDENADOR
 $('#addTurmasCoordenador').ajaxForm({
     success: function (data) {
             Materialize.toast('<span>Turma cadastrada.</span>', 3000);

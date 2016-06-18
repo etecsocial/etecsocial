@@ -10,9 +10,9 @@ use Carbon\Carbon;
 use Image;
 use Input;
 use Response;
-use App\Http\Requests\Request;
 use App\Notificacao;
 use App\ProfessoresTurma;
+use Illuminate\Http\Request;
 
 class ContaController extends Controller {
 
@@ -25,7 +25,7 @@ class ContaController extends Controller {
                         ->get();
     }
 
-    public function hasCoord(Request $request) {
+    public function hasCoord($request) {
         return ProfessoresTurma::where('id_escola', $request->escola)
                         ->join('users', 'professores_turma.user_id', '=', 'users.id')
                         ->select('users.id')
@@ -33,12 +33,19 @@ class ContaController extends Controller {
                         ->get();
     }
 
-    public function consultarTurma(Request $request) {
+    public function getTurmas(Request $request) {
         $turmas = Turma::select(['id', 'nome', 'sigla'])
-                ->where('id_escola', $request->escola)
+                ->where('id_escola', $request->id_escola)
                 ->get();
 
-        return view('ajax.turma', ['turmas' => $turmas]);
+        return view('ajax.turmas', ['turmas' => $turmas]);
+    }
+    public function getModulos(Request $request) {
+        $modulos = Turma::select('modulos')
+                ->where('id', $request->id_turma)
+                ->get();
+
+        return view('ajax.modulos', ['modulos' => $modulos[0]->modulos]);
     }
 
     /**
