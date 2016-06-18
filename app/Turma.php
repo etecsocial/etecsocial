@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Turma extends Model
 {
 	public $timestamps = false;
+        protected $table = 'turmas';
     
     protected $fillable = [
-        'id_escola',
         'nome',
-        'sigla'
+        'sigla',
+        'id_escola',
+        'modulos'
     ];
 }

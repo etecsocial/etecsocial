@@ -2,16 +2,16 @@
 $('#edit-perfil').ajaxForm({
     type: "POST",
     dataType: 'JSON',
-    success: function(data) {
+    success: function (data) {
         if (data.response == 1) {
             Materialize.toast('<span>Agradeçemos pelo parecer!</span>', 3000);
             if (data.tipo == 'discussao') {
-                $('#discussao-' + data.id).fadeOut(1000, function() {
+                $('#discussao-' + data.id).fadeOut(1000, function () {
                     this.remove();
                 });
             } else {
                 if (data.tipo == 'pergunta') {
-                    $('#pergunta-' + data.id).fadeOut(1000, function() {
+                    $('#pergunta-' + data.id).fadeOut(1000, function () {
                         this.remove();
                     });
                 }
@@ -23,16 +23,31 @@ $('#edit-perfil').ajaxForm({
 });
 
 //PROFESSOR
-$('#professor').ajaxForm({
-    success: function(data) {
+$('#addTurmasProfessor').ajaxForm({
+    success: function (data) {
         if (data.status) {
             $("#modalFirst").closeModal();
             Materialize.toast('<span>Salas lecionadas adicionadas com sucesso</span>', 3000);
         }
     },
-    error: function(data) {
+    error: function (data) {
         Materialize.toast('<span>Erro ao editar professor</span>', 3000);
     }
+});
+
+//PROFESSOR
+$('#addTurmasCoordenador').ajaxForm({
+    success: function (data) {
+            Materialize.toast('<span>Turma cadastrada.</span>', 3000);
+            $('#addTurmasCoordenador').resetForm();
+    },
+    error: function (data) {
+        Materialize.toast('<span>Existem erros no formulário enviado.</span>', 3000);
+    }//@todo exibir corretamente os erros retornados pela validação
+});
+
+$('.done-turmas').click(function(){
+    Materialize.toast('<span>Você ainda pode editar as turmas de sua escola no menu "Minha ETEC".</span>', 3000);
 });
 
 //CHAT
@@ -41,7 +56,7 @@ function abrirChat(id_user) {
 
     $.post("/ajax/chat/abrir", {
         id_user: id_user
-    }, function(data) {
+    }, function (data) {
         $("#msgs").html(data);
     });
 
@@ -68,24 +83,24 @@ function fecharChat() {
 }
 
 //socket.on("channel:App\\Events\\MensagemChat", function(message){
-    //if($("#id-chat").val() == message.id_rem) {
-        //$('<div class="chatn clear"></div><div class="chatm from-them" data-date="' + message.data + '"><img class="circle photo" alt="John Peter" src="' + message.foto_rem + '"> ' + message.msg + ' </div>').insertAfter(".chatn:last").hide().fadeIn(1000);
-    //} else {
-        //$('#num_chat').text(parseInt($('#num_chat').text()) + 1);
-    //}
+//if($("#id-chat").val() == message.id_rem) {
+//$('<div class="chatn clear"></div><div class="chatm from-them" data-date="' + message.data + '"><img class="circle photo" alt="John Peter" src="' + message.foto_rem + '"> ' + message.msg + ' </div>').insertAfter(".chatn:last").hide().fadeIn(1000);
+//} else {
+//$('#num_chat').text(parseInt($('#num_chat').text()) + 1);
+//}
 //});
 
 //PESQUISA
-$("body").click(function() {
+$("body").click(function () {
     $("#results-search").fadeOut(150);
 });
 
 function buscar(busca) {
-    $("#results-search").show(function() {
+    $("#results-search").show(function () {
         $("#results-search").fadeIn(2000);
     });
 
-    $.get("/ajax/buscar?termo=" + busca, function(data) {
+    $.get("/ajax/buscar?termo=" + busca, function (data) {
         $(".busca").html(data);
     });
 }
@@ -93,25 +108,25 @@ function buscar(busca) {
 //STATUS
 $('#status').ajaxForm({
     dataType: 'JSON',
-    success: function(data) {
+    success: function (data) {
         if (data.error) {
             Materialize.toast('<span>' + data.error + '</span>', 3000);
         } else {
-            $("#us").fadeOut(250, function() {
+            $("#us").fadeOut(250, function () {
                 $("#us").fadeIn(250)
-                    .html("<a class='left' style='margin-top:15px'>" + data.status + "</a>")
-                    .text();
+                        .html("<a class='left' style='margin-top:15px'>" + data.status + "</a>")
+                        .text();
             });
         }
     },
-    error: function() {
+    error: function () {
         Materialize.toast('<span>Erro ao atualizar status</span>', 3000);
     }
 });
 
 //CONTA
 $('#conta').ajaxForm({
-    success: function(data) {
+    success: function (data) {
         Materialize.toast('<span>' + data.msg + '</span>', 3000);
         if (data.status) {
             $("#modalConta").closeModal();
@@ -119,7 +134,7 @@ $('#conta').ajaxForm({
             $(".profile-btn").html($("#nome").val());
         }
     },
-    error: function(data) {
+    error: function (data) {
         Materialize.toast('<span>Erro ao editar conta</span>', 3000);
     }
 });
@@ -131,7 +146,7 @@ function add(id_user) {
         url: "ajax/adicionar",
         data: "id=" + id_user,
         dataType: "json",
-        success: function(data) {
+        success: function (data) {
             if (data.status == 'disable') {
                 $(".add-icon").attr({
                     "data-tooltip": "Aguardando resposta a solicitação de amizade"
@@ -182,7 +197,7 @@ function recusar(id_user) {
         url: "ajax/recusar",
         data: "id=" + id_user,
         dataType: "json",
-        success: function() {
+        success: function () {
             $(".add-icon").attr({
                 "data-tooltip": "Enviar solicitação de amizade"
             });
@@ -206,7 +221,7 @@ function newnoti() {
 
     $.post("/ajax/notificacao/new", {
         data: data
-    }, function(data) {
+    }, function (data) {
         if (data !== '') {
             $(data).insertBefore(".nota:first").hide().fadeIn(2000);
         }
@@ -218,7 +233,7 @@ function read() {
     $.ajax({
         type: "GET",
         url: "ajax/notificacao/makeread",
-        success: function() {
+        success: function () {
             $(".new").remove();
             $(".noti").html("0");
         }
@@ -227,14 +242,14 @@ function read() {
 }
 
 //socket.on("channel:App\\Events\\Notificacao", function(message){
-    //$('#num_not').text(parseInt($('#num_not').text()) + parseInt(message.num));
+//$('#num_not').text(parseInt($('#num_not').text()) + parseInt(message.num));
 //});
 
 //TAREFA
 function checkTask(id) {
     $.post("/ajax/tarefas/check", {
         id: id
-    }, function(data) {
+    }, function (data) {
         if (data.status) {
             $(".tar-" + id).attr({
                 "checked": "true"
@@ -250,18 +265,18 @@ function checkTask(id) {
 //AGENDA
 $('#addevento').ajaxForm({
     dataType: 'JSON',
-    success: function(data) {
+    success: function (data) {
 
         Materialize.toast('<span>Evento adicionado com sucesso</span>', 3000);
         $('#calendar').fullCalendar('refetchEvents');
         $("#addevento")[0].reset();
     },
-    error: function() {
+    error: function () {
         Materialize.toast('<span>Erro ao adicionar evento</span>', 3000);
     },
 });
 
-$('input[type=radio][name=tipo]').change(function() {
+$('input[type=radio][name=tipo]').change(function () {
     if ($(this).val() == 1) {
         $('#fim').show();
         $('#inicio').html("Início");
@@ -271,7 +286,7 @@ $('input[type=radio][name=tipo]').change(function() {
     }
 });
 
-$('input[type=radio][name=publico]').change(function() {
+$('input[type=radio][name=publico]').change(function () {
     if ($(this).val() == 1) {
         $('.addturma').show();
     } else {
@@ -281,7 +296,7 @@ $('input[type=radio][name=publico]').change(function() {
 
 //POST
 function abrirPost(id) {
-    $.get('/ajax/post/' + id, function(data) {
+    $.get('/ajax/post/' + id, function (data) {
         $("#modalpost").html(data);
         $("#verpost").openModal();
     });

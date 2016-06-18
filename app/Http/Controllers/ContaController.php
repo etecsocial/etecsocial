@@ -7,10 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Turma;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Image;
 use Input;
 use Response;
+use App\Http\Requests\Request;
 use App\Notificacao;
 use App\ProfessoresTurma;
 
@@ -111,17 +111,14 @@ class ContaController extends Controller {
         return response()->json(['status' => true]);
     }
 
-    public function setTurmasCoordenador(Request $request) {
+    public function setTurmasCoordenador(\App\Http\Requests\CreateTurmaRequest $request) {
 
-        //@TODO VALIDAR COM VALIDATE!
-
-        foreach ($request->modulos as $modulo) {
             Turma::create([
-                'id_escola' => $request->escola,
-                'sigla' => $modulo . 'º ' . $request->sigla,
+                'id_escola' => $request->id_escola,
+                'sigla' => $request->sigla,
                 'nome' => $request->desc,
+                'modulos' => $request->modulos
             ]);
-        }
         auth()->user()->first_login = 0;
         auth()->user()->save();
 

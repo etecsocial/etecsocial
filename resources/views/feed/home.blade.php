@@ -63,7 +63,7 @@ abrirPost({{ $id }})
                 <div class="col s12 m12 l4">
                     <ul id="task-card" class="collection with-header">
                         <li class="collection-header cyan">
-                            <h4 class="task-card-title">Minhas Tarefas</h4>
+                            <h4 class="task-card-title">Tarefas</h4>
                             <p class="task-card-date">{{ \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') }}</p>
                         </li>
                         @if(isset($tasks[0])) @foreach($tasks as $task)

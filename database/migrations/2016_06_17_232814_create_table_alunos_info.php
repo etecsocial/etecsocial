@@ -19,7 +19,6 @@ class CreateTableAlunosInfo extends Migration {
                 $table->integer('user_id')->unsigned();
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-                $table->integer('modulo');
                 $table->string('profile_photo')->default('default-user.png');
                 $table->string('status', 100)->default('Sou novo por aqui, e quero compartilhar conhecimentos com vocês :D');
                 $table->string('cidade', 40)->default('Não informado');

@@ -20,10 +20,9 @@ class CreateTableAlunosTurma extends Migration {
                 $table->integer('id_turma')->unsigned();
                 $table->foreign('id_turma')->references('id')->on('turmas')->onDelete('cascade');
 
+                $table->integer('modulo')->unsigned();
                 $table->integer('id_escola')->unsigned();
                 $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
-
-                $table->integer('modulo')->unsigned();
 
                 $table->timestamps();
                 

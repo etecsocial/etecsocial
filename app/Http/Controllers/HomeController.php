@@ -56,7 +56,12 @@ class HomeController extends Controller {
                 ->orderBy('data')
                 ->limit(4)
                 ->get();
-        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count()]);
+
+        if (auth()->user()->first_login == 3) {
+            $id_escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)->select('id_escola')->get();
+        }
+
+        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count(), 'id_escola'=> isset($id_escola[0]->id_escola) ? $id_escola[0]->id_escola : false]);
     }
 
     public function newpost(Request $request) {

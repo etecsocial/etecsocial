@@ -209,36 +209,28 @@
 
             @if(auth()->user()->first_login == 3)
             <p>Coordenador, insira as turmas existentes em sua escola</p>
-            <form id="coordenador" action="{{ url('ajax/cadastro/setTurmasCoordenador') }}" method="get">
+            <form id="addTurmasCoordenador" action="{{ url('ajax/cadastro/setTurmasCoordenador') }}" method="post">
                 <div class="col s12">
+                    <input type="hidden" name="id_escola" value="{{$id_escola}}">
                     <div class="input-field col s12 m12 l5">
-                        <input name="desc" placeholder="Exemplo: Informática para internet integrado ao Ensino Médio" id="desc" type="text" class="validate">
+                        <input name="desc" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="desc" type="text" class="validate">
                         <label for="desc" class="active">Turma</label>  
                     </div>
                     <div class="input-field col s12 m12 l5">
                         <input name="sigla" placeholder="Exemplo: EMIA" id="sigla" type="text" class="validate">
                         <label for="sigla" class="active">Sigla</label>  
                     </div>
-                    <div class="input-field col s12 m3 l2">
-                        <select name="modulos[]" multiple id="modulo" required>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
+                    <div class="input-field col s12 m3 l2 tooltipped" data-tooltip="Número total de semestres" data-position="top" data-delay="300">
+                        <select name="modulos" id="modulo" required class="validate">
+                            <option disabled selected value="">Selecione</option>
+                            <option value="3">3</option>
+                            <option value="6">6</option>
                         </select>
                         <label>Módulos</label>
                     </div>
-                    
-                    CONTINUAR... FAZER RECONHECER O AJAX NO JS!! 
-                    CENAS DO PRÓXIMO CAPÍTULO
-                    
-                    
-                    
                 </div>
-                <button type="submit" class="btn btn-primary right">Adicionar</button>
-                <button type="submit" class="btn btn-primary right">Concluir</button>
+                <button type="submit" class="btn btn-primary left"><i class="material-icons left">add</i>Adicionar</button>
+                <button class="btn btn-primary right modal-close done-turmas"><i class="material-icons left">done</i>Concluir</button>
             </form>            
             @endif
 
