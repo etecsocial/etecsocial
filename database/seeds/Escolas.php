@@ -9,12 +9,32 @@ class Escolas extends Seeder
 
     public function run()
     {
+        $all_cod_prof_query = Escola::select('cod_prof', 'cod_coord')->get()->toArray();
+        foreach ($all_cod_prof_query as $level1) {
+            foreach ($level1 as $key => $value) {
+                if($key == 'cod_prof'){
+                    $all_cod_prof[] = $value;
+                } else if($key == 'cod_coord'){
+                    $all_cod_coord[] = $value;
+                }
+            }
+        }
+
         foreach ($this->etecs as $etec) {
             if (Escola::select('nome')->where('nome', $etec)->first() == null){
                 $escola = new Escola;
                 $escola->nome = $etec;
+
                 $escola->cod_prof = rand(1000, 5000);
                 $escola->cod_coord = rand(5000, 9000);
+
+                while(in_array($escola->cod_prof, $all_cod_prof)){
+                    $escola->cod_prof = rand(1000, 5000);
+                }
+
+                while(in_array($escola->cod_coord, $all_cod_coord)){
+                    $escola->cod_coord = rand(1000, 5000);
+                }
 
                 if($escola->save()){
                   $this->command->info(e($etec) . " adicionada.");
