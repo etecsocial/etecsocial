@@ -14,6 +14,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/getTurmas', 'ContaController@getTurmas');
         Route::get('/getModulos', 'ContaController@getModulos');
         Route::get('/setTurmasProfessor', 'ContaController@setTurmasProfessor');
+        Route::post('/doneTurmasCoord', 'ContaController@doneTurmasCoord');
         Route::post('/setTurmasCoordenador', 'ContaController@setTurmasCoordenador');
     });
 

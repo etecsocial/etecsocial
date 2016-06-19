@@ -130,6 +130,15 @@ class ContaController extends Controller {
 
         return response()->json(['status' => true]);
     }
+    
+    public function doneTurmasCoord() {
+        auth()->user()->first_login = 2;
+        auth()->user()->save();
+    }
+    public function doneTurmasProf() {
+        auth()->user()->first_login = 2;
+        auth()->user()->save();
+    }
 
 // @TODO
 
