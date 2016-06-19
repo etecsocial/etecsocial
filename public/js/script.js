@@ -22,17 +22,36 @@ $('#edit-perfil').ajaxForm({
     }
 });
 
+    function getTurmas() {
+        var escola = $('#id_escola').val();
+        if (escola) {
+            var url = '/ajax/cadastro/getTurmas?id_escola=' + escola;
+            $.get(url, function (dataReturn) {
+                $('#loadturmas').html(dataReturn).material_select();
+                $('#loadmodulos').html('');
+                $('.caret').hide();
+            });
+        }
+    }
+    function getModulos() {
+            var id_turma = $('#loadturmas').val();
+            var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+            $.get(url, function (dataReturn) {
+                $('#loadmodulos').html(dataReturn).material_select();
+                $('.caret').hide();
+            });
+    }
+    
+    
 //PROFESSOR
 $('#addTurmasProfessor').ajaxForm({
     success: function (data) {
-        if (data.status) {
-            $("#modalFirst").closeModal();
-            Materialize.toast('<span>Salas lecionadas adicionadas com sucesso</span>', 3000);
-        }
+            Materialize.toast('<span>Turma cadastrada.</span>', 3000);
+            $('#addTurmasProfessor').resetForm();
     },
     error: function (data) {
-        Materialize.toast('<span>Erro ao editar professor</span>', 3000);
-    }
+        Materialize.toast('<span>Existem erros no formulário enviado.</span>', 3000);
+    }//@todo exibir corretamente os erros retornados pela validação
 });
 
 //COORDENADOR
@@ -46,8 +65,11 @@ $('#addTurmasCoordenador').ajaxForm({
     }//@todo exibir corretamente os erros retornados pela validação
 });
 
-$('.done-turmas').click(function(){
+$('.done-turmas-coord').click(function(){
     Materialize.toast('<span>Você ainda pode editar as turmas de sua escola no menu "Minha ETEC".</span>', 3000);
+});
+$('.done-turmas-prof').click(function(){
+    Materialize.toast('<span>Você ainda pode editar as turmas que você leciona no menu "Minha ETEC".</span>', 3000);
 });
 
 //CHAT

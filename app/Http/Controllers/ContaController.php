@@ -105,13 +105,11 @@ class ContaController extends Controller {
 
         //@TODO VALIDAR COM VALIDATE!
 
-        foreach ($request->turmas as $turma) {
             ProfessoresTurma::create([
                 'user_id' => auth()->user()->id,
-                'id_turma' => $turma,
-                'id_escola' => $request->id_escola,
+                'id_turma' => $request->id_turma,
+                'modulo' => $request->modulo,
             ]);
-        }
         auth()->user()->first_login = 0;
         auth()->user()->save();
 
@@ -126,7 +124,8 @@ class ContaController extends Controller {
                 'nome' => $request->desc,
                 'modulos' => $request->modulos
             ]);
-        auth()->user()->first_login = 0;
+            isset($request->isTeacher) ? $this->setTurmasProfessor($request): 
+        auth()->user()->first_login = 2;
         auth()->user()->save();
 
         return response()->json(['status' => true]);

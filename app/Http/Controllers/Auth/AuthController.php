@@ -58,7 +58,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|max:255|unique:users',
                     'password' => 'required|min:6|confirmed',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'id_turma' => 'required|exists:turmas,id',
+                    'id_turma' => 'required',
                         //'modulo' => 'required|integer|max:1'
                 ];
                 break;
@@ -112,13 +112,12 @@ use AuthenticatesAndRegistersUsers,
     }
 
     protected function create_aluno($user, $data) {
-//        AlunosTurma::create([
-//            'user_id' => $user->id,
-//            'id_turma' => $data['id_turma'],
-//            'modulo' => $data['modulo'],
-//            'id_escola' => $data['id_escola']
-//        ]);
-        return true;
+        AlunosTurma::create([
+            'user_id' => $user->id,
+            'id_turma' => $data['id_turma'],
+            'modulo' => $data['modulo'],
+            'id_escola' => $data['id_escola']
+        ]);
     }
 
     protected function create_prof($user, $data) {

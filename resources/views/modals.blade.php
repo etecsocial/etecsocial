@@ -160,8 +160,8 @@
 <div id="modalFirst" class="modal">
     <div class="modal-content">
         <div class="row">
-            <h4>Continue seu Cadastro</h4> 
-
+            <h4>Continue seu cadastro</h4> 
+            <div class="divider"></div>
             @if(auth()->user()->first_login == 1)
             <p>Você realizou seu cadastro pelo facebook, faltam apenas algumas informações.</p>
             <form action="{{ url('ajax/aluno') }}" method="post" id="aluno">
@@ -185,25 +185,31 @@
 
             @if(auth()->user()->first_login == 2)
             <p>Professor, selecione a escola e turmas que você leciona:</p>
-            <form id="professor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get">
-                <div class="col s12">
-                    <div class="input-field col s12 m6 l6">
-                        <select name="id_escola" id="id_escola" onchange="turmas()" required>
-                            <option disabled selected>Selecione sua ETEC</option>
-                            @foreach(\App\Escola::all() as $escola)
-                            <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
-                            @endforeach
+            <form id="addTurmasProfessor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get">
+                <div class="col s12 m12 l12">
+                    <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="1500" data-tooltip="Você poderá adicionar novas escolas mais tarde.">
+                        <select name="id_escola" id="id_escola" onchange="getTurmas()" required>
+                            <option disabled selected value="">Selecione a escola</option>
+                            <option  value="{{ $escola[0]->id }}">{{ $escola[0]->nome }}</option>
+                            <!--                            @todo esta parte está vunerável!-->
                         </select>
                         <label>Escola</label>
                     </div>
-                    <div class="input-field col s12 m6 l6">
-                        <select name="turmas[]" multiple id="loadturmas" required>
-                            <option disabled selected>Selecione sua ETEC primeiro</option>
+                    <div class="input-field col s12 m6 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso a turma não esteja listada, procure a coordenação de sua escola." id="turmas">
+                        <select name="id_turma" id="loadturmas" required onchange="getModulos()">
                         </select>
-                        <label>Turmas</label>
+                        <label>Turma</label>
                     </div>
+                    <div class="input-field col s12 m6 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="O módulo equivale a um semestre." id="turmas">
+                        <select name="modulo" id="loadmodulos" required>
+                        </select>
+                        <label>Módulo</label>
+                    </div>
+                    <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Será possível alterar isso mais tarde." data-position="top" data-delay="300" >
+                        <button type="submit" class="btn btn-primary left"><i class="material-icons left">add</i>Adicionar</button>
+                        <button class="btn btn-primary right modal-close done-turmas-prof"><i class="material-icons left">done</i>Concluir</button>
+                    </div>   
                 </div>
-                <button type="submit" class="btn btn-primary right">Concluir</button>
             </form>            
             @endif
 
@@ -211,7 +217,7 @@
             <p>Coordenador, insira as turmas existentes em sua escola</p>
             <form id="addTurmasCoordenador" action="{{ url('ajax/cadastro/setTurmasCoordenador') }}" method="post">
                 <div class="col s12">
-                    <input type="hidden" name="id_escola" value="{{$id_escola}}">
+                    <input type="hidden" name="id_escola" value="{{$escola}}">
                     <div class="input-field col s12 m12 l5">
                         <input name="desc" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="desc" type="text" class="validate">
                         <label for="desc" class="active">Turma</label>  
@@ -228,9 +234,11 @@
                         </select>
                         <label>Módulos</label>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-primary left"><i class="material-icons left">add</i>Adicionar</button>
-                <button class="btn btn-primary right modal-close done-turmas"><i class="material-icons left">done</i>Concluir</button>
+                    <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Será possível alterar isso mais tarde." data-position="top" data-delay="300" >
+                        <button type="submit" class="btn btn-primary left"><i class="material-icons left">add</i>Adicionar</button>
+                        <button class="btn btn-primary right modal-close done-turmas-coord"><i class="material-icons left">done</i>Concluir</button>
+                    </div>            
+                </div>            
             </form>            
             @endif
 

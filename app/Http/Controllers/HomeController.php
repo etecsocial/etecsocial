@@ -58,10 +58,21 @@ class HomeController extends Controller {
                 ->get();
 
         if (auth()->user()->first_login == 3) {
-            $id_escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)->select('id_escola')->get();
+            $query = $escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)
+                    ->join('turmas', 'turmas.id', '=', 'professores_turma.id_turma')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->select('escolas.id')
+                    ->get();
+            $escola = $query[0]->id_escola;
+        } elseif (auth()->user()->first_login == 2) {
+            $escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)
+                    ->join('turmas', 'turmas.id', '=', 'professores_turma.id_turma')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->select(['escolas.nome', 'escolas.id'])
+                    ->get();
         }
 
-        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count(), 'id_escola'=> isset($id_escola[0]->id_escola) ? $id_escola[0]->id_escola : false]);
+        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count(), 'escola' => isset($escola) ? $escola : false]);
     }
 
     public function newpost(Request $request) {

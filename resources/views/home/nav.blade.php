@@ -58,7 +58,8 @@
             });
         }
     }
-    function getModulos(id_turma = $('#loadturmas').val()) {
+    function getModulos() {
+        var id_turma = $('#loadturmas').val();
             var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
             $.get(url, function (dataReturn) {
                 $('#loadmodulos').html(dataReturn).material_select();
