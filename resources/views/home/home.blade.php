@@ -15,10 +15,39 @@
             </div>
             <div class="row center">
                 <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger"><i class="material-icons left">input</i>Entrar</a>
-                <button data-target="modal-singup" class="btn btn-large waves-effect waves-light red darken-2 modal-trigger"><i class="material-icons left">person_pin</i>Cadastrar-se</button>
+                <button data-target="modal1" class="btn btn-large waves-effect waves-light red darken-2 modal-trigger"><i class="material-icons left">person_pin</i>Cadastrar-se</button>
             </div>
+
+            <!-- Modal Structure -->
+            <div id="modal1" class="modal modal-fixed-footer singup">
+                <div class="modal-content">
+                    <h4>Criar conta</h4>
+                    <div class="row">
+                        <div class="col s12">
+                            <ul class="tabs">
+                                <li class="tab col s3"><a href="#1">Aluno</a></li>
+                                <li class="tab col s3"><a href="#2">Professor</a></li>
+                                <li class="tab col s3"><a href="#3">Coordenador</a></li>
+                            </ul>
+                        </div>
+                        @include('auth.register.register-form')
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+                </div>
+            </div>
+            <br><br>
+
         </div>
     </div>
+
+
+
+
+</div>
+</div>
+</div>
 </div>
 <div class="container" id="site-features">
     <div class="section">

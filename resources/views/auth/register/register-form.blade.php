@@ -9,7 +9,6 @@
         <label for="name" data-error="{{ $errors->has('name') ? $errors->first('name') : 'Parece que há algo de errado com seu nome.' }}" data-success="Prazer em conhecê-lo!" style="width: 350px" class="left-align">Como você se chama?</label>
     </div>
     <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Informe seu email pessoal" data-position="top" data-delay="1000">
-        <input value="{{ old('email') }}" type="email" required name="email" placeholder="Ex. antonio98@exemplo.com" class="validate @if($errors->has('email')) invalid  @elseif($errors->any()) valid @endif">
         <label for="Email" data-error="{{ $errors->has('email') ? $errors->first('email') : 'Esse e-mail não parece correto.' }}" data-success="Ok, depois precisaremos de seu e-mail institucional." style="width: 350px" class="left-align">Qual é seu e-mail?</label>
     </div>
     <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Uma senha segura contém números, letras e símbolos!" data-position="top" data-delay="1000">

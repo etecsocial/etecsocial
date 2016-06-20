@@ -8,9 +8,9 @@
         $('ul.tabs').tabs();
 
         var type =  {{ old('type') ? old('type') : 1 }};
-        $('.' + type).addClass('active');
-        $('#modal-singup').leanModal();
-        (type > 1) ? $('#modal-singup').openModal() : null;
+        $('#' + type).addClass('active');
+        $('#singup').leanModal();
+        (type > 1) ? $('#singup').openModal() : null;
     });
     
     function getTurmas() {
@@ -113,27 +113,3 @@
         @include('auth.login-form')
     </div>
 </div>
-
-<!-- Modal Register -->
-<div id="modal-singup" class="modal modal-trigger">
-    <div class="modal-content">
-        <h4>Criar conta</h4>
-        <div class="row">
-            <div class="col s12">
-                <ul class="tabs">
-                    <li class="tab col s3"><a href="#1">Aluno</a></li>
-                    <li class="tab col s3"><a href="#2">Professor</a></li>
-                    <li class="tab col s3"><a href="#3">Coordenador</a></li>
-                </ul>
-            </div>
-            @include('auth.register.register-form')
-        </div>
-
-
-    </div>
-    <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Concluir cadastro</a>
-    </div>
-</div>
-
-
