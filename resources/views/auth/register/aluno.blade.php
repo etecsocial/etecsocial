@@ -1,6 +1,5 @@
 <div class="aluno">
-    <form class="form-form" role="form" method="POST" action="{{ url('/register') }}">
-        {!! csrf_field() !!}        
+    {!! Form::open(array('url' => '/register')) !!}
         
         @include('auth.register.basicInputs', ['type' => 1])
         <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
@@ -16,5 +15,5 @@
         <div class="input-field col s12">
             <button type="submit" class="waves-effect waves-light btn-large blue darken-1">Cadastrar</button>
         </div>
-    </form>
+    {!! Form::close() !!}
 </div>
