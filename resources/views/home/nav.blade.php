@@ -8,7 +8,7 @@
         $('ul.tabs').tabs();
 
         var type =  {{ old('type') ? old('type') : 1 }};
-        $('#' + type).addClass('active');
+       $('ul.tabs').tabs('select_tab', type);
         $('#singup').leanModal();
         (type > 1) ? $('#singup').openModal() : null;
     });

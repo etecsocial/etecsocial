@@ -19,25 +19,22 @@
             </div>
 
             <!-- Modal Structure -->
-            <div id="modal1" class="modal modal-fixed-footer singup">
+            <div id="modal1" class="modal singup">
                 <div class="modal-content">
                     <h4>Criar conta</h4>
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col s3"><a href="#1">Aluno</a></li>
-                                <li class="tab col s3"><a href="#2">Professor</a></li>
-                                <li class="tab col s3"><a href="#3">Coordenador</a></li>
+                                <li class="tab col s3"><a class="1" href="#1">Aluno</a></li>
+                                <li class="tab col s3"><a class="2" href="#2">Professor</a></li>
+                                <li class="tab col s3"><a class="3" href="#3">Coordenador</a></li>
                             </ul>
                         </div>
                         @include('auth.register.register-form')
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
-                </div>
             </div>
-            <br><br>
+
 
         </div>
     </div>
