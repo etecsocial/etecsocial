@@ -52,28 +52,28 @@ use AuthenticatesAndRegistersUsers,
         switch ($data['type']) {
             case 1: //ALUNO
                 $validator = [
-                    'name' => 'required|max:50|alpha',
+                    'name' => 'required|max:50|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
                     'email' => 'required|email|unique:users',
-                    'password' => 'required|min:6|confirmed',
+                    'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'id_turma' => 'required'
-                        //'modulo' => 'required|integer|max:1'
+                    'id_turma' => 'required|integer|max:1|exists:turmas,id,id_escola,id_escola',
+                    'modulo' => 'required|integer|max:1'
                 ];
                 break;
             case 2: //PROFESSOR
                 $validator = [
-                    'name' => 'required|max:255',
-                    'email' => 'required|email|max:255|unique:users',
-                    'password' => 'required|min:6|confirmed',
+                    'name' => 'required|max:50|alpha|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
+                    'email' => 'required|email|unique:users',
+                    'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
                     'cod_prof' => 'required|exists:escolas,cod_prof,id,' . $data['id_escola']
                 ];
                 break;
             case 3: //COORDENADOR
                 $validator = [
-                    'name' => 'required|max:255',
-                    'email' => 'required|email|max:255|unique:users',
-                    'password' => 'required|min:6|confirmed',
+                    'name' => 'required|max:50|alpha|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
+                    'email' => 'required|email|unique:users',
+                    'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
                     'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['id_escola']
                 ];
