@@ -8,7 +8,6 @@ use DB;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
-use App\ProfessoresTurma;
 use App\AlunosTurma;
 
 class AuthController extends Controller {
@@ -50,7 +49,6 @@ use AuthenticatesAndRegistersUsers,
      */
     protected function validator(array $data) {
 
-
         switch ($data['type']) {
             case 1: //ALUNO
                 $validator = [
@@ -58,7 +56,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|max:255|unique:users',
                     'password' => 'required|min:6|confirmed',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'id_turma' => 'required',
+                    'id_turma' => 'required'
                         //'modulo' => 'required|integer|max:1'
                 ];
                 break;
@@ -95,37 +93,39 @@ use AuthenticatesAndRegistersUsers,
      * @return User
      */
     protected function create(array $data) {
-
+//$a = $data['type'];
         $user = User::create([
                     'name' => $data['name'],
                     'username' => User::create_username($data['name']),
                     'email' => $data['email'],
-                    'type' => $data['type'],
                     'password' => bcrypt($data['password']),
-                    'first_login' => $data['type'],
+                    'first_login' => $data['type'] != 1 ? $data['type'] : 0,
                     'confirmation_code' => str_random(30),
         ]);
-
+        //return abort(404);
         $data['type'] == 1 ? $this->create_aluno($user, $data) : $this->create_prof($user, $data);
-        ;
         return $user;
     }
 
     protected function create_aluno($user, $data) {
+        
         AlunosTurma::create([
             'user_id' => $user->id,
             'id_turma' => $data['id_turma'],
             'modulo' => $data['modulo'],
-            'id_escola' => $data['id_escola']
         ]);
+        DB::table('users')
+            ->where('id', $user->id)
+            ->update(['type' => $data['type']]);
     }
 
     protected function create_prof($user, $data) {
-        //Apenas para amarrar o professor com a escola.
-        ProfessoresTurma::create([
+        //Apenas para amarrar o professor com a escola que ele ja inseriu o código.
+        ProfessoresInfo::create([
             'user_id' => $user->id,
             'id_escola' => $data['id_escola']]);
     }
+    
 
     protected function logout() {
         auth()->logout();
@@ -140,13 +140,4 @@ use AuthenticatesAndRegistersUsers,
     public function showLoginForm() {
         return redirect('/#login');
     }
-
-    public function hasCoord($id) {
-        return DB::table('users')
-                        ->join('professores_turma', 'users.id', '=', 'professores_turma.user_id')
-                        ->select('users.id')
-                        ->where('users.type', 3)
-                        ->where('professores_turma.id_escola', $id)->first();
-    }
-
 }

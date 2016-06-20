@@ -77,19 +77,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return User::select('type')->where('id', $id)->where('type', 2)->limit(1)->get()->first();
     }
 
-    public function turma(){
-        if($this->type == 1){
-          $dados = User::where('users.id', $this->id)
-              ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-              ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-              ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
-              ->select('turmas.id as turma_id')
-              ->limit(1)
-              ->first();
 
-              return $dados['turma_id'];
-        }
-    }
 
     public function turmas(){
         return [];
@@ -99,9 +87,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         if ($this->type == 1) {
             $dados = User::where('users.id', $this->id)
-                ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                ->join('alunos_turma', 'alunos_turma.user_id', '=', 'users.id')
+                ->join('escolas', 'escolas.id', '=', 'alunos_turma.id_escola')
                 ->select('escolas.nome as escola_nome')
                 ->limit(1)
                 ->first();

@@ -109,7 +109,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12 l6">
-                            <input type="text" value="{{ auth()->user()->escola() }}" placeholder="Instituicao" class="validate" disabled>
+                            <input type="text" value="{{ $escola->etec }}" placeholder="Instituicao" class="validate" disabled>
                         </div>
                     </div>
                     @if(auth()->user()->type == 1)

@@ -19,7 +19,7 @@ class ContaController extends Controller {
     public $avatar_ext = ['jpg', 'JPG', 'png', 'PNG'];
     public $avatar_path = 'midia/avatar/';
 
-    public function consultarEscola(Request $request) {
+    public function getEscolas(Request $request) {
         return Escola::select(['id', 'nome'])
                         ->where('nome', 'LIKE', '%' . $request->termo . '%')
                         ->get();
@@ -34,13 +34,18 @@ class ContaController extends Controller {
     }
 
     public function getTurmas(Request $request) {
+        $this->validate($request, ['id_escola' => 'required|integer']);
+
         $turmas = Turma::select(['id', 'nome', 'sigla'])
                 ->where('id_escola', $request->id_escola)
                 ->get();
 
         return view('ajax.turmas', ['turmas' => $turmas]);
     }
+
     public function getModulos(Request $request) {
+        $this->validate($request, ['id_turma' => 'required']);
+
         $modulos = Turma::select('modulos')
                 ->where('id', $request->id_turma)
                 ->get();
@@ -90,7 +95,7 @@ class ContaController extends Controller {
         return Response::json(['status' => true, 'msg' => 'Dados alterados com sucesso!']);
     }
 
-    public function addfoto($midia) {
+    public function setProfilePhoto($midia) {
         $ext = $midia->getClientOriginalExtension();
 
         if (!in_array($ext, $this->avatar_ext)) {
@@ -101,41 +106,36 @@ class ContaController extends Controller {
         $avatar = Image::make(Input::file('foto'))->fit(200, 200)->save($path);
     }
 
-    public function setTurmasProfessor(Request $request) {
+    public function setTurmaProfessor(Request $request) {
 
-        //@TODO VALIDAR COM VALIDATE!
+        $this->validate($request, ['id_turma' => 'required', 'modulo' => 'required']);
 
-            ProfessoresTurma::create([
-                'user_id' => auth()->user()->id,
-                'id_turma' => $request->id_turma,
-                'modulo' => $request->modulo,
-            ]);
+        ProfessoresTurma::create([
+            'user_id' => auth()->user()->id,
+            'id_turma' => $request->id_turma,
+            'modulo' => $request->modulo,
+        ]);
         auth()->user()->first_login = 0;
         auth()->user()->save();
 
         return response()->json(['status' => true]);
     }
 
-    public function setTurmasCoordenador(\App\Http\Requests\CreateTurmaRequest $request) {
+    public function setTurmas(\App\Http\Requests\CreateTurmaRequest $request) {
 
-            Turma::create([
-                'id_escola' => $request->id_escola,
-                'sigla' => $request->sigla,
-                'nome' => $request->desc,
-                'modulos' => $request->modulos
-            ]);
-            isset($request->isTeacher) ? $this->setTurmasProfessor($request): 
+        Turma::create([
+            'id_escola' => $request->id_escola,
+            'sigla' => $request->sigla,
+            'nome' => $request->desc,
+            'modulos' => $request->modulos
+        ]);
         auth()->user()->first_login = 2;
         auth()->user()->save();
 
         return response()->json(['status' => true]);
     }
-    
-    public function doneTurmasCoord() {
-        auth()->user()->first_login = 2;
-        auth()->user()->save();
-    }
-    public function doneTurmasProf() {
+
+    public function doneTurmas() {
         auth()->user()->first_login = 2;
         auth()->user()->save();
     }

@@ -68,7 +68,7 @@ $('#addTurmasCoordenador').ajaxForm({
 $('.done-turmas-coord').click(function () {
     Materialize.toast('<span>Você ainda pode editar as turmas de sua escola no menu "Minha ETEC".</span>', 3000);
 
-    var url = '/ajax/cadastro/doneTurmasCoord';
+    var url = '/ajax/cadastro/doneTurmas';
     $.get(url, function () {
         return true;
     });
@@ -76,7 +76,7 @@ $('.done-turmas-coord').click(function () {
 $('.done-turmas-prof').click(function () {
     Materialize.toast('<span>Você ainda pode editar as turmas que você leciona no menu "Minha ETEC".</span>', 3000);
 
-    var url = '/ajax/cadastro/doneTurmasProf';
+    var url = '/ajax/cadastro/doneTurmas';
     $.get(url, function () {
         return true;
     });

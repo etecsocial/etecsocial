@@ -10,12 +10,12 @@ Route::group(['middleware' => 'web'], function () {
     
     // register
     Route::group(['prefix' => '/ajax/cadastro'], function () {
-        Route::get('/escolas', 'ContaController@consultarEscola');
+        Route::get('/getEscolas', 'ContaController@consultarEscola');
         Route::get('/getTurmas', 'ContaController@getTurmas');
         Route::get('/getModulos', 'ContaController@getModulos');
-        Route::get('/setTurmasProfessor', 'ContaController@setTurmasProfessor');
-        Route::post('/doneTurmasCoord', 'ContaController@doneTurmasCoord');
-        Route::post('/setTurmasCoordenador', 'ContaController@setTurmasCoordenador');
+        Route::get('/setTurmasProfessor', 'ContaController@setTurmaProfessor');
+        Route::post('/doneTurmasCoord', 'ContaController@doneTurmas');
+        Route::post('/setTurmasCoordenador', 'ContaController@setTurmas');
     });
 
     // social login

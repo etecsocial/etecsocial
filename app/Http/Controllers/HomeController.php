@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Escola;
 use App\GrupoUsuario;
+use App\AlunosTurma;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
 use App\Post;
@@ -14,16 +15,20 @@ use Illuminate\Http\Request;
 class HomeController extends Controller {
 
     public function index() {
-        $escolas = Escola::select('escolas.id', 'escolas.nome')
+        return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $this->getEscolas()]);
+    }
+
+    public function getEscolas() {
+        return Escola::select('escolas.id', 'escolas.nome')
                 ->whereIn('id', function ($query) {
                     $query->select('id_escola')
                     ->from('turmas');
                 })
                 ->get();
-        return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $escolas]);
     }
 
     public function feed($id = 0) {
+
         $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
                 ->join('amizades', 'amizades.id_user1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
@@ -70,9 +75,16 @@ class HomeController extends Controller {
                     ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                     ->select(['escolas.nome', 'escolas.id'])
                     ->get();
+        } else {
+            $escola = AlunosTurma::where('user_id', auth()->user()->id)
+                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
+                    ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
+                    ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo'])
+                    ->get()[0];
         }
 
-        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count(), 'escola' => isset($escola) ? $escola : false]);
+
+        return view('feed.home', ['posts' => $posts, 'tasks' => $tasks, 'id' => $id, 'grupos' => $grupos, 'thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'countPosts' => Post::count(), 'escola' => $escola]);
     }
 
     public function newpost(Request $request) {

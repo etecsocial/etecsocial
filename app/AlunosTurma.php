@@ -10,7 +10,6 @@ class AlunosTurma extends Model {
     protected $fillable = [
         'user_id',
         'id_turma',
-        'id_escola',
         'modulo'
     ];
 

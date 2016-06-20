@@ -13,12 +13,12 @@ class CreateTableProfessoresInfo extends Migration {
     public function up() {
         if (!Schema::hasTable('professores_info')) {
             Schema::create('professores_info', function(Blueprint $table) {
-                
-                $table->increments('id');
-                
-                $table->integer('user_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+                $table->uid('user_id');
+                //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+                $table->integer('id_escola');
+                
                 $table->string('profile_photo')->default('default-user.png');
                 $table->string('status', 100)->default('Sou novo por aqui, e quero compartilhar conhecimentos com vocês :D');
                 $table->string('cidade', 40)->default('Não informado');

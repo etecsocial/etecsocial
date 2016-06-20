@@ -13,5 +13,6 @@ class Escola extends Model
         'id',
         'nome',
         'cod_prof',
+        'cod_coord',
     ];
 }

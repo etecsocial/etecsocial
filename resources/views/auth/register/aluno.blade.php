@@ -24,13 +24,19 @@ $fields = ['name' => 'Nome Completo', 'email' => 'Email',
             </select>
             <label>Escola</label>
         </div>
-        <div class="input-field col s12 m6 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
+        <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
             <select name="id_turma" id="loadturmas" required onchange="getModulos()">
+                @if(old('id_turma'))
+                <option selected value="{{ old('id_turma->id') }}">{{ old('id_turma->sigla') }}</option>
+                @endif
             </select>
             <label>Turma</label>
         </div>
-        <div class="input-field col s12 m6 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="O módulo equivale a um semestre." id="turmas">
+        <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="O módulo equivale a um semestre." id="turmas">
             <select name="modulo" id="loadmodulos" required>
+                @if(old('modulo'))
+                <option selected value="{{ old('modulo') }}">{{ old('modulo') }}</option>
+                @endif
             </select>
             <label>Módulo</label>
         </div>
