@@ -1,25 +1,30 @@
-<?php
-$fields = ['name' => 'Nome Completo', 'email' => 'Email',
-           'password' => 'Senha', 'password_confirmation' => 'Confirme a senha'];
-?>
 <div class="aluno">
     <form class="form-form" role="form" method="POST" action="{{ url('/register') }}">
-        {!! csrf_field() !!}
-        <input type="hidden" name="type" value="1"> @foreach ($fields as $field => $name)
-        <div class="input-field col s12 m6 l6">
-            <input @if (in_array($field, [ 'password', 'password_confirmation'])) type="password" @elseif(in_array($field, [ 'email', 'email_instuticional'])) type="email" @else type="text" @endif class="form-control" name="{{ $field }}" value="{{ old($field) }}">
-            <label>{{ $name }}</label>
-            @if ($errors->has($field))
-            <span class="help-block">
-        <strong>{{ $errors->first($field) }}</strong>
-     </span> @endif
+        {!! csrf_field() !!}        
+        
+        <input type="hidden" name="type" value="1"> 
+        
+        <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Seus amigos encontrarão você por este nome!" data-position="top" data-delay="1000">
+            <input id="name" type="text"  pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ]{1}[a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ]{1}[a-zéúíóáèùìòàõãñêûîôâëyüïöä]+){1,3}$" required name="name" placeholder="Ex. Antônio Carlos" class="validate {{ $errors->has('name') ? 'invalid' : $errors->any() ? 'valid' : '' }}">
+            <label for="name" data-error="Parece que há algo de errado com seu nome." data-success="Prazer em conhecê-lo!" style="width: 350px" class="left-align">Como você se chama?</label>
         </div>
-        @endforeach
+        <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Seu e-mail institucional será solicitado mais tarde." data-position="top" data-delay="1000">
+            <input type="email" required name="email" placeholder="Ex. antonio98@exemplo.com" class="validate {{ $errors->has('email') ? 'invalid' : $errors->any() ? 'valid' : '' }}">
+            <label for="Email" data-error="{{ $errors->has('email') ? $errors->first('email') : 'Esse e-mail não parece correto.' }}" data-success="Ok, depois precisaremos de seu e-mail institucional." style="width: 350px" class="left-align">Qual é seu e-mail?</label>
+        </div>
+        <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Uma senha segura contém números, letras e símbolos!" data-position="top" data-delay="1000">
+            <input type="password" required name="password">
+            <label for="password" data-error="{{ $errors->password or '' }}">Digite uma senha segura</label>
+        </div>
+        <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Isso ajuda a evitar erros!" data-position="top" data-delay="1000">
+            <input type="password" required name="password_confirmation" style="width: 350px" class="left-align">
+            <label for="password_confirmation" data-error="{{ $errors->password_confirmation or '' }}">Digite a senha novamente</label>
+        </div>
         <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua escola não esteja listada, talvez nenhum coordenador tenha se cadastrado ainda.">
             <select name="id_escola" id="id_escola" onchange="getTurmas()" required>
                 <option disabled selected="selected">Selecione sua ETEC</option>
                 @foreach($escolas as $escola)
-                <option value="{{ $escola->id }}" @if(old('id_escola')==$escola->id ) selected @endif>{{ $escola->nome }}</option>
+                <option value="{{ $escola->id }}" {{ old('id_escola') == $escola->id ? 'selected' : '' }}>{{ $escola->nome }}</option>
                 @endforeach
             </select>
             <label>Escola</label>

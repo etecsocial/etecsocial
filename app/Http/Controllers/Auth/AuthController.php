@@ -52,8 +52,8 @@ use AuthenticatesAndRegistersUsers,
         switch ($data['type']) {
             case 1: //ALUNO
                 $validator = [
-                    'name' => 'required|max:255',
-                    'email' => 'required|email|max:255|unique:users',
+                    'name' => 'required|max:50|alpha',
+                    'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed',
                     'id_escola' => 'required|exists:escolas,id|integer',
                     'id_turma' => 'required'
