@@ -5,48 +5,14 @@
         $('.modal-trigger').leanModal();
         $('.button-collapse').sideNav();
         $('select').material_select();
+        $('ul.tabs').tabs();
 
-        @if (old('type') == 2)
-        $('.aluno').hide();
-        $('.coordenador').hide();
-        $('.professor').show();
-        @elseif (old('type') == 3)
-        $('.aluno').hide();
-        $('.professor').hide();
-        $('.coordenador').show();
-        @else
-        $('.aluno').show();
-        $('.professor').hide();
-        $('.coordenador').hide();
-        @endif
-        
-            $('#register-aluno').click(function () {
-            $('.professor').hide();
-            $('.coordenador').hide();
-            $('.aluno').show();
-        });
-
-        $('#register-professor').click(function () {
-            $('.aluno').hide();
-            $('.coordenador').hide();
-            $('.professor').show();
-        });
-        
-        $('#register-coordenador').click(function () {
-            $('.aluno').hide();
-            $('.professor').hide();
-            $('.coordenador').show();
-        });
-
-        var hash = window.location.hash;
-        if (hash == '#register') {
-            $('#register').openModal();
-        } else if (hash == '#login') {
-            $('#login').openModal();
-        }
+        var type =  {{ old('type') ? old('type') : 1 }};
+        $('.' + type).addClass('active');
+        $('#modal-singup').leanModal();
+        (type > 1) ? $('#modal-singup').openModal() : null;
     });
-
-
+    
     function getTurmas() {
         var escola = $('#id_escola').val();
         if (escola) {
@@ -60,11 +26,11 @@
     }
     function getModulos() {
         var id_turma = $('#loadturmas').val();
-            var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
-            $.get(url, function (dataReturn) {
-                $('#loadmodulos').html(dataReturn).material_select();
-                $('.caret').hide();
-            });
+        var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+        $.get(url, function (dataReturn) {
+            $('#loadmodulos').html(dataReturn).material_select();
+            $('.caret').hide();
+        });
     }
 </script>
 @stop
@@ -80,7 +46,7 @@
         </ul>
         <ul id="nav-mobile" class="side-nav">
             <li><a href="#entrar" class="modal-trigger">Entrar</a></li>
-            <li><a href="#cadastrar" class="modal-trigger">Cadastrar</a></li>
+            <li><a href="#modal-cadastrar" class="modal-trigger">Cadastrar</a></li>
             <li>
                 <div class="divider"></div>
             </li>
@@ -148,19 +114,26 @@
     </div>
 </div>
 
-<div id="register" class="modal">
-    <div class="modal-content center">
-        <div class="row margin">
-            <a class="waves-effect waves-light btn-large blue darken-1" id="register-aluno"><i class="material-icons left">person_pin</i>Aluno</a>
-            <a class="waves-effect waves-light btn-large teal darken-1" id="register-professor"><i class="material-icons left">work</i>Professor</a>              
-            <a class="waves-effect waves-light btn-large red darken-1" id="register-coordenador"><i class="material-icons left">work</i>Coordenador</a>              
-        </div>
-        <div class="col s12 center">
-            <div class="row">
-                @include('auth.register.aluno')
-                @include('auth.register.professor')
-                @include('auth.register.coordenador')
+<!-- Modal Register -->
+<div id="modal-singup" class="modal modal-trigger">
+    <div class="modal-content">
+        <h4>Criar conta</h4>
+        <div class="row">
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s3"><a href="#1">Aluno</a></li>
+                    <li class="tab col s3"><a href="#2">Professor</a></li>
+                    <li class="tab col s3"><a href="#3">Coordenador</a></li>
+                </ul>
             </div>
+            @include('auth.register.register-form')
         </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Concluir cadastro</a>
     </div>
 </div>
+
+

@@ -15,7 +15,7 @@
             </div>
             <div class="row center">
                 <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger"><i class="material-icons left">input</i>Entrar</a>
-                <a href="#register" id="cadastrar-button" class="modal-trigger btn-large waves-effect waves-light red darken-2 modal-trigger"><i class="material-icons left">person_pin</i>Cadastrar-se</a>
+                <button data-target="modal-singup" class="btn btn-large waves-effect waves-light red darken-2 modal-trigger"><i class="material-icons left">person_pin</i>Cadastrar-se</button>
             </div>
         </div>
     </div>
