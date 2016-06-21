@@ -1,5 +1,6 @@
 
 @for($type = 1; $type < 4; $type++)
+
 <div id="{{ $type }}" class="col s12">
     {!! Form::open(array('url' => '/register')) !!}        
     {!! Form::hidden('type', $type) !!}
@@ -26,16 +27,18 @@
     <div class="input-field col s12 m6 l6 {{ $type == 1 ? 'tooltipped' : null }}" @if($type == 1) data-position='top' data-delay='2000' data-tooltip='Caso sua escola não esteja listada, talvez nenhum coordenador tenha se cadastrado ainda.' @endif >
          <select id="id_escola" name="id_escola" id="id_escola" onchange="getTurmas()" required class="validate @if($errors->has('id_escola')) invalid  @elseif($errors->any()) valid @endif">
             <option disabled @if(!old('id_escola')) selected @endif>Selecione sua ETEC</option>
-            
-            
             @if($type == 3)
-                @foreach($escolas as $escola)
+                @forelse($escolas as $escola)
                     <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
-                @endforeach
+                @empty
+                    <option>Não há escolas cadastradas</option>
+                @endforelse
             @else
-                @foreach($escolasCad as $escola)
+                @forelse($escolasCad as $escola)
                     <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
-                @endforeach
+                @empty
+                    <option>Não há escolas cadastradas</option>
+                @endforelse
             @endif
         </select>
         <label for="id_escola" data-error="Selecione a escola.">Escola</label>
@@ -44,7 +47,7 @@
     <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="{{ $type == 2 ? 'Solicite o código na coordenação de sua escola' : 'Obtenha o código entrando em contato conosco através do e-mail contato@etecsocial.com.br' }} " data-position="top" data-delay="1000">
         <label for="cod_{{ ($type == 2) ? 'prof' : 'coord' }}">Código do {{ ($type == 2) ? 'professor' : 'coordenador' }}</label>
         <input id="cod_{{ ($type == 2) ? 'prof' : 'coord' }}" type="number"  required name="cod_{{ ($type == 2) ? 'prof' : 'coord' }}" class="validate 
-               {{ (($type == 2 and $errors->first('cod_prof')) or ( $type == 3 and $errors->first('cod_coord') )) ? 'invalid' : ($errors->any()) ? 'valid' : null }}">
+               {{ ((($type == 2 and $errors->first('cod_prof')) or ( $type == 3 and $errors->first('cod_coord') ))) ? 'invalid' : ($errors->any()) ? 'valid' : null }}">
     </div>
     @else
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
