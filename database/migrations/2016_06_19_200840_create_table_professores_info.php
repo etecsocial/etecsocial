@@ -14,7 +14,7 @@ class CreateTableProfessoresInfo extends Migration {
         if (!Schema::hasTable('professores_info')) {
             Schema::create('professores_info', function(Blueprint $table) {
 
-                $table->uid('user_id');
+                $table->integer('user_id');
                 //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
                 $table->integer('id_escola');

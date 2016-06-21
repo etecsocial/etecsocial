@@ -10,7 +10,11 @@
         var type =  {{ old('type') ? old('type') : 1 }};
        $('ul.tabs').tabs('select_tab', type);
         $('#singup').leanModal();
-        (type > 1) ? $('#singup').openModal() : null;
+        
+        @if(old('type'))
+        $('.singup').openModal();
+        @endif
+        
     });
     
     function getTurmas() {

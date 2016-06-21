@@ -8,25 +8,58 @@ use App\AlunosTurma;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
 use App\Post;
+use Response;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller {
 
-    public function index() {
-        
-        
-        return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $this->getEscolas()]);
+    public function index() {       
+                
+        return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
+    }
+    
+    
+    function getRandomNumbers($num, $min, $max, $repeat = false, $sort = false)
+{
+    if ((($max - $min) + 1) >= $num) {
+        $numbers = array();
+
+        while (count($numbers) < $num) {
+            $number = mt_rand($min, $max);
+
+            if ($repeat || !in_array($number, $numbers)) {
+                $numbers[] = $number;
+            }
+        }
+
+        switch ($sort) {
+        case SORT_ASC:
+            sort($numbers);
+            break;
+        case SORT_DESC:
+            rsort($numbers);
+            break;
+        }
+
+        return $numbers;
     }
 
-    public function getEscolas() {
+    return false;
+}
+
+    public function getAllEscolas() {
+        return Escola::select('escolas.id', 'escolas.nome')->get();
+    }
+
+    public function getEscolasCad() {
         return Escola::select('escolas.id', 'escolas.nome')
-                ->whereIn('id', function ($query) {
-                    $query->select('id_escola')
-                    ->from('turmas');
-                })
-                ->get();
+                        ->whereIn('id', function ($query) {
+                            $query->select('id_escola')
+                            ->from('turmas');
+                        })
+                        ->get();
     }
 
     public function feed($id = 0) {
@@ -79,10 +112,10 @@ class HomeController extends Controller {
                     ->get();
         } else {
             $escola = AlunosTurma::where('user_id', auth()->user()->id)
-                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
-                    ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
-                    ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo'])
-                    ->get()[0];
+                            ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
+                            ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
+                            ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo'])
+                            ->get()[0];
         }
 
 

@@ -62,7 +62,7 @@ use AuthenticatesAndRegistersUsers,
                 break;
             case 2: //PROFESSOR
                 $validator = [
-                    'name' => 'required|max:50|alpha|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
+                    'name' => 'required|max:50|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
@@ -71,12 +71,12 @@ use AuthenticatesAndRegistersUsers,
                 break;
             case 3: //COORDENADOR
                 $validator = [
-                    'name' => 'required|max:50|alpha|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
+                    'name' => 'required|max:50|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['id_escola']
-                ];
+                    'cod_coord' => 'required|exists:escolas,cod_coord,id,id_escola'
+                    ];
                 break;
 
             default:
