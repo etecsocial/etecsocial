@@ -22,7 +22,11 @@ class AppServiceProvider extends ServiceProvider {
         });
 
         Turma::created(function ($turma) {
-            for ($modulo = $turma->modulos; $modulo > 0; $modulo--) {
+            
+            for ($modulo = 3; $modulo > 0; $modulo--) {
+                //Neste caso, ele cria 3 grupos, pois, caso seja curso técnico de 3 semestres, consideramos
+                //os semestres como "anos", e quando for 6 semestres, é como se o 1º 2 2º semestre 
+                //equivalesse ao 1º semestre de curso técnico, nao sei se deu pra entender...
                 $grupo = new Grupo;
                 $grupo->nome = $turma->sigla . ' ' . date('Y');
                 $grupo->assunto = "Grupo da turma " . $modulo . "º " . $turma->sigla;
