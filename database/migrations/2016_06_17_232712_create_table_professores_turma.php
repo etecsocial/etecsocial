@@ -21,10 +21,6 @@ class CreateTableProfessoresTurma extends Migration
 
                 $table->integer('modulo');
                 $table->integer('id_turma');
-                
-                $table->integer('id_escola')->unsigned();
-//                $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
-              
                 $table->timestamps();
             });
         }

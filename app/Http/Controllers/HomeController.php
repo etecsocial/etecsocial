@@ -15,39 +15,37 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller {
 
-    public function index() {       
-                
+    public function index() {
+
         return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
     }
-    
-    
-    function getRandomNumbers($num, $min, $max, $repeat = false, $sort = false)
-{
-    if ((($max - $min) + 1) >= $num) {
-        $numbers = array();
 
-        while (count($numbers) < $num) {
-            $number = mt_rand($min, $max);
+    function getRandomNumbers($num, $min, $max, $repeat = false, $sort = false) {
+        if ((($max - $min) + 1) >= $num) {
+            $numbers = array();
 
-            if ($repeat || !in_array($number, $numbers)) {
-                $numbers[] = $number;
+            while (count($numbers) < $num) {
+                $number = mt_rand($min, $max);
+
+                if ($repeat || !in_array($number, $numbers)) {
+                    $numbers[] = $number;
+                }
             }
+
+            switch ($sort) {
+                case SORT_ASC:
+                    sort($numbers);
+                    break;
+                case SORT_DESC:
+                    rsort($numbers);
+                    break;
+            }
+
+            return $numbers;
         }
 
-        switch ($sort) {
-        case SORT_ASC:
-            sort($numbers);
-            break;
-        case SORT_DESC:
-            rsort($numbers);
-            break;
-        }
-
-        return $numbers;
+        return false;
     }
-
-    return false;
-}
 
     public function getAllEscolas() {
         return Escola::select('escolas.id', 'escolas.nome')->get();
@@ -99,21 +97,18 @@ class HomeController extends Controller {
 
         if (auth()->user()->first_login == 3) {
             $escola = ProfessoresInfo::where('user_id', auth()->user()->id)->select(['id_escola as id', 'escolas.nome as etec'])
-                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
-                    ->get()[0];
-            
+                            ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                            ->get()[0];
         } elseif (auth()->user()->first_login == 2) {
-            $escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)
-                    ->join('turmas', 'turmas.id', '=', 'professores_turma.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
-                    ->select(['escolas.nome', 'escolas.id'])
-                    ->get();
+            $escola = ProfessoresInfo::join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                            ->select(['escolas.nome as etec', 'escolas.id as id'])
+                            ->get()[0];
         } else {
             $escola = AlunosTurma::where('user_id', auth()->user()->id)
-                            ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
-                            ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
-                            ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo'])
-                            ->get()[0];
+            ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
+            ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
+            ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo', 'escolas.nome as etec'])
+            ->get()[0];
         }
 
 

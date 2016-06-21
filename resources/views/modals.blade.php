@@ -190,7 +190,7 @@
                     <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="1500" data-tooltip="Você poderá adicionar novas escolas mais tarde.">
                         <select name="id_escola" id="id_escola" onchange="getTurmas()" required>
                             <option disabled selected value="">Selecione a escola</option>
-                            <option  value="{{ $escola[0]->id }}">{{ $escola[0]->nome }}</option>
+                            <option  value="{{ $escola->id }}">{{ $escola->etec }}</option>
                             <!--                            @todo esta parte está vunerável!-->
                         </select>
                         <label>Escola</label>
