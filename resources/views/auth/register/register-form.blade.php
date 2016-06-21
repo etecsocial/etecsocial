@@ -1,4 +1,5 @@
-
+{{ $errors->first('cod_coord') }}
+{{ $errors->has('cod_coord') }}
 @for($type = 1; $type < 4; $type++)
 
 <div id="{{ $type }}" class="col s12">
@@ -28,26 +29,31 @@
          <select id="id_escola" name="id_escola" id="id_escola" onchange="getTurmas()" required class="validate @if($errors->has('id_escola')) invalid  @elseif($errors->any()) valid @endif">
             <option disabled @if(!old('id_escola')) selected @endif>Selecione sua ETEC</option>
             @if($type == 3)
-                @forelse($escolas as $escola)
-                    <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
-                @empty
-                    <option>Não há escolas cadastradas</option>
-                @endforelse
+            @forelse($escolas as $escola)
+            <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
+            @empty
+            <option>Não há escolas cadastradas</option>
+            @endforelse
             @else
-                @forelse($escolasCad as $escola)
-                    <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
-                @empty
-                    <option>Não há escolas cadastradas</option>
-                @endforelse
+            @forelse($escolasCad as $escola)
+            <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
+            @empty
+            <option>Não há escolas cadastradas</option>
+            @endforelse
             @endif
         </select>
         <label for="id_escola" data-error="Selecione a escola.">Escola</label>
     </div>
-    @if($type != 1)
-    <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="{{ $type == 2 ? 'Solicite o código na coordenação de sua escola' : 'Obtenha o código entrando em contato conosco através do e-mail contato@etecsocial.com.br' }} " data-position="top" data-delay="1000">
-        <label for="cod_{{ ($type == 2) ? 'prof' : 'coord' }}">Código do {{ ($type == 2) ? 'professor' : 'coordenador' }}</label>
-        <input id="cod_{{ ($type == 2) ? 'prof' : 'coord' }}" type="number"  required name="cod_{{ ($type == 2) ? 'prof' : 'coord' }}" class="validate 
-               {{ ((($type == 2 and $errors->first('cod_prof')) or ( $type == 3 and $errors->first('cod_coord') ))) ? 'invalid' : ($errors->any()) ? 'valid' : null }}">
+    @if($type == 2)
+    <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Solicite o código na coordenação de sua escola" data-position="top" data-delay="1000">
+        <input placeholder="O código deve corresponder à escola selecionada" id="cod_prof" type="number"  required name="cod_prof" class="validate @if($errors->has('cod_prof')) invalid  @elseif($errors->any()) valid @endif">
+        <label for="cod_prof" data-error="{{ $errors->first('cod_prof') ? $errors->first('cod_prof') : 'Código inválido.'}}" style="width: 350px" class="left-align">Código do professor</label>
+    </div>
+    @elseif($type == 3)
+    <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Obtenha o código entrando em contato conosco através do e-mail contato@etecsocial.com.br" data-position="top" data-delay="1000">
+        <input placeholder="O código deve corresponder à escola selecionada" id="cod_coord" type="number"  required name="cod_coord" class="validate @if($errors->has('cod_coord')) invalid  @elseif($errors->any()) valid @endif">
+        <label for="cod_coord" data-error="{{ $errors->first('cod_coord') ? $errors->first('cod_coord') : 'Código inválido.'}}" style="width: 350px" class="left-align">Código do coordenador</label>
+
     </div>
     @else
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">

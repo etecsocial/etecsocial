@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
 use App\AlunosTurma;
+use App\ProfessoresInfo;
 
 class AuthController extends Controller {
     /*
@@ -75,7 +76,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'cod_coord' => 'required|exists:escolas,cod_coord,id,id_escola'
+                    'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['id_escola']
                     ];
                 break;
 
