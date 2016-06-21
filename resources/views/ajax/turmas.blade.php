@@ -1,9 +1,9 @@
 <option disabled>Selecione a turma</option>
 @forelse($turmas as $turma)
-<option value="{{ $turma->id }}">{{ $turma->sigla }}</option>
+<option value="{{ $turma->id }}" class='tooltipped' data-tooltip='{{ $turma->nome }}' data-delay='800' data-position='left'>{{ $turma->sigla }}</option>
 
 @empty
 @if(!old('id_turma'))
-<option disabled selected>Ainda não há turmas cadastradas para esta escola</option>
+<option disabled selected>Não há turmas.</option>
 @endif
 @endforelse

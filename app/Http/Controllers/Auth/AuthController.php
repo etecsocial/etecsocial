@@ -94,7 +94,6 @@ use AuthenticatesAndRegistersUsers,
      * @return User
      */
     protected function create(array $data) {
-//$a = $data['type'];
         $user = User::create([
                     'name' => $data['name'],
                     'username' => User::create_username($data['name']),
@@ -102,6 +101,8 @@ use AuthenticatesAndRegistersUsers,
                     'password' => bcrypt($data['password']),
                     'first_login' => $data['type'] != 1 ? $data['type'] : 0,
                     'confirmation_code' => str_random(30),
+                    //'type' => $data['type']
+            //Não ta inserindo por nada essa droga, tava inserindo na linha 119 como gambiarra, mas nem la ta inserindo 0 tambem..
         ]);
         //return abort(404);
         $data['type'] == 1 ? $this->create_aluno($user, $data) : $this->create_prof($user, $data);

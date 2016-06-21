@@ -38,17 +38,17 @@ $(document).ready(function() {
     $("#modalFirst").openModal();
 });
 
-function turmas() {
-       var escola = $('#id_escola').val();
-       if (escola) {
-           var url = '/ajax/cadastro/turmas?escola=' + escola;
-           $.get(url, function (dataReturn) {
-               $('#loadturmas').html(dataReturn);
-               $('#loadturmas').material_select();
-               $('.caret').hide();
-           });
-       }
-}
+//function turmas() {
+//       var escola = $('#id_escola').val();
+//       if (escola) {
+//           var url = '/ajax/cadastro/turmas?escola=' + escola;
+//           $.get(url, function (dataReturn) {
+//               $('#loadturmas').html(dataReturn);
+//               $('#loadturmas').material_select();
+//               $('.caret').hide();
+//           });
+//       }
+//} APAGAR ISSO DEPOIS
 </script>
 @endif @if($id)
 <script>
@@ -66,7 +66,7 @@ abrirPost({{ $id }})
                             <h4 class="task-card-title">Tarefas</h4>
                             <p class="task-card-date">{{ \Carbon\Carbon::now()->formatLocalized('%A %d %B %Y') }}</p>
                         </li>
-                        @if(isset($tasks[0])) @foreach($tasks as $task)
+                         @forelse($tasks as $task)
                         <li class="tarefa collection-item dismissable" data-idtask="{{ $task->id }}" data-date="{{ $task->data }}">
                             @if($task->checked)
                             <input type="checkbox" id="{{ $task->id }}-tab" checked="checked" onclick="javascript:checkTask('{{ $task->id }}')"> @else
@@ -83,11 +83,11 @@ abrirPost({{ $id }})
                             @else
                             <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
                         </li>
-                        @endforeach @else
+                        @empty
                         <li class="tarefa collection-item dismissable">
                             <p class="center-align">Você não ainda não criou nenhuma tarefa :(</p>
                         </li>
-                        @endif
+                        @endforelse
                     </ul>
                 </div>
                 <div id="profile-page-wall-share" class="col s12 m12 l8" style="margin: 10px 0px 36px 0">
@@ -167,16 +167,16 @@ abrirPost({{ $id }})
                     <div class="card-content">
                         <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')" onmouseout="javascript:$('#icon-edit-status').hide('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                         <div class="divider"></div>
-                        @if(isset($thisUser->status))
+                        @if(isset(auth()->user()->status))
                         <div id="us">
-                            <p class="left" style="margin-top:15px">{{{ $thisUser->status }}}</p>
+                            <p class="left" style="margin-top:15px">{{{ auth()->user()->status }}}</p>
                         </div>
                         @else
                         <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i> @endif
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4">Atualizar Status <i class="mdi-navigation-close right"></i></span>
-                        <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ $thisUser->name }}?</p>
+                        <p class="grey-text">Há algo novo para compartilhar com seus amigos, {{ auth()->user()->name }}?</p>
                         <div class="input-field col s12 accent-4">
                             <form method="POST" action="{{ url('ajax/status') }}" id="status">
                                 <input id="status" name="status" type="text" class="validate" style="color:black">
@@ -198,7 +198,7 @@ abrirPost({{ $id }})
                     <div class="card">
                         <div class="card-content purple white-text center">
                             <p class="card-stats-title"><i class="mdi-editor-attach-money hide-on-med-and-down"></i>Desafios</p>
-                            <h4 class="card-stats-number">@if( isset($thisUser->num_desafios) ) {{ $thisUser->num_desafios }} @else 0 @endif</h4>
+                            <h4 class="card-stats-number">@if( isset(auth()->user()->num_desafios) ) {{ auth()->user()->num_desafios }} @else 0 @endif</h4>
                         </div>
                     </div>
                 </div>
@@ -206,7 +206,7 @@ abrirPost({{ $id }})
                     <div class="card">
                         <div class="card-content orange white-text center">
                             <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Auxílios</p>
-                            <h4 class="card-stats-number">@if( isset($thisUser->num_auxilios) ) {{ $thisUser->num_auxilios }} @else 0 @endif</h4>
+                            <h4 class="card-stats-number">@if( isset(auth()->user()->num_auxilios) ) {{ auth()->user()->num_auxilios }} @else 0 @endif</h4>
                         </div>
                     </div>
                 </div>

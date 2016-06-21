@@ -1,5 +1,3 @@
-{{ $errors->first('cod_coord') }}
-{{ $errors->has('cod_coord') }}
 @for($type = 1; $type < 4; $type++)
 
 <div id="{{ $type }}" class="col s12">
@@ -68,7 +66,7 @@
     </div>
     @endif
     <div class="modal-footer">
-        <button class="btn waves-effect waves-light" type="submit" onclick="" id="btn-submit-singup-form">Vamos lá!
+        <button class="btn waves-effect waves-light" type="submit" id="btn-submit-singup-form">Vamos lá!
             <i class="material-icons right">send</i>
         </button>  
     </div>

@@ -21,8 +21,17 @@ $('#edit-perfil').ajaxForm({
         }
     }
 });
-
+    function getModulos() {
+        var id_turma = $('#loadturmas').val();
+        var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+        $.get(url, function (dataReturn) {
+            $('#loadmodulos').html(dataReturn).material_select();
+            $('.caret').hide();
+        });
+    }
+    
 function getTurmas() {
+    //pega as turmas existentes em determinada escola
     var escola = $('#id_escola').val();
     if (escola) {
         var url = '/ajax/cadastro/getTurmas?id_escola=' + escola;
@@ -33,13 +42,18 @@ function getTurmas() {
         });
     }
 }
-function getModulos() {
-    var id_turma = $('#loadturmas').val();
-    var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
-    $.get(url, function (dataReturn) {
-        $('#loadmodulos').html(dataReturn).material_select();
-        $('.caret').hide();
-    });
+function getTurmasProfDisp(id_escola) {
+    //pega as turmas da quela escola que o professor ainda nao tenha cadastrado
+    if (id_escola) {
+        var url = '/ajax/cadastro/getTurmasProfDisp?id_escola=' + id_escola;
+        $.get(url, function (dataReturn) {
+            $('#loadturmas').html(dataReturn).material_select();
+            $('#loadmodulos').html('');
+            $('.caret').hide();
+        });
+    }else{
+        Materialize.toast('<span>Escola não selecionada ou inexistente.</span>', 3000);
+    }
 }
 
 

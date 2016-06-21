@@ -7,5 +7,5 @@
 <option disabled selected>Selecione o módulo</option>
 @endif
 @else
-<option disabled selected>Não há módulos cadastrados para esta turma.</option>
+<option disabled selected>Não há módulos cadastrados.</option>
 @endif

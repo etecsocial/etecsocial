@@ -26,9 +26,9 @@ class Grupo extends Model
         return Grupo::where('id', $id)->limit(1)->first();
     }
 
-    public function makeUrl($nome)
+    public function makeUrl($sigla, $modulo)
     {
-        $url  = str_replace(' ', '', $nome);
+        $url  = str_replace(' ', '', $modulo.$sigla. \Carbon\Carbon::today('y'));
         $cont = 1;
         if (Grupo::where('url', $url)->select('id')->first()) {
             $nova = $url . $cont;
