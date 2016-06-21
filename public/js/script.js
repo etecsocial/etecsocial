@@ -69,13 +69,16 @@ $('#addTurmasProfessor').ajaxForm({
 });
 
 //COORDENADOR
-$('#addTurmasCoordenador').ajaxForm({
+$('#setTurmasCoordenador').ajaxForm({
     success: function (data) {
         Materialize.toast('<span>Turma cadastrada.</span>', 3000);
         $('#addTurmasCoordenador').resetForm();
     },
-    error: function (data) {
-        Materialize.toast('<span>Existem erros no formulário enviado.</span>', 3000);
+    error: function (errors) {
+        if(errors){
+            Materialize.toast('<span>Turma já cadastrada.</span>', 3000);
+        }
+        
     }//@todo exibir corretamente os erros retornados pela validação
 });
 

@@ -28,7 +28,7 @@ class Grupo extends Model
 
     public function makeUrl($sigla, $modulo)
     {
-        $url  = str_replace(' ', '', $modulo.$sigla. \Carbon\Carbon::today('y'));
+        $url  = str_replace(' ', '', $modulo.$sigla. date('Y'));
         $cont = 1;
         if (Grupo::where('url', $url)->select('id')->first()) {
             $nova = $url . $cont;

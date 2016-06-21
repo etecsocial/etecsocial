@@ -131,11 +131,10 @@ class ContaController extends Controller {
     }
 
     public function setTurmas(\App\Http\Requests\CreateTurmaRequest $request) {
-
+        //Cadastra as turmas
         Turma::create(Input::all());
-        auth()->user()->first_login = 2;
-        auth()->user()->save();
-
+        $this->doneTurmas();
+        
         return response()->json(['status' => true]);
     }
 

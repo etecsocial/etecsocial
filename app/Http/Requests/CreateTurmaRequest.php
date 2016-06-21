@@ -17,17 +17,16 @@ class CreateTurmaRequest extends Request
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Impede que coordenadores cadastrem turmas com mesmo nome ou sigla para uma mesma escola
      *
      * @return array
      */
     public function rules()
     {
-        //@todo Não deixar cadastrar turmas com mesma sigla ou desc!
         return [
-            'nome' => 'required|min:8',
-            'sigla' => 'required|min:2',
-            'modulos' => 'required'
+            'nome' => 'required|min:8|unique:turmas,nome,NULL,id_escola id_escola',
+            'sigla' => 'required|min:2|unique:turmas,sigla,NULL,id_escola id_escola',
+            'modulos' => 'required|max:1'
         ];
     }
 }

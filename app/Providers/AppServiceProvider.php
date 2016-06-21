@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider {
         Turma::created(function ($turma) {
             for ($modulo = $turma->modulos; $modulo > 0; $modulo--) {
                 $grupo = new Grupo;
-                $grupo->nome = $turma->sigla . ' ' . \Carbon\Carbon::today('y');
+                $grupo->nome = $turma->sigla . ' ' . date('Y');
                 $grupo->assunto = "Grupo da turma " . $modulo . "º " . $turma->sigla;
                 $grupo->url = $grupo->makeUrl($turma->sigla, $modulo);
                 $grupo->id_criador = 1;
