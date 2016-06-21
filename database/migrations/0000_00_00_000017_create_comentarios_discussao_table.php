@@ -20,9 +20,9 @@ class CreateComentariosDiscussaoTable extends Migration {
                 $table->integer('id_grupo')->unsigned();
                 $table->integer('id_user')->unsigned();
 
-                $table->foreign('id_grupo')->references('id')->on('grupo');
-                $table->foreign('id_discussao')->references('id')->on('grupo_discussao');
-                $table->foreign('id_user')->references('id')->on('users');
+//                $table->foreign('id_grupo')->references('id')->on('grupo');
+//                $table->foreign('id_discussao')->references('id')->on('grupo_discussao');
+//                $table->foreign('id_user')->references('id')->on('users');
 
                 $table->timestamps();
             });

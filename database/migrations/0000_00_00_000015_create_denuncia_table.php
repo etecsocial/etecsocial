@@ -24,11 +24,11 @@ class CreateDenunciaTable extends Migration {
                 $table->integer('id_prof_2');
                 $table->integer('id_prof_3');
 
-                $table->integer('id_usuario')->unsigned();
-                $table->integer('id_post')->unsigned();
-
-                $table->foreign('id_post')->references('id')->on('posts');
-                $table->foreign('id_usuario')->references('id')->on('users');
+//                $table->integer('id_usuario')->unsigned();
+//                $table->integer('id_post')->unsigned();
+//
+//                $table->foreign('id_post')->references('id')->on('posts');
+//                $table->foreign('id_usuario')->references('id')->on('users');
 
                 $table->timestamps();
             });

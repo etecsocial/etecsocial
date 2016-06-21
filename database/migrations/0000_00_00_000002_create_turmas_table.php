@@ -17,7 +17,7 @@ class CreateTurmasTable extends Migration {
                 $table->string('nome', 150);
                 $table->string('sigla', 10);
                 $table->integer('id_escola')->unsigned();
-                $table->foreign('id_escola')->references('id')->on('escolas');
+                //$table->foreign('id_escola')->references('id')->on('escolas');
             });
         }
     }

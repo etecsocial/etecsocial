@@ -14,7 +14,7 @@ class CreateColumnTurma extends Migration
         Schema::table('grupo', function ($table) {
             if (!Schema::hasColumn('grupo', 'id_turma')) {
                 $table->integer('id_turma')->unsigned()->nullable();
-                $table->foreign('id_turma')->references('id')->on('turmas')->onDelete('cascade');
+//                $table->foreign('id_turma')->references('id')->on('turmas')->onDelete('cascade');
             }
         });
     }

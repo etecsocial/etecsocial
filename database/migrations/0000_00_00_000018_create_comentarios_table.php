@@ -18,7 +18,7 @@ class CreateComentariosTable extends Migration {
                 $table->integer('id_post')->unsigned();
 
                 $table->foreign('id_post')->references('id')->on('posts');
-                $table->foreign('id_user')->references('id')->on('users');
+//                $table->foreign('id_user')->references('id')->on('users');
 
                 $table->string('comentario');
                 $table->integer('relevancia')->nullable();

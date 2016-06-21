@@ -16,8 +16,8 @@ class CreateFavoritosTable extends Migration {
                 $table->integer('id_user')->unsigned();
                 $table->integer('id_post')->unsigned();
 
-                $table->foreign('id_user')->references('id')->on('users');
-                $table->foreign('id_post')->references('id')->on('posts');
+                //$table->foreign('id_user')->references('id')->on('users');
+                //$table->foreign('id_post')->references('id')->on('posts');
 
                 $table->primary(['id_user', 'id_post']);
             });

@@ -15,9 +15,9 @@ class CreateComunicadosCoordTable extends Migration {
             Schema::create('comunicados_coord', function(Blueprint $table) {
                 $table->increments('id')->unique();
                 $table->integer('id_coord');
-                $table->foreign('id_coord')->references('id')->on('users');
+//                $table->foreign('id_coord')->references('id')->on('users');
                 $table->integer('id_etec')->unsigned();
-                $table->foreign('id_etec')->references('id')->on('escolas');
+//                $table->foreign('id_etec')->references('id')->on('escolas');
                 $table->text('comunicado', 1000);
                 $table->timestamps();
             });

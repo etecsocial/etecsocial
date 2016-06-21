@@ -20,8 +20,8 @@ class CreateGrupoDiscussaoTable extends Migration {
                 $table->integer('id_autor')->unsigned();
                 $table->integer('id_grupo')->unsigned();
 
-                $table->foreign('id_grupo')->references('id')->on('grupo');
-                $table->foreign('id_autor')->references('id')->on('users');
+//                $table->foreign('id_grupo')->references('id')->on('grupo');
+//                $table->foreign('id_autor')->references('id')->on('users');
 
                 $table->timestamps();
             });

@@ -17,13 +17,13 @@ class CreateTableProfessoresTurma extends Migration
                 $table->increments('id');
                 
                 $table->integer('user_id')->unsigned();
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+//                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
                 $table->integer('modulo');
                 $table->integer('id_turma');
                 
                 $table->integer('id_escola')->unsigned();
-                $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
+//                $table->foreign('id_escola')->references('id')->on('escolas')->onDelete('cascade');
               
                 $table->timestamps();
             });

@@ -20,8 +20,8 @@ class CreateGrupoSaiuTable extends Migration {
                 $table->integer('id_user')->unsigned();
                 $table->integer('id_grupo')->unsigned();
 
-                $table->foreign('id_grupo')->references('id')->on('grupo');
-                $table->foreign('id_user')->references('id')->on('users');
+//                $table->foreign('id_grupo')->references('id')->on('grupo');
+//                $table->foreign('id_user')->references('id')->on('users');
 
                 $table->timestamps();
             });

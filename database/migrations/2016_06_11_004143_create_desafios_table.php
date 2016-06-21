@@ -20,7 +20,7 @@ class CreateDesafiosTable extends Migration
             $table->date('finish');
             $table->integer('reward_points')->default(10);
             $table->integer('responsible_id')->unsigned();
-            $table->foreign('responsible_id')->references('id')->on('users');
+//            $table->foreign('responsible_id')->references('id')->on('users');
             $table->string('file')->nullable();
 
             $table->timestamps();

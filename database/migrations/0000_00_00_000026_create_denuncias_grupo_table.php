@@ -25,9 +25,9 @@ class CreateDenunciasGrupoTable extends Migration {
 
                 // $table->primary(['tipo', 'id_pub', 'denuncia', 'id_autor_denuncia', 'id_grupo']);
 
-                $table->foreign('id_grupo')->references('id')->on('grupo');
-                $table->foreign('id_autor_denuncia')->references('id')->on('users');
-                $table->foreign('id_autor_pub')->references('id')->on('users');
+//                $table->foreign('id_grupo')->references('id')->on('grupo');
+//                $table->foreign('id_autor_denuncia')->references('id')->on('users');
+//                $table->foreign('id_autor_pub')->references('id')->on('users');
 
                 $table->timestamps();
             });

@@ -16,10 +16,10 @@ class CreateMensagensTable extends Migration {
                 $table->increments('id');
                 
                 $table->integer('id_remetente')->unsigned();
-                $table->foreign('id_remetente')->references('id')->on('users');
+//                $table->foreign('id_remetente')->references('id')->on('users');
                 
                 $table->integer('id_destinatario')->unsigned();
-                $table->foreign('id_destinatario')->references('id')->on('users');
+//                $table->foreign('id_destinatario')->references('id')->on('users');
                 
                 $table->longText('msg');
                 $table->string('assunto', 50);

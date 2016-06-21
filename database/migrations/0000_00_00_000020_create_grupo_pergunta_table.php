@@ -20,9 +20,9 @@ class CreateGrupoPerguntaTable extends Migration {
                 $table->integer('id_grupo')->unsigned();
                 $table->integer('id_autor')->unsigned();
 
-                $table->foreign('id_grupo')->references('id')->on('grupo');
-                $table->foreign('id_autor')->references('id')->on('users');
-
+//                $table->foreign('id_grupo')->references('id')->on('grupo');
+//                $table->foreign('id_autor')->references('id')->on('users');
+////
                 $table->timestamps();
             });
         }

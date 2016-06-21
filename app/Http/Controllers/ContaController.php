@@ -123,12 +123,7 @@ class ContaController extends Controller {
 
     public function setTurmas(\App\Http\Requests\CreateTurmaRequest $request) {
 
-        Turma::create([
-            'id_escola' => $request->id_escola,
-            'sigla' => $request->sigla,
-            'nome' => $request->desc,
-            'modulos' => $request->modulos
-        ]);
+        Turma::create(Input::all());
         auth()->user()->first_login = 2;
         auth()->user()->save();
 

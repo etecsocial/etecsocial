@@ -217,10 +217,10 @@
             <p>Coordenador, insira as turmas existentes em sua escola</p>
             <form id="addTurmasCoordenador" action="{{ url('ajax/cadastro/setTurmasCoordenador') }}" method="post">
                 <div class="col s12">
-                    <input type="hidden" name="id_escola" value="{{$escola}}">
+                    <input type="hidden" name="id_escola" value="{{$escola->id}}">
                     <div class="input-field col s12 m12 l5">
-                        <input name="desc" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="desc" type="text" class="validate">
-                        <label for="desc" class="active">Turma</label>  
+                        <input name="nome" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="nome" type="text" class="validate">
+                        <label for="nome" class="active">Turma</label>  
                     </div>
                     <div class="input-field col s12 m12 l5">
                         <input name="sigla" placeholder="Exemplo: EMIA" id="sigla" type="text" class="validate">

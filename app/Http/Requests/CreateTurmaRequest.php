@@ -25,7 +25,7 @@ class CreateTurmaRequest extends Request
     {
         //@todo Não deixar cadastrar turmas com mesma sigla ou desc!
         return [
-            'desc' => 'required|min:8',
+            'nome' => 'required|min:8',
             'sigla' => 'required|min:2',
             'modulos' => 'required'
         ];

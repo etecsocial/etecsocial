@@ -15,7 +15,7 @@ class CreateAgendasTable extends Migration {
             Schema::create('agendas', function(Blueprint $table) {
                 $table->increments('id');
                 $table->string('title')->nullable();
-                $table->text('description', 65535)->nullable();
+                $table->text('description', 255)->nullable();
                 $table->boolean('is_publico')->nullable()->default(false);
                 $table->integer('id_user')->unsigned();
                 $table->integer('id_turma')->unsigned()->nullable();
@@ -23,8 +23,8 @@ class CreateAgendasTable extends Migration {
                 $table->date('start')->nullable();
                 $table->date('end')->nullable();
 
-                $table->foreign('id_user')->references('id')->on('users');
-                $table->foreign('id_turma')->references('id')->on('turmas');
+                //$table->foreign('id_user')->references('id')->on('users');
+                //$table->foreign('id_turma')->references('id')->on('turmas');
 
                 $table->timestamps();
             });
