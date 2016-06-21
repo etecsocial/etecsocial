@@ -103,14 +103,16 @@ class HomeController extends Controller {
                     ->get()[0];
             
         } elseif (auth()->user()->first_login == 2) {
-            $escola = ProfessoresInfo::join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
-                    ->select(['escolas.nome as etec', 'escolas.id as id'])
-                    ->get()[0];
+            $escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)
+                    ->join('turmas', 'turmas.id', '=', 'professores_turma.id_turma')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->select(['escolas.nome', 'escolas.id'])
+                    ->get();
         } else {
             $escola = AlunosTurma::where('user_id', auth()->user()->id)
                             ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
                             ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
-                            ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo', 'escolas.nome as etec'])
+                            ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo'])
                             ->get()[0];
         }
 

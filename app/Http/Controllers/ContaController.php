@@ -36,8 +36,7 @@ class ContaController extends Controller {
     public function getTurmas(Request $request) {
         $this->validate($request, ['id_escola' => 'required|integer']);
 
-        $turmas = Turma::join('professores_turma', 'professores_turma.id_turma', '<>', 'turmas.id')
-                ->select(['id', 'nome', 'sigla'])
+        $turmas = Turma::select(['id', 'nome', 'sigla'])
                 ->where('id_escola', $request->id_escola)
                 ->get();
 
