@@ -104,8 +104,8 @@
                     <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="1500" data-tooltip="Você poderá adicionar novas escolas mais tarde.">
                         <select name="id_escola" id="id_escola" onchange="getTurmasProfDisp(this.value)" required class="validate">
                             <option disabled selected value="">Selecione a escola</option>
-                            <option  value="{{ $escola->id }}">{{ $escola->etec }}</option>
-                            <!--                            @todo esta parte está vunerável!-->
+                            <option  value="{{ $infoAcad->id }}">{{ $infoAcad->escola }}</option>
+                            <!--  AINDA VOU VALIDAR ESTA PARTE! -->
                         </select>
                         <label>Escola</label>
                     </div>

@@ -57,8 +57,8 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
-                    'id_turma' => 'required|integer|max:1|exists:turmas,id,id_escola,id_escola',
-                    'modulo' => 'required|integer|max:1'
+                    'id_turma' => 'required|exists:turmas,id',
+                    'modulo' => 'required|max:6'
                 ];
                 break;
             case 2: //PROFESSOR
@@ -77,7 +77,7 @@ use AuthenticatesAndRegistersUsers,
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'id_escola' => 'required|exists:escolas,id|integer',
                     'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['id_escola']
-                    ];
+                ];
                 break;
 
             default:
@@ -101,8 +101,8 @@ use AuthenticatesAndRegistersUsers,
                     'password' => bcrypt($data['password']),
                     'first_login' => $data['type'] != 1 ? $data['type'] : 0,
                     'confirmation_code' => str_random(30),
-                    //'type' => $data['type']
-            //Não ta inserindo por nada essa droga, tava inserindo na linha 119 como gambiarra, mas nem la ta inserindo 0 tambem..
+                        //'type' => $data['type']
+                        //Não ta inserindo por nada essa droga, tava inserindo na linha 119 como gambiarra, mas nem la ta inserindo 0 tambem..
         ]);
         //return abort(404);
         $data['type'] == 1 ? $this->create_aluno($user, $data) : $this->create_prof($user, $data);
@@ -110,15 +110,18 @@ use AuthenticatesAndRegistersUsers,
     }
 
     protected function create_aluno($user, $data) {
-        
+
         AlunosTurma::create([
             'user_id' => $user->id,
             'id_turma' => $data['id_turma'],
             'modulo' => $data['modulo'],
         ]);
         DB::table('users')
-            ->where('id', $user->id)
-            ->update(['type' => $data['type']]);
+                ->where('id', $user->id)
+                ->update(['type' => $data['type']]);
+        
+        //ADICIONAR O ALUNO AO SEU GRUPO!!
+        
     }
 
     protected function create_prof($user, $data) {
@@ -127,8 +130,11 @@ use AuthenticatesAndRegistersUsers,
         ProfessoresInfo::create([
             'user_id' => $user->id,
             'id_escola' => $data['id_escola']]);
+        DB::table('users')
+                ->where('id', $user->id)
+                ->update(['type' => $data['type']]);
+        
     }
-    
 
     protected function logout() {
         auth()->logout();
@@ -143,4 +149,5 @@ use AuthenticatesAndRegistersUsers,
     public function showLoginForm() {
         return redirect('/#login');
     }
+
 }

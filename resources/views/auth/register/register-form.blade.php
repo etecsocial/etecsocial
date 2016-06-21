@@ -57,12 +57,12 @@
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
         <select name="id_turma" id="loadturmas" required onchange="getModulos()" class="validate @if($errors->has('id_turma')) invalid  @elseif($errors->any()) valid @endif">
         </select>
-        <label for="loadturmas" data-error="{{ $errors->has('id_turma') ? $errors->first('id_turma') : 'Selecione sua turma.'}}">Turma</label>
+        <label for="id_turma" data-error="{{ $errors->first('id_turma') ? $errors->first('id_turma') : 'Selecione sua turma.'}}">Turma</label>
     </div>
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="O módulo equivale a um semestre." id="turmas">
         <select name="modulo" id="loadmodulos" required class="validate @if($errors->has('modulo')) invalid  @elseif($errors->any()) valid @endif">
         </select>
-        <label for="loadmodulos" data-error="{{ $errors->has('modulo') ? $errors->first('modulo') : 'Selecione o módulo.'}}">Módulo</label>
+        <label for="modulo" data-error="{{ $errors->first('modulo') ? $errors->first('modulo') : 'Selecione o módulo.'}}">Módulo</label>
     </div>
     @endif
     <div class="modal-footer">

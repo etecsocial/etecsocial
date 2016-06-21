@@ -98,6 +98,11 @@ class HomeController extends Controller {
                 //PROFESSOR
                 if (auth()->user()->first_login == 2) {
                     //DEVE SELECIONAR TURMAS QUE LECIONA
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
                 } elseif (auth()->user()->first_login == 0) {
                     //TUDO OK, ABRIR FEED NORMALMENTE
                     $info = ProfessoresInfo::
@@ -118,6 +123,11 @@ class HomeController extends Controller {
                                     ->get()[0];
                 } elseif (auth()->user()->first_login == 2) {
                     //JÁ CADASTROU AS TURMAS, PRECISA DIZER PARA QUAIS ELE DÁ AULA (SE TAMBEM FOR PROF)
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
                 } elseif (auth()->user()->first_login == 0) {
                     //JÁ CADASTROU E SELECIONOU AS SUAS. FEED NORMAL.
                     $info = ProfessoresInfo::

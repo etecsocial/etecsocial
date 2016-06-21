@@ -36,7 +36,7 @@ class ContaController extends Controller {
     public function getTurmas(Request $request) {
         $this->validate($request, ['id_escola' => 'required|integer|exists:escolas,id']);
             $turmas = Turma::where('turmas.id_escola', $request->id_escola)
-                    ->select(['turmas.id as id', 'turmas.nome as nome'])
+                    ->select(['turmas.id as id', 'turmas.sigla as sigla', 'turmas.nome as nome'])
                     ->get();
         return view('ajax.turmas', ['turmas' => $turmas]);
     }

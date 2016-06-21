@@ -85,7 +85,7 @@ abrirPost({{ $id }})
                         </li>
                         @empty
                         <li class="tarefa collection-item dismissable">
-                            <p class="center-align">Você não ainda não criou nenhuma tarefa :(</p>
+                            <p class="center-align">Você não possui nenhuma tarefa a ser feita.</p>
                         </li>
                         @endforelse
                     </ul>

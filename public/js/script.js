@@ -21,15 +21,15 @@ $('#edit-perfil').ajaxForm({
         }
     }
 });
-    function getModulos() {
-        var id_turma = $('#loadturmas').val();
-        var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
-        $.get(url, function (dataReturn) {
-            $('#loadmodulos').html(dataReturn).material_select();
-            $('.caret').hide();
-        });
-    }
-    
+function getModulos() {
+    var id_turma = $('#loadturmas').val();
+    var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+    $.get(url, function (dataReturn) {
+        $('#loadmodulos').html(dataReturn).material_select();
+        $('.caret').hide();
+    });
+}
+
 function getTurmas() {
     //pega as turmas existentes em determinada escola
     var escola = $('#id_escola').val();
@@ -51,7 +51,7 @@ function getTurmasProfDisp(id_escola) {
             $('#loadmodulos').html('');
             $('.caret').hide();
         });
-    }else{
+    } else {
         Materialize.toast('<span>Escola não selecionada ou inexistente.</span>', 3000);
     }
 }
@@ -60,8 +60,10 @@ function getTurmasProfDisp(id_escola) {
 //PROFESSOR
 $('#addTurmasProfessor').ajaxForm({
     success: function (data) {
-        Materialize.toast('<span>Turma cadastrada.</span>', 3000);
-        $('#addTurmasProfessor').resetForm();
+        if (data.status === true) {
+            Materialize.toast('<span>Turma cadastrada.</span>', 3000);
+            $('#addTurmasProfessor').resetForm();
+        }
     },
     error: function (data) {
         Materialize.toast('<span>Existem erros no formulário enviado.</span>', 3000);
@@ -72,13 +74,13 @@ $('#addTurmasProfessor').ajaxForm({
 $('#setTurmasCoordenador').ajaxForm({
     success: function (data) {
         Materialize.toast('<span>Turma cadastrada.</span>', 3000);
-        $('#addTurmasCoordenador').resetForm();
+        $('#setTurmasCoordenador').resetForm();
     },
     error: function (errors) {
-        if(errors){
+        if (errors) {
             Materialize.toast('<span>Turma já cadastrada.</span>', 3000);
         }
-        
+
     }//@todo exibir corretamente os erros retornados pela validação
 });
 
