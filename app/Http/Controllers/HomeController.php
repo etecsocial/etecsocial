@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Escola;
 use App\GrupoUsuario;
 use App\AlunosTurma;
+use App\ProfessoresInfo;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
 use App\Post;
-use Response;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -98,12 +98,10 @@ class HomeController extends Controller {
                 ->get();
 
         if (auth()->user()->first_login == 3) {
-            $query = $escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)
-                    ->join('turmas', 'turmas.id', '=', 'professores_turma.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
-                    ->select('escolas.id')
-                    ->get();
-            $escola = $query[0]->id_escola;
+            $escola = ProfessoresInfo::where('user_id', auth()->user()->id)->select(['id_escola as id', 'escolas.nome as etec'])
+                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                    ->get()[0];
+            
         } elseif (auth()->user()->first_login == 2) {
             $escola = DB::table('professores_turma')->where('user_id', auth()->user()->id)
                     ->join('turmas', 'turmas.id', '=', 'professores_turma.id_turma')
