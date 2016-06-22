@@ -82,6 +82,7 @@ class HomeController extends Controller {
     }
 
     function getInfoAcademica() {
+        //VOU OTIMIZAR ISSO AINDA.
         switch (auth()->user()->type) {
             case 1:
                 //Aluno

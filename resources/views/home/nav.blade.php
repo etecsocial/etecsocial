@@ -1,63 +1,8 @@
 @section('jscript2')
 {!! Minify::javascript(['/js/jquery-1.11.2.min.js', '/materialize-css/js/materialize.min.js'])->withFullUrl() !!}
-<script>
-    $(document).ready(function () {
-        $('.modal-trigger').leanModal();
-        $('.button-collapse').sideNav();
-        $('select').material_select();
-        $('ul.tabs').tabs();
-
-        var type =  {{ old('type') ? old('type') : 1 }};
-        $('ul.tabs').tabs('select_tab', type);
-        $('#singup').leanModal();
-        @if(old('type')) $('.singup').openModal(); @endif
-        
-    });
-    
-    function getTurmas() {
-        var escola = $('#id_escola').val();
-        if (escola) {
-            var url = '/ajax/cadastro/getTurmas?id_escola=' + escola;
-            $.get(url, function (dataReturn) {
-                $('#loadturmas').html(dataReturn).material_select();
-                $('#loadmodulos').html('');
-                $('.caret').hide();
-            });
-        }
-    }
-    function getModulos() {
-        var id_turma = $('#loadturmas').val();
-        var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
-        $.get(url, function (dataReturn) {
-            $('#loadmodulos').html(dataReturn).material_select();
-            $('.caret').hide();
-        });
-    }
-</script>
+@include('home.script-home')
 @stop
-<nav class="red darken-1" role="navigation">
-    <div class="nav-wrapper container">
-        <a id="logo-container" href="{{ url('/') }}" class="brand-logo">
-            <img src="{{ url('/images/logo-b.png') }}" alt="ETEC Social" class="logo-img">
-        </a>
-        <ul class="right hide-on-med-and-down">
-            <li><a href="#sobre" class="modal-trigger">Sobre</a></li>
-            <li><a href="#termos" class="modal-trigger">Termos</a></li>
-            <li><a href="#privacidade" class="modal-trigger">Privacidade</a></li>
-        </ul>
-        <ul id="nav-mobile" class="side-nav">
-            <li><a href="#entrar" class="modal-trigger">Entrar</a></li>
-            <li><a href="#modal-cadastrar" class="modal-trigger">Cadastrar</a></li>
-            <li>
-                <div class="divider"></div>
-            </li>
-            <li><a href="#sobre" class="modal-trigger">Sobre</a></li>
-            <li><a href="#termos" class="modal-trigger">Termos</a></li>
-            <li><a href="#privacidade" class="modal-trigger">Privacidade</a></li>
-        </ul>
-        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-</nav>
+
 <div id="termos" class="modal modal-fixed-footer">
     <div class="modal-content">
         <h4>Termos de Uso</h4>

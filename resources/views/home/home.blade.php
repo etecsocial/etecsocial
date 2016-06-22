@@ -7,15 +7,45 @@
 
 @section('content') @include('home.nav')
 <div id="index">
+    <nav class="transparent" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="{{ url('/') }}" class="brand-logo">
+                <img src="{{ url('/images/logo.png') }}" alt="ETEC Social" class="logo-img">
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#sobre" class="modal-trigger">Sobre</a></li>
+                <li><a href="#termos" class="modal-trigger">Termos</a></li>
+                <li><a href="#privacidade" class="modal-trigger">Privacidade</a></li>
+                <li><a href="#login" class="modal-trigger"><i class="material-icons left">input</i>Entrar</a></li>
+
+            </ul>
+            <ul id="nav-mobile" class="side-nav">
+                <li><a href="#entrar" class="modal-trigger">Entrar</a></li>
+                <li><a href="#modal-cadastrar" class="modal-trigger">Cadastrar</a></li>
+                <li>
+                    <div class="divider"></div>
+                </li>
+                <li><a href="#sobre" class="modal-trigger">Sobre</a></li>
+                <li><a href="#termos" class="modal-trigger">Termos</a></li>
+                <li><a href="#privacidade" class="modal-trigger">Privacidade</a></li>
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
     <div class="section no-pad-bot">
-        <div class="container">
-            <h1 class="header center red-text text-darken-2 hide-on-med-and-down">Entre na rede com seus amigos!</h1>
+        <div class="container" style="padding-top: 100px">
+            <h2 class="header center white-text text-darken-2 hide-on-med-and-down">Conecte-se com a gente.</h2>
             <div class="row center">
-                <h5 class="header col s12 red-text">Compartilhe conhecimentos juntos e desafie seus amigos!</h5>
+                <h5 class="header col s12 white-text">Por que aprender nunca foi tão divertido!</h5>
             </div>
-            <div class="row center">
-                <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger"><i class="material-icons left">input</i>Entrar</a>
-                <button data-target="modal1" class="btn btn-large waves-effect waves-light red darken-2 modal-trigger"><i class="material-icons left">person_pin</i>Cadastrar-se</button>
+            <div class="row center" style="margin-top: 50px">
+<!--                <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger"><i class="material-icons left">input</i>Entrar</a>-->
+                <button data-target="modal1" class="btn btn-large waves-effect waves-light red modal-trigger"><i class="material-icons left">person_pin</i>Conectar agora!</button>
+            </div>
+            
+            <div class="row center" style="margin-top: 110px">
+                <h5 class="white-text  thin" style="margin-bottom: 30px">Não acredita? Deixe-me apresentar.<h5>
+                        <a id="btn-scroll" href="#recursos" class="lala btn-floating btn-large waves-effect waves-light  blue accent-2"><i class="mdi-hardware-keyboard-arrow-down"></i></a>
             </div>
 
             <!-- Modal Structure -->
@@ -46,7 +76,7 @@
 </div>
 </div>
 </div>
-<div class="container" id="site-features">
+<div class="container" id="recursos">
     <div class="section">
         <div class="row">
             <div class="col s12 m4">

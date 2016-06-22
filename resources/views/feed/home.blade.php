@@ -2,7 +2,8 @@
 @section('title') Início | ETEC Social @stop
 
 @section('style') 
-{!! Minify::stylesheet(['/css/font.css',
+{!! Minify::stylesheet([
+'/css/font.css',
 '/css/asset.css',
 '/css/style.css', 
 '/js/plugins/fullcalendar/css/fullcalendar.min.css',
@@ -37,18 +38,6 @@
 $(document).ready(function() {
     $("#modalFirst").openModal();
 });
-
-//function turmas() {
-//       var escola = $('#id_escola').val();
-//       if (escola) {
-//           var url = '/ajax/cadastro/turmas?escola=' + escola;
-//           $.get(url, function (dataReturn) {
-//               $('#loadturmas').html(dataReturn);
-//               $('#loadturmas').material_select();
-//               $('.caret').hide();
-//           });
-//       }
-//} APAGAR ISSO DEPOIS
 </script>
 @endif @if($id)
 <script>
