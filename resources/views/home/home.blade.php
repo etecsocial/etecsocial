@@ -36,7 +36,7 @@
         <div class="container" style="padding-top: 100px">
             <h2 class="header center white-text text-darken-2 hide-on-med-and-down">Conecte-se com a gente.</h2>
             <div class="row center">
-                <h5 class="header col s12 white-text">Por que aprender nunca foi tão divertido!</h5>
+                <h5 class="header col s12 white-text">Porque aprender nunca foi tão divertido!</h5>
             </div>
             <div class="row center" style="margin-top: 50px">
 <!--                <a href="#login" id="entrar-button" class="modal-trigger btn-large waves-effect waves-light red lighten-1 modal-trigger"><i class="material-icons left">input</i>Entrar</a>-->
