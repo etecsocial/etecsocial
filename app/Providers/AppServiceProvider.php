@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider {
         });
 
         Turma::created(function ($turma) {
-            
+
             for ($modulo = 3; $modulo > 0; $modulo--) {
                 //Neste caso, ele cria 3 grupos, pois, caso seja curso técnico de 3 semestres, consideramos
                 //os semestres como "anos", e quando for 6 semestres, é como se o 1º 2 2º semestre 
@@ -31,17 +31,17 @@ class AppServiceProvider extends ServiceProvider {
                 $grupo->nome = $turma->sigla . ' ' . date('Y');
                 $grupo->assunto = "Grupo da turma " . $modulo . "º " . $turma->sigla;
                 $grupo->url = $grupo->makeUrl($turma->sigla, $modulo);
-                $grupo->id_criador = 1;
+                $grupo->id_criador = auth()->user()->id;
                 $grupo->num_participantes = 1;
                 $grupo->id_turma = $turma->id;
                 $grupo->criacao = \Carbon\Carbon::today();
                 $grupo->save();
 
-                $grupoUsuario = new GrupoUsuario;
-                $grupoUsuario->id_grupo = $grupo->id;
-                $grupoUsuario->id_user = 1;
-                $grupoUsuario->is_admin = 1;
-                $grupoUsuario->save();
+                    $grupoUsuario = new GrupoUsuario;
+                    $grupoUsuario->id_grupo = $grupo->id;
+                    $grupoUsuario->id_user = auth()->user()->id;
+                    $grupoUsuario->is_admin = 1;
+                    $grupoUsuario->save();
             }
         });
     }

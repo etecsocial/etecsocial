@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
 use App\AlunosTurma;
 use App\ProfessoresInfo;
+use App\GrupoUsuario;
+use App\Grupo;
 
 class AuthController extends Controller {
     /*
@@ -119,9 +121,22 @@ use AuthenticatesAndRegistersUsers,
         DB::table('users')
                 ->where('id', $user->id)
                 ->update(['type' => $data['type']]);
-        
-        //ADICIONAR O ALUNO AO SEU GRUPO!!
-        
+
+        $this->addGrupo($data['id_turma'], $user['id']);
+    }
+
+    public function addGrupo($turma, $user) {
+//        if ($id_grupo = Grupo::where('id_turma', $turma)->select('grupo.id as id')->get()) {
+//            GrupoUsuario::create([
+//                'id_grupo' => $id_grupo,
+//                'id_user' => $user,
+//                'is_admin' => 0
+//            ]);
+//        }else{
+//            return Grupo::where('id_turma', $turma)->select('id')->get();
+//        }
+        return true;
+        //Ainda vou terminar isso.
     }
 
     protected function create_prof($user, $data) {
@@ -133,7 +148,6 @@ use AuthenticatesAndRegistersUsers,
         DB::table('users')
                 ->where('id', $user->id)
                 ->update(['type' => $data['type']]);
-        
     }
 
     protected function logout() {

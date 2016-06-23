@@ -5,7 +5,8 @@
 {!! Minify::stylesheet(['/css/home.css'])->withFullUrl() !!}
 @stop
 
-@section('content') @include('home.nav')
+@section('content') 
+@include('home._nav')
 <div id="index">
     <nav class="white accent-2" role="navigation">
         <div class="nav-wrapper container">
@@ -60,18 +61,12 @@
                                             <li class="tab col s3"><a class="3" href="#3">Coordenador</a></li>
                                         </ul>
                                     </div>
-                                    @include('auth.register.register-form')
+                                    @include('auth.register._register-form')
                                 </div>
                             </div>
                         </div>
-
-
                         </div>
                         </div>
-
-
-
-
                         </div>
                         <div class="homepage-hero-module" id="recursos">
 
@@ -135,4 +130,4 @@
                                 </div>
                             </div>
                         </div>
-                        @include('home.footer') @stop
+                        @include('home._footer') @stop

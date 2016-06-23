@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller {
 
     public function index() {
+        //return Grupo::where('id_turma', $turma)->select('grupo.id as id')->get() to testando isso.
 
         return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
     }
