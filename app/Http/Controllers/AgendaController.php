@@ -24,7 +24,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        return view('agenda.home')->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('agenda.home')->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
     }
 
     public function api(Request $request)

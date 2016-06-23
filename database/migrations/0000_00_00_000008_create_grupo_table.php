@@ -17,7 +17,6 @@ class CreateGrupoTable extends Migration {
                 $table->string('nome', 20);
                 $table->string('assunto', 25);
                 $table->string('url', 35);
-                $table->date('criacao');
                 $table->string('materia', 45)->nullable();
                 $table->integer('id_criador');
                 $table->string('expiracao', 15)->nullable();

@@ -25,28 +25,28 @@ class DesafioController extends Controller
         $this->desafios = Desafio::select('id', 'title', 'description', 'reward_points')->where('responsible_id', auth()->user()->id)->get();
       }
 
-        return view('desafio.home')->with(['desafios' => $this->desafios, 'msgsUnread' => Mensagens::countUnread()]);
+        return view('desafio.home')->with(['desafios' => $this->desafios, 'msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
     }
 
     public function geral()
     {
         $usuarios = Pontuacao::ranking();
 
-        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de todas as ETEC'])->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de todas as ETEC'])->with(['msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
     }
 
     public function etec()
     {
         $usuarios = Pontuacao::ranking('etec');
 
-        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de toda a sua ETEC'])->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de toda a sua ETEC'])->with(['msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
     }
 
     public function turma()
     {
         $usuarios = Pontuacao::ranking('turma');
 
-        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking da sua turma'])->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking da sua turma'])->with(['msgsUnread' => Mensagens::countUnread()]);
     }
 
     public function store(Request $request)

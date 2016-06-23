@@ -11,7 +11,7 @@ class Grupo extends Model
     protected $fillable = [
         'id',
         'nome',
-        'criacao',
+        'url',
         'expiracao',
         'materia',
         'assunto',
@@ -26,7 +26,7 @@ class Grupo extends Model
         return Grupo::where('id', $id)->limit(1)->first();
     }
 
-    public function makeUrl($sigla, $modulo)
+    public static function makeUrl($sigla, $modulo)
     {
         $url  = str_replace(' ', '', $modulo.$sigla. date('Y'));
         $cont = 1;

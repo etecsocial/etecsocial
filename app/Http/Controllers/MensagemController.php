@@ -34,9 +34,9 @@ class MensagemController extends Controller
             'conversas'  => Mensagens::loadConversas(),
             'users1'     => $rec[0],
             'users2'     => $rec[1],
-            'unread'     => Mensagens::countUnread(),
-            'thisUser'   => auth()->user(),
             'msgsUnread' => Mensagens::countUnread(),
+            'infoAcad' => User::getInfoAcademica()
+            
         ]);
     }
 

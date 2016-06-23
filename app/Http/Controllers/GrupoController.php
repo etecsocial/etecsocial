@@ -48,7 +48,7 @@ class GrupoController extends Controller
 
         $professores = User::where('type', 2)->get();
 
-        return view('grupo.lista', ['grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => auth()->user()]);
+        return view('grupo.lista', ['infoAcad' => User::getInfoAcademica(), 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => auth()->user()]);
     }
 
     public function index($groupname)

@@ -79,7 +79,7 @@
                                 </video>
                                 <div class="poster hidden">
 
-                                    <img src="PATH_TO_JPEG" alt="">
+                                   
                                 </div>
                                 <div class="content-video">
                                     

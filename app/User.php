@@ -115,4 +115,66 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             }
         } return isset($nova) ? $nova : $username;
     }
+    
+        public static function getInfoAcademica() {
+        //VOU OTIMIZAR ISSO AINDA.
+        switch (auth()->user()->type) {
+            case 1:
+                //Aluno
+                if (auth()->user()->first_login == 0) {
+                    return AlunosTurma::where('user_id', auth()->user()->id)
+                                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
+                                    ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
+                                    ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo', 'escolas.nome as etec'])
+                                    ->get()[0];
+                }
+                //facebook login aqui, o first_login vai ser diferente...
+                break;
+            case 2:
+                //PROFESSOR
+                if (auth()->user()->first_login == 2) {
+                    //DEVE SELECIONAR TURMAS QUE LECIONA
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
+                } elseif (auth()->user()->first_login == 0) {
+                    //TUDO OK, ABRIR FEED NORMALMENTE
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
+                }
+                break;
+            case 3:
+                //COORDENADOR
+                if (auth()->user()->first_login == 3) {
+                    //DEVE CADASTRAR TURMAS DA ESCOLA
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
+                } elseif (auth()->user()->first_login == 2) {
+                    //JÁ CADASTROU AS TURMAS, PRECISA DIZER PARA QUAIS ELE DÁ AULA (SE TAMBEM FOR PROF)
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
+                } elseif (auth()->user()->first_login == 0) {
+                    //JÁ CADASTROU E SELECIONOU AS SUAS. FEED NORMAL.
+                    $info = ProfessoresInfo::
+                                    where('user_id', auth()->user()->id)
+                                    ->select(['id_escola as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->get()[0];
+                }
+                break;
+            default:
+                break;
+        }return $info;
+    }
 }
