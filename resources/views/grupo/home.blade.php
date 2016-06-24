@@ -236,7 +236,7 @@
                                             @if(isset($atv[3]))
                                                 <li class="collection-item avatar">
                                                     <i class="material-icons circle red">input</i>
-                                                    <span class="title"><a href="{{url(auth()->user()->verUser($atv[3]-> id_user)-> username)}}">{{ auth()->user()->verUser($atv[3]->id_user)->nome }}</a> deixou o grupo, pois</span>
+                                                    <span class="title"><a href="{{url(auth()->user()->verUser($atv[3]-> user_id)-> username)}}">{{ auth()->user()->verUser($atv[3]->user_id)->nome }}</a> deixou o grupo, pois</span>
                                                     <p class="truncate">{{ $atv[3]-> motivo}}
                                                         <br> <span class="ultra-small">Achamos que sabendo disso você poderá aprimorar o grupo.</span>
                                                     </p>

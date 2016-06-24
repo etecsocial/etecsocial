@@ -30,7 +30,7 @@ class UserRegisterListener
     public function handle(UserRegister $event)
     {
         // adiciona o usuário a ele mesmo
-        Amizade::insert(['id_user1' => $event->user->id, 'id_user2' => $event->user->id, 'aceitou' => 1]);
+        Amizade::insert(['user_id1' => $event->user->id, 'user_id2' => $event->user->id, 'aceitou' => 1]);
 
         // adiciona no grupo da sala
         if ($event->user->type == 1) {
@@ -39,7 +39,7 @@ class UserRegisterListener
 
             $turma_grupo           = new GrupoUsuario;
             $turma_grupo->id_grupo = $grupo->id; //@TODO: checar se o grupo existe
-            $turma_grupo->id_user  = $event->user->id;
+            $turma_grupo->user_id  = $event->user->id;
             $turma_grupo->save();
         }
 

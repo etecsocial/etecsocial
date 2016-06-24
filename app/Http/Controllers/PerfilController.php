@@ -43,17 +43,17 @@ class PerfilController extends Controller
 
             if ($amizade['status']) {
 
-                $posts = Post::where('id_user', $dados->id)
-                    ->join('users', 'users.id', '=', 'posts.id_user')
+                $posts = Post::where('user_id', $dados->id)
+                    ->join('users', 'users.id', '=', 'posts.user_id')
                     ->orderBy('created_at', 'desc')
-                    ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                    ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                     ->limit(5)
                     ->get();
             } else {
-                $posts = Post::where('id_user', $dados->id)
-                    ->join('users', 'users.id', '=', 'posts.id_user')
+                $posts = Post::where('user_id', $dados->id)
+                    ->join('users', 'users.id', '=', 'posts.user_id')
                     ->orderBy('created_at', 'desc')
-                    ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                    ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                     ->where("posts.is_publico", 1)
                     ->limit(5)
                     ->get();
@@ -61,13 +61,13 @@ class PerfilController extends Controller
 
             $infoacad = [];
 
-            $num_amigos = DB::table('amizades')->where(['id_user1' => $dados->id, 'aceitou' => 1])->count() - 1;
-            $num_grupos = DB::table('grupo_usuario')->where(['id_user' => auth()->user()->id])->count();
+            $num_amigos = DB::table('amizades')->where(['user_id1' => $dados->id, 'aceitou' => 1])->count() - 1;
+            $num_grupos = DB::table('grupo_usuario')->where(['user_id' => auth()->user()->id])->count();
 
             Carbon::setLocale('pt_BR');
             $tasks = DB::table('tarefas')
                 ->select(['desc', 'data', 'checked', 'id'])
-                ->where("id_user", auth()->user()->id)
+                ->where("user_id", auth()->user()->id)
                 ->where(function ($query) {
                     $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
                         ->orWhere('checked', false);
@@ -98,8 +98,8 @@ class PerfilController extends Controller
     {
         Carbon::setLocale('pt_BR');
         return $request;
-        if (User::where('id_user', $request->id_user)->first()) {
-            User::where('id', $request->id_user)->update([
+        if (User::where('user_id', $request->user_id)->first()) {
+            User::where('id', $request->user_id)->update([
                 'nome'     => isset($request->nome) ? $request->nome : $u->nome,
                 'username' => isset($request->username) ? $request->username : $u->username,
                 'nome'     => isset($request->nome) ? $request->nome : $u->nome,
@@ -142,10 +142,10 @@ class PerfilController extends Controller
     {
         Carbon::setLocale('pt_BR');
 
-        $posts = Post::where('id_user', $request->id_user)
-            ->join('users', 'users.id', '=', 'posts.id_user')
+        $posts = Post::where('user_id', $request->user_id)
+            ->join('users', 'users.id', '=', 'posts.user_id')
             ->orderBy('created_at', 'desc')
-            ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+            ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
             ->where('posts.id', '>', $request->id_post)
             ->get();
 
@@ -158,11 +158,11 @@ class PerfilController extends Controller
 
         $n = 5 - $request->tamanho % 5;
 
-        $posts = Post::where('id_user', $request->id_user)
-            ->join('users', 'users.id', '=', 'posts.id_user')
+        $posts = Post::where('user_id', $request->user_id)
+            ->join('users', 'users.id', '=', 'posts.user_id')
             ->orderBy('created_at', 'desc')
             ->limit($n)
-            ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+            ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
             ->where('posts.id', '<', $request->id_post)
             ->get();
 

@@ -17,7 +17,7 @@ class MensagemChat extends Event implements ShouldBroadcast
     public function __construct($id_dest, $id_rem, $msg, $data)
     {
         $this->data = array(
-            'id_user' => $id_dest,
+            'user_id' => $id_dest,
             'id_rem' => $id_rem,
             'foto_rem' => User::avatar($id_rem),
             'msg' => $msg,

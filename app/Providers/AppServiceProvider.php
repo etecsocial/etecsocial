@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider {
         Grupo::created(function ($data) {
             GrupoUsuario::create([
                 'id_grupo' => $data->id,
-                'id_user' => auth()->user()->id,
+                'user_id' => auth()->user()->id,
                 'is_admin' => 1
             ]);
         });
@@ -80,7 +80,7 @@ class AppServiceProvider extends ServiceProvider {
         ]);
         GrupoUsuario::create([
             'id_grupo' => $grupo->id,
-            'id_user' => auth()->user()->id,
+            'user_id' => auth()->user()->id,
             'is_admin' => 1
         ]);
         return $grupo->id;

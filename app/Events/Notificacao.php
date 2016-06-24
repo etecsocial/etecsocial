@@ -12,11 +12,11 @@ class Notificacao extends Event implements ShouldBroadcast
 
     public $data;
 
-    public function __construct($id_user)
+    public function __construct($user_id)
     {
         $this->data = array(
             'num' => '1',
-            'id_user'=> $id_user,
+            'user_id'=> $user_id,
         );
     }
 

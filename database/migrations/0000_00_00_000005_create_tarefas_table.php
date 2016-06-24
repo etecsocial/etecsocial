@@ -14,14 +14,14 @@ class CreateTarefasTable extends Migration {
         if (!Schema::hasTable('tarefas')) {
             Schema::create('tarefas', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
                 $table->string('desc', 255);
                 $table->integer('data');
                 $table->integer('data_checked')->default(0);
                 $table->integer('checked')->default(0);
                 $table->timestamps();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

@@ -16,11 +16,11 @@ class CreateComentariosPerguntaTable extends Migration {
                 $table->increments('id');
                 $table->string('comentario', 300);
 
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
                 $table->integer('id_pergunta')->unsigned();
                 $table->integer('id_grupo')->unsigned();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

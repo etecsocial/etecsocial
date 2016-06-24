@@ -55,7 +55,7 @@ class DenunciaController extends Controller
 
         if ($request->banir) {
             GrupoUsuario::where('id_grupo', $request->id_grupo)
-                ->where('id_user', $request->id_autor_pub)
+                ->where('user_id', $request->id_autor_pub)
                 ->update(array('is_banido' => 1));
         }
 
@@ -64,7 +64,7 @@ class DenunciaController extends Controller
             ->where('tipo', $request->tipo_pub)
             ->update(array('visto' => 1))) {
             if (isset($a)) {
-                return Response::json(['response' => 1, 'id' => $request->id_pub, 'tipo' => $request->tipo_pub, 'id_user' => $request->id_autor_pub]);
+                return Response::json(['response' => 1, 'id' => $request->id_pub, 'tipo' => $request->tipo_pub, 'user_id' => $request->id_autor_pub]);
             }return Response::json(['response' => 1]);
         }return Response::json(['response' => 2]);
     }

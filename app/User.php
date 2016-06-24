@@ -46,13 +46,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
      */
     
-    public function tarefa() {
+    public function tarefas() {
         return $this->hasMany('App\Tarefa');
     }
     public function turma() {
         return $this->belongsTo('App\Turma');
     }
-    public function post() {
+    public function posts() {
         return $this->hasMany('App\Post');
     }
     public function desafio() {
@@ -64,9 +64,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
     
     public function scopeGetFriends() {
-        $this->join('amizades', 'amizades.id_user1', '=', 'users.id')
+        $this->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', auth()->user()->id);
+                ->where('amizades.user_id2', auth()->user()->id);
     }
 
     public static function verUser($id) {

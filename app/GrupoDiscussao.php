@@ -11,7 +11,7 @@ class GrupoDiscussao extends Model
     protected $fillable = [
         'id',
         'id_autor',
-        'id_user',
+        'user_id',
         'assunto',
         'discussao',
         'id_grupo',

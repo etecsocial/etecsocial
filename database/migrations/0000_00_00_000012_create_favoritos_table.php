@@ -13,11 +13,11 @@ class CreateFavoritosTable extends Migration {
     public function up() {
         if (!Schema::hasTable('favoritos')) {
             Schema::create('favoritos', function(Blueprint $table) {
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
                 $table->integer('id_post')->unsigned();
 
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

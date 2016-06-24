@@ -14,12 +14,12 @@ class CreatePontuacaosTable extends Migration {
         if (!Schema::hasTable('pontuacaos')) {
             Schema::create('pontuacaos', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
                 $table->integer('pontos');
                 $table->string('motivo')->nullable();
                 $table->timestamps();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

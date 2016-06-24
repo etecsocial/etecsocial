@@ -9,7 +9,7 @@ class Post extends Model {
 
     protected $fillable = [
         'id',
-        'id_user',
+        'user_id',
         'titulo',
         'publicacao',
         'num_favoritos',
@@ -37,7 +37,7 @@ class Post extends Model {
     
     public static function favoritou($id) {
         $count = DB::table('favoritos')
-                ->where(["id_post" => $id, "id_user" => auth()->user()->id])
+                ->where(["id_post" => $id, "user_id" => auth()->user()->id])
                 ->count();
 
         return isset($count) ? $count : false;
@@ -45,7 +45,7 @@ class Post extends Model {
 
     public static function count() {
         $count = DB::table('posts')
-                ->where(["id_user" => auth()->user()->id])
+                ->where(["user_id" => auth()->user()->id])
                 ->count();
         return isset($count) ? $count : 0;
     }

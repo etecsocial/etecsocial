@@ -14,12 +14,12 @@ class CreateAmizadesTable extends Migration {
         if (!Schema::hasTable('amizades')) {
             Schema::create('amizades', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_user1')->unsigned();
-                $table->integer('id_user2')->unsigned();
+                $table->integer('user_id1')->unsigned();
+                $table->integer('user_id2')->unsigned();
                 $table->boolean('aceitou')->default(false);
                 $table->timestamps();
 
-                $table->foreign('id_user1')
+                $table->foreign('user_id1')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

@@ -105,11 +105,11 @@ $('.done-turmas-prof').click(function () {
 });
 
 //CHAT
-function abrirChat(id_user) {
-    $("#id-chat").val(id_user);
+function abrirChat(user_id) {
+    $("#id-chat").val(user_id);
 
     $.post("/ajax/chat/abrir", {
-        id_user: id_user
+        user_id: user_id
     }, function (data) {
         $("#msgs").html(data);
     });
@@ -194,11 +194,11 @@ $('#conta').ajaxForm({
 });
 
 //ADICIONAR
-function add(id_user) {
+function add(user_id) {
     $.ajax({
         type: "POST",
         url: "ajax/adicionar",
-        data: "id=" + id_user,
+        data: "id=" + user_id,
         dataType: "json",
         success: function (data) {
             if (data.status == 'disable') {
@@ -229,7 +229,7 @@ function add(id_user) {
                     "class": "mdi-social-people",
                     "data-tooltip": "Vocês são amigos"
                 });
-                $(".ami-" + id_user).fadeOut(1000);
+                $(".ami-" + user_id).fadeOut(1000);
 
                 $(".amc").html($("#solic li").length - 1);
 
@@ -245,18 +245,18 @@ function add(id_user) {
 }
 
 //RECUSAR
-function recusar(id_user) {
+function recusar(user_id) {
     $.ajax({
         type: "POST",
         url: "ajax/recusar",
-        data: "id=" + id_user,
+        data: "id=" + user_id,
         dataType: "json",
         success: function () {
             $(".add-icon").attr({
                 "data-tooltip": "Enviar solicitação de amizade"
             });
             $(".add").removeClass("grey").addClass("cyan");
-            $(".ami-" + id_user).fadeOut(1000);
+            $(".ami-" + user_id).fadeOut(1000);
 
             if ($("#solic li").length === 1) {
                 $("#tarefas").html("<p>Solicitações de Amizade</p><p>Não há novas solicitações de amizade.</p>");

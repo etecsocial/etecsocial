@@ -12,7 +12,7 @@ class GrupoPergunta extends Model
     protected $fillable = [
         'id',
         'data',
-        'id_user',
+        'user_id',
         'assunto',
         'tags',
         'pergunta',

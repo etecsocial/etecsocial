@@ -30,7 +30,7 @@ class AgendaController extends Controller
     public function api(Request $request)
     {
 
-        $agenda = Agenda::select(['agendas.id', 'id_user', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
+        $agenda = Agenda::select(['agendas.id', 'user_id', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
             ->where(function ($query) use ($request) {
                 $query->where('start', '>=', $request->start)
                     ->where('end', '<', $request->end);
@@ -42,9 +42,9 @@ class AgendaController extends Controller
                     $query->where('agendas.id_turma', $id_turma)
                         ->where('is_publico', 1);
                 })
-                    ->orWhere('id_user', auth()->user()->id);
+                    ->orWhere('user_id', auth()->user()->id);
             })
-            ->join('users', 'agendas.id_user', '=', 'users.id')
+            ->join('users', 'agendas.user_id', '=', 'users.id')
             ->get();
 
         return Response::json($agenda);
@@ -87,7 +87,7 @@ class AgendaController extends Controller
                 'title'       => $request->title,
                 'start'       => $data,
                 'end'         => $request->end ? $request->end : $request->start,
-                'id_user'     => auth()->user()->id,
+                'user_id'     => auth()->user()->id,
                 'is_publico'  => $request->publico,
                 'id_turma'    => $id_turma,
                 'description' => $request->description,
@@ -99,7 +99,7 @@ class AgendaController extends Controller
                 'title'       => $request->title,
                 'start'       => $request->start ? $request->start : date("Y-m-d"),
                 'end'         => $request->end ? $request->end : $request->start,
-                'id_user'     => auth()->user()->id,
+                'user_id'     => auth()->user()->id,
                 'is_publico'  => $request->publico,
                 'id_turma'    => 1,
                 'description' => $request->description,
@@ -139,14 +139,14 @@ class AgendaController extends Controller
         if ($grupo->save()) {
             $grupoUsuario           = new GrupoUsuario;
             $grupoUsuario->id_grupo = $grupo->id;
-            $grupoUsuario->id_user  = $grupo->id_criador;
+            $grupoUsuario->user_id  = $grupo->id_criador;
             $grupoUsuario->is_admin = 1;
             $grupoUsuario->save();
             $alunos = User::where('id_turma', $id_turma)->select(['id'])->where('id', '<>', auth()->user()->id)->get();
             foreach ($alunos as $aluno) {
                 $grupoUsuario           = new GrupoUsuario;
                 $grupoUsuario->id_grupo = $grupo->id;
-                $grupoUsuario->id_user  = $aluno->id;
+                $grupoUsuario->user_id  = $aluno->id;
                 $grupoUsuario->is_admin = 0;
                 $grupoUsuario->save();
                 Notificacao::create([
@@ -176,7 +176,7 @@ class AgendaController extends Controller
         $start = Input::has('start') ? Input::get('start') : $evento->start;
         $end   = Input::has('end') ? Input::get('end') : $evento->end;
 
-        if (auth()->user()->id !== $evento->id_user) {
+        if (auth()->user()->id !== $evento->user_id) {
             return abort(500);
         }
 
@@ -208,7 +208,7 @@ class AgendaController extends Controller
     {
         $evento = Agenda::where('id', $id)->limit(1)->first();
 
-        if (auth()->user()->id !== $evento->id_user) {
+        if (auth()->user()->id !== $evento->user_id) {
             return Response::json(['status' => false]);
         }
 

@@ -21,24 +21,24 @@ $('#nova-mensagem').ajaxForm({
             $('#modal-nova-mensagem').closeModal();
             Materialize.toast('<span>Mensagem enviada!</span>', 3000);
             $('#nova-mensagem').resetForm();
-            $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
+            $('#qtd-msgs-' + data.user_id).html(data.qtd_msgs).hide().fadeIn(300);
             if (!data.last_msg === false) {//Há mensagens anteriores a que foi excluida.
-                $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
+                $('#qtd-msgs-' + data.user_id).html(data.qtd_msgs).hide().fadeIn(300);
                 if (data.is_rem === true) {//O usuário atual é o remetente da última mensagem válida
-                    $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
+                    $('#last-msg-' + data.user_id).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
                 } else {//O usuário atual é o destinatário da última mensagem válida
-                    $('#last-msg-' + data.id_user).html(data.last_msg).hide().fadeIn(300);
+                    $('#last-msg-' + data.user_id).html(data.last_msg).hide().fadeIn(300);
 
                     //Aqui a função getConversa() tem que ser chamada, mas não está funcionando...
-                    getConversa(data.id_user, false);
+                    getConversa(data.user_id, false);
                 }
             } else {//a excluida foi a ultima da conversa
                 $('.email-reply').html(
                         '<div class="container"><div class="collection"><div class="collection-item">' +
                         'Não há mensagens neste tópico!' +
                         '</div></div></div>').hide().fadeIn(300);
-                $('#last-msg-' + data.id_user).html(
-                        '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.id_user + ', \'' + data.nome_user + '\')">' +
+                $('#last-msg-' + data.user_id).html(
+                        '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.user_id + ', \'' + data.nome_user + '\')">' +
                         'Clique para enviar uma mensagem' +
                         '</p>').hide().fadeIn(300);
             }
@@ -108,7 +108,7 @@ function getConversa(uid, nome) {
     $.ajax({
         type: "POST",
         url: "/ajax/mensagem/getConversa",
-        data: "id_user=" + uid,
+        data: "user_id=" + uid,
         dataType: "json",
         error: function (data) {
             if (data.responseText === "empty") {
@@ -144,7 +144,7 @@ function getConversaArchives(uid, nome) {
     $.ajax({
         type: "POST",
         url: "/ajax/mensagem/getConversaArchives",
-        data: "id_user=" + uid,
+        data: "user_id=" + uid,
         dataType: "json",
         error: function (data) {
             if (data.responseText === "empty") {
@@ -345,22 +345,22 @@ function delMensagem(id) {
             if (data.status === true) {//Mensagem deletada
                 $('#mensagem-' + id).fadeOut(300);
                 if (!data.last_msg === false) {
-                    $('#qtd-msgs-' + data.id_user).html(data.qtd_msgs).hide().fadeIn(300);
+                    $('#qtd-msgs-' + data.user_id).html(data.qtd_msgs).hide().fadeIn(300);
                     if (data.is_rem === true) {
-                        $('#last-msg-' + data.id_user).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
+                        $('#last-msg-' + data.user_id).html('<b>Você: </b>' + data.last_msg).hide().fadeIn(300);
                     } else {
-                        $('#last-msg-' + data.id_user).html(data.last_msg).hide().fadeIn(300);
+                        $('#last-msg-' + data.user_id).html(data.last_msg).hide().fadeIn(300);
                     }
                 } else {//a excluida foi a ultima da conversa
                     $('.email-reply').html(
                             '<div class="container"><div class="collection"><div class="collection-item">' +
                             'Não há mensagens neste tópico!' +
                             '</div></div></div>').hide().fadeIn(300);
-                    $('#last-msg-' + data.id_user).html(
-                            '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.id_user + ', \'' + data.nome_user + '\')">' +
+                    $('#last-msg-' + data.user_id).html(
+                            '<p class="truncate grey-text ultra-small" onclick="javascript: novaMensagem(' + data.user_id + ', \'' + data.nome_user + '\')">' +
                             'Clique para enviar uma mensagem' +
                             '</p>').hide().fadeIn(300);
-                    $('#qtd-msgs-' + data.id_user).html('Sem mensagens').hide().fadeIn(300);
+                    $('#qtd-msgs-' + data.user_id).html('Sem mensagens').hide().fadeIn(300);
                     //
                 }
             } else {

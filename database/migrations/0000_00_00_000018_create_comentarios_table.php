@@ -14,13 +14,13 @@ class CreateComentariosTable extends Migration {
         if (!Schema::hasTable('comentarios')) {
             Schema::create('comentarios', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
                 $table->integer('id_post')->unsigned();
                 $table->string('comentario');
                 $table->integer('relevancia')->nullable();
                 $table->timestamps();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

@@ -60,7 +60,7 @@
                         <div class="col s9">
                             Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->name }}</a>
                         </div>
-                        @if((auth()->user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->id_autor))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('id_user', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                        @if((auth()->user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->id_autor))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
                         <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
                         <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->id_autor }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                     </div>
@@ -73,10 +73,10 @@
             <span class="card-title grey-text text-darken-4"> Discussões</span>
             <div class="collection">
                 <ul class="collection" style="margin-top:0px;margin-bottom: 0;max-height: 420px;overflow-y: scroll" id="com-disc-{{ $discussao-> id}}">
-                    @if($banido) @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('id_user', auth()->user()->id)->get()) @foreach($comments as $comm)
+                    @if($banido) @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('user_id', auth()->user()->id)->get()) @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
-                        <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Este é você" class="circle tooltipped">
+                        <img src="{{ auth()->user()->avatar($comm->user_id) }}" data-tooltip="Este é você" class="circle tooltipped">
                         <div style="max-height: 80px; overflow-y: auto">
                             <p>{{ $comm-> comentario}}</p>
                         </div>
@@ -86,9 +86,9 @@
                     <!--NÃO É BANIDO-->
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
-                        @if((auth()->user()->id == $comm->id_user) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->id_user))))
+                        @if((auth()->user()->id == $comm->user_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->user_id))))
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a> @endif
-                        <img src="{{ auth()->user()->avatar($comm->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comm->id_user)->nome }}" class="circle tooltipped">
+                        <img src="{{ auth()->user()->avatar($comm->user_id) }}" data-tooltip="Este é {{ auth()->user()->verUser($comm->user_id)->nome }}" class="circle tooltipped">
                         <div style="max-height: 80px; overflow-y: auto">
                             <p>{{ $comm-> comentario}}</p>
                         </div>

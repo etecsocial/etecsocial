@@ -36,7 +36,7 @@ class Tarefa extends Model {
         Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select([ 'desc', 'data', 'checked', 'id'])
-                ->where("id_user", auth()->user()->id)
+                ->where("user_id", auth()->user()->id)
                 ->where(function($query) {
                     $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
                     ->orWhere('checked', false);

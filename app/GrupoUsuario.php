@@ -11,7 +11,7 @@ class GrupoUsuario extends Model
 
     protected $fillable = [
         'id_grupo',
-        'id_user',
+        'user_id',
         'is_admin',
         'is_banido',
     ];

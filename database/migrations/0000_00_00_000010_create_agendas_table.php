@@ -17,13 +17,13 @@ class CreateAgendasTable extends Migration {
                 $table->string('title')->nullable();
                 $table->text('description', 255)->nullable();
                 $table->boolean('is_publico')->nullable()->default(false);
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
                 $table->integer('id_turma')->unsigned()->nullable();
 
                 $table->date('start')->nullable();
                 $table->date('end')->nullable();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

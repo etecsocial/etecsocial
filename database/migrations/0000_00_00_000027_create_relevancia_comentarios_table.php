@@ -14,14 +14,14 @@ class CreateRelevanciaComentariosTable extends Migration {
         if (!Schema::hasTable('relevancia_comentarios')) {
             Schema::create('relevancia_comentarios', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_user')->nullable()->unsigned();
+                $table->integer('user_id')->nullable()->unsigned();
                 $table->integer('id_comentario')->nullable()->unsigned();
                 $table->integer('id_discussao')->nullable()->unsigned();
                 $table->integer('id_pergunta')->nullable()->unsigned();
                 $table->string('relevancia', 4);
                 $table->timestamps();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

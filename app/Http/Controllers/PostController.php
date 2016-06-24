@@ -29,7 +29,7 @@ class PostController extends Controller
         $this->validate($request, ['publicacao' => 'required']);
 
         $post          = new Post;
-        $post->id_user = auth()->user()->id;
+        $post->user_id = auth()->user()->id;
         if ($request->titulo) {
             $post->titulo = $request->titulo;
         }
@@ -62,12 +62,12 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::join('users', 'users.id', '=', 'posts.id_user')
-            ->join('amizades', 'amizades.id_user1', '=', 'users.id')
+        $post = Post::join('users', 'users.id', '=', 'posts.user_id')
+            ->join('amizades', 'amizades.user_id1', '=', 'users.id')
             ->orderBy('created_at', 'desc')
-            ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+            ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
             ->where('amizades.aceitou', 1)
-            ->where('amizades.id_user2', auth()->user()->id)
+            ->where('amizades.user_id2', auth()->user()->id)
             ->where('posts.id', $id)
             ->first();
 
@@ -111,7 +111,7 @@ class PostController extends Controller
     {
         $post = Post::where('id', $id)->first();
 
-        if ($post->id_user !== auth()->user()->id) {
+        if ($post->user_id !== auth()->user()->id) {
             return Response::json(['status' => false]);
         }
         $post->delete();
@@ -125,7 +125,7 @@ class PostController extends Controller
 
         try {
             DB::table('favoritos')
-                ->insert(['id_post' => $request->id_post, 'id_user' => auth()->user()->id]);
+                ->insert(['id_post' => $request->id_post, 'user_id' => auth()->user()->id]);
 
             $post->num_favoritos += 1;
             $post->save();
@@ -134,7 +134,7 @@ class PostController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 DB::table('favoritos')
-                    ->where(['id_post' => $request->id_post, 'id_user' => auth()->user()->id])
+                    ->where(['id_post' => $request->id_post, 'user_id' => auth()->user()->id])
                     ->delete();
 
                 $post->num_favoritos -= 1;
@@ -199,7 +199,7 @@ class PostController extends Controller
         $post1->save();
 
         $post2              = new Post;
-        $post2->id_user     = auth()->user()->id;
+        $post2->user_id     = auth()->user()->id;
         $post2->titulo      = $post1->titulo;
         $post2->publicacao  = $post1->publicacao;
         $post2->is_publico  = $post1->is_publico;
@@ -208,7 +208,7 @@ class PostController extends Controller
         $post2->url_midia   = $post1->url_midia;
         $post2->is_repost   = true;
         $post2->id_repost   = $post1->id;
-        $post2->user_repost = $post1->id_user;
+        $post2->user_repost = $post1->user_id;
         $post2->save();
 
         return Response::json(['id' => $post2->id, 'num' => $post1->num_reposts]);

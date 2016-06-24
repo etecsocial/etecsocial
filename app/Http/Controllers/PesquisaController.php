@@ -26,20 +26,20 @@ class PesquisaController extends Controller {
                 ->limit(10)
                 ->get();
 
-        $posts_amigos = Post::join('users', 'users.id', '=', 'posts.id_user')
-                ->join('amizades', 'amizades.id_user1', '=', 'users.id')
+        $posts_amigos = Post::join('users', 'users.id', '=', 'posts.user_id')
+                ->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', auth()->user()->id)
+                ->where('amizades.user_id2', auth()->user()->id)
                 ->where('titulo', 'LIKE', '%' . $termo . '%')
                 ->orWhere('publicacao', 'LIKE', '%' . $termo . '%')
                 ->limit(10)
                 ->get();
 
-        $posts_publico = Post::join('users', 'users.id', '=', 'posts.id_user')
+        $posts_publico = Post::join('users', 'users.id', '=', 'posts.user_id')
                 ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('is_publico', 1)
                 ->where('titulo', 'LIKE', '%' . $termo . '%')
                 ->orWhere('publicacao', 'LIKE', '%' . $termo . '%')
@@ -76,7 +76,7 @@ class PesquisaController extends Controller {
     }
 
     public function getGrupos($termo, $limit) {
-        return GrupoUsuario::where('id_user', auth()->user()->id) //Corrigido!
+        return GrupoUsuario::where('user_id', auth()->user()->id) //Corrigido!
                 ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
                 ->where('assunto', 'LIKE', '%' . $termo . '%')
                 ->orWhere('materia', 'LIKE', '%' . $termo . '%')

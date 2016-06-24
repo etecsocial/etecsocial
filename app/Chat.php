@@ -30,10 +30,10 @@ class Chat extends Model
             ->limit(15)
             ->get();
     }
-    public static function loadMsgs($id_user)
+    public static function loadMsgs($user_id)
     {
-        return Mensagens::where(["id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
-            ->orWhere(["id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
+        return Mensagens::where(["id_remetente" => $user_id, "id_destinatario" => auth()->user()->id])
+            ->orWhere(["id_remetente" => auth()->user()->id, "id_destinatario" => $user_id])
             ->limit(15)
             ->get();
     }
@@ -46,17 +46,17 @@ class Chat extends Model
 
     public static function loadUsers($on = true)
     {
-        return Amizade::where('id_user1', auth()->user()->id)
+        return Amizade::where('user_id1', auth()->user()->id)
             ->where('aceitou', 1)
             ->where('online', $on)
-            ->join('users', 'users.id', '=', 'amizades.id_user2')
+            ->join('users', 'users.id', '=', 'amizades.user_id2')
             ->get();
     }
 
-    public static function lastMsg($id_user)
+    public static function lastMsg($user_id)
     {
-        $chat = Mensagens::where(["id_remetente" => $id_user, "id_destinatario" => auth()->user()->id])
-            ->orWhere(["id_remetente" => auth()->user()->id, "id_destinatario" => $id_user])
+        $chat = Mensagens::where(["id_remetente" => $user_id, "id_destinatario" => auth()->user()->id])
+            ->orWhere(["id_remetente" => auth()->user()->id, "id_destinatario" => $user_id])
             ->orderBy('data', 'desc')
             ->first();
         return isset($chat) ? $chat : false;

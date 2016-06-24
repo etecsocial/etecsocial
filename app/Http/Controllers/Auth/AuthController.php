@@ -132,7 +132,7 @@ use AuthenticatesAndRegistersUsers,
         $q = GrupoTurma::where('id_turma', $data['id_turma'])->where('modulo', $data['modulo'])->select('id_grupo')->get()[0];
         GrupoUsuario::create([
             'id_grupo' => $q->id_grupo,
-            'id_user' => $user->id
+            'user_id' => $user->id
         ]);
     }
 

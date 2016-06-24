@@ -110,10 +110,10 @@ class Mensagens extends Model
     public static function loadFriends()
     {
 // @todo - otimizar os campos selecionados
-        return Amizade::where('id_user1', auth()->user()->id)
+        return Amizade::where('user_id1', auth()->user()->id)
             ->where('aceitou', 1)
-            ->where('id_user2', '!=', auth()->user()->id)
-            ->join('users', 'users.id', '=', 'amizades.id_user2')
+            ->where('user_id2', '!=', auth()->user()->id)
+            ->join('users', 'users.id', '=', 'amizades.user_id2')
             ->get();
     }
 
@@ -168,8 +168,8 @@ class Mensagens extends Model
     {
         return User::join('', auth()->user()->id)
             ->where('aceitou', 1)
-            ->where('id_user2', '!=', auth()->user()->id)
-            ->join('users', 'users.id', '=', 'amizades.id_user2')
+            ->where('user_id2', '!=', auth()->user()->id)
+            ->join('users', 'users.id', '=', 'amizades.user_id2')
             ->get();
     }
 

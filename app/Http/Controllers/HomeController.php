@@ -16,6 +16,14 @@ use Illuminate\Http\Request;
 class HomeController extends Controller {
 
     public function index() { 
+        
+                return auth()->user()->tarefas
+                ->where(function ($query) {
+                    $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
+                    ->orWhere('checked', false);
+                })
+                ->orderBy('data')
+                ->limit(4);
         return auth()->check() 
                 ? $this->feed() 
                 : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
@@ -36,17 +44,17 @@ class HomeController extends Controller {
 
     public function feed($id = 0) {
 
-        $posts = Post::join('users', 'users.id', '=', 'posts.id_user')
-                ->join('amizades', 'amizades.id_user1', '=', 'users.id')
+        $posts = Post::join('users', 'users.id', '=', 'posts.user_id')
+                ->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', auth()->user()->id)
+                ->where('amizades.user_id2', auth()->user()->id)
                 ->limit(9)
                 ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name'])
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name'])
                 ->get();
 
 
-        $grupos = GrupoUsuario::where('id_user', auth()->user()->id)
+        $grupos = GrupoUsuario::where('user_id', auth()->user()->id)
                 ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
                 ->where('grupo_usuario.is_banido', 0)
                 ->select('grupo.url', 'grupo.nome')
@@ -55,16 +63,18 @@ class HomeController extends Controller {
 
         Carbon::setLocale('pt_BR');
 
-        $tasks = DB::table('tarefas')
-                ->select(['desc', 'data', 'checked', 'id'])
-                ->where('id_user', auth()->user()->id)
-                ->where(function ($query) {
-                    $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
-                    ->orWhere('checked', false);
-                })
-                ->orderBy('data')
-                ->limit(4)
-                ->get();
+        $tasks = User::find(2);
+        $tasks = $tasks->tarefas;
+//        $tasks = DB::table('tarefas')
+//                ->select(['desc', 'data', 'checked', 'id'])
+//                ->where('user_id', auth()->user()->id)
+//                ->where(function ($query) {
+//                    $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
+//                    ->orWhere('checked', false);
+//                })
+//                ->orderBy('data')
+//                ->limit(4)
+//                ->get();
 
 
 
@@ -100,12 +110,12 @@ class HomeController extends Controller {
     public function newpost(Request $request) {
 
         $posts = DB::table('posts')
-                ->join('users', 'users.id', '=', 'posts.id_user')
-                ->join('amizades', 'amizades.id_user1', '=', 'users.id')
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', auth()->user()->id)
+                ->where('amizades.user_id2', auth()->user()->id)
                 ->where('posts.id', '>', $request->id)
                 ->get();
 
@@ -116,13 +126,13 @@ class HomeController extends Controller {
         $n = 9 - $request->tamanho % 9;
 
         $posts = DB::table('posts')
-                ->join('users', 'users.id', '=', 'posts.id_user')
-                ->join('amizades', 'amizades.id_user1', '=', 'users.id')
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->limit($n)
                 ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.id_user', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
                 ->where('amizades.aceitou', 1)
-                ->where('amizades.id_user2', auth()->user()->id)
+                ->where('amizades.user_id2', auth()->user()->id)
                 ->where('posts.id', '<', $request->id)
                 ->get();
 

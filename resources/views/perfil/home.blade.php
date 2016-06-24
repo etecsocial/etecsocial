@@ -19,10 +19,10 @@
 <script>
 function newpost() {
     var id_post = $(".post:first").data("idpost");
-    var id_user = {{$user->id}};
+    var user_id = {{$user->id}};
     $.post("/ajax/perfil/newpost", {
         id_post: id_post,
-        id_user: id_user
+        user_id: user_id
     }, function(data) {
         $(data).insertBefore(".post:first").hide().fadeIn(2000);
     });
@@ -31,10 +31,10 @@ function newpost() {
 function morepost() {
     var id_post = $(".post:last").data("idpost");
     var n = $(".post").length;
-    var id_user = {{$user->id}};
+    var user_id = {{$user->id}};
     $.post("/ajax/perfil/morepost", {
         id_post: id_post,
-        id_user: id_user,
+        user_id: user_id,
         tamanho: n
     }, function(data) {
         if (data === '') {
@@ -544,7 +544,7 @@ $('#excluirComentario').ajaxForm({
                                                     <p class="blog-post-content">{{ $post->publicacao }}</p>
                                                     <div class="row" style="margin-top:10px">
                                                         <div class="col s2">
-                                                            <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                                                            <img src="{{ auth()->user()->avatar($post->user_id) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
                                                         </div>
                                                         <div class="col s9"> Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a></div>
                                                         <i class="mdi-navigation-more-vert dropdown-button waves-effect waves-light" style="opacity: 0.7" href="#!" data-activates="dropdown1"></i>
@@ -555,9 +555,9 @@ $('#excluirComentario').ajaxForm({
                                                     <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
                                                         @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
                                                         <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $post->id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
-                                                            @if(auth()->user()->id == $comentario->id_user)
+                                                            @if(auth()->user()->id == $comentario->user_id)
                                                             <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a> @endif
-                                                            <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                                                            <img src="{{ auth()->user()->avatar($comentario->user_id) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->user_id)->nome }}" class="circle tooltipped">
                                                             <p>{{ $comentario->comentario }}</p>
                                                         </li>
                                                         @endforeach

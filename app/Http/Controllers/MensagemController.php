@@ -106,7 +106,7 @@ class MensagemController extends Controller
                 'status'    => true,
                 'last_msg'  => $lastMsg->msg,
                 'is_rem'    => $lastMsg ? ($lastMsg->id_remetente == auth()->user()->id ? true : false) : false,
-                'id_user'   => $lastMsg->id_remetente == auth()->user()->id ? $lastMsg->id_destinatario : $lastMsg->id_remetente,
+                'user_id'   => $lastMsg->id_remetente == auth()->user()->id ? $lastMsg->id_destinatario : $lastMsg->id_remetente,
                 'auth_id'   => auth()->user()->id,
                 'nome_user' => User::verUser(auth()->user()->id)->nome,
                 'qtd_msgs'  => ($qtd = Mensagens::countMsgsTopic($request->id_dest) > 1) ? $qtd . ' mensagens' : '1 mensagem',
@@ -116,12 +116,12 @@ class MensagemController extends Controller
 
     public function getConversa(Request $request)
     {
-        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgs($request->id_user)]);
+        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgs($request->user_id)]);
     }
 
     public function getConversaArchives(Request $request)
     {
-        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgsArchives($request->id_user), 'archive' => true]);
+        return view('mensagens.conversa', ['conversas' => Mensagens::loadMsgsArchives($request->user_id), 'archive' => true]);
     }
 
     public function delMensagem(Request $request)
@@ -138,7 +138,7 @@ class MensagemController extends Controller
                 'last_msg'  => $lastMsg ? $lastMsg->msg : false,
                 'qtd_msgs'  => Mensagens::countMsgsTopic($msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente),
                 'is_rem'    => $lastMsg ? ($lastMsg->id_remetente == auth()->user()->id ? true : false) : false,
-                'id_user'   => $msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
+                'user_id'   => $msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
                 'auth_id'   => auth()->user()->id,
                 'nome_user' => User::verUser($msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente)->nome,
             ]);

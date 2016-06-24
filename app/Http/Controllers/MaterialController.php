@@ -26,7 +26,7 @@ class DiscussaoController extends Controller
 
         ComentarioDiscussao::create([
             'id_discussao' => $request->id_discussao,
-            'id_user'      => auth()->user()->id,
+            'user_id'      => auth()->user()->id,
             'id_grupo'     => $request->id_grupo,
             'comentario'   => $request->comentario,
         ]);

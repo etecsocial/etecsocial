@@ -11,7 +11,7 @@ class ComentarioDiscussao extends Model
     protected $fillable = [
         'id',
         'id_grupo',
-        'id_user',
+        'user_id',
         'id_discussao',
         'comentario',
     ];

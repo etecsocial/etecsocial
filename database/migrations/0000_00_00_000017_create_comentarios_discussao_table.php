@@ -21,9 +21,9 @@ class CreateComentariosDiscussaoTable extends Migration {
 
                 $table->integer('id_discussao')->unsigned();
                 $table->integer('id_grupo')->unsigned();
-                $table->integer('id_user')->unsigned();
+                $table->integer('user_id')->unsigned();
 
-                $table->foreign('id_user')
+                $table->foreign('user_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

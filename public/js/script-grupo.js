@@ -340,7 +340,7 @@ $('.wino').leanModal({dismissible: true, opacity: .5, in_duration: 500, out_dura
 
 function newpost() {
     var id_post = $(".post:first").data("id");
-    $.post("perfil/newpost", {id_post: id_post, id_user: id_user}, function (data) {
+    $.post("perfil/newpost", {id_post: id_post, user_id: user_id}, function (data) {
         $(data).insertBefore(".post:first").hide().fadeIn(2000);
     });
 }

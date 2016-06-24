@@ -8,7 +8,7 @@ var clients = {};
 
 io.sockets.on('connection', function (socket) {
     socket.on('add-user', function (data) {        
-        clients[data.id_user] = {
+        clients[data.user_id] = {
             "socket" : socket.id
         };
     });
@@ -19,17 +19,17 @@ io.sockets.on('connection', function (socket) {
         console.log(message);
         var data = message.data.data;
         
-        if (clients[data.id_user]) {
+        if (clients[data.user_id]) {
             io.sockets
-              .connected[clients[data.id_user].socket]
+              .connected[clients[data.user_id].socket]
               .emit(channel + ":" + message.event, data);
         }
     });
     
     socket.on('disconnect', function () {        
-        for (var id_user in clients) {
-            if (clients[id_user].socket === socket.id) {
-                delete clients[id_user].socket; break;
+        for (var user_id in clients) {
+            if (clients[user_id].socket === socket.id) {
+                delete clients[user_id].socket; break;
             }
     }});
 });

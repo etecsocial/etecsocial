@@ -70,7 +70,7 @@ $(document).ready(function () {
                 end: rawEventData.end,
                 description: rawEventData.description,
                 nome: rawEventData.nome,
-                iduser:  rawEventData.id_user,
+                iduser:  rawEventData.user_id,
                 color : color,
             };
         },

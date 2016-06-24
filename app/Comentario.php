@@ -8,7 +8,7 @@ class Comentario extends Model
 {
     protected $fillable = [
         'id_post',
-        'id_user',
+        'user_id',
         'comentario',
     ];
 

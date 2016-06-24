@@ -70,7 +70,7 @@
                <p class="blog-post-content">{{ $post->publicacao }}</p>
                <div class="row" style="margin-top:10px">
                   <div class="col s2">
-                     <img src="{{ auth()->user()->avatar($post->id_user) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
+                     <img src="{{ auth()->user()->avatar($post->user_id) }}" data-tooltip="Este é {{ $post->nome }}" class="circle responsive-img valign profile-image tooltipped">
                   </div>
                   <div class="col s9"> Por <a href="{{ url($post->username) }}">{{ $post->nome }}</a></div>
                   <!--                                <i class="mdi-navigation-more-vert dropdown-button waves-effect waves-light" style="opacity: 0.7" href="#!" data-activates="dropdown1"></i>-->
@@ -81,10 +81,10 @@
                <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
                   @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
                   <li class="collection-item avatar" style="height: auto; min-height:65px;max-height: 100%">
-                     @if(auth()->user()->id == $comentario->id_user) 
+                     @if(auth()->user()->id == $comentario->user_id) 
                      <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                      @endif
-                     <img src="{{ auth()->user()->avatar($comentario->id_user) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->id_user)->nome }}" class="circle tooltipped">
+                     <img src="{{ auth()->user()->avatar($comentario->user_id) }}" data-tooltip="Este é {{ auth()->user()->verUser($comentario->user_id)->nome }}" class="circle tooltipped">
                      <p>{{ $comentario->comentario }}</p>
                   </li>
                   @endforeach           

@@ -13,7 +13,7 @@ class Pontuacao extends Model
         $pontuacao          = new Pontuacao;
         $pontuacao->pontos  = $pontos;
         $pontuacao->motivo  = $motivo;
-        $pontuacao->id_user = auth()->user()->id;
+        $pontuacao->user_id = auth()->user()->id;
         $pontuacao->save();
     }
 
@@ -21,7 +21,7 @@ class Pontuacao extends Model
     {
         $pontuacao = DB::table('pontuacaos')
             ->selectRaw('sum(pontos) as pontos')
-            ->where('id_user', auth()->user()->id)
+            ->where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'DESC')
             ->limit(1)
             ->get()[0]->pontos;
@@ -34,8 +34,8 @@ class Pontuacao extends Model
             case 'etec': // @todo
                 $pontuacao = DB::table('pontuacaos')
                     ->selectRaw('sum(pontos) as pontos, users.name, users.id, users.username')
-                    ->join('users', 'users.id', '=', 'pontuacaos.id_user')
-                    ->join('alunos_info', 'users.id', '=', 'alunos_info.id_user')
+                    ->join('users', 'users.id', '=', 'pontuacaos.user_id')
+                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
                     ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
                     ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                     ->orderBy('pontos', 'DESC')
@@ -48,8 +48,8 @@ class Pontuacao extends Model
             case 'turma': // @todo
                 $pontuacao = DB::table('pontuacaos')
                     ->selectRaw('sum(pontos) as pontos, users.name, users.id, users.username')
-                    ->join('users', 'users.id', '=', 'pontuacaos.id_user')
-                    ->join('alunos_info', 'users.id', '=', 'alunos_info.id_user')
+                    ->join('users', 'users.id', '=', 'pontuacaos.user_id')
+                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
                     ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
                     ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
                     ->orderBy('pontos', 'DESC')
@@ -61,10 +61,10 @@ class Pontuacao extends Model
 
             default:
                 $pontuacao = DB::table('pontuacaos')
-                    ->selectRaw('sum(pontos) as pontos, name, id_user, username')
-                    ->join('users', 'users.id', '=', 'pontuacaos.id_user')
+                    ->selectRaw('sum(pontos) as pontos, name, user_id, username')
+                    ->join('users', 'users.id', '=', 'pontuacaos.user_id')
                     ->orderBy('pontos', 'DESC')
-                    ->groupBy('id_user')
+                    ->groupBy('user_id')
                     ->limit(100)
                     ->get();
         }

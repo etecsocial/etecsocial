@@ -153,13 +153,13 @@
                                     <small>Não há novas solicitações.</small>
                                 </li>
                                 @else @foreach(App\Amizade::carrega() as $amigo)
-                                <li class="ami-{{ $amigo->id_user1 }} collection-item avatar transparent">
-                                    <img src="{{ auth()->user()->avatar($amigo->id_user1) }}" alt="" class="circle">
-                                    <span class="title">{{ auth()->user()->verUser($amigo->id_user1)->nome }}</span>
+                                <li class="ami-{{ $amigo->user_id1 }} collection-item avatar transparent">
+                                    <img src="{{ auth()->user()->avatar($amigo->user_id1) }}" alt="" class="circle">
+                                    <span class="title">{{ auth()->user()->verUser($amigo->user_id1)->nome }}</span>
                                     <small>
                                         <p>Quer ser sua amigo</p>
-                                        <a onclick="add({{ $amigo->id_user1 }})" style="cursor:pointer"><span class="left-align">Aceitar</span></a>
-                                        <a onclick="recusar({{ $amigo->id_user1 }})" style="cursor:pointer"><span class="right-align right">Recusar</span></a>
+                                        <a onclick="add({{ $amigo->user_id1 }})" style="cursor:pointer"><span class="left-align">Aceitar</span></a>
+                                        <a onclick="recusar({{ $amigo->user_id1 }})" style="cursor:pointer"><span class="right-align right">Recusar</span></a>
                                     </small>
                                     <a href="#!" class="secondary-content"><i class="mdi-social-person-add"></i></a>
                                 </li>

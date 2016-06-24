@@ -28,7 +28,7 @@ class PerguntaController extends Controller
 
         if (ComentarioPergunta::create([
             'id_pergunta' => $request->id_pergunta,
-            'id_user'     => auth()->user()->id,
+            'user_id'     => auth()->user()->id,
             'id_grupo'    => $request->id_grupo,
             'comentario'  => $request->comentario,
         ])) {
@@ -46,7 +46,7 @@ class PerguntaController extends Controller
 
             if (Notificacao::create([
                 'id_rem'  => auth()->user()->id,
-                'id_dest' => $id_autor->id_user,
+                'id_dest' => $id_autor->user_id,
                 'data'    => Carbon::today()->timestamp,
                 'texto'   => $texto])) {
                 return true;

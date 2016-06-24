@@ -7,7 +7,7 @@
 @else
 <div class="chatn clear"></div>
 <div class="chatm from-them" data-date="{{ $chat['data'] }}">
-    <img src="{{ auth()->user()->avatar($id_user) }}" class="circle photo">
+    <img src="{{ auth()->user()->avatar($user_id) }}" class="circle photo">
     {{ $chat['msg'] }}
 </div>
 @endif
