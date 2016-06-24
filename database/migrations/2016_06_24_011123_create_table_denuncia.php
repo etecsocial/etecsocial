@@ -15,14 +15,14 @@ class CreateTableDenuncia extends Migration {
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('id_mensagem')->unsigned();
+            $table->integer('mensagem_id')->unsigned();
             $table->date('data');
             $table->string('texto', 50);
             $table->string('tipo', 10);
             $table->integer('excluir');
             $table->integer('num_avaliacoes');
 
-            $table->foreign('id_mensagem')
+            $table->foreign('mensagem_id')
                     ->references('id')
                     ->on('mensagens')
                     ->onDelete('cascade');

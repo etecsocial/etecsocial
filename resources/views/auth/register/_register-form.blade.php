@@ -24,23 +24,23 @@
     </div>
 
     <div class="input-field col s12 m6 l6 {{ $type == 1 ? 'tooltipped' : null }}" @if($type == 1) data-position='top' data-delay='2000' data-tooltip='Caso sua escola não esteja listada, talvez nenhum coordenador tenha se cadastrado ainda.' @endif >
-         <select id="id_escola" name="id_escola" id="id_escola" onchange="getTurmas()" required class="validate @if($errors->has('id_escola')) invalid  @elseif($errors->any()) valid @endif">
-            <option disabled @if(!old('id_escola')) selected @endif>Selecione sua ETEC</option>
+         <select id="escola_id" name="escola_id" id="escola_id" onchange="getTurmas()" required class="validate @if($errors->has('escola_id')) invalid  @elseif($errors->any()) valid @endif">
+            <option disabled @if(!old('escola_id')) selected @endif>Selecione sua ETEC</option>
             @if($type == 3)
             @forelse($escolas as $escola)
-            <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
+            <option value="{{ $escola['id'] }}" {{ old('escola_id') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
             @empty
             <option>Não há escolas cadastradas</option>
             @endforelse
             @else
             @forelse($escolasCad as $escola)
-            <option value="{{ $escola['id'] }}" {{ old('id_escola') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
+            <option value="{{ $escola['id'] }}" {{ old('escola_id') == $escola['id'] ? 'selected' : null }}> {{ $escola['nome'] }}</option>
             @empty
             <option>Não há escolas cadastradas</option>
             @endforelse
             @endif
         </select>
-        <label for="id_escola" data-error="Selecione a escola.">Escola</label>
+        <label for="escola_id" data-error="Selecione a escola.">Escola</label>
     </div>
     @if($type == 2)
     <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Solicite o código na coordenação de sua escola" data-position="top" data-delay="1000">
@@ -55,9 +55,9 @@
     </div>
     @else
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
-        <select name="id_turma" id="loadturmas" required onchange="getModulos()" class="validate @if($errors->has('id_turma')) invalid  @elseif($errors->any()) valid @endif">
+        <select name="turma_id" id="loadturmas" required onchange="getModulos()" class="validate @if($errors->has('turma_id')) invalid  @elseif($errors->any()) valid @endif">
         </select>
-        <label for="id_turma" data-error="{{ $errors->first('id_turma') ? $errors->first('id_turma') : 'Selecione sua turma.'}}">Turma</label>
+        <label for="turma_id" data-error="{{ $errors->first('turma_id') ? $errors->first('turma_id') : 'Selecione sua turma.'}}">Turma</label>
     </div>
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="O módulo equivale a um semestre." id="turmas">
         <select name="modulo" id="loadmodulos" required class="validate @if($errors->has('modulo')) invalid  @elseif($errors->any()) valid @endif">

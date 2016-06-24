@@ -17,10 +17,10 @@ class CreateTurmasTable extends Migration {
                 $table->string('nome', 150);
                 $table->string('sigla', 10);
                 $table->integer('modulos');
-                $table->integer('id_escola')->unsigned();
+                $table->integer('escola_id')->unsigned();
                 $table->timestamps();
 
-                $table->foreign('id_escola')
+                $table->foreign('escola_id')
                         ->references('id')
                         ->on('escolas')
                         ->onDelete('cascade');

@@ -5,23 +5,23 @@
  ->
  */
 //Edição de comentários
-function exibeEditarComentario(id_comentario) {
+function exibeEditarComentario(comentario_id) {
    
-    var comentario = $('#com-'+ id_comentario +'-text').text();
-    $('#com-' + id_comentario + '-text').html(
-            '<form id="alterar-comentario-' + id_comentario + '" action="http://etec.localhost/ajax/comentario/editar/discussao" method="POST">' +
-            '<input name="novo_comentario" id="com-editing-' + id_comentario + '" type="text" class="validate" autocomplete="off" value="' + comentario + '">' +
-            '<input name="id_comentario" id="com-editing-' + id_comentario + '" type="hidden" value="' + id_comentario + '">' +
+    var comentario = $('#com-'+ comentario_id +'-text').text();
+    $('#com-' + comentario_id + '-text').html(
+            '<form id="alterar-comentario-' + comentario_id + '" action="http://etec.localhost/ajax/comentario/editar/discussao" method="POST">' +
+            '<input name="novo_comentario" id="com-editing-' + comentario_id + '" type="text" class="validate" autocomplete="off" value="' + comentario + '">' +
+            '<input name="comentario_id" id="com-editing-' + comentario_id + '" type="hidden" value="' + comentario_id + '">' +
             '</form>');
-    $('#alterar-comentario-' + id_comentario).ajaxForm({
+    $('#alterar-comentario-' + comentario_id).ajaxForm({
         dataType: 'JSON',
         success: function (data) {
-            $('#com-' + id_comentario + '-text').html(data.comentario)
+            $('#com-' + comentario_id + '-text').html(data.comentario)
         },
         error: function (xhr) {
             Materialize.toast('<span>Não foi possível comentar neste post! Faça login para continuar.</span>', 5000);
             //window.location.href = "etec.localhost/"
-            $('#com-' + id_comentario + '-text').html(comentario);
+            $('#com-' + comentario_id + '-text').html(comentario);
             return false;
         }
 
@@ -56,10 +56,10 @@ lightbox.option({
     'resizeDuration': 200,
     'wrapAround': true
 });
-function denunciaGrupo(id_pub, tipo_pub, id_autor_pub) {
+function denunciaGrupo(id_pub, tipo_pub, autor_id_pub) {
     $("#id_pub").val(id_pub);
     $("#tipo_pub").val(tipo_pub);
-    $("#id_autor_pub").val(id_autor_pub);
+    $("#autor_id_pub").val(autor_id_pub);
 }
 
 $('#denunciaGrupo').ajaxForm({
@@ -105,7 +105,7 @@ function addAlunoGrupoDireto(amigo_id, grupo_id) {
     $.ajax({
         type: "POST",
         url: "/ajax/grupo/addAlunoDir",
-        data: "id_grupo=" + grupo_id + "&id_amigo=" + amigo_id,
+        data: "grupo_id=" + grupo_id + "&id_amigo=" + amigo_id,
         dataType: "json",
         success: function (data) {
             if (data.response == 1) {
@@ -135,7 +135,7 @@ function addProfessorGrupoDir(professor_id, grupo_id) {
     $.ajax({
         type: "POST",
         url: "/ajax/grupo/addProfGrupo",
-        data: "id_grupo=" + grupo_id + "&id_professor=" + professor_id,
+        data: "grupo_id=" + grupo_id + "&id_professor=" + professor_id,
         dataType: "json",
         success: function (data) {
             if (data.response == 1) {
@@ -231,7 +231,7 @@ function removeAlunoGrupo(id_aluno, grupo_id) {
     $.ajax({
         type: "POST",
         url: "/ajax/grupo/removeAlunoGrupo",
-        data: "id_grupo=" + grupo_id + "&id_aluno=" + id_aluno,
+        data: "grupo_id=" + grupo_id + "&id_aluno=" + id_aluno,
         dataType: "json",
         success: function (data) {
             if (data.response === 1) {
@@ -318,8 +318,8 @@ $('#editGrupo').ajaxForm({
 });
 
 
-function excluirComentarioDiscussao(id_comentario) {
-    $("#excluirComentarioDiscussao").attr({"action": "/ajax/discussao/" + id_comentario});
+function excluirComentarioDiscussao(comentario_id) {
+    $("#excluirComentarioDiscussao").attr({"action": "/ajax/discussao/" + comentario_id});
 }
 
 $('#excluirComentarioDiscussao').ajaxForm({
@@ -339,14 +339,14 @@ $('#excluirComentarioDiscussao').ajaxForm({
 $('.wino').leanModal({dismissible: true, opacity: .5, in_duration: 500, out_duration: 200});
 
 function newpost() {
-    var id_post = $(".post:first").data("id");
-    $.post("perfil/newpost", {id_post: id_post, user_id: user_id}, function (data) {
+    var post_id = $(".post:first").data("id");
+    $.post("perfil/newpost", {post_id: post_id, user_id: user_id}, function (data) {
         $(data).insertBefore(".post:first").hide().fadeIn(2000);
     });
 }
 
-function excluirComentarioPergunta(id_comentario) {
-    $("#excluirComentarioPergunta").attr({"action": "/ajax/pergunta/" + id_comentario});
+function excluirComentarioPergunta(comentario_id) {
+    $("#excluirComentarioPergunta").attr({"action": "/ajax/pergunta/" + comentario_id});
 }
 
 function newDiscussao() {

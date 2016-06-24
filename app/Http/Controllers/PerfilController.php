@@ -12,51 +12,47 @@ use DB;
 use Illuminate\Http\Request;
 use Response;
 
-class PerfilController extends Controller
-{
+class PerfilController extends Controller {
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index($username)
-    {
+    public function index($username) {
 
         if ($u = User::where('username', $username)->first()) {
 
             if ($u->tipo === 1) {
                 $dados = User::where('username', $username)
-                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                    ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
-                    ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
-                    ->limit(1)
-                    ->first();
+                        ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
+                        ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
+                        ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
+                        ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
+                        ->limit(1)
+                        ->first();
             } else {
                 $dados = User::where('username', $username)
-                    ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'created_at'])
-                    ->limit(1)
-                    ->first();
+                        ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'created_at'])
+                        ->limit(1)
+                        ->first();
             }
             $amizade = Amizade::verificar($dados->id);
 
             if ($amizade['status']) {
 
-                $posts = Post::where('user_id', $dados->id)
-                    ->join('users', 'users.id', '=', 'posts.user_id')
-                    ->orderBy('created_at', 'desc')
-                    ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-                    ->limit(5)
-                    ->get();
+                $posts = User::find($dados->id)->posts;
+//                    ->orderBy('created_at', 'desc')
+//                    ->limit(5)
+//                    ->get();
             } else {
                 $posts = Post::where('user_id', $dados->id)
-                    ->join('users', 'users.id', '=', 'posts.user_id')
-                    ->orderBy('created_at', 'desc')
-                    ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-                    ->where("posts.is_publico", 1)
-                    ->limit(5)
-                    ->get();
+                        ->join('users', 'users.id', '=', 'posts.user_id')
+                        ->orderBy('created_at', 'desc')
+                        ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                        ->where("posts.is_publico", 1)
+                        ->limit(5)
+                        ->get();
             }
 
             $infoacad = [];
@@ -66,27 +62,27 @@ class PerfilController extends Controller
 
             Carbon::setLocale('pt_BR');
             $tasks = DB::table('tarefas')
-                ->select(['desc', 'data', 'checked', 'id'])
-                ->where("user_id", auth()->user()->id)
-                ->where(function ($query) {
-                    $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
+                    ->select(['desc', 'data', 'checked', 'id'])
+                    ->where("user_id", auth()->user()->id)
+                    ->where(function ($query) {
+                        $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
                         ->orWhere('checked', false);
-                })
-                ->orderBy('data')
-                ->limit(4)
-                ->get();
+                    })
+                    ->orderBy('data')
+                    ->limit(4)
+                    ->get();
 
             return view('perfil.home', [
-                'user'       => $dados,
-                'is_my'      => (auth()->user()->id == $dados->id) ? 1 : 0,
-                'posts'      => $posts,
-                'infoacad'   => $infoacad,
+                'user' => $dados,
+                'is_my' => (auth()->user()->id == $dados->id) ? 1 : 0,
+                'posts' => $posts->toArray(),
+                'infoacad' => $infoacad,
                 'num_amigos' => $num_amigos,
                 'num_grupos' => $num_grupos,
-                'amizade'    => $amizade,
-                'tasks'      => $tasks,
-                'thisUser'   => auth()->user(),
+                'amizade' => $amizade,
+                'tasks' => $tasks,
                 'msgsUnread' => Mensagens::countUnread(),
+                'infoAcad' => User::getInfoAcademica()
             ]);
         } else {
             return abort(404);
@@ -94,32 +90,29 @@ class PerfilController extends Controller
     }
 
     // @TODO: verificar isso daqui:
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
         Carbon::setLocale('pt_BR');
         return $request;
         if (User::where('user_id', $request->user_id)->first()) {
             User::where('id', $request->user_id)->update([
-                'nome'     => isset($request->nome) ? $request->nome : $u->nome,
+                'nome' => isset($request->nome) ? $request->nome : $u->nome,
                 'username' => isset($request->username) ? $request->username : $u->username,
-                'nome'     => isset($request->nome) ? $request->nome : $u->nome,
-                'nome'     => isset($request->nome) ? $request->nome : $u->nome,
-                'nome'     => isset($request->nome) ? $request->nome : $u->nome,
-                'nome'     => isset($request->nome) ? $request->nome : $u->nome,
-                'nome'     => isset($request->nome) ? $request->nome : $u->nome,
+                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+                'nome' => isset($request->nome) ? $request->nome : $u->nome,
             ]);
         } else {
-           //algum erro aqui, qualquer instrução se torna inacessível nesta seção.
+            //algum erro aqui, qualquer instrução se torna inacessível nesta seção.
         }
     }
 
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 
-    public function status(Request $request)
-    {
+    public function status(Request $request) {
         $request->status = htmlspecialchars($request->status);
         $this->validate($request, ['status' => 'required|max:180']);
 
@@ -138,40 +131,37 @@ class PerfilController extends Controller
         return Response::json(['error' => false, 'status' => $request->status]);
     }
 
-    public function newpost(Request $request)
-    {
+    public function newpost(Request $request) {
         Carbon::setLocale('pt_BR');
 
         $posts = Post::where('user_id', $request->user_id)
-            ->join('users', 'users.id', '=', 'posts.user_id')
-            ->orderBy('created_at', 'desc')
-            ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-            ->where('posts.id', '>', $request->id_post)
-            ->get();
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->orderBy('created_at', 'desc')
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                ->where('posts.id', '>', $request->post_id)
+                ->get();
 
         return view('perfil.posts', ['posts' => $posts]);
     }
 
-    public function morepost(Request $request)
-    {
+    public function morepost(Request $request) {
         Carbon::setLocale('pt_BR');
 
         $n = 5 - $request->tamanho % 5;
 
         $posts = Post::where('user_id', $request->user_id)
-            ->join('users', 'users.id', '=', 'posts.user_id')
-            ->orderBy('created_at', 'desc')
-            ->limit($n)
-            ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-            ->where('posts.id', '<', $request->id_post)
-            ->get();
+                ->join('users', 'users.id', '=', 'posts.user_id')
+                ->orderBy('created_at', 'desc')
+                ->limit($n)
+                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                ->where('posts.id', '<', $request->post_id)
+                ->get();
 
         return view('perfil.posts', ['posts' => $posts]);
     }
 
-    public function addAmigo(Request $request)
-    {
-        $amizade  = new Amizade;
+    public function addAmigo(Request $request) {
+        $amizade = new Amizade;
         $verifica = Amizade::verificar($request->id);
 
         if ($verifica['status']) {
@@ -195,9 +185,9 @@ class PerfilController extends Controller
         }
     }
 
-    public function recusarAmigo(Request $request)
-    {
+    public function recusarAmigo(Request $request) {
         Amizade::recusar($request->id);
         return Response::json(['status' => 'success']);
     }
+
 }

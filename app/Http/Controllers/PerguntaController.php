@@ -29,24 +29,24 @@ class PerguntaController extends Controller
         if (ComentarioPergunta::create([
             'id_pergunta' => $request->id_pergunta,
             'user_id'     => auth()->user()->id,
-            'id_grupo'    => $request->id_grupo,
+            'grupo_id'    => $request->grupo_id,
             'comentario'  => $request->comentario,
         ])) {
-            if ($this->notificaResposta($request->id_pergunta, $request->id_grupo)) {
-                return view('comentarios.pergunta', ['id_pergunta' => $request->id_pergunta, 'id_comentario' => $request->id_comentario]);
+            if ($this->notificaResposta($request->id_pergunta, $request->grupo_id)) {
+                return view('comentarios.pergunta', ['id_pergunta' => $request->id_pergunta, 'comentario_id' => $request->comentario_id]);
             }
         }
     }
 
-    public function notificaResposta($id_pergunta, $id_grupo)
+    public function notificaResposta($id_pergunta, $grupo_id)
     {
-        if (!GrupoPergunta::where('id_autor', auth()->user()->id)->where('id', $id_pergunta)->first()) {
-            $id_autor = GrupoPergunta::where('id_grupo', $id_grupo)->where('id', $id_pergunta)->first()->id;
-            $texto    = 'Respondeu à sua pergunta no grupo "' . Grupo::where('id_grupo', $id_grupo)->first()->nome . '"';
+        if (!GrupoPergunta::where('autor_id', auth()->user()->id)->where('id', $id_pergunta)->first()) {
+            $autor_id = GrupoPergunta::where('grupo_id', $grupo_id)->where('id', $id_pergunta)->first()->id;
+            $texto    = 'Respondeu à sua pergunta no grupo "' . Grupo::where('grupo_id', $grupo_id)->first()->nome . '"';
 
             if (Notificacao::create([
-                'id_rem'  => auth()->user()->id,
-                'id_dest' => $id_autor->user_id,
+                'rem_id'  => auth()->user()->id,
+                'id_dest' => $autor_id->user_id,
                 'data'    => Carbon::today()->timestamp,
                 'texto'   => $texto])) {
                 return true;
@@ -56,10 +56,10 @@ class PerguntaController extends Controller
         return true;
     }
 
-    public function destroy($id_comentario)
+    public function destroy($comentario_id)
     {
-        if (ComentarioPergunta::where('id', $id_comentario)->delete()) {
-            return Response::json(['status' => true, 'id' => $id_comentario]);
+        if (ComentarioPergunta::where('id', $comentario_id)->delete()) {
+            return Response::json(['status' => true, 'id' => $comentario_id]);
         }
         return Response::json(['status' => false]);
     }

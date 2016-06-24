@@ -21,7 +21,7 @@
          <p>Tem certeza que deseja excluir esta pergunta?</p>
       </div>
       <input type="hidden" value="" name="id_pergunta" id="id_pergunta_excluir">
-      <input type="hidden" value="{{ $grupo->id }}" name="id_grupo" id="id_pergunta_excluir">
+      <input type="hidden" value="{{ $grupo->id }}" name="grupo_id" id="id_pergunta_excluir">
       <div class="modal-footer">
          <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
          <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Excluir</button>
@@ -37,7 +37,7 @@
          <p>Tem certeza que deseja excluir esta discussão?</p>
       </div>
       <input type="hidden" value="" name="id_discussao" id="id_discussao_excluir">
-      <input type="hidden" value="{{ $grupo->id }}" name="id_grupo" id="id_grupo">
+      <input type="hidden" value="{{ $grupo->id }}" name="grupo_id" id="grupo_id">
       <div class="modal-footer">
          <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
          <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat ">Excluir</button>
@@ -65,7 +65,7 @@
 @if(!$banido)
 <form method="post" id="sairGrupo" action="{{ url('ajax/grupo/sair')}}">
    <div id="modalSairGrupo" class="modal modal-fixed-footer">
-      <input type="hidden" name="id_grupo" value="{{$grupo->id}}">
+      <input type="hidden" name="grupo_id" value="{{$grupo->id}}">
       <div class="modal-content">
          <h4 ><strong>Sair do grupo</strong></h4>
          <li class="divider"></li>
@@ -74,7 +74,7 @@
                <p>Tem certeza que deseja sair do grupo {{ $grupo-> nome}}?</p>
                <p>Se sim, poderia nos dizer o motivo? </p>
             </div>
-            <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
+            <input type="hidden" name="grupo_id" value="{{ $grupo-> id}}">
             <div class="input-field col s12 l6">
                <input name="motivo" type="radio" id="test1" value="Conteúdo inadequado">
                <label for="test1">Conteúdo inadequado</label>
@@ -102,8 +102,8 @@
    </div>
 </form>
 <!--modal sair grupo-->
-@if(($integranteEu->is_admin) and ($denuncia = \App\DenunciaGrupo::where('id_grupo', $grupo->id)->where('visto', 0)->orderBy('created_at', 'desc')->first())))
-@if($pub = \App\GrupoDiscussao::where('id_grupo', $denuncia->id_grupo)->where('id', $denuncia->id_pub)->first())
+@if(($integranteEu->is_admin) and ($denuncia = \App\DenunciaGrupo::where('grupo_id', $grupo->id)->where('visto', 0)->orderBy('created_at', 'desc')->first())))
+@if($pub = \App\GrupoDiscussao::where('grupo_id', $denuncia->grupo_id)->where('id', $denuncia->id_pub)->first())
 <div id="modalAnalisarDenunciaGrupo" class="modal modal-fixed-footer">
    <div class="modal-content">
       <form method="post" id="analisaDnunciaGrupo" class="col s12" action="{{ url('ajax/grupo/denuncia/analisa')}}">
@@ -139,11 +139,11 @@
                </p>
             </div>
          </div>
-         <input type="hidden" name="id_grupo" value="{{ $grupo->id}}">
+         <input type="hidden" name="grupo_id" value="{{ $grupo->id}}">
          <input type="hidden" name="created_at" value="{{ $denuncia->created_at}}">
          <input type="hidden" name="id_pub" value="{{ $denuncia->id_pub }}" id="id_pub">
          <input type="hidden" name="tipo_pub" value="{{ $denuncia->tipo }}" id="tipo_pub">
-         <input type="hidden" name="id_autor_pub" value="" id="{{ $denuncia->id_autor_pub }}}">
+         <input type="hidden" name="autor_id_pub" value="" id="{{ $denuncia->autor_id_pub }}}">
          <div class="modal-footer color-sec-darken" style='margin-top: 20px'>
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Cancelar</a>
             <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat white-text">Concluir</button>
@@ -163,8 +163,8 @@
             <div class="col s12">
                <p>O que há de errado com esta publicação?</p>
             </div>
-            <input type="hidden" name="id_autor_pub" value="" id="id_autor_pub">
-            <input type="hidden" name="id_grupo" value="{{ $grupo->id}}">
+            <input type="hidden" name="autor_id_pub" value="" id="autor_id_pub">
+            <input type="hidden" name="grupo_id" value="{{ $grupo->id}}">
             <input type="hidden" name="id_pub" value="" id="id_pub">
             <input type="hidden" name="tipo_pub" value="" id="tipo_pub">
             <div class="input-field col s6">

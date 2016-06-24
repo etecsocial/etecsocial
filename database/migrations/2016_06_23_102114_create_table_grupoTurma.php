@@ -13,17 +13,17 @@ class CreateTableGrupoTurma extends Migration {
     public function up() {
         Schema::create('grupo_turma', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_grupo')->unsigned();
-            $table->integer('id_turma')->unsigned();
+            $table->integer('grupo_id')->unsigned();
+            $table->integer('turma_id')->unsigned();
             $table->tinyInteger('modulo');
             $table->timestamps();
 
-            $table->foreign('id_grupo')
+            $table->foreign('grupo_id')
                     ->references('id')
                     ->on('grupo')
                     ->onDelete('cascade');
             
-            $table->foreign('id_turma')
+            $table->foreign('turma_id')
                     ->references('id')
                     ->on('turmas')
                     ->onDelete('cascade');

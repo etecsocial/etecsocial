@@ -11,7 +11,7 @@
         <span class="email-title">{{ $user->name }}</span>
         @if($last = isset($archives) ? \App\Mensagens::lastMsgArchives($user->id) : \App\Mensagens::lastMsg($user->id))
         <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
-            @if( ($last->id_remetente) == $thisUser->id)
+            @if( ($last->rem_idetente) == $thisUser->id)
             <b> Você: </b> 
             @else
             <b> {{ explode(' ', $user->name)[0] }}: </b> 
@@ -44,7 +44,7 @@
         <span class="email-title">{{ $user->name }}</span>
         @if($last = isset($archives) ? \App\Mensagens::lastMsgArchives($user->id) : \App\Mensagens::lastMsg($user->id))
         <p class="truncate grey-text ultra-small" id="last-msg-{{$user->id}}">
-            @if( ($last->id_remetente) == $thisUser->id)
+            @if( ($last->rem_idetente) == $thisUser->id)
             <b> Você: </b> 
             @else
             <b> {{ explode(' ', $user->name)[0] }}: </b> 

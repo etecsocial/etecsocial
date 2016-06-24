@@ -11,7 +11,7 @@ class GrupoMaterial extends Model
 
     protected $fillable = [
         'id',
-        'id_autor',
+        'autor_id',
         'data',
         'tipo',
         'caminho',

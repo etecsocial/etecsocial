@@ -1,4 +1,4 @@
-@foreach(App\ComentarioDiscussao::where('id_discussao', $id_discussao)->where('id', '>', $id_comentario)->get() as $comentario)
+@foreach(App\ComentarioDiscussao::where('id_discussao', $id_discussao)->where('id', '>', $comentario_id)->get() as $comentario)
 <li id="com-disc-{{ $comentario->id }}" class="collection-item avatar com-disc-{{ $id_discussao }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
     @if(auth()->user()->id == $comentario->user_id)
     <a href="#modalExcluirComentario" onclick="excluirComentarioDiscussao({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>

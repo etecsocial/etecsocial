@@ -10,7 +10,7 @@ class GrupoAtiv extends Model
     protected $table    = 'grupo_ativ';
     protected $fillable = [
         'id',
-        'id_grupo',
+        'grupo_id',
         'desc',
         'created_at',
         'updated_at',

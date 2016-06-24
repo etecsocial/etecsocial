@@ -10,16 +10,16 @@ class GrupoDiscussao extends Model
     protected $table    = 'grupo_discussao';
     protected $fillable = [
         'id',
-        'id_autor',
+        'autor_id',
         'user_id',
         'assunto',
         'discussao',
-        'id_grupo',
+        'grupo_id',
     ];
 
-    public function getNumDiscussoes($id_grupo)
+    public function getNumDiscussoes($grupo_id)
     {
-        return GrupoDiscussao::where('id_grupo', $id_grupo)->count();
+        return GrupoDiscussao::where('grupo_id', $grupo_id)->count();
     }
 
 }

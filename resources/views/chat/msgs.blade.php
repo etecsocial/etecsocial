@@ -1,5 +1,5 @@
 @foreach(array_reverse($msgs) as $chat)  
-@if($chat['id_remetente'] == auth()->user()->id)
+@if($chat['rem_idetente'] == auth()->user()->id)
 <div class="chatn clear"></div>
 <div class="chatm from-me" data-date="{{ $chat['data'] }}">
     {{ $chat['msg'] }}

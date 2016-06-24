@@ -14,7 +14,7 @@ class CreateFavoritosTable extends Migration {
         if (!Schema::hasTable('favoritos')) {
             Schema::create('favoritos', function(Blueprint $table) {
                 $table->integer('user_id')->unsigned();
-                $table->integer('id_post')->unsigned();
+                $table->integer('post_id')->unsigned();
 
 
                 $table->foreign('user_id')
@@ -22,7 +22,7 @@ class CreateFavoritosTable extends Migration {
                         ->on('users')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_post')
+                $table->foreign('post_id')
                         ->references('id')
                         ->on('posts')
                         ->onDelete('cascade');

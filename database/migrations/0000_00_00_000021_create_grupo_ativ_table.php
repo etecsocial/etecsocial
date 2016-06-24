@@ -14,19 +14,19 @@ class CreateGrupoAtivTable extends Migration {
         if (!Schema::hasTable('grupo_ativ')) {
             Schema::create('grupo_ativ', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_grupo')->unsigned();
-                $table->integer('id_rem')->unsigned();
+                $table->integer('grupo_id')->unsigned();
+                $table->integer('rem_id')->unsigned();
                 $table->string('desc', 55)->nullable();
                 $table->string('tipo', 10);
                 $table->date('data_evento');
                 $table->timestamps();
 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_rem')
+                $table->foreign('rem_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

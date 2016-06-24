@@ -26,7 +26,7 @@ class ContaController extends Controller {
     }
 
     public function hasCoord($request) {
-        return ProfessoresTurma::where('id_escola', $request->escola)
+        return ProfessoresTurma::where('escola_id', $request->escola)
                         ->join('users', 'professores_turma.user_id', '=', 'users.id')
                         ->select('users.id')
                         ->where('type', '=', 3)
@@ -34,18 +34,18 @@ class ContaController extends Controller {
     }
 
     public function getTurmas(Request $request) {
-        $this->validate($request, ['id_escola' => 'required|integer|exists:escolas,id']);
-            $turmas = Turma::where('turmas.id_escola', $request->id_escola)
+        $this->validate($request, ['escola_id' => 'required|integer|exists:escolas,id']);
+            $turmas = Turma::where('turmas.escola_id', $request->escola_id)
                     ->select(['turmas.id as id', 'turmas.sigla as sigla', 'turmas.nome as nome'])
                     ->get();
         return view('ajax.turmas', ['turmas' => $turmas]);
     }
     
     public function getTurmasProfDisp(Request $request) {
-        $this->validate($request, ['id_escola' => 'required|integer|exists:escolas,id']);
+        $this->validate($request, ['escola_id' => 'required|integer|exists:escolas,id']);
 
             //IMPORTANTE:: FAZER SELECIONAR APENAS AS TURMAS QUE ELE JA NAO TENHA CADASTRADO)
-            $turmas = Turma::where('id_escola', $request->id_escola)
+            $turmas = Turma::where('escola_id', $request->escola_id)
                     ->select(['id', 'nome', 'sigla'])
                     ->get();
 
@@ -53,10 +53,10 @@ class ContaController extends Controller {
     }
 
     public function getModulos(Request $request) {
-        $this->validate($request, ['id_turma' => 'required']);
+        $this->validate($request, ['turma_id' => 'required']);
 
         $modulos = Turma::select('modulos')
-                ->where('id', $request->id_turma)
+                ->where('id', $request->turma_id)
                 ->get();
 
         return view('ajax.modulos', ['modulos' => $modulos[0]->modulos]);
@@ -117,11 +117,11 @@ class ContaController extends Controller {
 
     public function setTurmaProfessor(Request $request) {
 
-        $this->validate($request, ['id_turma' => 'required', 'modulo' => 'required']);
+        $this->validate($request, ['turma_id' => 'required', 'modulo' => 'required']);
 
         ProfessoresTurma::create([
             'user_id' => auth()->user()->id,
-            'id_turma' => $request->id_turma,
+            'turma_id' => $request->turma_id,
             'modulo' => $request->modulo,
         ]);
         auth()->user()->first_login = 0;
@@ -155,7 +155,7 @@ class ContaController extends Controller {
 
             $notifica = new Notificacao;
             $notifica->id_dest = $user->id;
-            $notifica->id_rem = $user->id;
+            $notifica->rem_id = $user->id;
 
             $notifica->data = '';
             $notifica->texto = 'Você confirmou seu email!';

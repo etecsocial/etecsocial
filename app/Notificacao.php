@@ -8,7 +8,7 @@ class Notificacao extends Model
 {
     protected $fillable = [
         'id_dest',
-        'id_rem',
+        'rem_id',
         'data',
         'visto',
         'texto',

@@ -11,7 +11,7 @@ class Turma extends Model {
     protected $fillable = [
         'nome',
         'sigla',
-        'id_escola',
+        'escola_id',
         'modulos'
     ];
 

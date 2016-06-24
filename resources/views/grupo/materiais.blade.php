@@ -1,13 +1,13 @@
 <div id="material" class="tab-content col s12">
     @if(!$banido) @if(!isset($expirado))
     <form method="post" id="publicarMaterial" action="{{ url('ajax/grupo/material')}}" class="tab-content col s12  grey lighten-4">
-        <input type="hidden" name="id_grupo" value="{{ $grupo->id }}">
+        <input type="hidden" name="grupo_id" value="{{ $grupo->id }}">
         <ul class="collapsible collapsible-accordion" data-collapsible="accordion">
             <li class="active">
                 <div class="collapsible-header active">Endereço da web</div>
                 <div class="collapsible-body" style="">
                     <div class="row">
-                        <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
+                        <input type="hidden" name="grupo_id" value="{{ $grupo-> id}}">
                         <div class="col s2">
                             <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
                         </div>
@@ -31,7 +31,7 @@
                 <div class="collapsible-header ">Mídia</div>
                 <div class="collapsible-body" style="display: block;">
                     <div class="row">
-                        <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
+                        <input type="hidden" name="grupo_id" value="{{ $grupo-> id}}">
                         <div class="col s2">
                             <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
                         </div>
@@ -59,7 +59,7 @@
                 <div class="collapsible-header">Documento</div>
                 <div class="collapsible-body" style="">
                     <div class="row">
-                        <input type="hidden" name="id_grupo" value="{{ $grupo-> id}}">
+                        <input type="hidden" name="grupo_id" value="{{ $grupo-> id}}">
                         <div class="col s2">
                             <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post" style="max-width: 100px">
                         </div>
@@ -98,12 +98,12 @@
             <li class="collection-item center"> Você não possui permissão para publicar nesse grupo, mas ainda pode ver os materiais publicados por você.</li>
         </ul>
     </div>
-    @endif @if($banido) @if($materiais = App\GrupoMaterial::where('id_autor', $thisUser->id)->get()) @foreach($materiais as $material)
+    @endif @if($banido) @if($materiais = App\GrupoMaterial::where('autor_id', $thisUser->id)->get()) @foreach($materiais as $material)
     <div class="col s6">
         <ul class="collection">
             <li class="collection-item avatar" style="height: auto">
-                <img src="{{ auth()->user()->avatar($material->id_autor) }}" data-tooltip="Este é {{ auth()->user()->verUser($material->id_autor)->nome }}" class="circle tooltipped">
-                <span class="title">Por {{ auth()->user()->verUser($material->id_autor)->nome }}</span>
+                <img src="{{ auth()->user()->avatar($material->autor_id) }}" data-tooltip="Este é {{ auth()->user()->verUser($material->autor_id)->nome }}" class="circle tooltipped">
+                <span class="title">Por {{ auth()->user()->verUser($material->autor_id)->nome }}</span>
                 <br>{{ $material->nome }}
                 <p>
                     @if($material->tipo == 'link')
@@ -126,8 +126,8 @@
     <div class="col s6">
         <ul class="collection">
             <li class="collection-item avatar" style="height: auto">
-                <img src="{{ auth()->user()->avatar($material->id_autor) }}" data-tooltip="Este é {{ auth()->user()->verUser($material->id_autor)->nome }}" class="circle tooltipped">
-                <span class="title">Por {{ auth()->user()->verUser($material->id_autor)->nome }}</span>
+                <img src="{{ auth()->user()->avatar($material->autor_id) }}" data-tooltip="Este é {{ auth()->user()->verUser($material->autor_id)->nome }}" class="circle tooltipped">
+                <span class="title">Por {{ auth()->user()->verUser($material->autor_id)->nome }}</span>
                 <br>{{ $material->nome }}
                 <p>
                     @if($material->tipo == 'link')

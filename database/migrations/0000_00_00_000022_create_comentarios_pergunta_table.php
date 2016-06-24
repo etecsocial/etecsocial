@@ -18,7 +18,7 @@ class CreateComentariosPerguntaTable extends Migration {
 
                 $table->integer('user_id')->unsigned();
                 $table->integer('id_pergunta')->unsigned();
-                $table->integer('id_grupo')->unsigned();
+                $table->integer('grupo_id')->unsigned();
 
                 $table->foreign('user_id')
                         ->references('id')
@@ -30,7 +30,7 @@ class CreateComentariosPerguntaTable extends Migration {
                         ->on('grupo_pergunta')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');

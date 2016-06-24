@@ -15,7 +15,7 @@ class CreateRelevanciaComentariosTable extends Migration {
             Schema::create('relevancia_comentarios', function(Blueprint $table) {
                 $table->increments('id');
                 $table->integer('user_id')->nullable()->unsigned();
-                $table->integer('id_comentario')->nullable()->unsigned();
+                $table->integer('comentario_id')->nullable()->unsigned();
                 $table->integer('id_discussao')->nullable()->unsigned();
                 $table->integer('id_pergunta')->nullable()->unsigned();
                 $table->string('relevancia', 4);
@@ -26,7 +26,7 @@ class CreateRelevanciaComentariosTable extends Migration {
                         ->on('users')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_comentario')
+                $table->foreign('comentario_id')
                         ->references('id')
                         ->on('comentarios')
                         ->onDelete('cascade');

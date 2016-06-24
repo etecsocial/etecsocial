@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider {
 
         Grupo::created(function ($data) {
             GrupoUsuario::create([
-                'id_grupo' => $data->id,
+                'grupo_id' => $data->id,
                 'user_id' => auth()->user()->id,
                 'is_admin' => 1
             ]);
@@ -42,27 +42,27 @@ class AppServiceProvider extends ServiceProvider {
 
 
         GrupoUsuario::created(function ($data) {
-            Grupo::where('id', $data->id_grupo)->increment('num_participantes');
+            Grupo::where('id', $data->grupo_id)->increment('num_participantes');
         });
         GrupoUsuario::deleted(function ($data) {
-            Grupo::where('id', $data->id_grupo)->decrement('num_participantes');
+            Grupo::where('id', $data->grupo_id)->decrement('num_participantes');
         });
         GrupoUsuario::updated(function ($data) {
-            isset($data->is_banido) ? Grupo::where('id', $data->id_grupo)->decrement('num_participantes') : false;
+            isset($data->is_banido) ? Grupo::where('id', $data->grupo_id)->decrement('num_participantes') : false;
         });
         \App\GrupoDiscussao::deleted(function ($data) {
             //como fazer para pegar o id do grupo cuja discussão já foi excluida? Parece que neste caso ele no passa
             //os dados antigos da tabela excluida...
-            Grupo::where('id', $data->id_grupo)->decrement('num_discussoes');
+            Grupo::where('id', $data->grupo_id)->decrement('num_discussoes');
         });
         \App\GrupoDiscussao::created(function ($data) {
-            Grupo::where('id', $data->id_grupo)->increment('num_discussoes');
+            Grupo::where('id', $data->grupo_id)->increment('num_discussoes');
         });
         \App\GrupoPergunta::deleted(function ($data) {
-            Grupo::where('id', $data->id_grupo)->decrement('num_perguntas');
+            Grupo::where('id', $data->grupo_id)->decrement('num_perguntas');
         });
         \App\GrupoPergunta::created(function ($data) {
-            Grupo::where('id', $data->id_grupo)->increment('num_perguntas');
+            Grupo::where('id', $data->grupo_id)->increment('num_perguntas');
         });
     }
 
@@ -76,10 +76,10 @@ class AppServiceProvider extends ServiceProvider {
                     'url' => Grupo::makeUrl($turma->sigla, $modulo),
                     'id_criador' => auth()->user()->id,
                     'num_participantes' => 1,
-                    'id_turma' => $turma->id, // REMOVER ESTE CAMPO DEPOIS, AGORA TEM O GRUPO_TURMA!!!
+                    'turma_id' => $turma->id, // REMOVER ESTE CAMPO DEPOIS, AGORA TEM O GRUPO_TURMA!!!
         ]);
         GrupoUsuario::create([
-            'id_grupo' => $grupo->id,
+            'grupo_id' => $grupo->id,
             'user_id' => auth()->user()->id,
             'is_admin' => 1
         ]);
@@ -88,21 +88,21 @@ class AppServiceProvider extends ServiceProvider {
 
     public function grupoTurma($grupo, $turma, $modulo) {
         GrupoTurma::create([
-            'id_grupo' => $grupo,
-            'id_turma' => $turma,
+            'grupo_id' => $grupo,
+            'turma_id' => $turma,
             'modulo' => $modulo
         ]);
     }
 
     public function grupoTurmas($grupo, $turma, $modulo) {
         GrupoTurma::create([
-            'id_grupo' => $grupo,
-            'id_turma' => $turma,
+            'grupo_id' => $grupo,
+            'turma_id' => $turma,
             'modulo' => $modulo
         ]);
         GrupoTurma::create([
-            'id_grupo' => $grupo,
-            'id_turma' => $turma,
+            'grupo_id' => $grupo,
+            'turma_id' => $turma,
             'modulo' => $modulo + 1
         ]);
     }

@@ -14,7 +14,7 @@ class CreateNotificacaosTable extends Migration {
         if (!Schema::hasTable('notificacaos')) {
             Schema::create('notificacaos', function(Blueprint $table) {
                 $table->integer('id', false, true);
-                $table->integer('id_rem')->unsigned();
+                $table->integer('rem_id')->unsigned();
                 $table->integer('id_dest')->unsigned();
 
                 $table->string('texto', 60);
@@ -23,7 +23,7 @@ class CreateNotificacaosTable extends Migration {
                 $table->string('action', 90)->default('0');
                 $table->integer('data');
 
-                $table->foreign('id_rem')
+                $table->foreign('rem_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

@@ -11,7 +11,7 @@ class RelevanciaComentarios extends Model
 
     protected $fillable = [
         'id_usuario',
-        'id_comentario',
+        'comentario_id',
         'relevancia',
     ];
 

@@ -25,8 +25,8 @@ $('#edit-perfil').ajaxForm({
     }
 });
 function getModulos() {
-    var id_turma = $('#loadturmas').val();
-    var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+    var turma_id = $('#loadturmas').val();
+    var url = '/ajax/cadastro/getModulos?turma_id=' + turma_id;
     $.get(url, function (dataReturn) {
         $('#loadmodulos').html(dataReturn).material_select();
         $('.caret').hide();
@@ -35,9 +35,9 @@ function getModulos() {
 
 function getTurmas() {
     //pega as turmas existentes em determinada escola
-    var escola = $('#id_escola').val();
+    var escola = $('#escola_id').val();
     if (escola) {
-        var url = '/ajax/cadastro/getTurmas?id_escola=' + escola;
+        var url = '/ajax/cadastro/getTurmas?escola_id=' + escola;
         $.get(url, function (dataReturn) {
             $('#loadturmas').html(dataReturn).material_select();
             $('#loadmodulos').html('');
@@ -45,10 +45,10 @@ function getTurmas() {
         });
     }
 }
-function getTurmasProfDisp(id_escola) {
+function getTurmasProfDisp(escola_id) {
     //pega as turmas da quela escola que o professor ainda nao tenha cadastrado
-    if (id_escola) {
-        var url = '/ajax/cadastro/getTurmasProfDisp?id_escola=' + id_escola;
+    if (escola_id) {
+        var url = '/ajax/cadastro/getTurmasProfDisp?escola_id=' + escola_id;
         $.get(url, function (dataReturn) {
             $('#loadturmas').html(dataReturn).material_select();
             $('#loadmodulos').html('');
@@ -137,7 +137,7 @@ function fecharChat() {
 }
 
 //socket.on("channel:App\\Events\\MensagemChat", function(message){
-//if($("#id-chat").val() == message.id_rem) {
+//if($("#id-chat").val() == message.rem_id) {
 //$('<div class="chatn clear"></div><div class="chatm from-them" data-date="' + message.data + '"><img class="circle photo" alt="John Peter" src="' + message.foto_rem + '"> ' + message.msg + ' </div>').insertAfter(".chatn:last").hide().fadeIn(1000);
 //} else {
 //$('#num_chat').text(parseInt($('#num_chat').text()) + 1);

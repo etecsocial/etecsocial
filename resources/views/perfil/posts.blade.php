@@ -59,7 +59,7 @@
             <div class="card-content">
                <p class="row">
                   <span class="left">
-                  @foreach(App\Tag::where('id_post', $post->id)->get() as $tag) 
+                  @foreach(App\Tag::where('post_id', $post->id)->get() as $tag) 
                   <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                   @endforeach
                   </span>
@@ -79,7 +79,7 @@
             <div class="card-reveal">
                <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>
                <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
-                  @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
+                  @foreach(App\Comentario::where('post_id', $post->id)->get() as $comentario)
                   <li class="collection-item avatar" style="height: auto; min-height:65px;max-height: 100%">
                      @if(auth()->user()->id == $comentario->user_id) 
                      <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
@@ -93,7 +93,7 @@
                   <div class="col s12">
                      <div class="input-field col s12">
                         <form method="POST" >
-                           <input type="hidden" name="id_post" value="{{ $post->id }}" >
+                           <input type="hidden" name="post_id" value="{{ $post->id }}" >
                            <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
                            <label for="comment" >Comentar</label>
                            <button type="submit" style="display:none" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>

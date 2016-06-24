@@ -34,11 +34,11 @@ class UserRegisterListener
 
         // adiciona no grupo da sala
         if ($event->user->type == 1) {
-            $turma = DB::table('alunos_info')->select('id_turma')->where('user_id', $event->user->id)->limit(1)->first();
-            $grupo = Grupo::select('id')->where('id_turma', $turma->id_turma)->limit(1)->first();
+            $turma = DB::table('alunos_info')->select('turma_id')->where('user_id', $event->user->id)->limit(1)->first();
+            $grupo = Grupo::select('id')->where('turma_id', $turma->turma_id)->limit(1)->first();
 
             $turma_grupo           = new GrupoUsuario;
-            $turma_grupo->id_grupo = $grupo->id; //@TODO: checar se o grupo existe
+            $turma_grupo->grupo_id = $grupo->id; //@TODO: checar se o grupo existe
             $turma_grupo->user_id  = $event->user->id;
             $turma_grupo->save();
         }

@@ -17,16 +17,16 @@ class CreateGrupoPerguntaTable extends Migration {
                 $table->string('assunto', 30)->default('Sem assunto');
                 $table->string('pergunta', 200);
                 $table->date('data');
-                $table->integer('id_grupo')->unsigned();
-                $table->integer('id_autor')->unsigned();
+                $table->integer('grupo_id')->unsigned();
+                $table->integer('autor_id')->unsigned();
                 $table->timestamps();
 
-                $table->foreign('id_autor')
+                $table->foreign('autor_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');

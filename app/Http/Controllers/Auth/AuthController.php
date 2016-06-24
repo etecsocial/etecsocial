@@ -59,8 +59,8 @@ use AuthenticatesAndRegistersUsers,
                     'name' => 'required|max:50|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
-                    'id_escola' => 'required|exists:escolas,id|integer',
-                    'id_turma' => 'required|exists:turmas,id',
+                    'escola_id' => 'required|exists:escolas,id|integer',
+                    'turma_id' => 'required|exists:turmas,id',
                     'modulo' => 'required|max:6'
                 ];
                 break;
@@ -69,8 +69,8 @@ use AuthenticatesAndRegistersUsers,
                     'name' => 'required|max:50|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
-                    'id_escola' => 'required|exists:escolas,id|integer',
-                    'cod_prof' => 'required|exists:escolas,cod_prof,id,' . $data['id_escola']
+                    'escola_id' => 'required|exists:escolas,id|integer',
+                    'cod_prof' => 'required|exists:escolas,cod_prof,id,' . $data['escola_id']
                 ];
                 break;
             case 3: //COORDENADOR
@@ -78,8 +78,8 @@ use AuthenticatesAndRegistersUsers,
                     'name' => 'required|max:50|regex:^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$^',
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
-                    'id_escola' => 'required|exists:escolas,id|integer',
-                    'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['id_escola']
+                    'escola_id' => 'required|exists:escolas,id|integer',
+                    'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['escola_id']
                 ];
                 break;
 
@@ -116,7 +116,7 @@ use AuthenticatesAndRegistersUsers,
 
         AlunosTurma::create([
             'user_id' => $user->id,
-            'id_turma' => $data['id_turma'],
+            'turma_id' => $data['turma_id'],
             'modulo' => $data['modulo'],
         ]);
         DB::table('users')
@@ -129,9 +129,9 @@ use AuthenticatesAndRegistersUsers,
     }
 
     public function addGrupo($data, $user) {
-        $q = GrupoTurma::where('id_turma', $data['id_turma'])->where('modulo', $data['modulo'])->select('id_grupo')->get()[0];
+        $q = GrupoTurma::where('turma_id', $data['turma_id'])->where('modulo', $data['modulo'])->select('grupo_id')->get()[0];
         GrupoUsuario::create([
-            'id_grupo' => $q->id_grupo,
+            'grupo_id' => $q->grupo_id,
             'user_id' => $user->id
         ]);
     }
@@ -141,7 +141,7 @@ use AuthenticatesAndRegistersUsers,
         //Posteriormente, cadastrar as turmas dele na tabela professores_turma
         ProfessoresInfo::create([
             'user_id' => $user->id,
-            'id_escola' => $data['id_escola']]);
+            'escola_id' => $data['escola_id']]);
         DB::table('users')
                 ->where('id', $user->id)
                 ->update(['type' => $data['type']]);

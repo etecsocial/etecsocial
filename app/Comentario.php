@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Comentario extends Model
 {
     protected $fillable = [
-        'id_post',
+        'post_id',
         'user_id',
         'comentario',
     ];
 
-    public static function loadComentarios($id_post)
+    public static function loadComentarios($post_id)
     {
-        return Comentario::where('id_post', $id_post)
+        return Comentario::where('post_id', $post_id)
             ->get();
     }
 }

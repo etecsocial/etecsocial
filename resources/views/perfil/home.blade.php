@@ -18,10 +18,10 @@
                         '/js/plugins.js']) !!}
 <script>
 function newpost() {
-    var id_post = $(".post:first").data("idpost");
+    var post_id = $(".post:first").data("idpost");
     var user_id = {{$user->id}};
     $.post("/ajax/perfil/newpost", {
-        id_post: id_post,
+        post_id: post_id,
         user_id: user_id
     }, function(data) {
         $(data).insertBefore(".post:first").hide().fadeIn(2000);
@@ -29,11 +29,11 @@ function newpost() {
 }
 
 function morepost() {
-    var id_post = $(".post:last").data("idpost");
+    var post_id = $(".post:last").data("idpost");
     var n = $(".post").length;
     var user_id = {{$user->id}};
     $.post("/ajax/perfil/morepost", {
-        id_post: id_post,
+        post_id: post_id,
         user_id: user_id,
         tamanho: n
     }, function(data) {
@@ -68,34 +68,34 @@ $('#publicar').ajaxForm({
     }
 });
 
-function comentar(id_post) {
-    var elem = "#comentarios-" + id_post;
-    var comentario = document.getElementById("comentario-" + id_post).value;
-    var id_comentario = $(".com-" + id_post + ":last").data("idpost");
+function comentar(post_id) {
+    var elem = "#comentarios-" + post_id;
+    var comentario = document.getElementById("comentario-" + post_id).value;
+    var comentario_id = $(".com-" + post_id + ":last").data("idpost");
     $.ajax({
         type: "POST",
         url: "/ajax/comentario",
-        data: "id_post=" + id_post + "&id_comentario=" + id_comentario + "&comentario=" + comentario,
+        data: "post_id=" + post_id + "&comentario_id=" + comentario_id + "&comentario=" + comentario,
         dataType: "json",
         success: function(data) {
             $(elem).append(data.responseText);
-            $("#comentario-" + id_post).val('');
+            $("#comentario-" + post_id).val('');
             /* if (data.num === 1) {
-             $("#coment-" + id_post).attr({"data-tooltip": data.num + " pessoa comentou"});
+             $("#coment-" + post_id).attr({"data-tooltip": data.num + " pessoa comentou"});
              } else {
-             $("#coment-" + id_post).attr({"data-tooltip": data.num + " pessoas comentaram"});
+             $("#coment-" + post_id).attr({"data-tooltip": data.num + " pessoas comentaram"});
              } */
         }
     });
     return false;
 }
 
-function favoritar(id_post) {
-    var elem = "#favoritar-" + id_post;
+function favoritar(post_id) {
+    var elem = "#favoritar-" + post_id;
     $.ajax({
         type: "POST",
         url: "/ajax/post/favoritar",
-        data: "id_post=" + id_post,
+        data: "post_id=" + post_id,
         dataType: "json",
         success: function(data) {
             if (data.status) {
@@ -118,21 +118,21 @@ function favoritar(id_post) {
     return false;
 }
 
-function repost(id_post) {
+function repost(post_id) {
     $.ajax({
         type: "POST",
         url: "/ajax/repost",
-        data: "id_post=" + id_post,
+        data: "post_id=" + post_id,
         dataType: "json",
         success: function(data) {
             Materialize.toast('Conteúdo compartilhado com sucesso.', 5000);
             newpost();
             if (data.num === 1) {
-                $("#repost-" + id_post).attr({
+                $("#repost-" + post_id).attr({
                     "data-tooltip": data.num + " pessoa compartilhou"
                 });
             } else {
-                $("#repost-" + id_post).attr({
+                $("#repost-" + post_id).attr({
                     "data-tooltip": data.num + " pessoas compartilharam"
                 });
             }
@@ -141,9 +141,9 @@ function repost(id_post) {
     return false;
 }
 
-function excluir(id_post) {
+function excluir(post_id) {
     $("#excluir").attr({
-        "action": "post/" + id_post
+        "action": "post/" + post_id
     });
 }
 
@@ -161,9 +161,9 @@ $('#excluir').ajaxForm({
     }
 });
 
-function excluirComentario(id_comentario) {
+function excluirComentario(comentario_id) {
     $("#excluirComentario").attr({
-        "action": "/ajax/comentario/" + id_comentario
+        "action": "/ajax/comentario/" + comentario_id
     });
 }
 
@@ -533,7 +533,7 @@ $('#excluirComentario').ajaxForm({
                                                 <div class="card-content">
                                                     <p class="row">
                                                         <span class="left">
-                                          @foreach(App\Tag::where('id_post', $post->id)->get() as $tag) 
+                                          @foreach(App\Tag::where('post_id', $post->id)->get() as $tag) 
                                           <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                                           @endforeach
                                           </span>
@@ -553,7 +553,7 @@ $('#excluirComentario').ajaxForm({
                                                 <div class="card-reveal">
                                                     <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>
                                                     <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
-                                                        @foreach(App\Comentario::where('id_post', $post->id)->get() as $comentario)
+                                                        @foreach(App\Comentario::where('post_id', $post->id)->get() as $comentario)
                                                         <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $post->id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
                                                             @if(auth()->user()->id == $comentario->user_id)
                                                             <a href="#modalExcluirComentario" onclick="excluirComentario({{ $comentario->id }})" class="wino"><i class="mdi-navigation-close right tiny"></i></a> @endif
@@ -566,7 +566,7 @@ $('#excluirComentario').ajaxForm({
                                                         <div class="col s12">
                                                             <div class="input-field col s12">
                                                                 <form method="POST">
-                                                                    <input type="hidden" name="id_post" value="{{ $post->id }}">
+                                                                    <input type="hidden" name="post_id" value="{{ $post->id }}">
                                                                     <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
                                                                     <label for="comment">Comentar</label>
                                                                     <button type="submit" style="display:none" onclick="return comentar({{ $post->id }});" class="waves-effect waves-light btn red">Comentar</button>

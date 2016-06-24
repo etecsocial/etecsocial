@@ -7,7 +7,7 @@
             <p>Você realizou seu cadastro pelo facebook, faltam apenas algumas informações.</p>
             <form action="{{ url('ajax/aluno') }}" method="post" id="aluno">
                 <div class="input-field col s6 m6 l6">
-                    <select name="id_escola" id="id_escola" onchange="getTurmas()" required>
+                    <select name="escola_id" id="escola_id" onchange="getTurmas()" required>
                         <option value="" disabled selected>Selecione sua ETEC</option>
                         @foreach(\App\Escola::all() as $escola)
                         <option value="{{ $escola->id }}">{{ $escola->nome }}</option>
@@ -16,7 +16,7 @@
                     <label>Escola</label>
                 </div>
                 <div class="input-field col s6 m6 l6">
-                    <select name="id_turma" id="loadturmas" required>
+                    <select name="turma_id" id="loadturmas" required>
                         <option value="" disabled selected>Selecione sua ETEC primeiro</option>
                     </select>
                     <label>Turma</label>
@@ -29,7 +29,7 @@
             <form id="addTurmasProfessor" action="{{ url('ajax/cadastro/setTurmasProfessor') }}" method="get">
                 <div class="col s12 m12 l12">
                     <div class="input-field col s12 m6 l6 tooltipped" data-position="top" data-delay="1500" data-tooltip="Você poderá adicionar novas escolas mais tarde.">
-                        <select name="id_escola" id="id_escola" onchange="getTurmasProfDisp(this.value)" required class="validate">
+                        <select name="escola_id" id="escola_id" onchange="getTurmasProfDisp(this.value)" required class="validate">
                             <option disabled selected value="">Selecione a escola</option>
                             <option  value="{{ $infoAcad->id }}">{{ $infoAcad->escola }}</option>
                             <!--  AINDA VOU VALIDAR ESTA PARTE! -->
@@ -37,7 +37,7 @@
                         <label>Escola</label>
                     </div>
                     <div class="input-field col s12 m6 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso a turma não esteja listada, procure a coordenação de sua escola." id="turmas">
-                        <select name="id_turma" id="loadturmas" required onchange="getModulos()">
+                        <select name="turma_id" id="loadturmas" required onchange="getModulos()">
                         </select>
                         <label>Turma</label>
                     </div>
@@ -58,7 +58,7 @@
             <p>Coordenador(a), insira as turmas existentes em sua escola</p>
             <form id="setTurmasCoordenador" action="{{ url('ajax/cadastro/setTurmasCoordenador') }}" method="post">
                 <div class="col s12">
-                    <input type="hidden" name="id_escola" value="{{$infoAcad->id}}">
+                    <input type="hidden" name="escola_id" value="{{$infoAcad->id}}">
                     <div class="input-field col s12 m12 l5">
                         <input required name="nome" pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöäç]+([A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ a-zéíóáèìòàõãñ][a-zéúíóáèùìòàõãñêç]+)+$" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="nome" type="text" class="validate">
                         <label for="nome" class="active" data-error='O nome da turma não parece correto.' style="width: 350px" class="left-align">Turma</label>  

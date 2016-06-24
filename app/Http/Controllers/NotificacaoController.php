@@ -31,7 +31,7 @@ class NotificacaoController extends Controller
     public function create($texto, $id_dest)
     {
         DB::table('notificacao')->insert([
-            'id_rem'  => auth()->user()->id,
+            'rem_id'  => auth()->user()->id,
             'id_dest' => $id_dest,
             'data'    => Carbon::today()->timestamp,
             'texto'   => $texto,

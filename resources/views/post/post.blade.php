@@ -39,7 +39,7 @@
         <div class="card-content">
             <p class="row">
                 <span class="left">
-                    @foreach(App\Tag::where('id_post', $post->id)->get() as $tag) 
+                    @foreach(App\Tag::where('post_id', $post->id)->get() as $tag) 
                     <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
                     @endforeach
                     @if($post->is_repost) 
@@ -74,8 +74,8 @@
         <div class="card-reveal">                                            
             <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>
             <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
-                @foreach(App\Comentario::where('id_post', $post->id)->orderBy('relevancia', 'desc')->orderBy('created_at', 'desc')->get() as $comentario)
-                <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->id_post }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
+                @foreach(App\Comentario::where('post_id', $post->id)->orderBy('relevancia', 'desc')->orderBy('created_at', 'desc')->get() as $comentario)
+                <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->post_id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
 
                     @if(auth()->user()->id == $comentario->user_id) 
 
@@ -83,7 +83,7 @@
                     <i id="edita-comentario-{{ $comentario->id }}" onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}- text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
                     @else
                     <div id="relevancia-com-{{ $comentario->id }}">
-                        @if($rv = App\RelevanciaComentarios::where('id_usuario', auth()->user()->id)->where('id_comentario', $comentario->id)->first())
+                        @if($rv = App\RelevanciaComentarios::where('id_usuario', auth()->user()->id)->where('comentario_id', $comentario->id)->first())
                         @if($rv->relevancia == 'up')
                         <i class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5" data-tooltip='Avaliado como positivo'></i>                   
                         <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
@@ -106,7 +106,7 @@
                 <div class="col s12">
                     <div class="input-field col s12">
                         <form method="POST" onsubmit="return comentar({{ $post->id }});">
-                            <input type="hidden" name="id_post" value="{{ $post->id }}" >
+                            <input type="hidden" name="post_id" value="{{ $post->id }}" >
                             <input id="comentario-{{ $post->id }}" type="text" class="validate" autocomplete="off">
                             <label for="comment" >Comentar</label>
                         </form>

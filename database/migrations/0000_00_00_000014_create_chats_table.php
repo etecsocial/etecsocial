@@ -20,10 +20,10 @@ class CreateChatsTable extends Migration {
                 $table->text('img')->nullable();
                 $table->integer('copia_dest')->default(1);
                 $table->integer('copia_rem')->default(1);
-                $table->integer('id_destinatario')->unsigned();
-                $table->integer('id_remetente')->unsigned();
+                $table->integer('destinatario_id')->unsigned();
+                $table->integer('rem_idetente')->unsigned();
 
-                $table->foreign('id_destinatario')
+                $table->foreign('destinatario_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

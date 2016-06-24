@@ -19,7 +19,7 @@ class CreateGrupoNotasTable extends Migration {
                 $table->increments('id');
                 $table->string('nota', 200);
                 $table->integer('id_prof')->unsigned();
-                $table->integer('id_grupo')->unsigned();
+                $table->integer('grupo_id')->unsigned();
                 $table->timestamps();
 
                 $table->foreign('id_prof')
@@ -27,7 +27,7 @@ class CreateGrupoNotasTable extends Migration {
                         ->on('users')
                         ->onDelete('cascade');
 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');

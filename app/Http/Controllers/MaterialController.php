@@ -27,11 +27,11 @@ class DiscussaoController extends Controller
         ComentarioDiscussao::create([
             'id_discussao' => $request->id_discussao,
             'user_id'      => auth()->user()->id,
-            'id_grupo'     => $request->id_grupo,
+            'grupo_id'     => $request->grupo_id,
             'comentario'   => $request->comentario,
         ]);
 
-        return view('comentarios.discussao', ['id_discussao' => $request->id_discussao, 'id_comentario' => $request->id_comentario]);
+        return view('comentarios.discussao', ['id_discussao' => $request->id_discussao, 'comentario_id' => $request->comentario_id]);
     }
 
     /**
@@ -40,11 +40,11 @@ class DiscussaoController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id_comentario)
+    public function destroy($comentario_id)
     {
         Carbon::setLocale('pt_BR');
-        if (ComentarioDiscussao::where('id', $id_comentario)->delete()) {
-            return Response::json(['status' => true, 'id' => $id_comentario]);
+        if (ComentarioDiscussao::where('id', $comentario_id)->delete()) {
+            return Response::json(['status' => true, 'id' => $comentario_id]);
         }
         return Response::json(['status' => false]);
     }

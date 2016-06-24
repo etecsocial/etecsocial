@@ -102,7 +102,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if ($this->type == 1) {
             $dados = User::where('users.id', $this->id)
                     ->join('alunos_turma', 'alunos_turma.user_id', '=', 'users.id')
-                    ->join('escolas', 'escolas.id', '=', 'alunos_turma.id_escola')
+                    ->join('escolas', 'escolas.id', '=', 'alunos_turma.escola_id')
                     ->select('escolas.nome as escola_nome')
                     ->limit(1)
                     ->first();
@@ -136,8 +136,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 //Aluno
                 if (auth()->user()->first_login == 0) {
                     return AlunosTurma::where('user_id', auth()->user()->id)
-                                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.id_turma')
-                                    ->join('escolas', 'turmas.id_escola', '=', 'escolas.id')
+                                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.turma_id')
+                                    ->join('escolas', 'turmas.escola_id', '=', 'escolas.id')
                                     ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo', 'escolas.nome as etec'])
                                     ->get()[0];
                 }
@@ -149,15 +149,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                     //DEVE SELECIONAR TURMAS QUE LECIONA
                     $info = ProfessoresInfo::
                                     where('user_id', auth()->user()->id)
-                                    ->select(['id_escola as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->select(['escola_id as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                     ->get()[0];
                 } elseif (auth()->user()->first_login == 0) {
                     //TUDO OK, ABRIR FEED NORMALMENTE
                     $info = ProfessoresInfo::
                                     where('user_id', auth()->user()->id)
-                                    ->select(['id_escola as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->select(['escola_id as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                     ->get()[0];
                 }
                 break;
@@ -167,22 +167,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                     //DEVE CADASTRAR TURMAS DA ESCOLA
                     $info = ProfessoresInfo::
                                     where('user_id', auth()->user()->id)
-                                    ->select(['id_escola as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->select(['escola_id as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                     ->get()[0];
                 } elseif (auth()->user()->first_login == 2) {
                     //JÁ CADASTROU AS TURMAS, PRECISA DIZER PARA QUAIS ELE DÁ AULA (SE TAMBEM FOR PROF)
                     $info = ProfessoresInfo::
                                     where('user_id', auth()->user()->id)
-                                    ->select(['id_escola as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->select(['escola_id as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                     ->get()[0];
                 } elseif (auth()->user()->first_login == 0) {
                     //JÁ CADASTROU E SELECIONOU AS SUAS. FEED NORMAL.
                     $info = ProfessoresInfo::
                                     where('user_id', auth()->user()->id)
-                                    ->select(['id_escola as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                                    ->select(['escola_id as id', 'escolas.nome as escola'])
+                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                     ->get()[0];
                 }
                 break;

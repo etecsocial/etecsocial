@@ -36,12 +36,12 @@
 
             function discutir(id_discussao) {
             var elem = "#com-disc-" + id_discussao;
-                    var id_comentario = $(".com-disc-" + id_discussao + ":last").data("id");
+                    var comentario_id = $(".com-disc-" + id_discussao + ":last").data("id");
                     var comentario = document.getElementById("comentario-" + id_discussao).value;
                     $.ajax({
                     type: "POST",
                             url: "/ajax/discussao",
-                            data: "id_discussao=" + id_discussao + "&id_comentario=" + id_comentario + "&comentario=" + comentario + "&id_grupo=" + {{ $grupo -> id }},
+                            data: "id_discussao=" + id_discussao + "&comentario_id=" + comentario_id + "&comentario=" + comentario + "&grupo_id=" + {{ $grupo -> id }},
                             dataType: "json",
                             error: function (data) {
                             if (data.responseText === "empty") {
@@ -58,12 +58,12 @@
 
     function responder(id_pergunta) {
     var elem = "#com-perg-" + id_pergunta;
-            var id_comentario = $(".com-perg-" + id_pergunta + ":last").data("id");
+            var comentario_id = $(".com-perg-" + id_pergunta + ":last").data("id");
             var comentario = document.getElementById("perg-resp-" + id_pergunta).value;
             $.ajax({
             type: "POST",
                     url: "/ajax/pergunta",
-                    data: "id_pergunta=" + id_pergunta + "&id_comentario=" + id_comentario + "&comentario=" + comentario + "&id_grupo=" + {{ $grupo -> id }},
+                    data: "id_pergunta=" + id_pergunta + "&comentario_id=" + comentario_id + "&comentario=" + comentario + "&grupo_id=" + {{ $grupo -> id }},
                     dataType: "json",
                     error: function (data) {
                     if (data.responseText === "empty") {
@@ -207,7 +207,7 @@
                                                     <i class="material-icons circle blue">question_answer</i>
                                                     <span class="title">Discussões recentes no grupo</span>
 
-                                                    <p>Última discussão por <a href="{{url(auth()->user()->verUser($atv[0]-> id_rem)-> username)}}">{{ auth()->user()->verUser($atv[0]->id_rem)->nome }}</a>
+                                                    <p>Última discussão por <a href="{{url(auth()->user()->verUser($atv[0]-> rem_id)-> username)}}">{{ auth()->user()->verUser($atv[0]->rem_id)->nome }}</a>
                                                         <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[0]->created_at))->diffForHumans() }}</span>
                                                     </p>
                                                     <p class="secondary-content">{{ $grupo->num_discussoes }}</p>
@@ -216,7 +216,7 @@
                                             @if(isset($atv[1]))
                                                 <li class="collection-item avatar">
                                                     <i class="mdi-action-help circle orange"></i>
-                                                    <span class="title"><a href="{{url(auth()->user()->verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'Você' : auth()->user()->verUser($atv[1]->id_rem)->nome }}</a> perguntou:</span>
+                                                    <span class="title"><a href="{{url(auth()->user()->verUser($atv[1]-> rem_id)-> username)}}">{{ $atv[1]->rem_id == Auth::User()->id ? 'Você' : auth()->user()->verUser($atv[1]->rem_id)->nome }}</a> perguntou:</span>
                                                     <p class="truncate">"{{ $atv[1]-> desc}}"
                                                         <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[1]->created_at))->diffForHumans() }}</span>
                                                     </p>
@@ -227,7 +227,7 @@
                                                 <li class="collection-item avatar">
                                                     <i class="material-icons circle green">description</i>
                                                     <span class="title">Materiais de apoio</span>
-                                                    <p class="truncate">Último enviado por <a href="{{url(auth()->user()->verUser($atv[1]-> id_rem)-> username)}}">{{ $atv[1]->id_rem == Auth::User()->id ? 'você' : auth()->user()->verUser($atv[1]->id_rem)->nome }}</a>
+                                                    <p class="truncate">Último enviado por <a href="{{url(auth()->user()->verUser($atv[1]-> rem_id)-> username)}}">{{ $atv[1]->rem_id == Auth::User()->id ? 'você' : auth()->user()->verUser($atv[1]->rem_id)->nome }}</a>
                                                         <br> <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($atv[2]->created_at))->diffForHumans() }}</span>
                                                     </p>
                                                     <p class="secondary-content">19</p>

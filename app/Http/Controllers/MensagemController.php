@@ -105,8 +105,8 @@ class MensagemController extends Controller
             return Response::json([
                 'status'    => true,
                 'last_msg'  => $lastMsg->msg,
-                'is_rem'    => $lastMsg ? ($lastMsg->id_remetente == auth()->user()->id ? true : false) : false,
-                'user_id'   => $lastMsg->id_remetente == auth()->user()->id ? $lastMsg->id_destinatario : $lastMsg->id_remetente,
+                'is_rem'    => $lastMsg ? ($lastMsg->rem_idetente == auth()->user()->id ? true : false) : false,
+                'user_id'   => $lastMsg->rem_idetente == auth()->user()->id ? $lastMsg->destinatario_id : $lastMsg->rem_idetente,
                 'auth_id'   => auth()->user()->id,
                 'nome_user' => User::verUser(auth()->user()->id)->nome,
                 'qtd_msgs'  => ($qtd = Mensagens::countMsgsTopic($request->id_dest) > 1) ? $qtd . ' mensagens' : '1 mensagem',
@@ -127,28 +127,28 @@ class MensagemController extends Controller
     public function delMensagem(Request $request)
     {
         if ($msg2 = $msg = Mensagens::where('id', $request->id)->first()) {
-            $response = (($msg->id_remetente == auth()->user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
+            $response = (($msg->rem_idetente == auth()->user()->id) ? (($msg->copia_rem == 0) ? '404' : $msg->copia_rem = 0) : (($msg->copia_dest == 0) ? '404' : $msg->copia_dest = 0));
             if ($response != 0) {
                 return Response::json(['status' => $response]);
             }
             (($msg->copia_rem == 0) and ($msg->copia_dest == 0)) ? $msg->delete() : $msg->save();
-            $lastMsg = Mensagens::lastMsg($msg->id_remetente == auth()->user()->id ? $msg->id_destinatario : $msg->id_remetente);
+            $lastMsg = Mensagens::lastMsg($msg->rem_idetente == auth()->user()->id ? $msg->destinatario_id : $msg->rem_idetente);
             return Response::json([
                 'status'    => true,
                 'last_msg'  => $lastMsg ? $lastMsg->msg : false,
-                'qtd_msgs'  => Mensagens::countMsgsTopic($msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente),
-                'is_rem'    => $lastMsg ? ($lastMsg->id_remetente == auth()->user()->id ? true : false) : false,
-                'user_id'   => $msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente,
+                'qtd_msgs'  => Mensagens::countMsgsTopic($msg2->rem_idetente == auth()->user()->id ? $msg2->destinatario_id : $msg2->rem_idetente),
+                'is_rem'    => $lastMsg ? ($lastMsg->rem_idetente == auth()->user()->id ? true : false) : false,
+                'user_id'   => $msg2->rem_idetente == auth()->user()->id ? $msg2->destinatario_id : $msg2->rem_idetente,
                 'auth_id'   => auth()->user()->id,
-                'nome_user' => User::verUser($msg2->id_remetente == auth()->user()->id ? $msg2->id_destinatario : $msg2->id_remetente)->nome,
+                'nome_user' => User::verUser($msg2->rem_idetente == auth()->user()->id ? $msg2->destinatario_id : $msg2->rem_idetente)->nome,
             ]);
         }return Response::json(['status' => '404']);
     }
 
     public function delConversa(Request $request)
     {
-        Mensagens::where(['id_remetente' => auth()->user()->id, 'id_destinatario' => $request->uid])->update(['copia_rem' => 0]);
-        Mensagens::Where(['id_destinatario' => auth()->user()->id, 'id_remetente' => $request->uid])->update(['copia_dest' => 0]);
+        Mensagens::where(['rem_idetente' => auth()->user()->id, 'destinatario_id' => $request->uid])->update(['copia_rem' => 0]);
+        Mensagens::Where(['destinatario_id' => auth()->user()->id, 'rem_idetente' => $request->uid])->update(['copia_dest' => 0]);
         return Response::json(['status' => true,
             'auth_id'                       => auth()->user()->id,
             'nome_user'                     => User::verUser($request->uid)->nome]);
@@ -156,8 +156,8 @@ class MensagemController extends Controller
 
     public function delConversaArquivada(Request $request)
     {
-        Mensagens::where(['id_remetente' => auth()->user()->id, 'id_destinatario' => $request->uid])->where('arquivado_rem', 1)->update(['copia_rem' => 0]);
-        Mensagens::Where(['id_destinatario' => auth()->user()->id, 'id_remetente' => $request->uid, 'arquivado_dest' => 1])->update(['copia_dest' => 0]);
+        Mensagens::where(['rem_idetente' => auth()->user()->id, 'destinatario_id' => $request->uid])->where('arquivado_rem', 1)->update(['copia_rem' => 0]);
+        Mensagens::Where(['destinatario_id' => auth()->user()->id, 'rem_idetente' => $request->uid, 'arquivado_dest' => 1])->update(['copia_dest' => 0]);
         return Response::json(['status' => true,
             'auth_id'                       => auth()->user()->id,
             'nome_user'                     => User::verUser($request->uid)->nome]);

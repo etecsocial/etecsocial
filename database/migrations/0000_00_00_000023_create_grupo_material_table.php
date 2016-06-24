@@ -17,16 +17,16 @@ class CreateGrupoMaterialTable extends Migration {
                 $table->string('tipo', 15);
                 $table->string('nome', 50);
                 $table->string('caminho', 100);
-                $table->integer('id_autor')->unsigned();
-                $table->integer('id_grupo')->unsigned();
+                $table->integer('autor_id')->unsigned();
+                $table->integer('grupo_id')->unsigned();
                 $table->timestamps();
 
-                $table->foreign('id_autor')
+                $table->foreign('autor_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');

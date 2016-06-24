@@ -14,7 +14,7 @@ class Agenda extends Model {
         'end',
         'user_id',
         'is_publico',
-        'id_turma',
+        'turma_id',
     ];
 
     /**

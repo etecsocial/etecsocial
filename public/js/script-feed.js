@@ -17,14 +17,14 @@
 
 //COMENTÁRIOS POST FEED
 //Comentários
-function comentar(id_post) {
-    var elem = "#comentarios-" + id_post;
-    var id_comentario = $(".com-" + id_post + ":last").data("id");
-    var comentario = document.getElementById("comentario-" + id_post).value;
+function comentar(post_id) {
+    var elem = "#comentarios-" + post_id;
+    var comentario_id = $(".com-" + post_id + ":last").data("id");
+    var comentario = document.getElementById("comentario-" + post_id).value;
     $.ajax({
         type: "POST",
         url: "/ajax/comentario",
-        data: "id_post=" + id_post + "&id_comentario=" + id_comentario + "&comentario=" + comentario,
+        data: "post_id=" + post_id + "&comentario_id=" + comentario_id + "&comentario=" + comentario,
         dataType: "json",
         error: function (data) {
             if (data.responseText === "empty") {
@@ -32,7 +32,7 @@ function comentar(id_post) {
                 return false
             } else {
                 $(elem).append(data.responseText);
-                $("#comentario-" + id_post).val('');
+                $("#comentario-" + post_id).val('');
             }
         }
     });
@@ -41,19 +41,19 @@ function comentar(id_post) {
 ////////////////////////////////////////////////////////////////////
 
 //Edição de comentários
-function exibeEditarComentario(id_comentario, comentario) {
-    $('#edita-comentario-' + id_comentario).fadeOut();
-    $('#com-' + id_comentario + '-text').html(
-            '<form id="alterar-comentario-' + id_comentario + '" action="ajax/comentario/editar/post" method="POST">' +
-            '<input name="novo_comentario" id="com-editing-' + id_comentario + '" type="text" class="validate" autocomplete="off" value="' + comentario + '">' +
-            '<input name="id_comentario" id="com-editing-' + id_comentario + '" type="hidden" value="' + id_comentario + '">' +
+function exibeEditarComentario(comentario_id, comentario) {
+    $('#edita-comentario-' + comentario_id).fadeOut();
+    $('#com-' + comentario_id + '-text').html(
+            '<form id="alterar-comentario-' + comentario_id + '" action="ajax/comentario/editar/post" method="POST">' +
+            '<input name="novo_comentario" id="com-editing-' + comentario_id + '" type="text" class="validate" autocomplete="off" value="' + comentario + '">' +
+            '<input name="comentario_id" id="com-editing-' + comentario_id + '" type="hidden" value="' + comentario_id + '">' +
             '</form>');
-    $('#alterar-comentario-' + id_comentario).ajaxForm({
+    $('#alterar-comentario-' + comentario_id).ajaxForm({
         dataType: 'JSON',
         success: function (data) {
             if (!data.empty) {
-                $('#com-' + id_comentario + '-text').html(data.comentario)
-                $('#edita-comentario-' + id_comentario).fadeIn();
+                $('#com-' + comentario_id + '-text').html(data.comentario)
+                $('#edita-comentario-' + comentario_id).fadeIn();
             }else{
                 Materialize.toast('<span>Digite algo para comentar!</span>', 3000);
             }
@@ -61,7 +61,7 @@ function exibeEditarComentario(id_comentario, comentario) {
         error: function (xhr) {
             Materialize.toast('<span>Não foi possível comentar neste post! Faça login para continuar.</span>', 5000);
             window.location.href = "etec.localhost/";
-            $('#com-' + id_comentario + '-text').html(comentario)
+            $('#com-' + comentario_id + '-text').html(comentario)
         }
 
     });
@@ -69,8 +69,8 @@ function exibeEditarComentario(id_comentario, comentario) {
 ////////////////////////////////////////////////////////////////////////////////
 
 //Excluir
-function excluirComentario(id_comentario) {
-    $("#excluirComentario").attr({"action": "/ajax/comentario/" + id_comentario});
+function excluirComentario(comentario_id) {
+    $("#excluirComentario").attr({"action": "/ajax/comentario/" + comentario_id});
 }
 $('#excluirComentario').ajaxForm({
     type: "DELETE",
@@ -98,18 +98,18 @@ $('#excluirComentario').ajaxForm({
 ////////////////////////////////////////////////////////////////////////////////
 
 //UP/DOWN
-function comentarioRel(id, id_post, rel) {
+function comentarioRel(id, post_id, rel) {
     $.ajax({
         type: "POST",
         url: "/ajax/comentario/relevancia/post",
-        data: "id_comentario=" + id + "&rel=" + rel + "&id_post=" + id_post,
+        data: "comentario_id=" + id + "&rel=" + rel + "&post_id=" + post_id,
         dataType: "json",
         success: function (data) {
             if (rel === 'up') {
                 $('#relevancia-com-' + id).html('<i class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #039be5"></i>' +
-                        '<i onclick="comentarioRel(' + id + ', ' + id_post + ', ' + '\'down\'' + ')" class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #ccc; cursor: pointer"></i>');
+                        '<i onclick="comentarioRel(' + id + ', ' + post_id + ', ' + '\'down\'' + ')" class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #ccc; cursor: pointer"></i>');
             } else {
-                $('#relevancia-com-' + id).html('<i onclick="comentarioRel(' + id + ', ' + id_post + ', ' + '\'up\'' + ')" class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #ccc; cursor: pointer"></i>' +
+                $('#relevancia-com-' + id).html('<i onclick="comentarioRel(' + id + ', ' + post_id + ', ' + '\'up\'' + ')" class="mdi-hardware-keyboard-arrow-up right small-photo" style="color: #ccc; cursor: pointer"></i>' +
                         '<i class="mdi-hardware-keyboard-arrow-down right small-photo" style="color: #039be5"></i>');
             }
         },
@@ -121,12 +121,12 @@ function comentarioRel(id, id_post, rel) {
 ////////////////////////////////////////////////////////////////////////////////
 
 //FAVORITAR
-function favoritar(id_post) {
-    var elem = "#favoritar-" + id_post;
+function favoritar(post_id) {
+    var elem = "#favoritar-" + post_id;
     $.ajax({
         type: "POST",
         url: "/ajax/post/favoritar",
-        data: "id_post=" + id_post,
+        data: "post_id=" + post_id,
         dataType: "json",
         success: function (data) {
             if (data.status) {
@@ -151,19 +151,19 @@ function favoritar(id_post) {
 ////////////////////////////////////////////////////////////////////////////////
 
 //REPOST
-function repost(id_post) {
+function repost(post_id) {
     $.ajax({
         type: "POST",
         url: "/ajax/repost",
-        data: "id_post=" + id_post,
+        data: "post_id=" + post_id,
         dataType: "json",
         success: function (data) {
             Materialize.toast('Conteúdo compartilhado com sucesso.', 5000);
             newpost();
             if (data.num === 1) {
-                $("#repost-" + id_post).attr({"data-tooltip": data.num + " pessoa compartilhou"});
+                $("#repost-" + post_id).attr({"data-tooltip": data.num + " pessoa compartilhou"});
             } else {
-                $("#repost-" + id_post).attr({"data-tooltip": data.num + " pessoas compartilharam"});
+                $("#repost-" + post_id).attr({"data-tooltip": data.num + " pessoas compartilharam"});
             }
         }
     });
@@ -172,8 +172,8 @@ function repost(id_post) {
 ////////////////////////////////////////////////////////////////////////////////
 
 //EXCLUIR POST
-function excluir(id_post) {
-    $("#excluir").attr({"action": "/ajax/post/" + id_post});
+function excluir(post_id) {
+    $("#excluir").attr({"action": "/ajax/post/" + post_id});
 }
 
 $('#excluir').ajaxForm({

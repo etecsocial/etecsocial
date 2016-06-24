@@ -19,24 +19,24 @@ class CreateDenunciasGrupoTable extends Migration {
                 $table->date('data');
 
                 $table->boolean('visto')->default(false);
-                $table->integer('id_autor_denuncia')->unsigned();
-                $table->integer('id_grupo')->unsigned();
-                $table->integer('id_autor_pub')->unsigned();
+                $table->integer('autor_id_denuncia')->unsigned();
+                $table->integer('grupo_id')->unsigned();
+                $table->integer('autor_id_pub')->unsigned();
                 $table->timestamps();
 
 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');
 
-                $table->foreign('id_autor_denuncia')
+                $table->foreign('autor_id_denuncia')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');
 
                 //@todo Ver se dá pra fazer isso!
-//                $table->foreign('id_autor_pub')
+//                $table->foreign('autor_id_pub')
 //                        ->references('id')
 //                        ->on('users')
 //                        ->onDelete('cascade');

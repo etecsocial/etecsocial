@@ -16,8 +16,8 @@ class PesquisaController extends Controller {
                 ->where('type', 1)
                 ->limit(10)
                 ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
+                ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
                 ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                 ->get();
 
@@ -65,8 +65,8 @@ class PesquisaController extends Controller {
         if ($request->termo) {
             $usuarios = User::where('users.name', 'LIKE', '%' . $request->termo . '%')
                     ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                    ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
                     ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                     ->limit(4)
                     ->get();
@@ -77,7 +77,7 @@ class PesquisaController extends Controller {
 
     public function getGrupos($termo, $limit) {
         return GrupoUsuario::where('user_id', auth()->user()->id) //Corrigido!
-                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
+                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
                 ->where('assunto', 'LIKE', '%' . $termo . '%')
                 ->orWhere('materia', 'LIKE', '%' . $termo . '%')
                 ->select(['grupo.id', 'nome', 'assunto', 'url', 'materia', 'num_participantes'])

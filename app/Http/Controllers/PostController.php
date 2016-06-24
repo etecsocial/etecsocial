@@ -73,7 +73,7 @@ class PostController extends Controller
 
         return isset($post) ? view('post.home', [
             'post'       => $post,
-            'tags'       => Tag::where('id_post', $post->id)->get(),
+            'tags'       => Tag::where('post_id', $post->id)->get(),
             'thisUser'   => auth()->user(),
             'msgsUnread' => Mensagens::countUnread()])
         : abort(404);
@@ -121,11 +121,11 @@ class PostController extends Controller
 
     public function favoritar(Request $request)
     {
-        $post = Post::where('id', $request->id_post)->first();
+        $post = Post::where('id', $request->post_id)->first();
 
         try {
             DB::table('favoritos')
-                ->insert(['id_post' => $request->id_post, 'user_id' => auth()->user()->id]);
+                ->insert(['post_id' => $request->post_id, 'user_id' => auth()->user()->id]);
 
             $post->num_favoritos += 1;
             $post->save();
@@ -134,7 +134,7 @@ class PostController extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
                 DB::table('favoritos')
-                    ->where(['id_post' => $request->id_post, 'user_id' => auth()->user()->id])
+                    ->where(['post_id' => $request->post_id, 'user_id' => auth()->user()->id])
                     ->delete();
 
                 $post->num_favoritos -= 1;
@@ -164,14 +164,14 @@ class PostController extends Controller
         $post->save();
     }
 
-    public function addTags($tags, $id_post)
+    public function addTags($tags, $post_id)
     {
         $array = str_replace('#', '', explode(' ', $tags));
 
         $n = (count($array) > 3) ? 3 : count($array);
 
         for ($i = 0; $i < $n; $i++) {
-            $array != '# ' ? Tag::create(['id_post' => $id_post, 'tag' => $array[$i]]) : false;
+            $array != '# ' ? Tag::create(['post_id' => $post_id, 'tag' => $array[$i]]) : false;
         }
         return $array; //não deixar coisar tag vazia!!!
     }
@@ -194,7 +194,7 @@ class PostController extends Controller
 
     public function repost(Request $request)
     {
-        $post1 = Post::where('id', $request->id_post)->first();
+        $post1 = Post::where('id', $request->post_id)->first();
         $post1->num_reposts += 1;
         $post1->save();
 

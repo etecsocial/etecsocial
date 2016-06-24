@@ -10,7 +10,7 @@ class GrupoUsuario extends Model
     protected $table = 'grupo_usuario';
 
     protected $fillable = [
-        'id_grupo',
+        'grupo_id',
         'user_id',
         'is_admin',
         'is_banido',

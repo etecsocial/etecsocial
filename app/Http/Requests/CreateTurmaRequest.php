@@ -24,8 +24,8 @@ class CreateTurmaRequest extends Request
     public function rules()
     {
         return [
-            'nome' => 'required|min:8|unique:turmas,nome,NULL,id_escola id_escola',
-            'sigla' => 'required|min:2|unique:turmas,sigla,NULL,id_escola id_escola',
+            'nome' => 'required|min:8|unique:turmas,nome,NULL,escola_id escola_id',
+            'sigla' => 'required|min:2|unique:turmas,sigla,NULL,escola_id escola_id',
             'modulos' => 'required|max:1'
         ];
     }

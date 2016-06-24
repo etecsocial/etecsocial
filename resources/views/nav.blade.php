@@ -176,8 +176,8 @@
                                 </li>
                                 @else @foreach($notificacoes as $not) @if($not->is_post)
                                 <li onclick="abrirPost({{ $not->action }})" class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
-                                    <img src="{{ auth()->user()->avatar($not->id_rem) }}" class="circle">
-                                    <span class="title">{{ auth()->user()->verUser($not->id_rem)->nome }}</span>
+                                    <img src="{{ auth()->user()->avatar($not->rem_id) }}" class="circle">
+                                    <span class="title">{{ auth()->user()->verUser($not->rem_id)->nome }}</span>
                                     <small>
                                         <p>{{ $not->texto }}</p>
                                         <span class="right-align">{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</span>
@@ -191,8 +191,8 @@
                                 </li>
                                 @else
                                 <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
-                                    <img src="{{ auth()->user()->avatar($not->id_rem) }}" class="circle">
-                                    <span class="title">{{ auth()->user()->verUser($not->id_rem)->nome }}</span>
+                                    <img src="{{ auth()->user()->avatar($not->rem_id) }}" class="circle">
+                                    <span class="title">{{ auth()->user()->verUser($not->rem_id)->nome }}</span>
                                     <small>
                                         <p>{{ $not->texto }}</p>
                                         <span class="right-align">{{ Carbon\Carbon::createFromTimeStamp(strtotime($not->created_at))->diffForHumans()  }}</span>

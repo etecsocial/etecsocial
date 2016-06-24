@@ -36,11 +36,11 @@ class Pontuacao extends Model
                     ->selectRaw('sum(pontos) as pontos, users.name, users.id, users.username')
                     ->join('users', 'users.id', '=', 'pontuacaos.user_id')
                     ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                    ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
                     ->orderBy('pontos', 'DESC')
                     ->groupBy('users.id')
-                    ->where('turmas.id_escola', auth()->user()->id_escola)
+                    ->where('turmas.escola_id', auth()->user()->escola_id)
                     ->limit(100)
                     ->get();
                 break;
@@ -50,11 +50,11 @@ class Pontuacao extends Model
                     ->selectRaw('sum(pontos) as pontos, users.name, users.id, users.username')
                     ->join('users', 'users.id', '=', 'pontuacaos.user_id')
                     ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                    ->join('turmas', 'turmas.id', '=', 'alunos_info.id_turma')
-                    ->join('escolas', 'escolas.id', '=', 'turmas.id_escola')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
                     ->orderBy('pontos', 'DESC')
                     ->groupBy('users.id')
-                    ->where('turmas.id_escola', auth()->user()->id_escola)
+                    ->where('turmas.escola_id', auth()->user()->escola_id)
                     ->limit(100)
                     ->get();
                 break;

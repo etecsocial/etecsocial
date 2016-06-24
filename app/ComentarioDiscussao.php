@@ -10,7 +10,7 @@ class ComentarioDiscussao extends Model
     protected $table    = 'comentarios_discussao';
     protected $fillable = [
         'id',
-        'id_grupo',
+        'grupo_id',
         'user_id',
         'id_discussao',
         'comentario',

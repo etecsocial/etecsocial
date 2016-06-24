@@ -16,7 +16,7 @@ class GrupoPergunta extends Model
         'assunto',
         'tags',
         'pergunta',
-        'id_autor',
+        'autor_id',
     ];
 
 }

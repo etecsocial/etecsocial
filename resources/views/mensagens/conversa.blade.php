@@ -8,9 +8,9 @@
             <div class="col s10 m10 l10">
                 <ul class="collection">
                     <li class="collection-item avatar">
-                        <span class="circle light-blue">{{\auth()->user()->verUser($conversa->id_remetente)->name[0]}}</span>
-                        <span class="email-title">{{\auth()->user()->verUser($conversa->id_remetente)->name}}</span>
-                        <p class="truncate grey-text ultra-small"><b>Para:</b> {{\auth()->user()->verUser($conversa->id_destinatario)->name}}</p>
+                        <span class="circle light-blue">{{\auth()->user()->verUser($conversa->rem_idetente)->name[0]}}</span>
+                        <span class="email-title">{{\auth()->user()->verUser($conversa->rem_idetente)->name}}</span>
+                        <p class="truncate grey-text ultra-small"><b>Para:</b> {{\auth()->user()->verUser($conversa->destinatario_id)->name}}</p>
                         <p class="grey-text ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($conversa->created_at))->diffForHumans()}}</p>
                     </li>
                 </ul>
@@ -33,11 +33,11 @@
                         <h6>Mídia em anexo</h6>
                         <hr class="divider col s12">
                         @if(substr_count($conversa->midia, 'imagens'))
-                        <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->id_remetente)->name}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                        <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->rem_idetente)->name}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
                             <img src="{{url($conversa->midia)}}" alt="" class="responsive-img valign img-rounded col s10">
                         </a>
                         @else 
-                        <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->id_remetente)->name}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
+                        <a href="{{url($conversa->midia)}}" data-lightbox="Imagem enviada por {{\auth()->user()->verUser($conversa->rem_idetente)->name}}" style="margin-bottom: 10px;padding-left: 0;width: 80px">
                             <video src="{{url($conversa->midia)}}" alt="" class="video-container col s10">
                         </a>
                         @endif

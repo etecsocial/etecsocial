@@ -9,7 +9,7 @@ class ProfessoresInfo extends Model {
 
     protected $fillable = [
         'user_id',
-        'id_escola',
+        'escola_id',
         'profile_photo',
         'status',
         'cidade',

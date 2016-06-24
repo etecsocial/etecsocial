@@ -17,13 +17,6 @@ class HomeController extends Controller {
 
     public function index() { 
         
-                return auth()->user()->tarefas
-                ->where(function ($query) {
-                    $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
-                    ->orWhere('checked', false);
-                })
-                ->orderBy('data')
-                ->limit(4);
         return auth()->check() 
                 ? $this->feed() 
                 : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
@@ -36,7 +29,7 @@ class HomeController extends Controller {
     public function getEscolasCad() {
         return Escola::select('escolas.id as id', 'escolas.nome as nome')
                         ->whereIn('id', function ($query) {
-                            $query->select('id_escola')
+                            $query->select('escola_id')
                             ->from('turmas');
                         })
                         ->get()->toArray();
@@ -55,28 +48,23 @@ class HomeController extends Controller {
 
 
         $grupos = GrupoUsuario::where('user_id', auth()->user()->id)
-                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.id_grupo')
+                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
                 ->where('grupo_usuario.is_banido', 0)
                 ->select('grupo.url', 'grupo.nome')
                 ->limit(5)
                 ->get();
 
         Carbon::setLocale('pt_BR');
-
-        $tasks = User::find(2);
-        $tasks = $tasks->tarefas;
-//        $tasks = DB::table('tarefas')
-//                ->select(['desc', 'data', 'checked', 'id'])
-//                ->where('user_id', auth()->user()->id)
-//                ->where(function ($query) {
-//                    $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
-//                    ->orWhere('checked', false);
-//                })
-//                ->orderBy('data')
-//                ->limit(4)
-//                ->get();
-
-
+        $tasks = DB::table('tarefas')
+                ->select(['desc', 'data', 'checked', 'id'])
+                ->where('user_id', auth()->user()->id)
+                ->where(function ($query) {
+                    $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
+                    ->orWhere('checked', false);
+                })
+                ->orderBy('data')
+                ->limit(4)
+                ->get();
 
         return view('feed.home', [
             'posts' => $posts,
@@ -94,7 +82,7 @@ class HomeController extends Controller {
             case 1:
                 return User::getInfoAcademica();
             case 2:
-                $escola = ProfessoresInfo::join('escolas', 'escolas.id', '=', 'professores_info.id_escola')
+                $escola = ProfessoresInfo::join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                         ->select(['escolas.nome as escola', 'escolas.id as id'])
                         ->get();
                 break;

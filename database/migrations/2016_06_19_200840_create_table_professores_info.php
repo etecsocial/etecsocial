@@ -15,7 +15,7 @@ class CreateTableProfessoresInfo extends Migration {
             Schema::create('professores_info', function(Blueprint $table) {
 
                 $table->integer('user_id')->unsigned();
-                $table->integer('id_escola')->unsigned();
+                $table->integer('escola_id')->unsigned();
                 $table->string('profile_photo')->default('default-user.png');
                 $table->string('status', 100)->default('Sou novo por aqui, e quero compartilhar conhecimentos com vocês :D');
                 $table->string('cidade', 40)->default('Não informado');
@@ -32,7 +32,7 @@ class CreateTableProfessoresInfo extends Migration {
                         ->on('users')
                         ->onDelete('cascade');
 
-                $table->foreign('id_escola')
+                $table->foreign('escola_id')
                         ->references('id')
                         ->on('escolas')
                         ->onDelete('cascade');

@@ -37,7 +37,7 @@ class Post extends Model {
     
     public static function favoritou($id) {
         $count = DB::table('favoritos')
-                ->where(["id_post" => $id, "user_id" => auth()->user()->id])
+                ->where(["post_id" => $id, "user_id" => auth()->user()->id])
                 ->count();
 
         return isset($count) ? $count : false;

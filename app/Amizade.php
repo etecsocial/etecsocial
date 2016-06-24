@@ -63,7 +63,7 @@ class Amizade extends Model {
         ]);
 
         Notificacao::create([
-            'id_rem' => auth()->user()->id,
+            'rem_id' => auth()->user()->id,
             'id_dest' => $id,
             'data' => time(),
             'texto' => "Aceitou sua solicitação",

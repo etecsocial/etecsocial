@@ -9,8 +9,8 @@ class DenunciaParecer extends Model
 
     protected $table    = 'denuncia_parecer';
     protected $fillable = [
-        'id_post',
-        'id_denuncia',
+        'post_id',
+        'denuncia_id',
         'excluir',
         'parecer',
     ];

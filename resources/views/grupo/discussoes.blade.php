@@ -55,14 +55,14 @@
                     </blockquote>
                     <div class="row">
                         <div class="col s2">
-                            <img src="{{ auth()->user()->avatar($discussao->id_autor)}}" alt="Este é {{ auth()->user()->verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
+                            <img src="{{ auth()->user()->avatar($discussao->autor_id)}}" alt="Este é {{ auth()->user()->verUser($discussao->autor_id)->nome }}." class="circle responsive-img valign profile-image">
                         </div>
                         <div class="col s9">
-                            Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->name }}</a>
+                            Por <a href="{{ url(auth()->user()->verUser($discussao-> autor_id)-> username)}}">{{ auth()->user()->verUser($discussao->autor_id)->name }}</a>
                         </div>
-                        @if((auth()->user()->id == $discussao->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->id_autor))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $discussao->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                        @if((auth()->user()->id == $discussao->autor_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->autor_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $discussao->autor_id)->where('is_admin', 0)->where('grupo_id', $grupo->id))))
                         <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
-                        <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->id_autor }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
+                        <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->autor_id }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                     </div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                     <div class="col s12">
                         <div class="input-field col s12">
                             <form method="POST" onsubmit="return discutir({{ $discussao-> id}}, {{ $grupo-> id}});">
-                                <input type="hidden" name="id_post" value="{{ $discussao-> id}}">
+                                <input type="hidden" name="post_id" value="{{ $discussao-> id}}">
                                 <input id="comentario-{{ $discussao-> id}}" type="text" class="validate" autocomplete="off">
                                 <label for="comment">Discutir</label>
                             </form>

@@ -23,14 +23,14 @@ class DenunciaController extends Controller
     public function createDenunciaGrupo(Request $request)
     {
         Carbon::setLocale('pt_BR');
-        if (!DenunciaGrupo::where('id_grupo', $request->id_grupo)->where('tipo', $request->tipo_pub)->where('denuncia', $request->motivo)->where('id_autor_denuncia', auth()->user()->id)->first()) {
+        if (!DenunciaGrupo::where('grupo_id', $request->grupo_id)->where('tipo', $request->tipo_pub)->where('denuncia', $request->motivo)->where('autor_id_denuncia', auth()->user()->id)->first()) {
             $denuncia                    = new DenunciaGrupo;
             $denuncia->id_pub            = $request->id_pub;
             $denuncia->tipo              = $request->tipo_pub;
             $denuncia->denuncia          = $request->motivo;
-            $denuncia->id_grupo          = $request->id_grupo;
-            $denuncia->id_autor_denuncia = auth()->user()->id;
-            $denuncia->id_autor_pub      = $request->id_autor_pub;
+            $denuncia->grupo_id          = $request->grupo_id;
+            $denuncia->autor_id_denuncia = auth()->user()->id;
+            $denuncia->autor_id_pub      = $request->autor_id_pub;
             $denuncia->data              = \Carbon\Carbon::today();
             if ($denuncia->save()) {
                 return Response::json(['response' => 1]);
@@ -42,29 +42,29 @@ class DenunciaController extends Controller
     {
         if ($request->resposta == 1) {
             if ($request->tipo_pub == 'discussao') {
-                $a = GrupoDiscussao::where('id_grupo', $request->id_grupo)->where('id', $request->id_pub)->delete();
+                $a = GrupoDiscussao::where('grupo_id', $request->grupo_id)->where('id', $request->id_pub)->delete();
             } elseif ($request->tipo_pub == 'pergunta') {
-                $a = GrupoPergunta::where('id_grupo', $request->id_grupo)->where('id', $request->id_pub)->delete();
+                $a = GrupoPergunta::where('grupo_id', $request->grupo_id)->where('id', $request->id_pub)->delete();
             }
             if (isset($a)) {
                 DB::table('grupo')
-                    ->where('id', $request->id_grupo)
+                    ->where('id', $request->grupo_id)
                     ->decrement('num_participantes');
             }
         }
 
         if ($request->banir) {
-            GrupoUsuario::where('id_grupo', $request->id_grupo)
-                ->where('user_id', $request->id_autor_pub)
+            GrupoUsuario::where('grupo_id', $request->grupo_id)
+                ->where('user_id', $request->autor_id_pub)
                 ->update(array('is_banido' => 1));
         }
 
         if (DenunciaGrupo::where('id_pub', $request->id_pub)
-            ->where('id_grupo', $request->id_grupo)
+            ->where('grupo_id', $request->grupo_id)
             ->where('tipo', $request->tipo_pub)
             ->update(array('visto' => 1))) {
             if (isset($a)) {
-                return Response::json(['response' => 1, 'id' => $request->id_pub, 'tipo' => $request->tipo_pub, 'user_id' => $request->id_autor_pub]);
+                return Response::json(['response' => 1, 'id' => $request->id_pub, 'tipo' => $request->tipo_pub, 'user_id' => $request->autor_id_pub]);
             }return Response::json(['response' => 1]);
         }return Response::json(['response' => 2]);
     }
@@ -73,14 +73,14 @@ class DenunciaController extends Controller
     //        Carbon::setLocale('pt_BR');
     //        $this->validate($request, [ 'publicacao' => 'required']);
     //
-    //        $msg = "Olá professor(a), recebemos uma denuncia de uma" . $request->id_post ? 'publicação' : 'mensagem' . ' e gos'
+    //        $msg = "Olá professor(a), recebemos uma denuncia de uma" . $request->post_id ? 'publicação' : 'mensagem' . ' e gos'
     //                . 'taría-mos que você desse uma olhada.'
     //                . 'Segundo o autor da denúncia, o conteúdo não deveria estar na ETEC Social, por conter'
-    //                . $request->denuncia . '. Veja abaixo o conteúdo da' . $request->id_post ? 'publicação' : 'mensagem' . ':';
+    //                . $request->denuncia . '. Veja abaixo o conteúdo da' . $request->post_id ? 'publicação' : 'mensagem' . ':';
     //
     //        $denuncia = new Denuncia;
     //        $denuncia->id_usuario = auth()->user()->id;
-    //        $request->id_post ? $denuncia->publicacao = $request->id_post : $denuncia->id_mensagem = $request->id_mensagem;
+    //        $request->post_id ? $denuncia->publicacao = $request->post_id : $denuncia->mensagem_id = $request->mensagem_id;
     //        $denuncia->data = Carbon::parse(Carbon::today())->format("Y-m-d");
     //        $denuncia->denuncia = $msg;
     //        $denuncia->tipo = $request->denuncia;
@@ -95,7 +95,7 @@ class DenunciaController extends Controller
      */
     public function getDenunciasGrupo(Request $request)
     {
-        return DenunciaGrupo::where('id_grupo', $request->id_grupo)
+        return DenunciaGrupo::where('grupo_id', $request->grupo_id)
             ->where('visto', 0)
             ->orderBy('created_at', 'desc')
             ->save();

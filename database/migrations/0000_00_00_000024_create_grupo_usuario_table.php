@@ -14,13 +14,13 @@ class CreateGrupoUsuarioTable extends Migration {
         if (!Schema::hasTable('grupo_usuario')) {
             Schema::create('grupo_usuario', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('id_grupo')->unsigned();
+                $table->integer('grupo_id')->unsigned();
                 $table->integer('user_id')->unsigned();
                 $table->boolean('is_admin')->default(false);
                 $table->boolean('is_banido')->default(false);
                 $table->timestamps();
 
-                $table->foreign('id_grupo')
+                $table->foreign('grupo_id')
                         ->references('id')
                         ->on('grupo')
                         ->onDelete('cascade');

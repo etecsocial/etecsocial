@@ -85,9 +85,9 @@ function scaleBannerVideoSize(element){
 
     });
     function getTurmas() {
-    var escola = $('#id_escola').val();
+    var escola = $('#escola_id').val();
     if (escola) {
-    var url = '/ajax/cadastro/getTurmas?id_escola=' + escola;
+    var url = '/ajax/cadastro/getTurmas?escola_id=' + escola;
     $.get(url, function (dataReturn) {
     $('#loadturmas').html(dataReturn).material_select();
     $('#loadmodulos').html('');
@@ -96,8 +96,8 @@ function scaleBannerVideoSize(element){
     }
     }
     function getModulos() {
-    var id_turma = $('#loadturmas').val();
-    var url = '/ajax/cadastro/getModulos?id_turma=' + id_turma;
+    var turma_id = $('#loadturmas').val();
+    var url = '/ajax/cadastro/getModulos?turma_id=' + turma_id;
     $.get(url, function (dataReturn) {
     $('#loadmodulos').html(dataReturn).material_select();
     $('.caret').hide();

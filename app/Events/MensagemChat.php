@@ -14,12 +14,12 @@ class MensagemChat extends Event implements ShouldBroadcast
 
     public $data;
 
-    public function __construct($id_dest, $id_rem, $msg, $data)
+    public function __construct($id_dest, $rem_id, $msg, $data)
     {
         $this->data = array(
             'user_id' => $id_dest,
-            'id_rem' => $id_rem,
-            'foto_rem' => User::avatar($id_rem),
+            'rem_id' => $rem_id,
+            'foto_rem' => User::avatar($rem_id),
             'msg' => $msg,
             'data' => $data
         );

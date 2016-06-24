@@ -56,10 +56,10 @@
                 <p class="blog-post-content" style="height: 110px !important; max-height: 110px !important; overflow-y: scroll">"{{ $pergunta-> pergunta}}"</p>
                 <div class="row">
                     <div class="col s2">
-                        <img src="{{ auth()->user()->avatar($pergunta->id_autor) }}" alt="{{ auth()->user()->verUser($pergunta->id_autor)->nome }}." class="circle responsive-img valign profile-image">
+                        <img src="{{ auth()->user()->avatar($pergunta->autor_id) }}" alt="{{ auth()->user()->verUser($pergunta->autor_id)->nome }}." class="circle responsive-img valign profile-image">
                     </div>
-                    <div class="col s8"> Por <a href="{{ url(auth()->user()->verUser($pergunta->id_autor)->username)}}">{{ auth()->user()->verUser($pergunta->id_autor)->nome }}</a></div>
-                    @if((auth()->user()->id == $pergunta->id_autor) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($pergunta->id_autor))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $pergunta->id_autor)->where('is_admin', 0)->where('id_grupo', $grupo->id))))
+                    <div class="col s8"> Por <a href="{{ url(auth()->user()->verUser($pergunta->autor_id)->username)}}">{{ auth()->user()->verUser($pergunta->autor_id)->nome }}</a></div>
+                    @if((auth()->user()->id == $pergunta->autor_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($pergunta->autor_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $pergunta->autor_id)->where('is_admin', 0)->where('grupo_id', $grupo->id))))
                     <a href="#modalExcluirPergunta" onclick="excluirPergunta({{ $pergunta-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
                     <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $pergunta->id}}, 'pergunta')" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                 </div>

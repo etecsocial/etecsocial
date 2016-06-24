@@ -14,9 +14,9 @@
                 </blockquote>
                 <div class="row">
                     <div class="col s2">
-                        <img src="{{ auth()->user()->Avatar($discussao->id_autor)}}" alt="Este é {{ auth()->user()->verUser($discussao->id_autor)->nome }}." class="circle responsive-img valign profile-image">
+                        <img src="{{ auth()->user()->Avatar($discussao->autor_id)}}" alt="Este é {{ auth()->user()->verUser($discussao->autor_id)->nome }}." class="circle responsive-img valign profile-image">
                     </div>
-                    <div class="col s9"> Por <a href="{{ url(auth()->user()->verUser($discussao-> id_autor)-> username)}}">{{ auth()->user()->verUser($discussao->id_autor)->nome }}</a></div>
+                    <div class="col s9"> Por <a href="{{ url(auth()->user()->verUser($discussao-> autor_id)-> username)}}">{{ auth()->user()->verUser($discussao->autor_id)->nome }}</a></div>
                     <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="col s12">
                     <div class="input-field col s12">
                         <form method="POST" onsubmit="return discutir({{ $discussao-> id}}, {{ $grupo-> id}});">
-                            <input type="hidden" name="id_post" value="{{ $discussao-> id}}">
+                            <input type="hidden" name="post_id" value="{{ $discussao-> id}}">
                             <input id="comentario-{{ $discussao-> id}}" type="text" class="validate" autocomplete="off">
                             <label for="comment">Discutir</label>
                         </form>

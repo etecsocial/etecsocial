@@ -37,9 +37,9 @@ class AgendaController extends Controller
             })
             ->where(function ($query) {
                 $query->orWhere(function ($query) {
-                    $db       = DB::table('alunos_info')->select('id_turma')->where('user_id', auth()->user()->id)->first();
-                    $id_turma = $db->id_turma;
-                    $query->where('agendas.id_turma', $id_turma)
+                    $db       = DB::table('alunos_info')->select('turma_id')->where('user_id', auth()->user()->id)->first();
+                    $turma_id = $db->turma_id;
+                    $query->where('agendas.turma_id', $turma_id)
                         ->where('is_publico', 1);
                 })
                     ->orWhere('user_id', auth()->user()->id);
@@ -73,15 +73,15 @@ class AgendaController extends Controller
             $data = $request->start ? $request->start : date("Y-m-d");
 
             Notificacao::create([
-                'id_rem'  => auth()->user()->id,
+                'rem_id'  => auth()->user()->id,
                 'id_dest' => auth()->user()->id,
                 'data'    => strtotime($data) - 3 * 24 * 60 * 60,
                 'texto'   => 'O evento "' . $request->title . '" está próximo.',
                 'is_post' => false,
             ]);
 
-            $db       = DB::table('alunos_info')->select('id_turma')->where('user_id', auth()->user()->id)->first();
-            $id_turma = $db->id_turma;
+            $db       = DB::table('alunos_info')->select('turma_id')->where('user_id', auth()->user()->id)->first();
+            $turma_id = $db->turma_id;
 
             return Agenda::create([
                 'title'       => $request->title,
@@ -89,19 +89,19 @@ class AgendaController extends Controller
                 'end'         => $request->end ? $request->end : $request->start,
                 'user_id'     => auth()->user()->id,
                 'is_publico'  => $request->publico,
-                'id_turma'    => $id_turma,
+                'turma_id'    => $turma_id,
                 'description' => $request->description,
             ]);
         } else {
             $request->turma ? $this->CreateGrupoByTurma($request->turma, $request->title, $request->start, $request->end, $request->description) : null;
-            $request->id_turma ? $this->CreateGrupoByTurma($request->id_turma, $request->title, $request->start, $request->end, $request->description) : null;
+            $request->turma_id ? $this->CreateGrupoByTurma($request->turma_id, $request->title, $request->start, $request->end, $request->description) : null;
             return Agenda::create([
                 'title'       => $request->title,
                 'start'       => $request->start ? $request->start : date("Y-m-d"),
                 'end'         => $request->end ? $request->end : $request->start,
                 'user_id'     => auth()->user()->id,
                 'is_publico'  => $request->publico,
-                'id_turma'    => 1,
+                'turma_id'    => 1,
                 'description' => $request->description,
             ]);
         }
@@ -124,7 +124,7 @@ class AgendaController extends Controller
         }return $url;
     }
 
-    public function CreateGrupoByTurma($id_turma, $titulo, $start, $end, $desc)
+    public function CreateGrupoByTurma($turma_id, $titulo, $start, $end, $desc)
     {
 
         $grupo                    = new Grupo;
@@ -138,19 +138,19 @@ class AgendaController extends Controller
 
         if ($grupo->save()) {
             $grupoUsuario           = new GrupoUsuario;
-            $grupoUsuario->id_grupo = $grupo->id;
+            $grupoUsuario->grupo_id = $grupo->id;
             $grupoUsuario->user_id  = $grupo->id_criador;
             $grupoUsuario->is_admin = 1;
             $grupoUsuario->save();
-            $alunos = User::where('id_turma', $id_turma)->select(['id'])->where('id', '<>', auth()->user()->id)->get();
+            $alunos = User::where('turma_id', $turma_id)->select(['id'])->where('id', '<>', auth()->user()->id)->get();
             foreach ($alunos as $aluno) {
                 $grupoUsuario           = new GrupoUsuario;
-                $grupoUsuario->id_grupo = $grupo->id;
+                $grupoUsuario->grupo_id = $grupo->id;
                 $grupoUsuario->user_id  = $aluno->id;
                 $grupoUsuario->is_admin = 0;
                 $grupoUsuario->save();
                 Notificacao::create([
-                    'id_rem'  => auth()->user()->id,
+                    'rem_id'  => auth()->user()->id,
                     'id_dest' => $aluno->id,
                     'data'    => time(),
                     'texto'   => 'Adicionou você ao grupo "' . Grupo::verGrupo($grupo->id)->url . '"',

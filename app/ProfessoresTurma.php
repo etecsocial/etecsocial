@@ -9,7 +9,7 @@ class ProfessoresTurma extends Model {
     protected $table = 'professores_turma';
     protected $fillable = [
         'user_id',
-        'id_turma',
+        'turma_id',
         'modulo'
     ];
 

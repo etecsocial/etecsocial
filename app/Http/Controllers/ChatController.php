@@ -21,8 +21,8 @@ class ChatController extends Controller
         $time = time();
         
         Chat::create([
-            'id_remetente'    => auth()->user()->id,
-            'id_destinatario' => $request->id,
+            'rem_idetente'    => auth()->user()->id,
+            'destinatario_id' => $request->id,
             'msg'             => $request->msg,
             'data'            => $time,
         ]);
@@ -35,8 +35,8 @@ class ChatController extends Controller
 
         if ($request->data) {
 
-            $msgs = Chat::where(['id_remetente' => $request->user_id, 'id_destinatario' => auth()->user()->id])
-                ->orWhere(['id_remetente' => auth()->user()->id, 'id_destinatario' => $request->user_id])
+            $msgs = Chat::where(['rem_idetente' => $request->user_id, 'destinatario_id' => auth()->user()->id])
+                ->orWhere(['rem_idetente' => auth()->user()->id, 'destinatario_id' => $request->user_id])
                 ->where('data', '<', $request->data)
                 ->orderBy('data', 'desc')
                 ->limit(15)
@@ -44,8 +44,8 @@ class ChatController extends Controller
                 ->toArray();
         } else {
 
-            $msgs = Chat::where(['id_remetente' => $request->user_id, 'id_destinatario' => auth()->user()->id])
-                ->orWhere(['id_remetente' => auth()->user()->id, 'id_destinatario' => $request->user_id])
+            $msgs = Chat::where(['rem_idetente' => $request->user_id, 'destinatario_id' => auth()->user()->id])
+                ->orWhere(['rem_idetente' => auth()->user()->id, 'destinatario_id' => $request->user_id])
                 ->orderBy('data', 'desc')
                 ->limit(15)
                 ->get()
