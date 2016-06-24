@@ -68,30 +68,23 @@
                         </div>
                         </div>
                         </div>
+
                         <div class="homepage-hero-module" id="recursos">
-
                             <div class="video-container">
-
                                 <div class="filter"></div>
                                 <video autoplay loop class="fillWidth">
-                                    <source src="{{ url('/videos/video-home/MP4/White-Board.mp4') }}" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-                                    <source src="{{ url('/videos/video-home/WEBM/White-Board.webm') }}" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
+                                    <source src="{{ url('/videos/video-home/MP4/White-Board.mp4') }}" type="video/mp4" />Parece que seu navegador está desatualizado e não suporta alguns de nossos recursos. Nós sugerimos que você o atualize.
+                                    <source src="{{ url('/videos/video-home/WEBM/White-Board.webm') }}" type="video/webm" />Parece que seu navegador está desatualizado e não suporta alguns de nossos recursos. Nós sugerimos que você o atualize.
                                 </video>
                                 <div class="poster hidden">
-
-                                   
                                 </div>
                                 <div class="content-video">
-                                    
-                                    <h1 class="white-text">Olá mundo!</h1>
-                                    <h2 class="white-text thin">Ainda estou trabalhando nisso.</h2>
-
+                                    <h2 class="white-text"><span class="bold">Sim! </span><span class="thin">Você pode aprender em uma rede social.</span></h2>
                                 </div>
-                                                                    <a id="btn-scroll" href="#recursos" class="btn-next btn-floating btn-large waves-effect waves-light  blue accent-2"><i class="mdi-hardware-keyboard-arrow-down"></i></a>
-
-
+                                <a id="btn-scroll" href="#recursos" class="btn-next btn-floating btn-large waves-effect waves-light  blue accent-2"><i class="mdi-hardware-keyboard-arrow-down"></i></a>
                             </div>
                         </div>
+
                         <!--<div class="container" id="recursos">
                             <div class="section">
                                 <div class="row">
@@ -124,7 +117,7 @@
                                 <div class="row">
                                     <div class="col s12">
                                         <div class="video-container">
-                                            <iframe width="1280" height="720" src="https://www.youtube.com/embed/pAfiLcMJ7q8?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+<!--                                            <iframe width="1280" height="720" src="https://www.youtube.com/embed/pAfiLcMJ7q8?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>-->
                                         </div>
                                     </div>
                                 </div>

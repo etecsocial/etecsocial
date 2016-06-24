@@ -15,9 +15,10 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller {
 
-    public function index() {
-
-        return auth()->check() ? $this->feed() : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
+    public function index() { 
+        return auth()->check() 
+                ? $this->feed() 
+                : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
     }
 
     public function getAllEscolas() {

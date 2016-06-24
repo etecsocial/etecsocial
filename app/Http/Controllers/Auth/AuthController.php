@@ -12,6 +12,7 @@ use App\AlunosTurma;
 use App\ProfessoresInfo;
 use App\GrupoUsuario;
 use App\Grupo;
+use App\GrupoTurma;
 
 class AuthController extends Controller {
     /*
@@ -122,21 +123,17 @@ use AuthenticatesAndRegistersUsers,
                 ->where('id', $user->id)
                 ->update(['type' => $data['type']]);
 
-        $this->addGrupo($data['id_turma'], $user['id']);
+        if ($data['type'] == 1) {
+            $this->addGrupo($data, $user);
+        }
     }
 
-    public function addGrupo($turma, $user) {
-//        if ($id_grupo = Grupo::where('id_turma', $turma)->select('grupo.id as id')->get()) {
-//            GrupoUsuario::create([
-//                'id_grupo' => $id_grupo,
-//                'id_user' => $user,
-//                'is_admin' => 0
-//            ]);
-//        }else{
-//            return Grupo::where('id_turma', $turma)->select('id')->get();
-//        }
-        return true;
-        //Ainda vou terminar isso.
+    public function addGrupo($data, $user) {
+        $q = GrupoTurma::where('id_turma', $data['id_turma'])->where('modulo', $data['modulo'])->select('id_grupo')->get()[0];
+        GrupoUsuario::create([
+            'id_grupo' => $q->id_grupo,
+            'id_user' => $user->id
+        ]);
     }
 
     protected function create_prof($user, $data) {

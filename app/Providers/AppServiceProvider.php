@@ -26,11 +26,43 @@ class AppServiceProvider extends ServiceProvider {
 
             for ($modulo = 3; $modulo > 0; $modulo--) {
                 $grupo = $this->setGrupo($turma, $modulo);
-                
-                ($turma->modulos == 3) 
-                        ? $this->grupoTurma($grupo, $turma->id, $modulo) 
-                        : $this->grupoTurmas($grupo, $turma->id, $modulo);
+
+                ($turma->modulos == 3) ? $this->grupoTurma($grupo, $turma->id, $modulo) : $this->grupoTurmas($grupo, $turma->id, $modulo);
             }
+        });
+
+        Grupo::created(function ($data) {
+            GrupoUsuario::create([
+                'id_grupo' => $data->id,
+                'id_user' => auth()->user()->id,
+                'is_admin' => 1
+            ]);
+        });
+
+
+
+        GrupoUsuario::created(function ($data) {
+            Grupo::where('id', $data->id_grupo)->increment('num_participantes');
+        });
+        GrupoUsuario::deleted(function ($data) {
+            Grupo::where('id', $data->id_grupo)->decrement('num_participantes');
+        });
+        GrupoUsuario::updated(function ($data) {
+            isset($data->is_banido) ? Grupo::where('id', $data->id_grupo)->decrement('num_participantes') : false;
+        });
+        \App\GrupoDiscussao::deleted(function ($data) {
+            //como fazer para pegar o id do grupo cuja discussão já foi excluida? Parece que neste caso ele no passa
+            //os dados antigos da tabela excluida...
+            Grupo::where('id', $data->id_grupo)->decrement('num_discussoes');
+        });
+        \App\GrupoDiscussao::created(function ($data) {
+            Grupo::where('id', $data->id_grupo)->increment('num_discussoes');
+        });
+        \App\GrupoPergunta::deleted(function ($data) {
+            Grupo::where('id', $data->id_grupo)->decrement('num_perguntas');
+        });
+        \App\GrupoPergunta::created(function ($data) {
+            Grupo::where('id', $data->id_grupo)->increment('num_perguntas');
         });
     }
 
