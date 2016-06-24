@@ -1,3 +1,6 @@
+$(document).ready(function() {
+    $('input#cc, textarea#cc').characterCounter();
+  });
 //EDIT PERFIL
 $('#edit-perfil').ajaxForm({
     type: "POST",

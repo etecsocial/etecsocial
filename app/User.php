@@ -8,8 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
-{
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
     use Authenticatable,
         CanResetPassword;
@@ -42,20 +41,39 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         'password', 'remember_token', 'provider_id', 'provider_user_id', 'confirmation_code'
     ];
 
-    public function scopeGetFriends()
-    {
+    /**
+     * @return \Iluminate\Database\Elequoment\Relations\HasMany
+     * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
+     */
+    
+    public function tarefa() {
+        return $this->hasMany('App\Tarefa');
+    }
+    public function turma() {
+        return $this->belongsTo('App\Turma');
+    }
+    public function post() {
+        return $this->hasMany('App\Post');
+    }
+    public function desafio() {
+        return $this->hasMany('App\Desafio');
+    }
+    
+    public function agenda() {
+        return $this->hasMany('App\User');
+    }
+    
+    public function scopeGetFriends() {
         $this->join('amizades', 'amizades.id_user1', '=', 'users.id')
-            ->where('amizades.aceitou', 1)
-            ->where('amizades.id_user2', auth()->user()->id);
+                ->where('amizades.aceitou', 1)
+                ->where('amizades.id_user2', auth()->user()->id);
     }
 
-    public static function verUser($id)
-    {
+    public static function verUser($id) {
         return User::where('id', $id)->first();
     }
 
-    public static function avatar($id)
-    {
+    public static function avatar($id) {
         $avatar_path = 'midia/avatar/' . md5($id) . '.jpg';
         if (file_exists($avatar_path)) {
             return url($avatar_path);
@@ -64,34 +82,30 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
     }
 
-    public static function myAvatar()
-    {
+    public static function myAvatar() {
         return User::avatar(auth()->user()->id);
     }
 
-    public function makeAvatar()
-    {}
+    public function makeAvatar() {
+        
+    }
 
-    public static function isTeacher($id)
-    {
+    public static function isTeacher($id) {
         return User::select('type')->where('id', $id)->where('type', 2)->limit(1)->get()->first();
     }
 
-
-
-    public function turmas(){
+    public function turmas() {
         return [];
     }
 
-    public function escola()
-    {
+    public function escola() {
         if ($this->type == 1) {
             $dados = User::where('users.id', $this->id)
-                ->join('alunos_turma', 'alunos_turma.user_id', '=', 'users.id')
-                ->join('escolas', 'escolas.id', '=', 'alunos_turma.id_escola')
-                ->select('escolas.nome as escola_nome')
-                ->limit(1)
-                ->first();
+                    ->join('alunos_turma', 'alunos_turma.user_id', '=', 'users.id')
+                    ->join('escolas', 'escolas.id', '=', 'alunos_turma.id_escola')
+                    ->select('escolas.nome as escola_nome')
+                    ->limit(1)
+                    ->first();
         } else if ($this->type == 2) {
             $dados = (object) ['escola_nome' => 'erro'];
         }
@@ -103,9 +117,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public static function create_username($name) {
-        $username = strtolower(strtr(str_replace(' ', '', $name), 
-                "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC"));
-        
+        $username = strtolower(strtr(str_replace(' ', '', $name), "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC"));
+
         $cont = 1;
         if (User::where('username', $username)->select('id')->first()) {
             $nova = $username . '.' . $cont;
@@ -115,8 +128,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             }
         } return isset($nova) ? $nova : $username;
     }
-    
-        public static function getInfoAcademica() {
+
+    public static function getInfoAcademica() {
         //VOU OTIMIZAR ISSO AINDA.
         switch (auth()->user()->type) {
             case 1:
@@ -177,4 +190,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 break;
         }return $info;
     }
+
 }

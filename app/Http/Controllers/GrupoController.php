@@ -7,7 +7,6 @@ use App\GrupoAtiv;
 use App\GrupoDiscussao;
 use App\GrupoMaterial;
 use App\GrupoPergunta;
-use App\GrupoSaiu;
 use App\GrupoUsuario;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
@@ -189,11 +188,11 @@ class GrupoController extends Controller {
         $this->validate($request, ['discussao' => 'required']);
 
         $disc = GrupoDiscussao::create([
-            'id_grupo' => $request->idgrupo,
-            'titulo' => $request->titulo ? $request->titulo : 'Sem título',
-            'id_autor' => auth()->user()->id,
-            'assunto' => $request->assunto,
-            'discussao' => $request->discussao
+                    'id_grupo' => $request->idgrupo,
+                    'titulo' => $request->titulo ? $request->titulo : 'Sem título',
+                    'id_autor' => auth()->user()->id,
+                    'assunto' => $request->assunto,
+                    'discussao' => $request->discussao
         ]);
 
         $this->setAtiv($request->idgrupo, null, 'discussao', \Carbon\Carbon::now(), auth()->user()->id);
@@ -443,7 +442,9 @@ class GrupoController extends Controller {
             'amigos_nao_int' => $amigos_nao_int,
             'professores_int' => $professores_int,
             'professores_nao_int' => $professores_nao_int,
-            'perguntas' => $perguntas]);
+            'perguntas' => $perguntas,
+            'infoAcad' => User::getInfoAcademica()
+        ]);
     }
 
     public function getGroupDataExp($grupo) {
@@ -490,7 +491,9 @@ class GrupoController extends Controller {
             'materiais' => $materiais,
             'integranteEu' => $integrante,
             'professores_int' => $professores_int,
-            'perguntas' => $perguntas]);
+            'perguntas' => $perguntas,
+            'infoAcad' => User::getInfoAcademica()
+        ]);
     }
 
     public function getGroupDataBan($grupo) {
@@ -548,11 +551,12 @@ class GrupoController extends Controller {
             'discussoes' => $discussoes,
             'perguntas' => $perguntas,
             'grupo' => $grupo,
+            'infoAcad' => User::getInfoAcademica()
         ]);
     }
 
     public function sair(Request $request) {
-        if(GrupoUsuario::where('id_user', auth()->user()->id)
+        if (GrupoUsuario::where('id_user', auth()->user()->id)
                         ->where('id_grupo', $request->id_grupo)
                         ->delete()) {
             $texto = 'O usuário ' . User::verUser(auth()->user()->id)->nome . ' deixou o grupo "' . Grupo::verGrupo($request->id_grupo)->nome . '", pois segundo ele, ' . $request->motivo;
@@ -598,10 +602,6 @@ class GrupoController extends Controller {
                 ->where('tipo', 'material')
                 ->orderBy('created_at', 'desc')
                 ->first();
-        $atv[] = GrupoSaiu::where('id_grupo', $id_grupo)
-                ->orderBy('created_at', 'desc')
-                ->first();
-
         return $atv;
     }
 

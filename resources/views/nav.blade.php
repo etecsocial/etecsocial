@@ -102,7 +102,7 @@
                         @endif
                     </a>
                 </li>
-                <li class="bold {!! active_class_path(['agenda']) !!}"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda</a>
+                <li class="bold {!! active_class_path(['agenda']) !!}"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda de estudos</a>
                     <li>
                         <div class="divider"></div>
                     </li>
