@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMensagensTable extends Migration {
+class CreateTableMensagensTable extends Migration {
 
     /**
      * Run the migrations.
@@ -14,13 +14,9 @@ class CreateMensagensTable extends Migration {
         if (!Schema::hasTable('mensagens')) {
             Schema::create('mensagens', function(Blueprint $table) {
                 $table->increments('id');
-                
                 $table->integer('id_remetente')->unsigned();
-//                $table->foreign('id_remetente')->references('id')->on('users');
-                
                 $table->integer('id_destinatario')->unsigned();
-//                $table->foreign('id_destinatario')->references('id')->on('users');
-                
+
                 $table->longText('msg');
                 $table->string('assunto', 50);
                 $table->boolean('visto')->default(0);
@@ -31,8 +27,13 @@ class CreateMensagensTable extends Migration {
                 $table->mediumText('doc');
                 $table->mediumText('video');
                 $table->mediumText('midia');
-                
-                $table->timestamps();                
+
+                $table->timestamps();
+
+                $table->foreign('id_remetente')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
             });
         }
     }

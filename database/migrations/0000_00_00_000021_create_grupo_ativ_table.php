@@ -19,11 +19,17 @@ class CreateGrupoAtivTable extends Migration {
                 $table->string('desc', 55)->nullable();
                 $table->string('tipo', 10);
                 $table->date('data_evento');
-//
-//                $table->foreign('id_grupo')->references('id')->on('grupo');
-//                $table->foreign('id_rem')->references('id')->on('users');
-
                 $table->timestamps();
+
+                $table->foreign('id_grupo')
+                        ->references('id')
+                        ->on('grupo')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_rem')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
             });
         }
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateComunicadosCoordTable extends Migration {
+class CreateTableComunicadosCoord extends Migration {
 
     /**
      * Run the migrations.
@@ -14,12 +14,20 @@ class CreateComunicadosCoordTable extends Migration {
         if (!Schema::hasTable('comunicados_coord')) {
             Schema::create('comunicados_coord', function(Blueprint $table) {
                 $table->increments('id')->unique();
-                $table->integer('id_coord');
-//                $table->foreign('id_coord')->references('id')->on('users');
+                $table->integer('id_coord')->unsigned();
                 $table->integer('id_etec')->unsigned();
-//                $table->foreign('id_etec')->references('id')->on('escolas');
                 $table->text('comunicado', 1000);
                 $table->timestamps();
+
+                $table->foreign('id_coord')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+
+                $table->foreign('id_etec')
+                        ->references('id')
+                        ->on('escolas')
+                        ->onDelete('cascade');
             });
         }
     }

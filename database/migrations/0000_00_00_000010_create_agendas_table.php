@@ -23,8 +23,15 @@ class CreateAgendasTable extends Migration {
                 $table->date('start')->nullable();
                 $table->date('end')->nullable();
 
-                //$table->foreign('id_user')->references('id')->on('users');
-                //$table->foreign('id_turma')->references('id')->on('turmas');
+                $table->foreign('id_user')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_turma')
+                        ->references('id')
+                        ->on('turmas')
+                        ->onDelete('cascade');
 
                 $table->timestamps();
             });

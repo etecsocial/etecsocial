@@ -12,21 +12,32 @@ class CreateComentariosPerguntaTable extends Migration {
      */
     public function up() {
         if (!Schema::hasTable('comentarios_pergunta')) {
-        Schema::create('comentarios_pergunta', function(Blueprint $table) {
-            $table->increments('id');
-            $table->string('comentario', 300);
+            Schema::create('comentarios_pergunta', function(Blueprint $table) {
+                $table->increments('id');
+                $table->string('comentario', 300);
 
-            $table->integer('id_user')->unsigned();
-            $table->integer('id_pergunta')->unsigned();
-            $table->integer('id_grupo')->unsigned();
+                $table->integer('id_user')->unsigned();
+                $table->integer('id_pergunta')->unsigned();
+                $table->integer('id_grupo')->unsigned();
 
-//            $table->foreign('id_grupo')->references('id')->on('grupo');
-//            $table->foreign('id_pergunta')->references('id')->on('grupo_pergunta');
-//            $table->foreign('id_user')->references('id')->on('users');
+                $table->foreign('id_user')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_pergunta')
+                        ->references('id')
+                        ->on('grupo_pergunta')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_grupo')
+                        ->references('id')
+                        ->on('grupo')
+                        ->onDelete('cascade');
 
-            $table->timestamps();
-        });
-    }
+                $table->timestamps();
+            });
+        }
     }
 
     /**

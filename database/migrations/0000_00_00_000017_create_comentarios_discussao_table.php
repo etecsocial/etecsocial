@@ -12,6 +12,9 @@ class CreateComentariosDiscussaoTable extends Migration {
      */
     public function up() {
         if (!Schema::hasTable('comentarios_discussao')) {
+            
+            //Mais a frente, conferir a relação n pra n
+            
             Schema::create('comentarios_discussao', function(Blueprint $table) {
                 $table->increments('id');
                 $table->string('comentario', 1000);
@@ -20,9 +23,20 @@ class CreateComentariosDiscussaoTable extends Migration {
                 $table->integer('id_grupo')->unsigned();
                 $table->integer('id_user')->unsigned();
 
-//                $table->foreign('id_grupo')->references('id')->on('grupo');
-//                $table->foreign('id_discussao')->references('id')->on('grupo_discussao');
-//                $table->foreign('id_user')->references('id')->on('users');
+                $table->foreign('id_user')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_discussao')
+                        ->references('id')
+                        ->on('grupo_discussao')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_grupo')
+                        ->references('id')
+                        ->on('grupo')
+                        ->onDelete('cascade');
 
                 $table->timestamps();
             });

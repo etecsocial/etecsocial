@@ -16,7 +16,6 @@ class CreateNotificacaosTable extends Migration {
                 $table->integer('id', false, true);
                 $table->integer('id_rem')->unsigned();
                 $table->integer('id_dest')->unsigned();
-                //$table->primary(['id', 'id_dest']);
 
                 $table->string('texto', 60);
                 $table->boolean('is_post')->default(0);
@@ -24,9 +23,10 @@ class CreateNotificacaosTable extends Migration {
                 $table->string('action', 90)->default('0');
                 $table->integer('data');
 
-                //$table->foreign('id_rem')->references('id')->on('users');
-                //$table->foreign('id_dest')->references('id')->on('users');
-                // Foreign não deixa repetir tais dados!
+                $table->foreign('id_rem')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
 
                 $table->timestamps();
             });

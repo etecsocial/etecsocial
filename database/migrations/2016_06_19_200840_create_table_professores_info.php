@@ -14,11 +14,8 @@ class CreateTableProfessoresInfo extends Migration {
         if (!Schema::hasTable('professores_info')) {
             Schema::create('professores_info', function(Blueprint $table) {
 
-                $table->uuid('user_id');
-                //$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-                $table->integer('id_escola');
-                
+                $table->integer('user_id')->unsigned();
+                $table->integer('id_escola')->unsigned();
                 $table->string('profile_photo')->default('default-user.png');
                 $table->string('status', 100)->default('Sou novo por aqui, e quero compartilhar conhecimentos com vocês :D');
                 $table->string('cidade', 40)->default('Não informado');
@@ -29,7 +26,16 @@ class CreateTableProfessoresInfo extends Migration {
                 $table->string('materia', 40)->default('Não informado');
 
                 $table->timestamps();
-                
+
+                $table->foreign('user_id')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+
+                $table->foreign('id_escola')
+                        ->references('id')
+                        ->on('escolas')
+                        ->onDelete('cascade');
             });
         }
     }

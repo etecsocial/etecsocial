@@ -16,6 +16,7 @@ class CreateEscolasTable extends Migration {
                 $table->increments('id');
                 $table->string('nome', 150);
                 $table->integer('cod_prof')->nullable()->unique();
+                $table->integer('cod_coord')->nullable()->unique();
             });
         }
     }

@@ -12,17 +12,36 @@ class CreateRelevanciaComentariosTable extends Migration {
      */
     public function up() {
         if (!Schema::hasTable('relevancia_comentarios')) {
-        Schema::create('relevancia_comentarios', function(Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_usuario');
-            $table->integer('id_comentario');
-            $table->integer('id_post')->nullable();
-            $table->integer('id_discussao')->nullable();
-            $table->integer('id_pergunta')->nullable();
-            $table->string('relevancia', 4);
-            $table->timestamps();
-        });
-    }
+            Schema::create('relevancia_comentarios', function(Blueprint $table) {
+                $table->increments('id');
+                $table->integer('id_user')->nullable()->unsigned();
+                $table->integer('id_comentario')->nullable()->unsigned();
+                $table->integer('id_discussao')->nullable()->unsigned();
+                $table->integer('id_pergunta')->nullable()->unsigned();
+                $table->string('relevancia', 4);
+                $table->timestamps();
+
+                $table->foreign('id_user')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_comentario')
+                        ->references('id')
+                        ->on('comentarios')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_discussao')
+                        ->references('id')
+                        ->on('grupo_discussao')
+                        ->onDelete('cascade');
+                
+                $table->foreign('id_pergunta')
+                        ->references('id')
+                        ->on('grupo_pergunta')
+                        ->onDelete('cascade');
+            });
+        }
     }
 
     /**

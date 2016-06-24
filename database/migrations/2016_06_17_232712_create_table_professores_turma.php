@@ -3,25 +3,32 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableProfessoresTurma extends Migration
-{
+class CreateTableProfessoresTurma extends Migration {
+
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         if (!Schema::hasTable('professores_turma')) {
             Schema::create('professores_turma', function(Blueprint $table) {
                 $table->increments('id');
-                
-                $table->integer('user_id')->unsigned();
-//                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+                $table->integer('user_id')->unsigned();
                 $table->integer('modulo');
-                $table->integer('id_turma');
+                $table->integer('id_turma')->unsigned();
                 $table->timestamps();
+
+                $table->foreign('user_id')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+            
+                $table->foreign('id_turma')
+                        ->references('id')
+                        ->on('turmas')
+                        ->onDelete('cascade');
             });
         }
     }
@@ -31,8 +38,8 @@ class CreateTableProfessoresTurma extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('professores_turma');
     }
+
 }

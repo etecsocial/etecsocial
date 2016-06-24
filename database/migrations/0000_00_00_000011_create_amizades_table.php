@@ -16,10 +16,13 @@ class CreateAmizadesTable extends Migration {
                 $table->increments('id');
                 $table->integer('id_user1')->unsigned();
                 $table->integer('id_user2')->unsigned();
-                //$table->foreign('id_user1')->references('id')->on('users');
-                //$table->foreign('id_user2')->references('id')->on('users');
                 $table->boolean('aceitou')->default(false);
                 $table->timestamps();
+
+                $table->foreign('id_user1')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
             });
         }
     }

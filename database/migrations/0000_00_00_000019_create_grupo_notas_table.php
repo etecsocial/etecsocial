@@ -12,16 +12,25 @@ class CreateGrupoNotasTable extends Migration {
      */
     public function up() {
         if (!Schema::hasTable('grupo_notas')) {
+
+            //Será usada no grupo, mais a frente!
+
             Schema::create('grupo_notas', function(Blueprint $table) {
                 $table->increments('id');
                 $table->string('nota', 200);
                 $table->integer('id_prof')->unsigned();
                 $table->integer('id_grupo')->unsigned();
-
-//                $table->foreign('id_grupo')->references('id')->on('grupo');
-//                $table->foreign('id_prof')->references('id')->on('users');
-
                 $table->timestamps();
+
+                $table->foreign('id_prof')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
+
+                $table->foreign('id_grupo')
+                        ->references('id')
+                        ->on('grupo')
+                        ->onDelete('cascade');
             });
         }
     }

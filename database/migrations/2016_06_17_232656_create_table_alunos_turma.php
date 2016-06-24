@@ -15,14 +15,19 @@ class CreateTableAlunosTurma extends Migration {
             Schema::create('alunos_turma', function(Blueprint $table) {
                 $table->increments('id');
                 $table->integer('user_id')->unsigned();
-
                 $table->integer('id_turma')->unsigned();
-
                 $table->integer('modulo')->unsigned();
-
                 $table->timestamps();
+
+                $table->foreign('user_id')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
                 
-                //@todo cascade no delete e update
+                $table->foreign('id_turma')
+                        ->references('id')
+                        ->on('turmas')
+                        ->onDelete('cascade');
             });
         }
     }

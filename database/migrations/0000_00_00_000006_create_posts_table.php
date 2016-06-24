@@ -15,7 +15,6 @@ class CreatePostsTable extends Migration {
             Schema::create('posts', function(Blueprint $table) {
                 $table->increments('id');
                 $table->integer('id_user')->unsigned();
-                //$table->foreign('id_user')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('CASCADE');
                 $table->string('titulo', 255)->default('Sem título');
                 $table->text('publicacao', 500);
                 $table->integer('num_favoritos')->default(0);
@@ -30,6 +29,11 @@ class CreatePostsTable extends Migration {
                 $table->boolean('is_question');
                 $table->integer('user_repost')->unsigned();
                 $table->timestamps();
+
+                $table->foreign('id_user')
+                        ->references('id')
+                        ->on('users')
+                        ->onDelete('cascade');
             });
         }
     }

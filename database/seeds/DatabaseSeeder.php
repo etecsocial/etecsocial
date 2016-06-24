@@ -12,9 +12,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(Escolas::class);
-        $this->call(Turmas::class);
+        //$this->call(Turma::class);
 
-        factory(App\Desafio::class, 10)->create();
-        factory(App\DesafioTurma::class, 10)->create();
+        //factory(App\Desafio::class, 10)->create();
+        //factory(App\DesafioTurma::class, 10)->create();
+        
+        //acertar isso, chave estrangeira não está deixando editar!
     }
 }
