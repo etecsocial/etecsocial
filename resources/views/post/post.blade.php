@@ -39,8 +39,8 @@
         <div class="card-content">
             <p class="row">
                 <span class="left">
-                    @foreach(App\Tag::where('post_id', $post->id)->get() as $tag) 
-                    <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
+                    @foreach($post->tags as $tag) 
+                    <a href="{{ url("/tag/" . $tag->name) }}">#{{ $tag->name }}</a>
                     @endforeach
                     @if($post->is_repost) 
                     Compartilhado de <a href="{{ url(auth()->user()->verUser($post->user_id)->username) }}">{{ auth()->user()->verUser($post->user_id)->name }}</a>

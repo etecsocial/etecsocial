@@ -15,24 +15,20 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller {
 
-    public function index() { 
-        
-        return auth()->check() 
-                ? $this->feed() 
-                : view('home.home', ['escolas' => $this->getAllEscolas(), 'escolasCad' => $this->getEscolasCad()]);
+    public function index() {
+        return auth()->check() ? $this->feed() : view('home.home', [
+                    'escolas' => $this->getAllEscolas(),
+                    'escolasCad' => $this->getEscolasCad()
+        ]);
     }
 
     public function getAllEscolas() {
-        return Escola::select('escolas.id', 'escolas.nome')->get();
+        return Escola::all('escolas.id', 'escolas.nome');
     }
 
     public function getEscolasCad() {
-        return Escola::select('escolas.id as id', 'escolas.nome as nome')
-                        ->whereIn('id', function ($query) {
-                            $query->select('escola_id')
-                            ->from('turmas');
-                        })
-                        ->get()->toArray();
+        return Escola::select(['escolas.nome', 'escolas.id'])
+                        ->join('turmas', 'turmas.escola_id', '=', 'escolas.id')->get();
     }
 
     public function feed($id = 0) {
@@ -42,9 +38,10 @@ class HomeController extends Controller {
                 ->where('amizades.aceitou', 1)
                 ->where('amizades.user_id2', auth()->user()->id)
                 ->limit(9)
-                ->orderBy('created_at', 'desc')
+                ->latest()
                 ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name'])
                 ->get();
+       
 
 
         $grupos = GrupoUsuario::where('user_id', auth()->user()->id)

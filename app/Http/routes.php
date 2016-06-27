@@ -6,7 +6,6 @@ Route::group(['middleware' => 'web'], function () {
 
     // home
     Route::get('/', 'HomeController@index');
-    Route::post('/', 'HomeController@login_or_cadastro');
     
     // register
     Route::group(['prefix' => '/ajax/cadastro'], function () {

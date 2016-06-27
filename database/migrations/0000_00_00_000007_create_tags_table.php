@@ -13,14 +13,16 @@ class CreateTagsTable extends Migration {
     public function up() {
         if (!Schema::hasTable('tags')) {
             Schema::create('tags', function(Blueprint $table) {
-                $table->integer('post_id')->unsigned();
-                $table->string('tag', 255);
+                $table->increments('id');
+                $table->string('name');
                 $table->timestamps();
-
-                $table->foreign('post_id')
-                        ->references('id')
-                        ->on('posts')
-                        ->onDelete('cascade');
+            });
+            Schema::create('post_tag', function(Blueprint $table) {
+                $table->integer('post_id')->unsigned()->index();
+                $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+                $table->integer('tag_id')->unsigned()->index();
+                $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+                $table->timestamps();
             });
         }
     }
@@ -32,6 +34,7 @@ class CreateTagsTable extends Migration {
      */
     public function down() {
         Schema::dropIfExists('tags');
+        Schema::dropIfExists('post_tag');
     }
 
 }

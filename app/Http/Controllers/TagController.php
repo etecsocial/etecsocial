@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use App\Post;
 use App\Mensagens;
 
@@ -27,7 +28,7 @@ class TagController extends Controller
             ->orWhere('posts.is_publico', 1)
             ->distinct()
             ->get();        
-        return view('tags.home', ['posts' => $posts, 'tag'=> $tag, 'msgsUnread' => Mensagens::countUnread()]);
+        return view('tags.home', ['posts' => $posts, name=> $tag, 'msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
     }
 
 }

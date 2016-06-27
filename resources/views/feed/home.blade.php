@@ -76,22 +76,22 @@
                         <p class="center-align">Você não possui nenhuma tarefa.</p>
                     </li>
                     @endforelse
-                    
-                    <!--Colocar esse form em uma modal, fica feio assim.-->
-<!--                    <li class="tarefa collection-item dismissable">
-                        Nova tarefa
-                        {!! Form::open(array('url' => '/task')) !!}        
-                        <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Até quando sua tarefa deve ser concluída?" data-position="right" data-delay="1000">
-                            <input id="cc" type="date"  pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$" required name="date" class="datepicker validate">
-                            <label for="date" data-error="Data inválida" data-success="Tudo bem. Lembraremos você!" style="width: 350px" class="left-align">Selecione a data</label>
-                        </div>
 
-                        <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Informe seu email pessoal" data-position="right" data-delay="1000">
-                            <input type="text" lenght="50" required name="desc" placeholder="O que você tem que fazer, {{ explode(' ',auth()->user()->name)[0] }}?" class="validate">
-                            <label for="desc" data-error="Sua descrição parece ser muito curta." style="width: 350px" class="left-align">Tarefa</label>
-                        </div>
-                        {!! Form::close() !!}
-                    </li>-->
+                    <!--Colocar esse form em uma modal, fica feio assim.-->
+                    <!--                    <li class="tarefa collection-item dismissable">
+                                            Nova tarefa
+                                            {!! Form::open(array('url' => '/task')) !!}        
+                                            <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Até quando sua tarefa deve ser concluída?" data-position="right" data-delay="1000">
+                                                <input id="cc" type="date"  pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$" required name="date" class="datepicker validate">
+                                                <label for="date" data-error="Data inválida" data-success="Tudo bem. Lembraremos você!" style="width: 350px" class="left-align">Selecione a data</label>
+                                            </div>
+                    
+                                            <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Informe seu email pessoal" data-position="right" data-delay="1000">
+                                                <input type="text" lenght="50" required name="desc" placeholder="O que você tem que fazer, {{ explode(' ',auth()->user()->name)[0] }}?" class="validate">
+                                                <label for="desc" data-error="Sua descrição parece ser muito curta." style="width: 350px" class="left-align">Tarefa</label>
+                                            </div>
+                                            {!! Form::close() !!}
+                                        </li>-->
                 </ul>
             </div>
             <div id="profile-page-wall-share" class="col s12 m12 l8" style="margin: 10px 0px 36px 0">
@@ -99,57 +99,56 @@
                     <ul class="tabs tab-profile cyan">
                         <li class="tab col s4"><a class="white-text waves-light">Publicar conteúdo</a></li>
                     </ul>
-                    <form method="post" id="publicar" action="{{ url('ajax/post') }}" class="tab-content col s12 grey lighten-4">
-                        <div class="row">
-                            <div class="col s2 hide-on-med-and-down">
-                                <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
-                            </div>
-                            <div class="input-field col s6 l6">
-                                <input name="titulo" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
-                                <label for="titulo">Assunto</label>
-                            </div>
-                            <div class="input-field col s6 l4">
-                                <input name="tags" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
-                                <label for="tags">Tags (opcional)</label>
-                            </div>
-                            <div class="input-field col s12 l10">
-                                <textarea name="publicacao" class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
-                                <label for="publicacao">O que há de novo para compartilhar com seus amigos?</label>
+                    {!! Form::open(array('url' => '/ajax/post', 'id' => 'publicar')) !!}         
+                    <div class="row">
+                        <div class="col s2 hide-on-med-and-down">
+                            <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
+                        </div>
+                        <div class="input-field col s6 l6">
+                            <input name="titulo" type="text" class="validate tooltipped" data-tooltip="O assunto deve ser coerente." data-delay="50" data-position="bottom">
+                            <label for="titulo">Assunto</label>
+                        </div>
+                        <div class="input-field col s6 l4">
+                            <input name="tags" type="text" autocomplete="off" class="validate tooltipped" data-tooltip="Use no máximo 3 tags, sepadas por espaço." data-delay="50" data-position="bottom">
+                            <label for="tags">Tags (opcional)</label>
+                        </div>
+                        <div class="input-field col s12 l10">
+                            <textarea name="publicacao" class="materialize-textarea" class="validate tooltipped" data-tooltip="Procure ser objetivo. Use o icone de ajuda para macetes." data-delay="50" data-position="bottom"></textarea>
+                            <label for="publicacao">O que há de novo para compartilhar com seus amigos?</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s2 m4 l2 share-icons">
+                            <a href="#modalMidia" class="wino tooltipped" data-tooltip="Adicionar mídia"><i class="mdi-maps-local-movies"></i></a>
+                            <a href="#modalAjuda" class="wino tooltipped hide-on-small-only" data-tooltip="Obter ajudar"><i class="mdi-action-help" ></i></a>
+                        </div>
+                        <div class="col s8 l5">
+                            <div class="switch left">
+                                <label>Amigos
+                                    <input type="checkbox" name="publico">
+                                    <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="botom"></span> Todos
+                                </label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col s2 m4 l2 share-icons">
-                                <a href="#modalMidia" class="wino tooltipped" data-tooltip="Adicionar mídia"><i class="mdi-maps-local-movies"></i></a>
-                                <a href="#modalAjuda" class="wino tooltipped hide-on-small-only" data-tooltip="Obter ajudar"><i class="mdi-action-help" ></i></a>
-                            </div>
-                            <div class="col s8 l5">
-                                <div class="switch left">
-                                    <label>Amigos
-                                        <input type="checkbox" name="publico">
-                                        <span class="lever tooltipped" data-tooltip="Quem pode ver isso?" data-delay="50" data-position="botom"></span> Todos
-                                    </label>
+                        <div class="col s2 l4" style="margin-bottom:10px">
+{!! Form::submit('Publicar', ['class' => 'btn red right-align']) !!}                        </div>
+                    </div>
+                    <div id="modalMidia" class="modal">
+                        <div class="modal-content">
+                            <h5>Adicionar imagem ou vídeo</h5>
+                            <div class="file-field input-field">
+                                <input class="file-path validate" type="text" />
+                                <div class="btn">
+                                    <span>+</span>
+                                    <input type="file" name="midia" />
                                 </div>
                             </div>
-                            <div class="col s2 l2" style="margin-bottom:10px">
-                                <button type="submit" data-tooltip="Publicar" data-delay="50" data-position="botom" class="tooltipped waves-effect waves-light btn-flat red white-text"><i class="mdi-maps-rate-review"></i> </button>
-                            </div>
                         </div>
-                        <div id="modalMidia" class="modal">
-                            <div class="modal-content">
-                                <h5>Adicionar imagem ou vídeo</h5>
-                                <div class="file-field input-field">
-                                    <input class="file-path validate" type="text" />
-                                    <div class="btn">
-                                        <span>+</span>
-                                        <input type="file" name="midia" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
-                            </div>
+                        <div class="modal-footer">
+                            <a class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
                         </div>
-                    </form>
+                    </div>
+                    {!! Form::close() !!}
                     <div id="modalAjuda" class="modal">
                         <div class="modal-content">
                             <h4>Ajuda</h4>

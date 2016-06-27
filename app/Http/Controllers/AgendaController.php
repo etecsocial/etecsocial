@@ -24,7 +24,7 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        return view('agenda.home')->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
+        return view('agenda.home')->with(['msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
     }
 
     public function api(Request $request)
@@ -127,6 +127,12 @@ class AgendaController extends Controller
     public function CreateGrupoByTurma($turma_id, $titulo, $start, $end, $desc)
     {
 
+        
+        
+        //Automatizar isso, usar o service provider!!
+        
+        
+        
         $grupo                    = new Grupo;
         $grupo->nome              = $titulo;
         $grupo->assunto           = isset($desc) ? $desc : 'Grupo de estudos';

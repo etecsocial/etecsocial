@@ -137,8 +137,6 @@ use AuthenticatesAndRegistersUsers,
     }
 
     protected function create_prof($user, $data) {
-        //Apenas para amarrar o professor com a escola que ele ja inseriu o código.
-        //Posteriormente, cadastrar as turmas dele na tabela professores_turma
         ProfessoresInfo::create([
             'user_id' => $user->id,
             'escola_id' => $data['escola_id']]);

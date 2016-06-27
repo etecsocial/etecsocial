@@ -296,7 +296,7 @@ $('#excluirComentario').ajaxForm({
                             <div class="col s7 grey-text text-darken-4 right-align">{{$user->created_at->diffForHumans() }}</div>
                         </div>
                     </li>
-                    @if(isset($infoacad)) @if($user->tipo === 2)
+                    @if(isset($infoAcad)) @if($user->tipo === 2)
                     <li class="collection-item">
                         <div class="row">
                             <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Formação</div>

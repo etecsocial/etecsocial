@@ -24,6 +24,7 @@ class Post extends Model {
 
     /**
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
+     * @return \Iluminate\Database\Elequoment\Relations\BelongsToMany
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      */
     public function user() {
@@ -31,6 +32,9 @@ class Post extends Model {
     }
     public function comentario() {
         return $this->HasMany('App\Comentario');
+    }
+    public function tags() {
+        return $this->BelongsToMany('App\Tag');
     }
 
     

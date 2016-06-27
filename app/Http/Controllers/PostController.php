@@ -24,53 +24,36 @@ class PostController extends Controller {
      *
      * @return Response
      */
-    public function store(PostRequest $request) {
-        
-        
-        
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
+    public function store(Request $request) {
+        $this->validate($request, [
+            'publicacao' => 'required|min:10',
+            'midia' => 'image'
+        ]);
 
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
 
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
 
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
 
-        $post = auth()->user()->posts()->save(new Post(Input::all()));
-        
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
+        $post = new Post;
+        $post->user_id = auth()->user()->id;
+        $post->titulo = $request->has('titulo') ? $request->titulo : 'Sem título';
+        $post->publicacao = $request->publicacao;
+        $post->is_publico = $request->has('publico');
+        $post->save();
 
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
+        if ($request->has('tags')) {
+            $tags = $this->addTags($request->tags, $post);
+        } else {
+            $tags = array('post');
+        }
 
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
+        if ($request->hasFile('midia')) {
+            $this->addFile($request->midia, $post);
+        } else {
+            $this->addIcon($tags, $post);
+        }
 
-        //LARAVEL É LINDO MARAVILHOSO        //LARAVEL É LINDO MARAVILHOSO
-
-//        $this->setPostAtributes(Input::all());
-//        
-        //$this->validate($request, ['publicacao' => 'required']);
-//        $post          = new Post;
-//        $post->user_id = auth()->user()->id;
-//        if ($request->titulo) {
-//            $post->titulo = $request->titulo;
-//        }
-//        $post->publicacao = $request->publicacao;
-//        $post->is_publico = $request->has('publico');
-//        $post->save();
-//
-//        if ($request->has('tags')) {
-//            $tags = $this->addTags($request->tags, $post->id);
-//        } else {
-//            $tags = array('post');
-//        }
-//
-//        if ($request->hasFile('midia')) {
-//            $this->addFile($request->midia, $post);
-//        } else {
-//            $this->addIcon($tags, $post);
-//        }
-
-        Pontuacao::pontuar(10, 'novo post');
+        //Pontuacao::pontuar(10, 'novo post');
+        //Colocar como event.
 
         return Response::json(["id" => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
     }
@@ -83,18 +66,17 @@ class PostController extends Controller {
      */
     public function show($id) {
         $post = Post::join('users', 'users.id', '=', 'posts.user_id')
-                ->join('amizades', 'amizades.user_id1', '=', 'users.id')
-                ->orderBy('created_at', 'desc')
-                ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-                ->where('amizades.aceitou', 1)
-                ->where('amizades.user_id2', auth()->user()->id)
-                ->where('posts.id', $id)
-                ->first();
+                        ->join('amizades', 'amizades.user_id1', '=', 'users.id')
+                        ->orderBy('created_at', 'desc')
+                        ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
+                        ->where('amizades.aceitou', 1)
+                        ->where('amizades.user_id2', auth()->user()->id)
+                        ->where('posts.id', $id)
+                        ->first()->toArray();
 
         return isset($post) ? view('post.home', [
                     'post' => $post,
-                    'tags' => Tag::where('post_id', $post->id)->get(),
-                    'thisUser' => auth()->user(),
+                    'tags' => $post->tags(),
                     'msgsUnread' => Mensagens::countUnread()]) : abort(404);
     }
 
@@ -179,13 +161,17 @@ class PostController extends Controller {
         $post->save();
     }
 
-    public function addTags($tags, $post_id) {
+    public function addTags($tags, $post) {
         $array = str_replace('#', '', explode(' ', $tags));
-
         $n = (count($array) > 3) ? 3 : count($array);
 
         for ($i = 0; $i < $n; $i++) {
-            $array != '# ' ? Tag::create(['post_id' => $post_id, 'tag' => $array[$i]]) : false;
+            if (!str_is($array[$i], '')) {
+                $tag = Tag::where('name', $array[$i])->get();
+                $tag = isset($tag[0]) ? $tag[0] : Tag::create(['name' => $array[$i]]);
+
+                isset($tag) ? $post->tags()->attach($tag->id) : false;
+            }
         }
         return $array; //não deixar coisar tag vazia!!!
     }

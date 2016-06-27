@@ -18,7 +18,7 @@ class Escola extends Model {
     /**
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      */
-    public function turma() {
+    public function turmas() {
         return $this->hasMany('App\Turma');
     }
 

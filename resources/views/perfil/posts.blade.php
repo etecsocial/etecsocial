@@ -59,8 +59,8 @@
             <div class="card-content">
                <p class="row">
                   <span class="left">
-                  @foreach(App\Tag::where('post_id', $post->id)->get() as $tag) 
-                  <a href="{{ url("/tag/" . $tag->tag) }}">#{{ $tag->tag }}</a>
+                  @foreach(App\Post::find($post->id)->tags as $tag) 
+                  <a href="{{ url("/tag/" . $tag->tag) }}"> #{{ $tag->tag }}</a>
                   @endforeach
                   </span>
                   <span class="right">{{ Carbon\Carbon::createFromTimeStamp(strtotime($post->created_at))->toFormattedDateString()   }}</span>

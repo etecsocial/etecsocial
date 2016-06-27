@@ -55,7 +55,7 @@ class PerfilController extends Controller {
                         ->get();
             }
 
-            $infoacad = [];
+            $infoAcad = [];
 
             $num_amigos = DB::table('amizades')->where(['user_id1' => $dados->id, 'aceitou' => 1])->count() - 1;
             $num_grupos = DB::table('grupo_usuario')->where(['user_id' => auth()->user()->id])->count();
@@ -76,7 +76,7 @@ class PerfilController extends Controller {
                 'user' => $dados,
                 'is_my' => (auth()->user()->id == $dados->id) ? 1 : 0,
                 'posts' => $posts->toArray(),
-                'infoacad' => $infoacad,
+                'infoAcad' => $infoAcad,
                 'num_amigos' => $num_amigos,
                 'num_grupos' => $num_grupos,
                 'amizade' => $amizade,
