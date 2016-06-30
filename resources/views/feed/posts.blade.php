@@ -1,3 +1,5 @@
-@foreach($posts as $post)
+@forelse($posts as $post)
 @include('post.post')
-@endforeach
+@empty
+
+@endforelse

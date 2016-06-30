@@ -1,10 +1,11 @@
-@if ( ! session()->has('loading_screen'))
+@unless(session()->has('loading_screen'))
 <div id="loader-wrapper">
     <div id="loader"></div>
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
 </div>
-{{ session()->put('loading_screen', 'true') }} @endif
+{{ session()->put('loading_screen', 'true') }} 
+@endunless
 <style>
 @media only screen and (min-width:992px) {
     #results-search {
@@ -13,7 +14,7 @@
     }
 }
 </style>
-@include('modals')
+@include('feed.part._modals')
 <header id="header" class="page-topbar">
     <div class="navbar-fixed">
         <nav class="red darken-1">

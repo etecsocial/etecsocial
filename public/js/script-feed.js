@@ -14,7 +14,6 @@
  ->
  */
 
-
 //COMENTÁRIOS POST FEED
 //Comentários
 function comentar(post_id) {

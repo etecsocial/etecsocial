@@ -43,7 +43,7 @@
     $("#verpost").openModal();
     abrirPost({{ $id }})
 </script>
-@endif @stop @section('content') @include('nav')
+@endif @stop @section('content') @include('feed.part._nav')
 
 <div class="container" style="margin-top:20px">
     <div id="chart-dashboard">
@@ -131,7 +131,8 @@
                             </div>
                         </div>
                         <div class="col s2 l4" style="margin-bottom:10px">
-{!! Form::submit('Publicar', ['class' => 'btn red right-align']) !!}                        </div>
+                            {!! Form::submit('Publicar', ['class' => 'btn red right-align']) !!}                        
+                        </div>
                     </div>
                     <div id="modalMidia" class="modal">
                         <div class="modal-content">
@@ -224,7 +225,7 @@
         </div>
         <div class="col s12 m12 l8">
             <ul class="tabs tab-profile cyan">
-                <li class="tab col s4"><a class="white-text waves-light">Evento de estudos</a></li>
+                <li class="tab col s4"><a class="white-text waves-light">Agenda de estudos</a></li>
             </ul>
             <div id="full-calendar">
                 <div class="col s12 m6 l12">
@@ -316,5 +317,5 @@
         </div>
     </div>
 </div>
-@include('footer')
+@include('feed.part._footer')
 @stop
