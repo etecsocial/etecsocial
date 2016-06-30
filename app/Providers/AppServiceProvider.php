@@ -23,13 +23,11 @@ class AppServiceProvider extends ServiceProvider {
         });
 
         Turma::created(function ($turma) {
-
-            for ($modulo = 3; $modulo > 0; $modulo--) {
-                $grupo = $this->setGrupo($turma, $modulo);
-
-                ($turma->modulos == 3) ? $this->grupoTurma($grupo, $turma->id, $modulo) : $this->grupoTurmas($grupo, $turma->id, $modulo);
-            }
+            $grupos = $this->setGrupo($turma->sigla);
+            ($turma->modulos == 3) ? $this->grupoTurma($grupos, $turma->id) : $this->grupoTurmas($grupos, $turma->id);
         });
+
+
 
         Grupo::created(function ($data) {
             GrupoUsuario::create([
@@ -66,45 +64,45 @@ class AppServiceProvider extends ServiceProvider {
         });
     }
 
-    public function setGrupo($turma, $modulo) {
+    public function setGrupo($sigla) {
         //Neste caso, ele cria 3 grupos, pois, caso seja curso técnico de 3 semestres, consideramos
-        //os semestres como "anos", e quando for 6 semestres, é como se o 1º 2 2º semestre 
+        //os semestres como "anos", e quando for 6 semestres, é como se o 1º e 2º semestre 
         //equivalesse ao 1º semestre de curso técnico, nao sei se deu pra entender...
-        $grupo = Grupo::create([
-                    'nome' => $turma->sigla . ' ' . date('Y'),
-                    'assunto' => "Grupo da turma " . $modulo . "º " . $turma->sigla,
-                    'url' => Grupo::makeUrl($turma->sigla, $modulo),
-                    'id_criador' => auth()->user()->id,
-                    'num_participantes' => 1,
-                    'turma_id' => $turma->id, // REMOVER ESTE CAMPO DEPOIS, AGORA TEM O GRUPO_TURMA!!!
-        ]);
-        GrupoUsuario::create([
-            'grupo_id' => $grupo->id,
-            'user_id' => auth()->user()->id,
-            'is_admin' => 1
-        ]);
-        return $grupo->id;
+        for ($i = 3; $i > 0; $i--) {
+            $grupos[] = Grupo::create([
+                        'nome' => $sigla . ' ' . date('Y'),
+                        'assunto' => "Grupo da turma " . $i . "º " . $sigla,
+                        'url' => Grupo::makeUrl($sigla, $i),
+                        'id_criador' => auth()->user()->id
+            ]);
+        }return $grupos;
     }
 
-    public function grupoTurma($grupo, $turma, $modulo) {
-        GrupoTurma::create([
-            'grupo_id' => $grupo,
-            'turma_id' => $turma,
-            'modulo' => $modulo
-        ]);
+    public function grupoTurma($grupos, $turma, $modulo = 1) {
+        foreach ($grupos as $grupo) {
+            GrupoTurma::create([
+                'grupo_id' => $grupo->id,
+                'turma_id' => $turma,
+                'modulo' => $modulo
+            ]);
+            $modulo++;
+        }
     }
 
-    public function grupoTurmas($grupo, $turma, $modulo) {
-        GrupoTurma::create([
-            'grupo_id' => $grupo,
-            'turma_id' => $turma,
-            'modulo' => $modulo
-        ]);
-        GrupoTurma::create([
-            'grupo_id' => $grupo,
-            'turma_id' => $turma,
-            'modulo' => $modulo + 1
-        ]);
+    public function grupoTurmas($grupos, $turma, $modulo = 1) {
+        foreach ($grupos as $grupo) {
+            GrupoTurma::create([
+                'grupo_id' => $grupo->id,
+                'turma_id' => $turma,
+                'modulo' => $modulo
+            ]);
+            GrupoTurma::create([
+                'grupo_id' => $grupo->id,
+                'turma_id' => $turma,
+                'modulo' => $modulo+1
+            ]);
+            $modulo = $modulo+2;
+        }return true;
     }
 
     /**
