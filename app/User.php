@@ -62,8 +62,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Desafio');
     }
     
-    public function agendas() {
-        return $this->hasMany('App\Agenda');
+    public function eventos() {
+        return $this->hasMany('App\Evento');
     }
     
     public function scopeGetFriends() {

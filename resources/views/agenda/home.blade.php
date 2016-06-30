@@ -1,5 +1,5 @@
 @extends('base') 
-@section('title') Agenda | ETEC Social @stop
+@section('title') Evento | ETEC Social @stop
 
 @section('style')
 {!! Minify::stylesheet(['/css/style.css',
@@ -69,12 +69,12 @@
 </section>
 <div id="evento" class="modal" data-target="evento">
     <div class="modal-content">
-        <h4 id="agenda-title"></h4>
+        <h4 id="evento-title"></h4>
         <i id="opcoes" style="display:none">
       <i id="data-opcoes"></i>
         </i>
         <i id="user"></i>
-        <p id="agenda-content"></p>
+        <p id="evento-content"></p>
     </div>
     <div class="modal-footer">
         <a class="modal-action modal-close waves-effect waves-red btn-flat">Fechar</a>

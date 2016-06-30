@@ -38,10 +38,10 @@ class Grupo extends Model {
     public function pergunta() {
         return $this->hasMany('App\GrupoPergunta');
     }
-    public function material() {
+    public function materiais() {
         return $this->hasMany('App\GrupoMaterial');
     }
-    public function atv() {
+    public function atvs() {
         return $this->hasMany('App\GrupoAtv');
     }
     

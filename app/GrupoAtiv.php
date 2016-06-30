@@ -22,8 +22,4 @@ class GrupoAtiv extends Model {
         return $this->belongsTo('App\Grupo');
     }
 
-    public function user() {
-        return $this->belongsTo('App\User');
-    }
-
 }

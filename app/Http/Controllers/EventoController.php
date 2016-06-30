@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Agenda;
+use App\Evento;
 use App\Grupo;
 use App\GrupoUsuario;
 use App\Http\Controllers\Controller;
@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Input;
 use Response;
 
-class AgendaController extends Controller
+class EventoController extends Controller
 {
 
     /**
@@ -30,7 +30,7 @@ class AgendaController extends Controller
     public function api(Request $request)
     {
 
-        $agenda = Agenda::select(['agendas.id', 'user_id', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
+        $evento = Evento::select(['eventos.id', 'user_id', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
             ->where(function ($query) use ($request) {
                 $query->where('start', '>=', $request->start)
                     ->where('end', '<', $request->end);
@@ -39,15 +39,15 @@ class AgendaController extends Controller
                 $query->orWhere(function ($query) {
                     $db       = DB::table('alunos_info')->select('turma_id')->where('user_id', auth()->user()->id)->first();
                     $turma_id = $db->turma_id;
-                    $query->where('agendas.turma_id', $turma_id)
+                    $query->where('eventos.turma_id', $turma_id)
                         ->where('is_publico', 1);
                 })
                     ->orWhere('user_id', auth()->user()->id);
             })
-            ->join('users', 'agendas.user_id', '=', 'users.id')
+            ->join('users', 'eventos.user_id', '=', 'users.id')
             ->get();
 
-        return Response::json($agenda);
+        return Response::json($evento);
     }
 
     /**
@@ -83,7 +83,7 @@ class AgendaController extends Controller
             $db       = DB::table('alunos_info')->select('turma_id')->where('user_id', auth()->user()->id)->first();
             $turma_id = $db->turma_id;
 
-            return Agenda::create([
+            return Evento::create([
                 'title'       => $request->title,
                 'start'       => $data,
                 'end'         => $request->end ? $request->end : $request->start,
@@ -95,7 +95,7 @@ class AgendaController extends Controller
         } else {
             $request->turma ? $this->CreateGrupoByTurma($request->turma, $request->title, $request->start, $request->end, $request->description) : null;
             $request->turma_id ? $this->CreateGrupoByTurma($request->turma_id, $request->title, $request->start, $request->end, $request->description) : null;
-            return Agenda::create([
+            return Evento::create([
                 'title'       => $request->title,
                 'start'       => $request->start ? $request->start : date("Y-m-d"),
                 'end'         => $request->end ? $request->end : $request->start,
@@ -177,7 +177,7 @@ class AgendaController extends Controller
      */
     public function edit($id)
     {
-        $evento = Agenda::where('id', $id)->limit(1)->first();
+        $evento = Evento::where('id', $id)->limit(1)->first();
 
         $start = Input::has('start') ? Input::get('start') : $evento->start;
         $end   = Input::has('end') ? Input::get('end') : $evento->end;
@@ -212,7 +212,7 @@ class AgendaController extends Controller
      */
     public function destroy($id)
     {
-        $evento = Agenda::where('id', $id)->limit(1)->first();
+        $evento = Evento::where('id', $id)->limit(1)->first();
 
         if (auth()->user()->id !== $evento->user_id) {
             return Response::json(['status' => false]);

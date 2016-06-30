@@ -14,7 +14,6 @@ class Tag extends Model {
      * Get the posts associated whith the given tag.
      * 
      * @return \Iluminate\Database\Elequoment\Relations\BelongsToMany
-     * @return \Iluminate\Database\Elequoment\Relations\HasMany
      */
     public function posts() {
         return $this->belongsToMany('App\Post')->withTimestamps();

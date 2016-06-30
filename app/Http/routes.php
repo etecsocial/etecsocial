@@ -36,7 +36,7 @@ Route::group(['middleware' => 'web'], function () {
         }); 
         
         //AGENDA
-        Route::get('/agenda', 'AgendaController@index');
+        Route::get('/agenda', 'EventoController@index');
         //PESQUISA
         Route::get('/busca/{termo}', 'PesquisaController@index');
         //GRUPO
@@ -68,9 +68,9 @@ Route::group(['middleware' => 'web'], function () {
            Route::post('/abrir', 'ChatController@abrir');
         });
 
-        //AGENDA
-        Route::get('/agenda', 'AgendaController@api');
-        Route::resource('/agenda', 'AgendaController');
+        //EVENTO
+        Route::get('/evento', 'EventoController@api');
+        Route::resource('/evento', 'EventoController');
         
         //MENSAGEM
         Route::group(['prefix' => 'mensagem'], function () {

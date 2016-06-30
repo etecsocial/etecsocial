@@ -87,9 +87,9 @@ O Projeto | ETEC Social
             </div>
             <div class="col-md-4 wow fadeInUp templatemo-box" data-wow-delay="0.3s">
                 <img src="{{ env('ASSETS_URL') }}/custom/1.5/imagens/projeto/icon2.png" width="105px">
-                <h3 class="text-uppercase">AGENDA DE ESTUDOS</h3>
+                <h3 class="text-uppercase">EVENTO DE ESTUDOS</h3>
                 <p class="text-justify">
-                    A Agenda de estudos será uma ferramenta que possibilitará o agendamento de
+                    A Evento de estudos será uma ferramenta que possibilitará o eventomento de
                     provas, trabalhos e apresentações tanto pelo professor quanto pelo aluno.
                     O sistema então irá sugerir a criação de grupos de estudos 
                     para auxiliar o aluno.

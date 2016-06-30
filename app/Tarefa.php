@@ -15,7 +15,6 @@ class Tarefa extends Model {
     ];
 
     /**
-     * @return \Iluminate\Database\Elequoment\Relations\HasMany
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
      */
 

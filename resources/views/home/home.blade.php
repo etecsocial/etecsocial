@@ -98,8 +98,8 @@
                                     <div class="col s12 m4">
                                         <div class="icon-block">
                                             <h2 class="center red-text"><i class="material-icons">group</i></h2>
-                                            <h5 class="center">Agenda de Estudos</h5>
-                                            <p class="text-justify">A Agenda de estudos será uma ferramenta que possibilitará o agendamento de provas, trabalhos e apresentações tanto pelo professor quanto pelo aluno. O sistema então irá sugerir a criação de grupos de estudos para auxiliar o aluno.</p>
+                                            <h5 class="center">Evento de Estudos</h5>
+                                            <p class="text-justify">A Evento de estudos será uma ferramenta que possibilitará o eventomento de provas, trabalhos e apresentações tanto pelo professor quanto pelo aluno. O sistema então irá sugerir a criação de grupos de estudos para auxiliar o aluno.</p>
                                         </div>
                                     </div>
                                     <div class="col s12 m4">

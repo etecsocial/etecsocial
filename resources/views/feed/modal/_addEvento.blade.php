@@ -1,5 +1,5 @@
 <div id="novoevento" class="modal">
-    <form method="POST" id="addevento" action="{{ url('ajax/agenda') }}">
+    <form method="POST" id="addevento" action="{{ url('ajax/evento') }}">
         <div class="modal-content">
             <h4>Adicionar Evento</h4>
             <div class="row">
