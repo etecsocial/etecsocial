@@ -36,7 +36,7 @@
          <div class="divider"></div>
          <p>Tem certeza que deseja excluir esta discussão?</p>
       </div>
-      <input type="hidden" value="" name="id_discussao" id="id_discussao_excluir">
+      <input type="hidden" value="" name="discussao_id" id="discussao_id_excluir">
       <input type="hidden" value="{{ $grupo->id }}" name="grupo_id" id="grupo_id">
       <div class="modal-footer">
          <a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>

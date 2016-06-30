@@ -21,8 +21,13 @@ class Agenda extends Model {
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
      */
-    public function user() {
+    public function users() {
         return $this->hasMany('App\User');
+        
+        //IMPORTANTE
+        //PASSAR PARA N PRA N!! CRIAR TABELA AGENDA_USERS
+        //IMPORTANTE
+        
     }
 
     public function turma() {

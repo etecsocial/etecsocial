@@ -31,4 +31,7 @@ class Turma extends Model {
     public function escola() {
         return $this->belongsTo('App\Escola');
     }
+    public function desafios() {
+        return $this->hasMany('App\Desfio');
+    }
 }

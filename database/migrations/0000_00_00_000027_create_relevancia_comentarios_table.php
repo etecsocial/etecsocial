@@ -16,7 +16,7 @@ class CreateRelevanciaComentariosTable extends Migration {
                 $table->increments('id');
                 $table->integer('user_id')->nullable()->unsigned();
                 $table->integer('comentario_id')->nullable()->unsigned();
-                $table->integer('id_discussao')->nullable()->unsigned();
+                $table->integer('discussao_id')->nullable()->unsigned();
                 $table->integer('id_pergunta')->nullable()->unsigned();
                 $table->string('relevancia', 4);
                 $table->timestamps();
@@ -31,7 +31,7 @@ class CreateRelevanciaComentariosTable extends Migration {
                         ->on('comentarios')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_discussao')
+                $table->foreign('discussao_id')
                         ->references('id')
                         ->on('grupo_discussao')
                         ->onDelete('cascade');

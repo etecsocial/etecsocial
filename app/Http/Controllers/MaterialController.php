@@ -25,13 +25,13 @@ class DiscussaoController extends Controller
         }
 
         ComentarioDiscussao::create([
-            'id_discussao' => $request->id_discussao,
+            'discussao_id' => $request->discussao_id,
             'user_id'      => auth()->user()->id,
             'grupo_id'     => $request->grupo_id,
             'comentario'   => $request->comentario,
         ]);
 
-        return view('comentarios.discussao', ['id_discussao' => $request->id_discussao, 'comentario_id' => $request->comentario_id]);
+        return view('comentarios.discussao', ['discussao_id' => $request->discussao_id, 'comentario_id' => $request->comentario_id]);
     }
 
     /**

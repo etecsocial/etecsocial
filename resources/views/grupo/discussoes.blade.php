@@ -73,7 +73,7 @@
             <span class="card-title grey-text text-darken-4"> Discussões</span>
             <div class="collection">
                 <ul class="collection" style="margin-top:0px;margin-bottom: 0;max-height: 420px;overflow-y: scroll" id="com-disc-{{ $discussao-> id}}">
-                    @if($banido) @if($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->where('user_id', auth()->user()->id)->get()) @foreach($comments as $comm)
+                    @if($banido) @if($comments = App\ComentarioDiscussao::where('discussao_id', $discussao->id)->where('user_id', auth()->user()->id)->get()) @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">
                         <a href="#modalExcluirComentarioDiscussao" onclick="excluirComentarioDiscussao({{ $comm-> id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a>
                         <img src="{{ auth()->user()->avatar($comm->user_id) }}" data-tooltip="Este é você" class="circle tooltipped">
@@ -82,7 +82,7 @@
                         </div>
                         <span class="ultra-small">{{ Carbon\Carbon::createFromTimeStamp(strtotime($comm->created_at))->diffForHumans() }}</span>
                     </li>
-                    @endforeach @else Você não pode mais participar dessa discussão. @endif @elseif($comments = App\ComentarioDiscussao::where('id_discussao', $discussao->id)->get())
+                    @endforeach @else Você não pode mais participar dessa discussão. @endif @elseif($comments = App\ComentarioDiscussao::where('discussao_id', $discussao->id)->get())
                     <!--NÃO É BANIDO-->
                     @foreach($comments as $comm)
                     <li id="com-disc-{{ $comm-> id}}" class="collection-item avatar com-disc-{{ $discussao-> id}}" style="height: auto; min-height:65px" data-id="{{ $comm-> id}}">

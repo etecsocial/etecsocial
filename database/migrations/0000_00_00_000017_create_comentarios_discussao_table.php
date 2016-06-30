@@ -19,7 +19,7 @@ class CreateComentariosDiscussaoTable extends Migration {
                 $table->increments('id');
                 $table->string('comentario', 1000);
 
-                $table->integer('id_discussao')->unsigned();
+                $table->integer('discussao_id')->unsigned();
                 $table->integer('grupo_id')->unsigned();
                 $table->integer('user_id')->unsigned();
 
@@ -28,7 +28,7 @@ class CreateComentariosDiscussaoTable extends Migration {
                         ->on('users')
                         ->onDelete('cascade');
                 
-                $table->foreign('id_discussao')
+                $table->foreign('discussao_id')
                         ->references('id')
                         ->on('grupo_discussao')
                         ->onDelete('cascade');

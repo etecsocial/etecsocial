@@ -52,15 +52,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function turma() {
         return $this->belongsTo('App\Turma');
     }
+    public function grupos() {
+        return $this->belongsTo('App\Grupo');
+    }
     public function posts() {
         return $this->hasMany('App\Post');
     }
-    public function desafio() {
+    public function desafios() {
         return $this->hasMany('App\Desafio');
     }
     
-    public function agenda() {
-        return $this->hasMany('App\User');
+    public function agendas() {
+        return $this->hasMany('App\Agenda');
     }
     
     public function scopeGetFriends() {

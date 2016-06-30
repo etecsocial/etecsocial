@@ -34,14 +34,14 @@
 @endif
 <script>
 
-            function discutir(id_discussao) {
-            var elem = "#com-disc-" + id_discussao;
-                    var comentario_id = $(".com-disc-" + id_discussao + ":last").data("id");
-                    var comentario = document.getElementById("comentario-" + id_discussao).value;
+            function discutir(discussao_id) {
+            var elem = "#com-disc-" + discussao_id;
+                    var comentario_id = $(".com-disc-" + discussao_id + ":last").data("id");
+                    var comentario = document.getElementById("comentario-" + discussao_id).value;
                     $.ajax({
                     type: "POST",
                             url: "/ajax/discussao",
-                            data: "id_discussao=" + id_discussao + "&comentario_id=" + comentario_id + "&comentario=" + comentario + "&grupo_id=" + {{ $grupo -> id }},
+                            data: "discussao_id=" + discussao_id + "&comentario_id=" + comentario_id + "&comentario=" + comentario + "&grupo_id=" + {{ $grupo -> id }},
                             dataType: "json",
                             error: function (data) {
                             if (data.responseText === "empty") {
@@ -49,7 +49,7 @@
                                     return false
                             } else {
                             $(elem).append(data.responseText);
-                                    $("#comentario-" + id_discussao).val('');
+                                    $("#comentario-" + discussao_id).val('');
                             }
                             }
                     });

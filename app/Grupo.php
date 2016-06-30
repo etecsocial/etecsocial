@@ -15,6 +15,7 @@ class Grupo extends Model {
         'materia',
         'assunto',
         'id_criador',
+        //tirar esses tres campos, somos melhores que isso.
         'num_participantes',
         'num_discussoes',
         'num_perguntas',

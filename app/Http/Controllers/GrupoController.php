@@ -213,9 +213,9 @@ class GrupoController extends Controller {
 
     public function delDisc(Request $request) {
         //conferir o App Provider! Não está decrementando.
-        if (GrupoDiscussao::where('id', $request->id_discussao)->select(['id'])->first()) {
-            if (GrupoDiscussao::where('id', $request->id_discussao)->delete()) {
-                return Response::json(['response' => 1, 'id' => $request->id_discussao]); //passa junto o id da discussao para dar o fadeOut na view.
+        if (GrupoDiscussao::where('id', $request->discussao_id)->select(['id'])->first()) {
+            if (GrupoDiscussao::where('id', $request->discussao_id)->delete()) {
+                return Response::json(['response' => 1, 'id' => $request->discussao_id]); //passa junto o id da discussao para dar o fadeOut na view.
             }return Response::json(['response' => 2]);
         }return Response::json(['response' => 3]);
     }
