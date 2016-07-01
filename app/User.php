@@ -52,7 +52,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     // aluno
     public function turma() {
-        return $this->hasOne('App\AlunosTurma');
+        return $this->belongsTo('App\AlunosTurma');
     }
 
     // professor

@@ -1,16 +1,21 @@
-@foreach($usuarios as $usuario)
+@forelse($usuarios as $usuario)
 <a href="{{ url($usuario->username) }}" style="color: #000">
     <li class="collection-item avatar" style="margin-left:-15px">
         <img src="{{ auth()->user()->avatar($usuario->id) }}" alt="" class="circle">
         <span class="title"><strong>{{ $usuario->nome_usuario }}</strong></span>
         <p>
-            {{ $usuario->sigla }} <br>
+            {{ $usuario->modulo . 'º ' . $usuario->sigla }} <br>
             {{ $usuario->nome_etec }}
         </p>
     </li>
 </a>
 <div class="divider" style="clear:both"></div>
-@endforeach
+@empty
+<li class="collection-item avatar">
+    <i class="circle mdi-action-search"></i>
+    <span class="title"><strong>Não encontramos nada resultados para</strong> "{{ $termo }}"</span>
+</li>
+@endforelse
 @foreach($grupos as $grupo)
 <a href="{{ url('grupo/' . $grupo->url) }}" style="color: #000; padding: 0">
     <li class="collection-item avatar">

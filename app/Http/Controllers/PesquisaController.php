@@ -6,7 +6,6 @@ use App\GrupoUsuario;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\User;
-use App\Mensagens;
 use Illuminate\Http\Request;
 
 class PesquisaController extends Controller {
@@ -63,25 +62,29 @@ class PesquisaController extends Controller {
     public function buscaRapida(Request $request) {
         if ($request->termo) {
             $usuarios = User::where('users.name', 'LIKE', '%' . $request->termo . '%')
-                    ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                    ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
+                    ->join('alunos_turma', 'alunos_turma.user_id', '=', 'users.id')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.turma_id')
                     ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
-                    ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
+                    ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'alunos_turma.modulo', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
                     ->limit(4)
                     ->get();
-            return view('pesquisa.search', ['usuarios' => $usuarios, 'grupos' => $this->getGrupos($request->termo, 3), 'termo' => $request->termo]);
+            return view('pesquisa.search', [
+                'usuarios' => $usuarios,
+                'grupos' => $this->getGrupos($request->termo, 3),
+                'termo' => $request->termo
+            ]);
         }
         return;
     }
 
     public function getGrupos($termo, $limit) {
         return GrupoUsuario::where('user_id', auth()->user()->id) //Corrigido!
-                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
-                ->where('assunto', 'LIKE', '%' . $termo . '%')
-                ->orWhere('materia', 'LIKE', '%' . $termo . '%')
-                ->select(['grupo.id', 'nome', 'assunto', 'url', 'materia', 'num_participantes'])
-                ->limit($limit)
-                ->get();
+                        ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
+                        ->where('assunto', 'LIKE', '%' . $termo . '%')
+                        ->orWhere('materia', 'LIKE', '%' . $termo . '%')
+                        ->select(['grupo.id', 'nome', 'assunto', 'url', 'materia', 'num_participantes'])
+                        ->limit($limit)
+                        ->get();
     }
 
 }
