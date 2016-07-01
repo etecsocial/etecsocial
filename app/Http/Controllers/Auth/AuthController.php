@@ -11,7 +11,6 @@ use Validator;
 use App\AlunosTurma;
 use App\ProfessoresInfo;
 use App\GrupoUsuario;
-use App\Grupo;
 use App\GrupoTurma;
 
 class AuthController extends Controller {

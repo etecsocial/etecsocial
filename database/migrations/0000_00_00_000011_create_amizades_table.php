@@ -19,10 +19,8 @@ class CreateAmizadesTable extends Migration {
                 $table->boolean('aceitou')->default(false);
                 $table->timestamps();
 
-                $table->foreign('user_id1')
-                        ->references('id')
-                        ->on('users')
-                        ->onDelete('cascade');
+                $table->foreign('user_id1')->references('id')->on('users')->onDelete('cascade');
+                $table->foreign('user_id2')->references('id')->on('users')->onDelete('cascade');
             });
         }
     }
