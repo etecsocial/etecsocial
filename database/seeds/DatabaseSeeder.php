@@ -12,11 +12,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(Escolas::class);
-        //$this->call(Turma::class);
+        $this->command->info('Escolas oficiais inseridas no banco de dados');
 
-        //factory(App\Desafio::class, 10)->create();
-        //factory(App\DesafioTurma::class, 10)->create();
-        
-        //acertar isso, chave estrangeira não está deixando editar!
+        // factory desafios
+        factory(App\Desafio::class, 10)->create()
+        ->each(function($desafio) {
+            factory(App\DesafioTurma::class, 20)->create(['desafio_id' => $desafio->id]);
+        });
+        $this->command->info('Criando 10 desafios aleatorios');
+
     }
 }
