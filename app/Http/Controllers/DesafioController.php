@@ -9,23 +9,39 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Desafio;
 use App\DesafioTurma;
+use App\DesafioResposta;
 
 class DesafioController extends Controller
 {
-    public $desafios = [];
-
     public function index()
     {
       if(auth()->user()->type == 1){
-        $this->desafios = Desafio::select('desafios.id', 'desafios.title', 'desafios.description', 'desafios.reward_points')
-                        //  ->join('desafio_turmas', 'desafios.id', '=', 'desafio_turmas.desafio_id')
-                        //  ->where('desafio_turmas.turma_id', auth()->user()->turma())
-                          ->limit(10)->get();
+          $this->desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')->limit(10)->get();
       } else {
-        $this->desafios = Desafio::select('id', 'title', 'description', 'reward_points')->where('responsible_id', auth()->user()->id)->get();
+          $this->desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')->where('responsible_id', auth()->user()->id)->get();
       }
 
         return view('desafio.home')->with(['desafios' => $this->desafios]);
+    }
+
+    public function responderForm(Request $request){
+        $desafio = Desafio::where('id', $request->id)->first();
+
+        return view('desafio.responder')->with(['desafio' => $desafio]);
+    }
+
+    public function responder(Request $request){
+        if(Desafio::where('id', $request->desafio_id)->first() != null){
+            $resposta = new DesafioResposta;
+            $resposta->desafio_id = $request->desafio_id;
+            $resposta->aluno_id = auth()->user()->id;
+            $resposta->resposta = $request->resposta;
+            $resposta->save();
+
+            return "respondido";
+        } else {
+            return "desafio não existe";
+        }
     }
 
     public function geral()

@@ -1,12 +1,12 @@
 <?php
 
-Route::group(['middleware' => 'web'], function () {    
+Route::group(['middleware' => 'web'], function () {
     // auth route resource
     Route::auth();
 
     // home
     Route::get('/', 'HomeController@index');
-    
+
     // register
     Route::group(['prefix' => '/ajax/cadastro'], function () {
         Route::get('/getEscolas', 'ContaController@consultarEscola');
@@ -26,15 +26,25 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/confirm/verify/{confirm_code}', 'ContaController@confirmEmail');
 
     // auth routes
-    Route::group(['middleware' => 'auth'], function() {    
+    Route::group(['middleware' => 'auth'], function() {
         //DESAFIO
         Route::get('/desafios', 'DesafioController@index');
+        Route::get('/desafios/{id}', 'DesafioController@show')->where('id', '[0-9-]+');
+        Route::get('/desafios/create', 'DesafioController@showForm');
+        Route::post('/desafios/store', 'DesafioController@store');
+        Route::get('/desafios/update', 'DesafioController@update');
+        Route::get('/desafios/updateForm/{id}', 'DesafioController@updateForm')->where('id', '[0-9-]+');
+        Route::get('/desafios/delete/{id}', 'DesafioController@delete')->where('id', '[0-9-]+');
+
+        Route::post('/desafios/responder', 'DesafioController@responder');
+        Route::get('/desafios/responder/{id}', 'DesafioController@responderForm')->where('id', '[0-9-]+');
+
         Route::group(['prefix' => 'ranking'], function() {
             Route::get('/', 'DesafioController@geral');
             Route::get('/etec', 'DesafioController@etec');
             Route::get('/turma', 'DesafioController@turma');
-        }); 
-        
+        });
+
         //AGENDA
         Route::get('/agenda', 'EventoController@index');
         //PESQUISA
@@ -45,7 +55,7 @@ Route::group(['middleware' => 'web'], function () {
         //TAREFA
         Route::get('/tarefas', 'TarefaController@index');
         //TAGS
-        Route::get('/tag/{tag}', 'TagController@show');    
+        Route::get('/tag/{tag}', 'TagController@show');
         //MENSAGENS
         Route::get('/mensagens', 'MensagemController@index');
         //POST
@@ -54,14 +64,14 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/{username}', 'PerfilController@index');
         Route::get('/perfil/editar', 'PerfilController@update');
     });
-    
+
     //AJAX
     Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
         //CONTA
         Route::post('/config', 'ContaController@editar');
         Route::post('/professor', 'ContaController@professor');
         Route::post('/aluno', 'ContaController@aluno');
-        
+
         //CHATS
         Route::group(['prefix' => 'chat'], function () {
            Route::post('/enviar', 'ChatController@enviar');
@@ -71,7 +81,7 @@ Route::group(['middleware' => 'web'], function () {
         //EVENTO
         Route::get('/evento', 'EventoController@api');
         Route::resource('/evento', 'EventoController');
-        
+
         //MENSAGEM
         Route::group(['prefix' => 'mensagem'], function () {
             Route::post('/store', 'MensagemController@store');
@@ -146,11 +156,10 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/pergunta', 'GrupoController@setPerg');
             Route::post('/material', 'GrupoController@setMat');
             Route::post('/addAlunoDir', 'GrupoController@addAlunoDir');
-            Route::post('/addProfGrupo', 'GrupoController@addProfGrupo');   
+            Route::post('/addProfGrupo', 'GrupoController@addProfGrupo');
             //DENUNCIA
             Route::post('/denuncia/create', 'DenunciaController@createDenunciaGrupo');
             Route::post('/denuncia/analisa', 'DenunciaController@analisaDenunciaGrupo');
         });
     });
 });
-
