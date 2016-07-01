@@ -18,7 +18,6 @@ class CreateTurmasTable extends Migration {
                 $table->string('sigla', 10);
                 $table->integer('modulos');
                 $table->integer('escola_id')->unsigned();
-                $table->timestamps();
 
                 $table->foreign('escola_id')
                         ->references('id')

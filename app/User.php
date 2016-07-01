@@ -45,13 +45,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
      */
-    
+
     public function tarefas() {
         return $this->hasMany('App\Tarefa');
     }
+
+    // aluno
     public function turma() {
-        return $this->belongsTo('App\Turma');
+        return $this->hasOne('App\AlunosTurma');
     }
+
+    // professor
+    public function turmas() {
+        return $this->hasMany('App\ProfessoresTurma');
+    }
+
     public function grupos() {
         return $this->belongsTo('App\Grupo');
     }
@@ -61,11 +69,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function desafios() {
         return $this->hasMany('App\Desafio');
     }
-    
+
     public function eventos() {
         return $this->hasMany('App\Evento');
     }
-    
+
     public function scopeGetFriends() {
         $this->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
@@ -90,15 +98,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function makeAvatar() {
-        
+
     }
 
     public static function isTeacher($id) {
         return User::select('type')->where('id', $id)->where('type', 2)->limit(1)->get()->first();
-    }
-
-    public function turmas() {
-        return [];
     }
 
     public function escola() {

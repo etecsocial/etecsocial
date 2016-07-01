@@ -13,4 +13,8 @@ class ProfessoresTurma extends Model {
         'modulo'
     ];
 
+    public function turma(){
+      return $this->belongsTo('App\Turma');
+    }
+
 }

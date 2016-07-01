@@ -13,4 +13,8 @@ class AlunosTurma extends Model {
         'modulo'
     ];
 
+    public function turma(){
+      return $this->belongsTo('App\Turma');
+    }
+
 }
