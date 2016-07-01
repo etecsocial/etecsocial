@@ -82,7 +82,7 @@
                                             Nova tarefa
                                             {!! Form::open(array('url' => '/task')) !!}        
                                             <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Até quando sua tarefa deve ser concluída?" data-position="right" data-delay="1000">
-                                                <input id="cc" type="date"  pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$" required name="date" class="datepicker validate">
+                                                <input id="cc" type="date"  required name="date" class="datepicker validate">
                                                 <label for="date" data-error="Data inválida" data-success="Tudo bem. Lembraremos você!" style="width: 350px" class="left-align">Selecione a data</label>
                                             </div>
                     

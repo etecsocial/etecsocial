@@ -60,7 +60,7 @@
                 <div class="col s12">
                     <input type="hidden" name="escola_id" value="{{$infoAcad->id}}">
                     <div class="input-field col s12 m12 l5">
-                        <input required name="nome" pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöäç]+([A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ a-zéíóáèìòàõãñ][a-zéúíóáèùìòàõãñêç]+)+$" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="nome" type="text" class="validate">
+                        <input required name="nome" placeholder="Exemplo: Ensino Médio Integrado Meio Ambiente" id="nome" type="text" class="validate">
                         <label for="nome" class="active" data-error='O nome da turma não parece correto.' style="width: 350px" class="left-align">Turma</label>  
                     </div>
                     <div class="input-field col s12 m12 l5">

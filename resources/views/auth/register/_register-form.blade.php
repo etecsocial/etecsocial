@@ -4,7 +4,7 @@
     {!! Form::open(array('url' => '/register')) !!}        
     {!! Form::hidden('type', $type) !!}
     <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Seus amigos encontrarão você por este nome!" data-position="top" data-delay="1000">
-        <input value="{{ old('name') }}" id="name" type="text"  pattern="^[A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+( [A-ZÉÚÍÓÁÈÙÌÒÀÕÃÑÊÛÎÔÂËYÜÏÖÄ][a-zéúíóáèùìòàõãñêûîôâëyüïöä]+)+$" required name="name" placeholder="Ex. Antônio Carlos" class="validate @if($errors->has('name')) invalid  @elseif($errors->any()) valid @endif">
+        <input value="{{ old('name') }}" id="name" type="text"  required name="name" placeholder="Ex. Antônio Carlos" class="validate @if($errors->has('name')) invalid  @elseif($errors->any()) valid @endif">
         <label for="name" data-error="{{ $errors->has('name') ? $errors->first('name') : 'Parece que há algo de errado com seu nome.' }}" data-success="Prazer em conhecê-lo(a)!" style="width: 350px" class="left-align">Como você se chama?</label>
     </div>
 
@@ -14,13 +14,13 @@
     </div>
 
     <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Uma senha segura contém números, letras e símbolos!" data-position="top" data-delay="1000">
-        <input id="password" value="{{ old('password') }}" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" type="password" required name="password" class="validate @if($errors->has('password')) invalid  @elseif($errors->any()) valid @endif">
+        <input id="password" value="{{ old('password') }}" type="password" required name="password" class="validate @if($errors->has('password')) invalid  @elseif($errors->any()) valid @endif">
         <label for="password" data-error="{{ $errors->has('password') ? $errors->first('password') : 'Esta senha não parece ser segura.' }}" data-success="Esperamos que se lembre disso mais tarde." style="width: 350px" class="left-align">Digite uma senha segura</label>
     </div>
 
     <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Isso ajuda a evitar erros!" data-position="top" data-delay="1000">
         <label for="password_confirmation">Digite a senha novamente</label>
-        <input id="password_confirmation" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" value="{{ old('password_confirmation') }}" type="password" required name="password_confirmation" class="validate @if($errors->has('password')) invalid  @elseif($errors->any()) valid @endif">
+        <input id="password_confirmation" value="{{ old('password_confirmation') }}" type="password" required name="password_confirmation" class="validate @if($errors->has('password')) invalid  @elseif($errors->any()) valid @endif">
     </div>
 
     <div class="input-field col s12 m6 l6 {{ $type == 1 ? 'tooltipped' : null }}" @if($type == 1) data-position='top' data-delay='2000' data-tooltip='Caso sua escola não esteja listada, talvez nenhum coordenador tenha se cadastrado ainda.' @endif >
