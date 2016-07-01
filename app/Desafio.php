@@ -15,4 +15,8 @@ class Desafio extends Model {
         return $this->hasMany('App\DesafioTurma');
     }
 
+    public function respostas(){
+        return $this->hasMany('App\DesafioResposta');
+    }
+
 }

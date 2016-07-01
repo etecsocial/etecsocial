@@ -16,12 +16,28 @@ class DesafioController extends Controller
     public function index()
     {
       if(auth()->user()->type == 1){
-          $this->desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')->limit(10)->get();
+          return $this->indexAluno();
       } else {
-          $this->desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')->where('responsible_id', auth()->user()->id)->get();
+          return $this->indexProfessor();
       }
+    }
 
-        return view('desafio.home')->with(['desafios' => $this->desafios]);
+    public function indexProfessor(){
+        $turmas = auth()->user()->turmas;
+        $desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')
+                                  ->where('responsible_id', auth()->user()->id)
+                                  ->get();
+
+        return view('desafio.home')->with(['turmas' => $turmas, 'desafios' => $desafios]);
+    }
+
+    public function indexAluno(){
+      $desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')
+                                ->join('desafio_turmas', 'desafios.id', '=', 'desafio_turmas.desafio_id')
+                                ->where('desafio_turmas.turma_id', auth()->user()->turma->turma_id)
+                                ->groupBy('desafios.id')
+                                ->get();
+      return view('desafio.home')->with(['desafios' => $desafios]);
     }
 
     public function responderForm(Request $request){
@@ -82,6 +98,11 @@ class DesafioController extends Controller
         $desafio->file = ''; // @TODO later
 
         $desafio->save();
+
+        // caso só tiver uma turma
+        if(!is_array($request->turmas)){
+            $request->turmas = [$request->turmas];
+        }
 
         foreach($request->turmas as $turma){
           $desafio_turma = new DesafioTurma;

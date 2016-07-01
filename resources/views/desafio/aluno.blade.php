@@ -18,9 +18,9 @@
                     <tbody>
                       @foreach($desafios as $desafio)
                         <tr>
-                            <td><a href="#">{{$desafio->title}}</a></td>
+                            <td><a href="{{ url('/desafios/responder') . '/' . $desafio->id }}">{{$desafio->title}}</a></td>
                             <td>{{ $desafio->subject }}</td>
-                            <td></td>
+                            <td>{{ $desafio->responsible->name }}</td>
                             <td>+ {{$desafio->reward_points}} pontos</td>
                             <td>{{$desafio->finish}}</td>
                         </tr>
