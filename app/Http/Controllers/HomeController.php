@@ -14,18 +14,9 @@ class HomeController extends Controller {
 
     public function index() {
         return auth()->check() ? $this->feed() : view('home.home', [
-                    'escolas' => $this->getAllEscolas(),
-                    'escolasCad' => $this->getEscolasCad()
+                    'escolas' => Escola::all('escolas.id', 'escolas.nome'),
+                    'escolasCad' => Escola::has('turmas')->get()
         ]);
-    }
-
-    public function getAllEscolas() {
-        return Escola::all('escolas.id', 'escolas.nome');
-    }
-
-    public function getEscolasCad() {
-        return Escola::select(['escolas.nome', 'escolas.id'])
-                        ->join('turmas', 'turmas.escola_id', '=', 'escolas.id')->get();
     }
 
     public function feed($id = 0) {
