@@ -16,8 +16,6 @@ class Escolas extends Seeder {
                 $escola->cod_coord = $this->getRandomNumbers(1, 500000, 999999, false, true)[0];
 
                 $escola->save() ? $this->command->info(e($etec) . " adicionada.") : 'Erro ao adicionar a ' . $etec;
-            } else {
-                $this->command->info(e($etec) . " já existente.");
             }
         }
     }

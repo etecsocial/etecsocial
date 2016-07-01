@@ -1,21 +1,33 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| Here you may define all of your model factories. Model factories give
-| you a convenient way to create models for testing and seeding your
-| database. Just tell the factory how a default model should look.
-|
-*/
+$factory->define(App\Turma::class, function (Faker\Generator $faker) {
+    return [
+        'nome' => function(){
+            $courses = ['Ensino Médio Regular', 'Ensino Médio Integrado a Informática',
+                        'Ensino Médio Integrado a Mecânica', 'Ensino Médio Integrado ao Meio Ambiente',
+                        'Ensino Médio Integrado a Administração'];
+            $random_index = rand(0, count($courses) - 1);
+            return $courses[$random_index];
+        },
+        'sigla' => function(){
+            $siglas = ['EMB', 'EMIA', 'EMAD', 'EMMEIO', 'EMMEC', 'EMMECA'];
+            $random_index = rand(0, count($siglas) - 1);
+            return $siglas[$random_index];
+        },
+        'modulos' => rand(1, 4),
+        'escola_id' => 1,
+    ];
+});
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
+        'username' => $faker->username,
+        'email_instuticional' => $faker->safeEmail,
+        'type' => rand(1, 3),
+        'confirmed' => 1,
+        'password' => bcrypt(12345),
         'remember_token' => str_random(10),
     ];
 });
@@ -23,7 +35,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Desafio::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(3),
-        'description' => $faker->paragraph(4),
+        'description' => $faker->paragraph(10),
         'subject' => function(){
             $subjects = ['Português', 'Matemática', 'Biologia', 'Geografia', 'Inglês', 'História', 'Espanhol'];
             $random_index = rand(0, count($subjects) - 1);
@@ -44,7 +56,6 @@ $factory->define(App\Desafio::class, function (Faker\Generator $faker) {
 
 $factory->define(App\DesafioTurma::class, function (Faker\Generator $faker) {
     return [
-        'desafio_id' => App\Desafio::select('id')->orderByRaw('RAND()')->first()->id,
         'turma_id' => App\Turma::select('id')->orderByRaw('RAND()')->first()->id,
     ];
 });
