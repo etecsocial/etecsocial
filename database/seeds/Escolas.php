@@ -12,27 +12,11 @@ class Escolas extends Seeder {
             if (Escola::select('nome')->where('nome', $etec)->first() == null) {
                 $escola = new Escola;
                 $escola->nome = $etec;
-                $escola->cod_prof = $this->getRandomNumbers(1, 100000, 499999, false, true)[0];
-                $escola->cod_coord = $this->getRandomNumbers(1, 500000, 999999, false, true)[0];
+                $escola->cod_prof = getRandomNumbers(1, 100000, 499999, false, true)[0];
+                $escola->cod_coord = getRandomNumbers(1, 500000, 999999, false, true)[0];
 
-                $escola->save() ? $this->command->info(e($etec) . " adicionada.") : 'Erro ao adicionar a ' . $etec;
+                $escola->save() ? $this->command->info(e($etec) . ' adicionada.') : 'Erro ao adicionar a ' . $etec;
             }
         }
     }
-
-    function getRandomNumbers($num, $min, $max, $repeat = false) {
-        if ((($max - $min) + 1) >= $num) {
-            $n = array();
-            while (count($n) < $num) {
-                $number = mt_rand($min, $max);
-
-                if ($repeat || !in_array($number, $n)) {
-                    $n[] = $number;
-                }
-            }
-            return $n;
-        }
-        return false;
-    }
-
 }
