@@ -40,9 +40,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/desafios/responder/{id}', 'DesafioController@responderForm')->where('id', '[0-9-]+');
 
         Route::group(['prefix' => 'ranking'], function() {
-            Route::get('/', 'DesafioController@geral');
-            Route::get('/etec', 'DesafioController@etec');
-            Route::get('/turma', 'DesafioController@turma');
+            Route::get('/', 'RankingController@geral');
+            Route::get('/etec', 'RankingController@etec');
+            Route::get('/turma', 'RankingController@turma');
         });
 
         //AGENDA

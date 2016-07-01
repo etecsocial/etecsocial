@@ -51,7 +51,7 @@
           </div>
         </div>-->
 
-        <div class="input-field col s12">
+        <div class="input-field col s12 right-align">
             <button type="submit" class="waves-effect waves-light btn-large red darken-1">Cadastrar</button>
         </div>
     </form>
@@ -59,6 +59,7 @@
 
   <div class="divider"></div>
 
+  @if (!$desafios->isEmpty())
   <div id="borderless-table">
       <h4 class="header">Seus Desafios publicados</h4>
       <div class="row">
@@ -76,13 +77,14 @@
                   </thead>
                   <tbody>
                     @foreach($desafios as $desafio)
-                      <tr>
+                      <tr id="desafio-{{$desafio->id}}">
                           <td><a href="{{ url('/desafios/atualizar') . '/' . $desafio->id }}">{{$desafio->title}}</a></td>
                           <td>{{ $desafio->subject }}</td>
                           <td>{{ count($desafio->respostas) }}</td>
                           <td>+ {{$desafio->reward_points}} pontos</td>
                           <td>{{$desafio->finish}}</td>
-                          <td><a href="{{ url('/desafios/delete') . '/' . $desafio->id}}">Excluir</a></td>
+                          <td><a class="delete" id="{{$desafio->id}}"><i class="mdi-action-delete color-sec-darken-text"></i></a>
+                          <a href=""><i class="mdi-action-face-unlock color-sec-darken-text"></i></a></td>
                       </tr>
                       @endforeach
                   </tbody>
@@ -90,4 +92,5 @@
           </div>
       </div>
   </div>
+  @endif
 </div>

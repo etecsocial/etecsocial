@@ -19,6 +19,25 @@ Desafios | ETEC Social
                         '/js/plugins/succinct-master/jQuery.succinct.min.js',
                         '/js/script.js',
                         '/js/plugins.js']) !!}
+<script>
+$(document).ready(function(){
+$('.delete').click(function(event) {
+ event.preventDefault();
+ var id = this.id;
+
+ $.ajax('{{ url('/desafios/delete') . '/' }}' + id, {
+    success: function(data) {
+        $("#desafio-" + id).hide();
+        Materialize.toast('<span>Desafio excluido com sucesso</span>', 3000);
+    },
+    error: function() {
+        Materialize.toast('<span>Erro ao excluido</span>', 3000);
+    }
+ });
+});
+});
+
+</script>
 @stop
 @section('content')
 @include('partials._nav')
