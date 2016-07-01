@@ -82,7 +82,7 @@
 
 @section('content')
 
-@include('nav')
+@include('partials._nav')
 
 <!-- START CONTENT -->
 <section id="content">

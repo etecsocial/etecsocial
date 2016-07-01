@@ -185,7 +185,7 @@ $('#excluirComentario').ajaxForm({
 @stop
 
 @section('content')
-@include('nav')
+@include('partials._nav')
 <style>
 @media only screen and (max-width:600px) {
     .card-profile-image {

@@ -14,7 +14,7 @@
     }
 }
 </style>
-@include('feed.part._modals')
+@include('partials._modals')
 <header id="header" class="page-topbar">
     <div class="navbar-fixed">
         <nav class="red darken-1">

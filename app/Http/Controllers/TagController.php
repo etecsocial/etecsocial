@@ -28,7 +28,7 @@ class TagController extends Controller
             ->orWhere('posts.is_publico', 1)
             ->distinct()
             ->get();        
-        return view('tags.home', ['posts' => $posts, name=> $tag, 'msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
+        return view('tags.home', ['posts' => $posts, name=> $tag]);
     }
 
 }

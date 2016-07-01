@@ -45,7 +45,7 @@ class GrupoController extends Controller {
 
         $professores = User::where('type', 2)->get();
 
-        return view('grupo.lista', ['infoAcad' => User::getInfoAcademica(), 'grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores, 'msgsUnread' => Mensagens::countUnread()])->with(['thisUser' => auth()->user()]);
+        return view('grupo.lista', ['grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores]);
     }
 
     public function index($groupname) {
@@ -55,7 +55,7 @@ class GrupoController extends Controller {
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {
                 //Verifica se é expirado
                 if (GrupoUsuario::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) { //Verifica se o usuário é integrante e não está banido
-                    return view('grupo.home', $dados = $this->getGroupData($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
+                    return view('grupo.home', $dados = $this->getGroupData($grupo));
                 } elseif (GrupoUsuario::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) { //Verifica se o usuário é banido, já que a seleção anterior falhou
                     return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
                 } else {

@@ -183,5 +183,5 @@ Mensagens | ETEC Social
 </section>
 <!-- END CONTENT --> 
 @stop
-@include('nav')
+@include('partials._nav')
 

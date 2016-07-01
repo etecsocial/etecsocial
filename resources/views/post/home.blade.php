@@ -27,7 +27,7 @@
 
 @stop
 
-@include('nav')
+@include('partials._nav')
 
 @section('content')
     @include('post.post')

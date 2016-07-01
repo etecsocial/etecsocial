@@ -96,7 +96,7 @@ $('#criarGrupo').ajaxForm({
 
 @stop
 @section('content')
-@include('nav')
+@include('partials._nav')
 <div id="breadcrumbs-wrapper" class="grey lighten-3">
     <div class="container">
         <div class="row">
@@ -138,7 +138,7 @@ $('#criarGrupo').ajaxForm({
 </div>
 </div>
 </section>
-@include('footer')
+@include('partials._footer')
 <form method="post" id="criarGrupo" action="{{ url('ajax/grupo/criar')}}">
     <div id="modalAddGrupo" class="modal modal-fixed-footer">
         <div class="modal-content">

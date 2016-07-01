@@ -43,7 +43,7 @@
     $("#verpost").openModal();
     abrirPost({{ $id }})
 </script>
-@endif @stop @section('content') @include('feed.part._nav')
+@endif @stop @section('content') @include('partials._nav')
 
 <div class="container" style="margin-top:20px">
     <div id="chart-dashboard">
@@ -317,5 +317,5 @@
         </div>
     </div>
 </div>
-@include('feed.part._footer')
+@include('partials._footer')
 @stop

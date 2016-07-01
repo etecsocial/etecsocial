@@ -20,7 +20,7 @@
 
 @section('content')
 
-@include('nav')
+@include('partials._nav')
 <div id="breadcrumbs-wrapper" class="grey lighten-3">
     <div class="container">
         <div class="row">
@@ -44,7 +44,7 @@
         @endif
     </div>
 </div>
-@include('footer')
+@include('partials._footer')
 <div id="modalExcluir" class="modal">
     <form  id="excluir" method="DELETE">
         <div class="modal-content">

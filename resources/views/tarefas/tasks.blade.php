@@ -17,7 +17,7 @@ Tarefas | ETEC Social
 
 @stop
 @section('content')
-@include('nav')
+@include('partials._nav')
 <section id="content">
     <div class="container">
         <div class="section">
@@ -97,4 +97,4 @@ Tarefas | ETEC Social
     </div>
     </div>
 </section>
-@include('footer') @stop
+@include('partials._footer') @stop

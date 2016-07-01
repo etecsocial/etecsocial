@@ -35,7 +35,7 @@
    });
 </script>
 @stop
-@section('content') @include('nav')
+@section('content') @include('partials._nav')
 <div id="breadcrumbs-wrapper" class="grey lighten-3">
     <div class="container">
         <div class="row">
@@ -84,4 +84,4 @@
         </form>
     </div>
 </div>
-@include('footer') @stop
+@include('partials._footer') @stop

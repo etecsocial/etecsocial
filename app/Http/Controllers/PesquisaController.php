@@ -56,8 +56,7 @@ class PesquisaController extends Controller {
             'professores' => $professores,
             'posts_amigos' => $posts_amigos,
             'posts_publicos' => $posts_publico,
-            'grupos' => $grupos,
-            'msgsUnread' => Mensagens::countUnread(),
+            'grupos' => $grupos
         ]);
     }
 

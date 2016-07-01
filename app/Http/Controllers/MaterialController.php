@@ -23,7 +23,7 @@ class DiscussaoController extends Controller
         if ($request->comentario == '') {
             return 'empty';
         }
-
+//ARRUAR ISSO - VALIDATE
         ComentarioDiscussao::create([
             'discussao_id' => $request->discussao_id,
             'user_id'      => auth()->user()->id,

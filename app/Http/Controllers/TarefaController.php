@@ -32,7 +32,7 @@ class TarefaController extends Controller
             ->limit(10)
             ->get();
 
-        return view('tarefas.tasks', ['tasks' => $tasks])->with(['thisUser' => auth()->user(), 'msgsUnread' => Mensagens::countUnread()]);
+        return view('tarefas.tasks', compact('tasks'));
     }
 
     public function moretask(Request $request)
@@ -50,7 +50,7 @@ class TarefaController extends Controller
             ->limit(10)
             ->get();
 
-        return view('tarefas.more', ['tasks' => $tasks]);
+        return view('tarefas.more', compact('tasks'));
     }
 
     public function check(Request $request)

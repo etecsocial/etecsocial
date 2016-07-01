@@ -55,8 +55,6 @@ class PerfilController extends Controller {
                         ->get();
             }
 
-            $infoAcad = [];
-
             $num_amigos = DB::table('amizades')->where(['user_id1' => $dados->id, 'aceitou' => 1])->count() - 1;
             $num_grupos = DB::table('grupo_usuario')->where(['user_id' => auth()->user()->id])->count();
 
@@ -76,13 +74,10 @@ class PerfilController extends Controller {
                 'user' => $dados,
                 'is_my' => (auth()->user()->id == $dados->id) ? 1 : 0,
                 'posts' => $posts->toArray(),
-                'infoAcad' => $infoAcad,
                 'num_amigos' => $num_amigos,
                 'num_grupos' => $num_grupos,
                 'amizade' => $amizade,
-                'tasks' => $tasks,
-                'msgsUnread' => Mensagens::countUnread(),
-                'infoAcad' => User::getInfoAcademica()
+                'tasks' => $tasks
             ]);
         } else {
             return abort(404);
@@ -90,23 +85,24 @@ class PerfilController extends Controller {
     }
 
     // @TODO: verificar isso daqui:
-    public function update(Request $request) {
-        Carbon::setLocale('pt_BR');
-        return $request;
-        if (User::where('user_id', $request->user_id)->first()) {
-            User::where('id', $request->user_id)->update([
-                'nome' => isset($request->nome) ? $request->nome : $u->nome,
-                'username' => isset($request->username) ? $request->username : $u->username,
-                'nome' => isset($request->nome) ? $request->nome : $u->nome,
-                'nome' => isset($request->nome) ? $request->nome : $u->nome,
-                'nome' => isset($request->nome) ? $request->nome : $u->nome,
-                'nome' => isset($request->nome) ? $request->nome : $u->nome,
-                'nome' => isset($request->nome) ? $request->nome : $u->nome,
-            ]);
-        } else {
-            //algum erro aqui, qualquer instrução se torna inacessível nesta seção.
-        }
-    }
+//    public function update(Request $request) {
+//        Carbon::setLocale('pt_BR');
+//        return $request;
+//        if (User::where('user_id', $request->user_id)->first()) {
+//            User::where('id', $request->user_id)->update([
+//                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+//                'username' => isset($request->username) ? $request->username : $u->username,
+//                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+//                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+//                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+//                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+//                'nome' => isset($request->nome) ? $request->nome : $u->nome,
+//            ]);
+//        } else {
+//            //algum erro aqui, qualquer instrução se torna inacessível nesta seção.
+//        }
+//    }
+    //QUE HORROR!
 
     public function destroy($id) {
         //

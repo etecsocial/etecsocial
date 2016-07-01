@@ -14,7 +14,7 @@ class CreateTableMensagensTable extends Migration {
         if (!Schema::hasTable('mensagens')) {
             Schema::create('mensagens', function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('rem_idetente')->unsigned();
+                $table->integer('remetente_id')->unsigned();
                 $table->integer('destinatario_id')->unsigned();
 
                 $table->longText('msg');
@@ -30,7 +30,7 @@ class CreateTableMensagensTable extends Migration {
 
                 $table->timestamps();
 
-                $table->foreign('rem_idetente')
+                $table->foreign('remetente_id')
                         ->references('id')
                         ->on('users')
                         ->onDelete('cascade');

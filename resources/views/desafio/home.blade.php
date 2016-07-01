@@ -25,7 +25,7 @@ Desafios | ETEC Social
 
 @stop
 @section('content')
-@include('nav')
+@include('partials._nav')
 <div id="breadcrumbs-wrapper" class="grey lighten-3">
     <div class="container">
         <div class="row">

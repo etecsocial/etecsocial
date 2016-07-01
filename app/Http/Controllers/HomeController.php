@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Escola;
 use App\GrupoUsuario;
-use App\User;
-use App\ProfessoresInfo;
 use App\Http\Controllers\Controller;
-use App\Mensagens;
 use App\Post;
 use Carbon\Carbon;
 use DB;
@@ -68,28 +65,8 @@ class HomeController extends Controller {
             'tasks' => $tasks,
             'id' => $id,
             'grupos' => $grupos,
-            'msgsUnread' => Mensagens::countUnread(),
             'countPosts' => Post::count(),
-            'infoAcad' => User::getInfoAcademica()
         ]);
-    }
-
-    public function firstLogin() {
-        switch (auth()->user()->first_login) {
-            case 1:
-                return User::getInfoAcademica();
-            case 2:
-                $escola = ProfessoresInfo::join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                        ->select(['escolas.nome as escola', 'escolas.id as id'])
-                        ->get();
-                break;
-            case 3:
-
-                break;
-
-            default:
-                break;
-        }
     }
 
     public function newpost(Request $request) {
@@ -104,7 +81,7 @@ class HomeController extends Controller {
                 ->where('posts.id', '>', $request->id)
                 ->get();
 
-        return view('feed.posts', ['posts' => $posts, 'thisUser' => auth()->user()]);
+        return view('feed.posts', compact('posts'));
     }
 
     public function morepost(Request $request) {
@@ -121,7 +98,7 @@ class HomeController extends Controller {
                 ->where('posts.id', '<', $request->id)
                 ->get();
 
-        return view('feed.posts', ['posts' => $posts, 'thisUser' => auth()->user()]);
+        return view('feed.posts', compact('posts'));
     }
 
 }

@@ -25,14 +25,14 @@ class DesafioController extends Controller
         $this->desafios = Desafio::select('id', 'title', 'description', 'reward_points')->where('responsible_id', auth()->user()->id)->get();
       }
 
-        return view('desafio.home')->with(['desafios' => $this->desafios, 'msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
+        return view('desafio.home')->with(['desafios' => $this->desafios]);
     }
 
     public function geral()
     {
         $usuarios = Pontuacao::ranking();
 
-        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de todas as ETEC'])->with(['msgsUnread' => Mensagens::countUnread(), 'infoAcad' => User::getInfoAcademica()]);
+        return view('desafio.ranking', ['usuarios' => $usuarios, 'tipo' => 'Ranking de todas as ETEC']);
     }
 
     public function etec()
@@ -81,7 +81,7 @@ class DesafioController extends Controller
     }
 
     public function delete(Request $request){
-        if(Desafio::select('id')->where('id', $request->id)->first()){ // check if exists Desafio
+        if(Desafio::find($request->id)){ // check if exists Desafio
             $check_responsability = Desafio::select('id')->where('responsible_id', auth()->user()->id)->first();
             if($check_responsability){
                 $check_responsability->delete();

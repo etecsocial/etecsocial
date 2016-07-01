@@ -7,7 +7,6 @@ use App\GrupoDiscussao;
 use App\GrupoPergunta;
 use App\GrupoUsuario;
 use App\Http\Controllers\Controller;
-use App\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -45,11 +44,6 @@ class DenunciaController extends Controller
                 $a = GrupoDiscussao::where('grupo_id', $request->grupo_id)->where('id', $request->id_pub)->delete();
             } elseif ($request->tipo_pub == 'pergunta') {
                 $a = GrupoPergunta::where('grupo_id', $request->grupo_id)->where('id', $request->id_pub)->delete();
-            }
-            if (isset($a)) {
-                DB::table('grupo')
-                    ->where('id', $request->grupo_id)
-                    ->decrement('num_participantes');
             }
         }
 

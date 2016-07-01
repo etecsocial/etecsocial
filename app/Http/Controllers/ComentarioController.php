@@ -24,9 +24,7 @@ class ComentarioController extends Controller
         if ($request->comentario == "") {
             return 'empty';
         }
-
-        Post::where('id', $request->post_id)->increment('num_comentarios');
-
+//Arrumar isso KKKKKKKKKKKKKKKKK ^
         Comentario::create([
             'post_id'    => $request->post_id,
             'user_id'    => auth()->user()->id,

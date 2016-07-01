@@ -76,8 +76,7 @@ class PostController extends Controller {
 
         return isset($post) ? view('post.home', [
                     'post' => $post,
-                    'tags' => $post->tags(),
-                    'msgsUnread' => Mensagens::countUnread()]) : abort(404);
+                    'tags' => $post->tags()]) : abort(404);
     }
 
     /**

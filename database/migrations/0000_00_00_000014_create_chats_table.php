@@ -21,7 +21,7 @@ class CreateChatsTable extends Migration {
                 $table->integer('copia_dest')->default(1);
                 $table->integer('copia_rem')->default(1);
                 $table->integer('destinatario_id')->unsigned();
-                $table->integer('rem_idetente')->unsigned();
+                $table->integer('remetente_id')->unsigned();
 
                 $table->foreign('destinatario_id')
                         ->references('id')
