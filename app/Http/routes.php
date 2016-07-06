@@ -79,7 +79,6 @@ Route::group(['middleware' => 'web'], function () {
         });
 
         //EVENTO
-        Route::get('/evento', 'EventoController@api');
         Route::resource('/evento', 'EventoController');
 
         //MENSAGEM

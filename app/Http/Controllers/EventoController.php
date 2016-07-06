@@ -25,7 +25,7 @@ class EventoController extends Controller {
         return view('agenda.home');
     }
 
-    public function api(Request $request) {
+    public function show(Request $request) {
 
         $evento = Evento::select(['eventos.id', 'user_id', 'is_publico', 'start', 'end', 'title', 'description', 'users.name'])
                 ->where(function ($query) use ($request) {
