@@ -68,7 +68,7 @@ class ContaController extends Controller {
      * @return Response
      */
     public function editar(Request $request) {
-        $user = User::where('id', auth()->user()->id)->first();
+        $user = User::find(auth()->user()->id);
 
         if ($request->hasFile('foto')) {
             $this->addfoto($request->foto);

@@ -7,6 +7,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -45,6 +46,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
      */
+    public function profInfo() {
+        return $this->hasOne('App\ProfessoresInfo');
+    }
 
     public function tarefas() {
         return $this->hasMany('App\Tarefa');
@@ -63,9 +67,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function grupos() {
         return $this->belongsTo('App\Grupo');
     }
+
+    public function scopeTaskValid($query) {
+        return $query->where(function ($query) {
+                    $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
+                            ->orWhere('checked', false);
+                });
+    }
+
     public function posts() {
         return $this->hasMany('App\Post');
     }
+
     public function desafios() {
         return $this->hasMany('App\Desafio');
     }
@@ -83,6 +96,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function verUser($id) {
         return User::where('id', $id)->first();
     }
+    
+    public function countAmigos($uid) {
+        DB::table('amizades')->where(['user_id1' => $uid, 'aceitou' => 1])->count() - 1;
+    }
+    public function Listamigos($uid) {
+        DB::table('amizades')->where(['user_id1' => $uid, 'aceitou' => 1]);
+        //@TODO terminar isso
+    }
 
     public static function avatar($id) {
         $avatar_path = 'midia/avatar/' . md5($id) . '.jpg';
@@ -98,7 +119,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function makeAvatar() {
-
+        
     }
 
     public static function isTeacher($id) {
@@ -136,13 +157,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         } return isset($nova) ? $nova : $username;
     }
 
-    public static function getInfoAcademica() {
+    public static function getInfoAcademica($uid = null) {
+        $u = isset($uid) ? User::findOrFail($uid) : auth()->user();
         //VOU OTIMIZAR ISSO AINDA.
-        switch (auth()->user()->type) {
+        switch ($u->type) {
             case 1:
                 //Aluno
-                if (auth()->user()->first_login == 0) {
-                    return AlunosTurma::where('user_id', auth()->user()->id)
+                if ($u->first_login == 0) {
+                    return AlunosTurma::where('user_id', $u->id)
                                     ->join('turmas', 'turmas.id', '=', 'alunos_turma.turma_id')
                                     ->join('escolas', 'turmas.escola_id', '=', 'escolas.id')
                                     ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo', 'escolas.nome as etec'])
@@ -150,50 +172,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 }
                 //facebook login aqui, o first_login vai ser diferente...
                 break;
-            case 2:
+            case 2 or 3:
                 //PROFESSOR
-                if (auth()->user()->first_login == 2) {
-                    //DEVE SELECIONAR TURMAS QUE LECIONA
-                    $info = ProfessoresInfo::
-                                    where('user_id', auth()->user()->id)
-                                    ->select(['escola_id as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                                    ->get()[0];
-                } elseif (auth()->user()->first_login == 0) {
-                    //TUDO OK, ABRIR FEED NORMALMENTE
-                    $info = ProfessoresInfo::
-                                    where('user_id', auth()->user()->id)
-                                    ->select(['escola_id as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                                    ->get()[0];
-                }
-                break;
-            case 3:
-                //COORDENADOR
-                if (auth()->user()->first_login == 3) {
-                    //DEVE CADASTRAR TURMAS DA ESCOLA
-                    $info = ProfessoresInfo::
-                                    where('user_id', auth()->user()->id)
-                                    ->select(['escola_id as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                                    ->get()[0];
-                } elseif (auth()->user()->first_login == 2) {
-                    //JÁ CADASTROU AS TURMAS, PRECISA DIZER PARA QUAIS ELE DÁ AULA (SE TAMBEM FOR PROF)
-                    $info = ProfessoresInfo::
-                                    where('user_id', auth()->user()->id)
-                                    ->select(['escola_id as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                                    ->get()[0];
-                } elseif (auth()->user()->first_login == 0) {
-                    //JÁ CADASTROU E SELECIONOU AS SUAS. FEED NORMAL.
-                    $info = ProfessoresInfo::
-                                    where('user_id', auth()->user()->id)
-                                    ->select(['escola_id as id', 'escolas.nome as escola'])
-                                    ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                                    ->get()[0];
-                }
-                break;
-            default:
+                $info = ProfessoresInfo::
+                                where('user_id', $u->id)
+                                ->select(['escola_id as id', 'escolas.nome as escola'])
+                                ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
+                                ->get()[0];
                 break;
         }return $info;
     }

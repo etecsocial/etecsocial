@@ -11,10 +11,7 @@
 </a>
 <div class="divider" style="clear:both"></div>
 @empty
-<li class="collection-item avatar">
-    <i class="circle mdi-action-search"></i>
-    <span class="title"><strong>Não encontramos nada resultados para</strong> "{{ $termo }}"</span>
-</li>
+
 @endforelse
 @foreach($grupos as $grupo)
 <a href="{{ url('grupo/' . $grupo->url) }}" style="color: #000; padding: 0">

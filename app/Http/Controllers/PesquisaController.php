@@ -12,17 +12,20 @@ class PesquisaController extends Controller {
 
     public function index($termo = '') {
         $alunos = User::where('users.name', 'LIKE', '%' . $termo . '%')
-                ->where('type', 1)
-                ->limit(10)
-                ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
-                ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
-                ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
-                ->get();
+                    ->where('type', 1)
+                    ->limit(10)
+                    ->join('alunos_turma', 'alunos_turma.user_id', '=', 'users.id')
+                    ->join('turmas', 'turmas.id', '=', 'alunos_turma.turma_id')
+                    ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
+                    ->select(['users.id', 'users.name AS nome_usuario', 'users.username', 'alunos_turma.modulo', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla'])
+                    ->get();
 
-        $professores = User::where('name', 'LIKE', '%' . $termo . '%')
-                ->where('type', 2)
+        $professores = User::has('ProfInfo')
+                ->where('name', 'LIKE', '%' . $termo . '%')
+                //->join('professores_info', 'professores_info.user_id', '=', 'users.id')
                 ->limit(10)
+                //->select(['users.name', 'users.id as id', 'users.username as username', 'escolas.nome as escola'])
+                
                 ->get();
 
         $posts_amigos = Post::join('users', 'users.id', '=', 'posts.user_id')

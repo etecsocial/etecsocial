@@ -20,5 +20,10 @@ class Escola extends Model {
     public function turmas() {
         return $this->hasMany('App\Turma');
     }
+    
+    public static function ver($id)
+            {
+        return Escola::find($id);
+            }
 
 }

@@ -21,43 +21,26 @@ class PerfilController extends Controller {
      */
     public function index($username) {
 
-        if ($u = User::where('username', $username)->first()) {
 
-            if ($u->tipo === 1) {
-                $dados = User::where('username', $username)
-                        ->join('alunos_info', 'users.id', '=', 'alunos_info.user_id')
-                        ->join('turmas', 'turmas.id', '=', 'alunos_info.turma_id')
-                        ->join('escolas', 'escolas.id', '=', 'turmas.escola_id')
-                        ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'escolas.nome as nome_etec', 'turmas.sigla', 'turmas.nome as nome_curso', 'created_at'])
-                        ->limit(1)
-                        ->first();
-            } else {
-                $dados = User::where('username', $username)
-                        ->select(['users.id', 'users.status', 'users.name AS nome_usuario', 'users.username', 'users.type', 'created_at'])
-                        ->limit(1)
-                        ->first();
-            }
-            $amizade = Amizade::verificar($dados->id);
 
-            if ($amizade['status']) {
+        $u = User::firstOrFail()->where('username', $username)->get()[0];
 
-                $posts = User::find($dados->id)->posts;
-//                    ->orderBy('created_at', 'desc')
-//                    ->limit(5)
-//                    ->get();
-            } else {
-                $posts = Post::where('user_id', $dados->id)
-                        ->join('users', 'users.id', '=', 'posts.user_id')
-                        ->orderBy('created_at', 'desc')
-                        ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name', 'users.username'])
-                        ->where("posts.is_publico", 1)
-                        ->limit(5)
-                        ->get();
-            }
+        $amizade = Amizade::verificar($u->id);
 
-            $num_amigos = DB::table('amizades')->where(['user_id1' => $dados->id, 'aceitou' => 1])->count() - 1;
-            $num_grupos = DB::table('grupo_usuario')->where(['user_id' => auth()->user()->id])->count();
+        if ($amizade['status']) {
+            $posts = $u->posts()
+                    ->orderBy('created_at', 'desc')
+                    ->limit(5)
+                    ->get();
+        } else {
+            $posts = $u->posts()
+                    ->where('is_publico', true)
+                    ->orderBy('created_at', 'desc')
+                    ->limit(5)
+                    ->get();
+        }
 
+        if ($u->id == auth()->user()->id) {
             Carbon::setLocale('pt_BR');
             $tasks = DB::table('tarefas')
                     ->select(['desc', 'data', 'checked', 'id'])
@@ -69,19 +52,17 @@ class PerfilController extends Controller {
                     ->orderBy('data')
                     ->limit(4)
                     ->get();
-
-            return view('perfil.home', [
-                'user' => $dados,
-                'is_my' => (auth()->user()->id == $dados->id) ? 1 : 0,
-                'posts' => $posts->toArray(),
-                'num_amigos' => $num_amigos,
-                'num_grupos' => $num_grupos,
-                'amizade' => $amizade,
-                'tasks' => $tasks
-            ]);
-        } else {
-            return abort(404);
         }
+
+        return view('perfil.home', [
+            'user' => $u,
+            //'infoAcadUser' => User::infoAcademica($u->id),
+            'is_my' => (auth()->user()->id == $u->id) ? true : false,
+            'posts' => $posts->toArray(),
+            'num_amigos' => auth()->user()->countAmigos($u->id),
+            'num_grupos' => count($u->grupos),
+            'tasks' => isset($tasks) ? $tasks : false
+        ]);
     }
 
     // @TODO: verificar isso daqui:

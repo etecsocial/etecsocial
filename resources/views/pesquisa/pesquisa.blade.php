@@ -87,9 +87,11 @@
       <ul class="collection">
          @foreach($professores as $professor)
          <li class="collection-item avatar">
-            <img src="{{ auth()->user()->avatar($professor->id) }}" data-tooltip="{{ $professor->nome_usuario }}" class="circle responsive-img valign profile-image tooltipped">
-            <span class="title"><a href="{{ url(auth()->user()->verUser($professor->id)->username) }}"><strong>{{ $professor->nome }}</strong></a></span>
-            <p>Professor de [INSERIR ESCOLA]<br>
+            <img src="{{ auth()->user()->avatar($professor->id) }}" data-tooltip="{{ $professor->name }}" class="circle responsive-img valign profile-image tooltipped">
+            <span class="title"><a href="{{ url($professor->username) }}"><strong>{{ $professor->name }}</strong></a></span>
+            <p> 
+            {{ $professor->escola }}
+                <br>
             </p>
             <a href="#!" class="secondary-content"><i class="material-icons color-pri-text">send</i></a>
          </li>
