@@ -384,12 +384,12 @@
                                                         <p class="blog-post-content">{{ $post->publicacao }}</p>
                                                     </section>
                                                 </div>
-                                           
+
 
                                                 <div class="card-reveal">                                            
                                                     <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Comentários</span>
                                                     <ul class="collection" id="comentarios-{{ $post->id }}" style="margin-top:15px">
-                                                        @forelse(App\Comentario::where('post_id', $post->id)->orderBy('relevancia', 'desc')->orderBy('created_at', 'desc')->get() as $comentario)
+                                                        @forelse($post->comentarios as $comentario)
                                                         <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->post_id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
 
                                                             @if(auth()->user()->id == $comentario->user_id) 

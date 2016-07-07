@@ -20,24 +20,25 @@ class PerfilController extends Controller {
      * @return Response
      */
     public function index($username) {
-
-
-
         $u = User::firstOrFail()->where('username', $username)->get()[0];
-       
         $amizade = Amizade::verificar($u->id);
-
         if ($amizade['status']) {
-            $posts = $u->posts()
-                    ->orderBy('created_at', 'desc')
-                    ->limit(5)
-                    ->get();
+            return $posts = $u->posts()
+                            ->orderBy('created_at', 'desc')
+                            ->limit(5)
+                            ->with(['comentarios' => function($query) {
+                                    $query->orderBy('created_at', 'desc');
+                                    $query->orderBy('relevancia', 'desc');
+                                }])->get();
         } else {
             $posts = $u->posts()
-                    ->where('is_publico', true)
-                    ->orderBy('created_at', 'desc')
-                    ->limit(5)
-                    ->get();
+                            ->where('is_publico', true)
+                            ->orderBy('created_at', 'desc')
+                            ->limit(5)
+                            ->with(['comentarios' => function($query) {
+                                    $query->orderBy('created_at', 'desc');
+                                    $query->orderBy('relevancia', 'desc');
+                                }])->get();
         }
 
         if ($u->id == auth()->user()->id) {
@@ -56,7 +57,7 @@ class PerfilController extends Controller {
 
         return view('perfil.home', [
             'user' => $u,
-            'amizade' => $amizade,  
+            'amizade' => $amizade,
             //'infoAcadUser' => User::infoAcademica($u->id),
             'is_my' => (auth()->user()->id == $u->id) ? true : false,
             'posts' => $posts,
