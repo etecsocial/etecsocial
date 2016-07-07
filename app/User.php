@@ -176,7 +176,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 //PROFESSOR
                 $info = ProfessoresInfo::
                                 where('user_id', $u->id)
-                                ->select(['escola_id as id', 'escolas.nome as escola'])
+                                ->select(['escola_id as id', 'escolas.nome as escola', 'professores_info.*'])
                                 ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                 ->get()[0];
                 break;

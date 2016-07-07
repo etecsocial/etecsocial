@@ -23,7 +23,7 @@ class PerfilController extends Controller {
         $u = User::firstOrFail()->where('username', $username)->get()[0];
         $amizade = Amizade::verificar($u->id);
         if ($amizade['status']) {
-            return $posts = $u->posts()
+            $posts = $u->posts()
                             ->orderBy('created_at', 'desc')
                             ->limit(5)
                             ->with(['comentarios' => function($query) {
@@ -54,11 +54,10 @@ class PerfilController extends Controller {
                     ->limit(4)
                     ->get();
         }
-
         return view('perfil.home', [
             'user' => $u,
             'amizade' => $amizade,
-            //'infoAcadUser' => User::infoAcademica($u->id),
+            'infoUser' => User::getInfoAcademica($u->id),
             'is_my' => (auth()->user()->id == $u->id) ? true : false,
             'posts' => $posts,
             'num_amigos' => auth()->user()->countAmigos($u->id),

@@ -51,7 +51,7 @@
                         @if($user->type == 1)
                         <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->nome_curso }}" data-position="botton" data-delay="50">{{ explode(' ', $user->nome_curso)[0] }} {{ $user->sigla }}</p>
                         @else
-                        <p class="medium-small grey-text tooltipped" data-tooltip="{{ $user->formacao }}" data-position="botton" data-delay="50">{{ $user->formacao }}</p>
+                        <p class="medium-small grey-text tooltipped" data-tooltip="{{ $infoUser->formacao }}" data-position="botton" data-delay="50">{{ $user->formacao }}</p>
                         @endif
                     </div>
                     <div class="col s4 l2">
@@ -80,8 +80,8 @@
                     <div class="card-content">
                         <span class="card-title activator text-darken-4 white-text" onmouseover="javascript:$('#icon-edit-status').show('200')"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Meu Status<i id="icon-edit-status" class="mdi-editor-mode-edit right" style="display:none"></i></span>
                         <div class="divider"></div>
-                        @if(isset(auth()->user()->status))
-                        <div id="us">{{{ auth()->user()->status }}}</div>
+                        @if(isset($infoAcad->status))
+                        <div id="us">{{{ $infoAcad->status }}}</div>
                         @else
                         <i class="left activator" style="margin-top:15px">Adicione um novo status. Clique aqui.</i> @endif
                     </div>
@@ -100,26 +100,27 @@
                     <div class="card-content">
                         <span class="card-title activator text-darken-4 white-text"><i class="mdi-social-mood medium left white-text text-darken-4" style="margin-top:-5px"></i>Status</span>
                         <div class="divider"></div>
-                        @if(isset($user->status))
+                        @if(isset($infoUser->status))
                         <div id="us">
-                            <p class="left " style="margin-top:15px">{{{ $user->status }}}</p>
+                            <p class="left " style="margin-top:15px">{{{ $infoUser->status }}}</p>
                         </div>
                         @else
-                        <i class="left activator" style="margin-top:15px">Não há status de {{ $user->nome_usuario}}.</i> @endif
+                        <i class="left activator" style="margin-top:15px">Não há status de {{ $user->name }}.</i> @endif
                     </div>
                 </div>
                 @endif
                 <!-- Profile About  -->
                 <!-- Profile About Details  -->
                 <ul id="profile-page-about-details" class="collection z-depth-1">
-                    @if(isset($user->empresa))
+                    @if(isset($infoUser->formacao))
                     <li class="collection-item">
                         <div class="row">
-                            <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> {{ $user->cargo }}</div>
-                            <div class="col s7 grey-text text-darken-4 right-align">na empresa {{ $user->empresa }}</div>
+                            <div class="col s5 grey-text darken-1"><i class="mdi-action-wallet-travel"></i> Formação</div>
+                            <div class="col s7 grey-text text-darken-4 right-align">{{ $infoUser->formacao }}</div>
                         </div>
                     </li>
-                    @endif @if(isset($user->habilidades))
+                    @endif 
+                    @if(isset($user->habilidades))
                     <li class="collection-item">
                         <div class="row">
                             <div class="col s5 grey-text darken-1"><i class="mdi-social-poll"></i> Habilidades</div>
@@ -189,7 +190,7 @@
                     <div class="col s6">
                         <div class="card  cyan darken-2">
                             <div class="card-content white-text center-align">
-                                <p class="card-title"><i class="mdi-social-people"></i> {{ $num_amigos }}</p>
+                                <p class="card-title"><i class="mdi-social-people"></i> {{ $num_amigos or '0' }}</p>
                                 <p>Amigos</p>
                                 @if(!$is_my) @if($amizade['status'])
                                 <a style="margin-top: 3px" class="add btn-floating waves-effect waves-light cyan darken-3" onclick="add({{ $user->id }})"><i class="add-icon mdi-social-people tooltipped" data-tooltip="Vocês são amigos"></i></a> @else @if($amizade['error'] == "NAO_ACEITOU")
