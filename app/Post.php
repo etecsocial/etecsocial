@@ -30,7 +30,7 @@ class Post extends Model {
     public function user() {
         return $this->belongsTo('App\User');
     }
-    public function comentario() {
+    public function comentarios() {
         return $this->HasMany('App\Comentario');
     }
     public function tags() {

@@ -19,6 +19,10 @@ class Comentario extends Model {
         return $this->belongsTo('App\Post');
     }
 
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
     public static function loadComentarios($post_id) {
         return Comentario::where('post_id', $post_id)
                         ->get();

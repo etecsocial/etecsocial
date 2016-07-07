@@ -24,7 +24,7 @@ class PerfilController extends Controller {
 
 
         $u = User::firstOrFail()->where('username', $username)->get()[0];
-
+       
         $amizade = Amizade::verificar($u->id);
 
         if ($amizade['status']) {
@@ -56,9 +56,10 @@ class PerfilController extends Controller {
 
         return view('perfil.home', [
             'user' => $u,
+            'amizade' => $amizade,  
             //'infoAcadUser' => User::infoAcademica($u->id),
             'is_my' => (auth()->user()->id == $u->id) ? true : false,
-            'posts' => $posts->toArray(),
+            'posts' => $posts,
             'num_amigos' => auth()->user()->countAmigos($u->id),
             'num_grupos' => count($u->grupos),
             'tasks' => isset($tasks) ? $tasks : false
