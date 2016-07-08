@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class DesafioResposta extends Model
 {
-    public function aluno() {
+    public function aluno()
+    {
         return $this->belongsTo('App\User');
     }
 
-    public function desafio() {
-        return $this->hasMany('App\Desafio');
+    public function desafio()
+    {
+        return $this->belongsTo('App\Desafio');
     }
 }

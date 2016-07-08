@@ -32,9 +32,12 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/desafios/{id}', 'DesafioController@show')->where('id', '[0-9-]+');
         Route::get('/desafios/create', 'DesafioController@showForm');
         Route::post('/desafios/store', 'DesafioController@store');
-        Route::get('/desafios/update', 'DesafioController@update');
-        Route::get('/desafios/updateForm/{id}', 'DesafioController@updateForm')->where('id', '[0-9-]+');
+        Route::get('/desafios/edit', 'DesafioController@edit');
+        Route::get('/desafios/edit/{id}', 'DesafioController@editForm')->where('id', '[0-9-]+');
         Route::get('/desafios/delete/{id}', 'DesafioController@delete')->where('id', '[0-9-]+');
+        Route::get('/desafios/respostas/{desafio_id}', 'DesafioController@corrigirRespostas')->where('id', '[0-9-]+');
+        Route::post('/desafios/respostas', 'DesafioController@corrigirResposta');
+
 
         Route::post('/desafios/responder', 'DesafioController@responder');
         Route::get('/desafios/responder/{id}', 'DesafioController@responderForm')->where('id', '[0-9-]+');
