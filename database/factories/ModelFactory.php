@@ -32,6 +32,27 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Tarefa::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => App\User::select('id')->orderByRaw('RAND()')->first()->id,
+        'desc' => $faker->sentence(4),
+        'data' => strtotime($faker->dateTimeBetween('now', '+1 month')->format('Y-m-d')),
+        'checked' => rand(0, 1),
+    ];
+});
+
+$factory->define(App\Post::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => App\User::select('id')->orderByRaw('RAND()')->first()->id,
+        'titulo' => $faker->sentence(5),
+        'publicacao' => $faker->paragraph(10),
+        'num_favoritos' => rand(1, 50),
+        'is_question' => rand(0, 1),
+
+    ];
+});
+
+
 $factory->define(App\Desafio::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->sentence(3),
