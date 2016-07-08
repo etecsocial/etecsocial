@@ -57,7 +57,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     // aluno
     public function turma() {
-        return $this->belongsTo('App\AlunosTurma');
+        return $this->hasOne('App\AlunosTurma');
     }
 
     // professor
@@ -97,10 +97,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function verUser($id) {
         return User::where('id', $id)->first();
     }
+
     public function professores() {
         return User::has('ProfInfo')->get();
     }
     
+
+
     public function countAmigos($uid) {
         DB::table('amizades')->where(['user_id1' => $uid, 'aceitou' => 1])->count() - 1;
     }

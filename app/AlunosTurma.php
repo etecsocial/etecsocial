@@ -14,7 +14,11 @@ class AlunosTurma extends Model {
     ];
 
     public function turma(){
-      return $this->belongsTo('App\Turma');
+        return $this->belongsTo('App\Turma');
+    }
+
+    public function students(){
+        return $this->hasMany('App\User');
     }
 
 }
