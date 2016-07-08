@@ -31,10 +31,8 @@ class GrupoController extends Controller {
     public $DocsDestinationPath = 'docs/grupos';
 
     public function listar() {
-        Carbon::setLocale('pt_BR');
-        $grupos = GrupoUser::where('user_id', auth()->user()->id)
-                ->join('grupo', 'grupo.id', '=', 'grupo_user.grupo_id')
-                ->get();
+        $grupos = auth()->user()->grupos;
+        //@TODO nao deixar peggar caso seja banido
 
         $amigos = User::join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
@@ -43,41 +41,33 @@ class GrupoController extends Controller {
                 ->where('amizades.user_id2', auth()->user()->id)
                 ->get();
 
-        $professores = User::where('type', 2)->get();
+        $professores = auth()->user()->professores();
 
         return view('grupo.lista', ['grupos' => $grupos, 'amigos' => $amigos, 'professores' => $professores]);
     }
 
     public function index($groupname) {
         Carbon::setLocale('pt_BR');
-        if ($grupo = Grupo::where('url', $groupname)->first()) {
+        $grupo = Grupo::findOrFail($groupname);
 //Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {
                 //Verifica se é expirado
-                if (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) { //Verifica se o usuário é integrante e não está banido
+                if (auth()->user()->grupos()->find($grupo->id)->where('is_banido', 0)) { //Verifica se o usuário é integrante e não está banido
                     return view('grupo.home', $dados = $this->getGroupData($grupo));
-                } elseif (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) { //Verifica se o usuário é banido, já que a seleção anterior falhou
-                    return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
-                } else {
-//O usuário não é integrante do grupo
-                    return abort(405);
+                } else { auth()->user()->grupos()->findOrFail($grupo->id)->where('is_banido', 1); //Verifica se o usuário é banido, já que a seleção anterior falhou
+                    return view('grupo.home', $this->getGroupDataBan($grupo)); //Retorna a view com os dados
                 }
             } else {
 //O grupo expirou.
-                if (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
-                    return view('grupo.home', $dados = $this->getGroupDataExp($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
-                } elseif (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) {
-
-                    return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
-                } else {
-//USUÁRIO NAO ESTÁ NO GRUPO
-                    return abort(405);
+                if (auth()->user()->grupos()->find($grupo->id)->where('is_banido', 0)->first()) {
+                    return view('grupo.home', $dados = $this->getGroupDataExp($grupo));
+                } else{ auth()->user()->grupos()->findOrFail($grupo->id)->where('is_banido', 1)->first();
+                return view('grupo.home', $this->getGroupDataBan($grupo));
+                
                 }
+                
             }
-        } else {
-//grupo nao existe
-            return abort(404);
-        }
+      
     }
 
     /**
