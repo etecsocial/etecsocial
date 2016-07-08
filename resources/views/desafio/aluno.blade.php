@@ -11,6 +11,7 @@
                      <th>Título</th>
                      <th>Matéria</th>
                      <th>Professor</th>
+                     <th>Anexo</th>
                      <th>Pontuação (+)</th>
                      <th>Finaliza em: </th>
                   </tr>
@@ -21,6 +22,11 @@
                      <td><a href="{{ url('/desafios/responder') . '/' . $desafio->id }}">{{$desafio->title}}</a></td>
                      <td>{{ $desafio->subject }}</td>
                      <td>{{ $desafio->responsible->name }}</td>
+                     <td>
+                       @if($desafio->file != null)
+                          <a href="{{ url($desafio->file) }}" class="btn btn-default red">Baixar Anexo</a>
+                       @endif
+                     </td>
                      <td>+ {{$desafio->reward_points}} pontos</td>
                      <td>{{$desafio->finish}}</td>
                   </tr>

@@ -12,9 +12,13 @@ use App\DesafioResposta;
 use App\AlunosTurma;
 use App\Notificacao;
 use Carbon\Carbon;
+use Input;
 
 class DesafioController extends Controller
 {
+  public $anexos = ['jpg', 'png', 'docx', 'pdf', 'xlsx', 'txt'];
+  public $anexos_path = 'midia/anexos';
+
     public function index()
     {
         if (auth()->user()->type == 1) {
@@ -27,7 +31,7 @@ class DesafioController extends Controller
     public function indexProfessor()
     {
         $turmas = auth()->user()->turmas;
-        $desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')
+        $desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id', 'file')
                                   ->where('responsible_id', auth()->user()->id)
                                   ->get();
 
@@ -36,7 +40,7 @@ class DesafioController extends Controller
 
     public function indexAluno()
     {
-        $desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id')
+        $desafios = Desafio::select('id', 'title', 'subject', 'finish', 'description', 'reward_points', 'responsible_id', 'file')
                                 ->join('desafio_turmas', 'desafios.id', '=', 'desafio_turmas.desafio_id')
                                 ->where('desafio_turmas.turma_id', auth()->user()->turma->turma_id)
                                 ->groupBy('desafios.id')
@@ -88,6 +92,21 @@ class DesafioController extends Controller
         } else {
             return response()->json(['status' => false, 'text' => 'Resposta não existe']);
         }
+    }
+
+    public function responderEditar(Request $request){
+      if (DesafioResposta::find($request->id)) {
+          $check_responsability = DesafioResposta::where('aluno_id', auth()->user()->id);
+          if ($check_responsability) {
+              $check_responsability->resposta = $request->resposta;
+
+              return response()->json(['status' => true, 'text' => 'Resposta do desafio editada']);
+          } else {
+              return response()->json(['status' => false, 'text' => 'Você não pode editar uma resposta de um desafio que não é seu!']);
+          }
+      } else {
+          return response()->json(['status' => false, 'text' => 'Resposta não existe']);
+      }
     }
 
     public function corrigirResposta(Request $request)
@@ -146,9 +165,13 @@ class DesafioController extends Controller
         $desafio->responsible_id = auth()->user()->id;
         $desafio->finish = Carbon::createFromTimeStamp(strtotime($request->finish))->format('Y-m-d');
         $desafio->reward_points = $request->reward_points;
-        $desafio->file = ''; // @TODO later
 
         $desafio->save();
+
+        // caso tiver anexo
+        if ($request->hasFile('file')) {
+            $this->addAnexo($request->file, $desafio);
+        }
 
         // caso só tiver uma turma
         if (!is_array($request->turmas)) {
@@ -173,8 +196,20 @@ class DesafioController extends Controller
               ]);
             }
         }
+        return redirect('/desafios');
+    }
 
-        return response()->json(['status' => true, 'text' => 'Desafio adicionado com sucesso']);
+    protected function addAnexo($anexo, $desafio) {
+        $ext = strtolower($anexo->getClientOriginalExtension());
+
+        if (!in_array($ext, $this->anexos)) {
+            return false;
+        }
+
+        Input::file('file')->move($this->anexos_path, md5($desafio->id) . '.' . $ext);
+
+        $desafio->file = $this->anexos_path . '/' . md5($desafio->id) . '.' . $ext;
+        $desafio->save();
     }
 
     public function editForm()

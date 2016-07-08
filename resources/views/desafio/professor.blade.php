@@ -46,7 +46,7 @@
    <h5>Adicionar novo desafio</h5>
    <p class="caption">Você pode adicionar um desafio abaixo, e toda as turmas selecionadas serão notificadas, e caso um aluno responder você será notificado e poderá corrigir as respostas.</p>
    <div class="row">
-      <form class="form-form" role="form" method="POST" action="{{ url('/desafios/store') }}">
+      <form class="form-form" method="POST" action="{{ url('/desafios/store') }}" enctype="multipart/form-data">
          {!! csrf_field() !!}
          <div class="input-field col s12 m12 l12">
             <input type="text" name="title">
@@ -67,7 +67,7 @@
          <div class="input-field col l3">
             <select name="turmas[]" multiple>
                @foreach($turmas as $turma)
-               <option value="{{$turma->id}}">{{$turma->turma->sigla}}</option>
+               <option value="{{$turma->id}}">{{$turma->modulo}} {{$turma->turma->sigla}}</option>
                @endforeach
             </select>
          </div>
@@ -80,7 +80,7 @@
                 <input class="file-path validate" type="text">
                 <div class="btn red darken-1">
                     <span>Adicionar anexo</span>
-                    <input type="file" name="file">
+                    <input type="file" name="file" accept=".jpg, .png, .txt, .pdf, .doc, .docx, .xlsx, .gif">
                 </div>
             </div>
          </div>
