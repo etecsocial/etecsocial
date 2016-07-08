@@ -26,7 +26,7 @@ class Grupo extends Model {
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
      */
     public function user() {
-        return $this->hasMany('App\User');
+        return $this->belongsToMany('App\User');
     }
 
     public function turma() {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\User;
@@ -81,8 +81,8 @@ class PesquisaController extends Controller {
     }
 
     public function getGrupos($termo, $limit) {
-        return GrupoUsuario::where('user_id', auth()->user()->id) //Corrigido!
-                        ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
+        return GrupoUser::where('user_id', auth()->user()->id) //Corrigido!
+                        ->join('grupo', 'grupo.id', '=', 'grupo_user.grupo_id')
                         ->where('assunto', 'LIKE', '%' . $termo . '%')
                         ->orWhere('materia', 'LIKE', '%' . $termo . '%')
                         ->select(['grupo.id', 'nome', 'assunto', 'url', 'materia', 'num_participantes'])

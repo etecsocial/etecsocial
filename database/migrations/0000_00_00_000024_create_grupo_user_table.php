@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateGrupoUsuarioTable extends Migration {
+class CreateGrupoUserTable extends Migration {
 
     /**
      * Run the migrations.
@@ -11,8 +11,8 @@ class CreateGrupoUsuarioTable extends Migration {
      * @return void
      */
     public function up() {
-        if (!Schema::hasTable('grupo_usuario')) {
-            Schema::create('grupo_usuario', function(Blueprint $table) {
+        if (!Schema::hasTable('grupo_user')) {
+            Schema::create('grupo_user', function(Blueprint $table) {
                 $table->increments('id');
                 $table->integer('grupo_id')->unsigned();
                 $table->integer('user_id')->unsigned();
@@ -39,7 +39,7 @@ class CreateGrupoUsuarioTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('grupo_usuario');
+        Schema::dropIfExists('grupo_user');
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Grupo;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\Turma;
 use App\GrupoTurma;
 use App\GrupoDiscussao;
@@ -26,7 +26,7 @@ class GrupoServiceProvider extends ServiceProvider {
 
 
         Grupo::created(function ($data) {
-            GrupoUsuario::create([
+            GrupoUser::create([
                 'grupo_id' => $data->id,
                 'user_id' => auth()->user()->id,
                 'is_admin' => 1
@@ -35,13 +35,13 @@ class GrupoServiceProvider extends ServiceProvider {
 
 
 
-        GrupoUsuario::created(function ($data) {
+        GrupoUser::created(function ($data) {
             Grupo::where('id', $data->grupo_id)->increment('num_participantes');
         });
-        GrupoUsuario::deleted(function ($data) {
+        GrupoUser::deleted(function ($data) {
             Grupo::where('id', $data->grupo_id)->decrement('num_participantes');
         });
-        GrupoUsuario::updated(function ($data) {
+        GrupoUser::updated(function ($data) {
             isset($data->is_banido) ? Grupo::where('id', $data->grupo_id)->decrement('num_participantes') : false;
         });
         GrupoDiscussao::deleted(function ($data) {

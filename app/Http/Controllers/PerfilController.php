@@ -23,7 +23,7 @@ class PerfilController extends Controller {
         $u = User::firstOrFail()->where('username', $username)->get()[0];
         $amizade = Amizade::verificar($u->id);
         if ($amizade['status']) {
-            return $posts = $u->posts()
+            $posts = $u->posts()
                             ->orderBy('created_at', 'desc')
                             ->limit(5)
                             ->with(['comentarios' => function($query) {
@@ -43,9 +43,7 @@ class PerfilController extends Controller {
 
         if ($u->id == auth()->user()->id) {
             Carbon::setLocale('pt_BR');
-            $tasks = DB::table('tarefas')
-                    ->select(['desc', 'data', 'checked', 'id'])
-                    ->where("user_id", auth()->user()->id)
+            $tasks = $u->tarefas()
                     ->where(function ($query) {
                         $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
                         ->orWhere('checked', false);
@@ -53,16 +51,15 @@ class PerfilController extends Controller {
                     ->orderBy('data')
                     ->limit(4)
                     ->get();
-        }
-
+        }     
         return view('perfil.home', [
             'user' => $u,
             'amizade' => $amizade,
-            //'infoAcadUser' => User::infoAcademica($u->id),
+            'infoUser' => User::getInfoAcademica($u->id),
             'is_my' => (auth()->user()->id == $u->id) ? true : false,
             'posts' => $posts,
             'num_amigos' => auth()->user()->countAmigos($u->id),
-            'num_grupos' => count($u->grupos),
+            'num_grupos' => $u->grupos->count(),
             'tasks' => isset($tasks) ? $tasks : false
         ]);
     }

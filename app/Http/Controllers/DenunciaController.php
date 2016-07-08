@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DenunciaGrupo;
 use App\GrupoDiscussao;
 use App\GrupoPergunta;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use DB;
@@ -48,7 +48,7 @@ class DenunciaController extends Controller
         }
 
         if ($request->banir) {
-            GrupoUsuario::where('grupo_id', $request->grupo_id)
+            GrupoUser::where('grupo_id', $request->grupo_id)
                 ->where('user_id', $request->autor_id_pub)
                 ->update(array('is_banido' => 1));
         }

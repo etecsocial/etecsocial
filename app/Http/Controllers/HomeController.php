@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Escola;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Carbon\Carbon;
@@ -32,9 +32,9 @@ class HomeController extends Controller {
        
 
 
-        $grupos = GrupoUsuario::where('user_id', auth()->user()->id)
-                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
-                ->where('grupo_usuario.is_banido', 0)
+        $grupos = GrupoUser::where('user_id', auth()->user()->id)
+                ->join('grupo', 'grupo.id', '=', 'grupo_user.grupo_id')
+                ->where('grupo_user.is_banido', 0)
                 ->select('grupo.url', 'grupo.nome')
                 ->limit(5)
                 ->get();

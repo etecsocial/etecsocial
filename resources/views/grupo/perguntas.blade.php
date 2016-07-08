@@ -59,7 +59,7 @@
                         <img src="{{ auth()->user()->avatar($pergunta->autor_id) }}" alt="{{ auth()->user()->verUser($pergunta->autor_id)->nome }}." class="circle responsive-img valign profile-image">
                     </div>
                     <div class="col s8"> Por <a href="{{ url(auth()->user()->verUser($pergunta->autor_id)->username)}}">{{ auth()->user()->verUser($pergunta->autor_id)->nome }}</a></div>
-                    @if((auth()->user()->id == $pergunta->autor_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($pergunta->autor_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $pergunta->autor_id)->where('is_admin', 0)->where('grupo_id', $grupo->id))))
+                    @if((auth()->user()->id == $pergunta->autor_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($pergunta->autor_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUser::where('user_id', $pergunta->autor_id)->where('is_admin', 0)->where('grupo_id', $grupo->id))))
                     <a href="#modalExcluirPergunta" onclick="excluirPergunta({{ $pergunta-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
                     <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $pergunta->id}}, 'pergunta')" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                 </div>
@@ -80,7 +80,7 @@
                     <p>Você não pode mais responder esta pergunta.</p>
                     @endif @elseif($comments = App\ComentarioPergunta::where('id_Pergunta', $pergunta->id)->get()) @foreach($comments as $comm)
                     <li id="com-perg-{{ $comm-> id}}" class="collection-item avatar com-perg-{{ $pergunta->id }}" style="height: auto; min-height:65px" data-id="{{ $comm->id}}">
-                        @if((auth()->user()->id == $comm->user_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->user_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $comm->user_id)->where('is_admin', 0))))
+                        @if((auth()->user()->id == $comm->user_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($comm->user_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUser::where('user_id', $comm->user_id)->where('is_admin', 0))))
                         <a href="#modalExcluirComentarioPergunta" onclick="excluirComentarioPergunta({{ $comm->id}})" class="wino"><i class="mdi-navigation-close right tiny"></i></a> @endif
                         <img src="{{ auth()->user()->avatar($comm->user_id) }}" data-tooltip="{{ auth()->user()->verUser($comm->user_id)->nome }}" class="circle tooltipped">
                         <div style="max-height: 80px; overflow: auto">

@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Amizade;
 use App\Events\UserRegister;
 use App\Grupo;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use DB;
 use Mail;
 
@@ -37,7 +37,7 @@ class UserRegisterListener
             $turma = DB::table('alunos_info')->select('turma_id')->where('user_id', $event->user->id)->limit(1)->first();
             $grupo = Grupo::select('id')->where('turma_id', $turma->turma_id)->limit(1)->first();
 
-            $turma_grupo           = new GrupoUsuario;
+            $turma_grupo           = new GrupoUser;
             $turma_grupo->grupo_id = $grupo->id; //@TODO: checar se o grupo existe
             $turma_grupo->user_id  = $event->user->id;
             $turma_grupo->save();

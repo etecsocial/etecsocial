@@ -45,6 +45,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
+     * @return \Iluminate\Database\Elequoment\Relations\BelongsToMany
      */
     public function profInfo() {
         return $this->hasOne('App\ProfessoresInfo');
@@ -65,7 +66,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function grupos() {
-        return $this->belongsTo('App\Grupo');
+        return $this->belongsToMany('App\Grupo');
     }
 
     public function scopeTaskValid($query) {
@@ -176,7 +177,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 //PROFESSOR
                 $info = ProfessoresInfo::
                                 where('user_id', $u->id)
-                                ->select(['escola_id as id', 'escolas.nome as escola'])
+                                ->select(['escola_id as id', 'escolas.nome as escola', 'professores_info.*'])
                                 ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
                                 ->get()[0];
                 break;
