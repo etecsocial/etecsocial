@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
 use App\AlunosTurma;
 use App\ProfessoresInfo;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\GrupoTurma;
 
 class AuthController extends Controller {
@@ -129,7 +129,7 @@ use AuthenticatesAndRegistersUsers,
 
     public function addGrupo($data, $user) {
         $q = GrupoTurma::where('turma_id', $data['turma_id'])->where('modulo', $data['modulo'])->select('grupo_id')->get()[0];
-        GrupoUsuario::create([
+        GrupoUser::create([
             'grupo_id' => $q->grupo_id,
             'user_id' => $user->id
         ]);

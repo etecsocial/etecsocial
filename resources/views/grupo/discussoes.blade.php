@@ -60,7 +60,7 @@
                         <div class="col s9">
                             Por <a href="{{ url(auth()->user()->verUser($discussao-> autor_id)-> username)}}">{{ auth()->user()->verUser($discussao->autor_id)->name }}</a>
                         </div>
-                        @if((auth()->user()->id == $discussao->autor_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->autor_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUsuario::where('user_id', $discussao->autor_id)->where('is_admin', 0)->where('grupo_id', $grupo->id))))
+                        @if((auth()->user()->id == $discussao->autor_id) or (($integranteEu->is_admin) and (!auth()->user()->isTeacher($discussao->autor_id))) or (auth()->user()->isTeacher(auth()->user()->id) and (App\GrupoUser::where('user_id', $discussao->autor_id)->where('is_admin', 0)->where('grupo_id', $grupo->id))))
                         <a href="#modalExcluirDiscussao" onclick="excluirDiscussao({{ $discussao-> id}})" class="wino"><i class="mdi-action-delete waves-effect waves-light " style="opacity: 0.7"></i></a> @else
                         <a href="#modalDenunciaGrupo" onclick="denunciaGrupo({{ $discussao->id}}, 'discussao', {{ $discussao->autor_id }})" class="wino"><i class="mdi-content-flag waves-effect waves-light " style="opacity: 0.7"></i></a> @endif
                     </div>

@@ -7,7 +7,7 @@ use App\GrupoAtiv;
 use App\GrupoDiscussao;
 use App\GrupoMaterial;
 use App\GrupoPergunta;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
 use App\Notificacao;
@@ -32,8 +32,8 @@ class GrupoController extends Controller {
 
     public function listar() {
         Carbon::setLocale('pt_BR');
-        $grupos = GrupoUsuario::where('user_id', auth()->user()->id)
-                ->join('grupo', 'grupo.id', '=', 'grupo_usuario.grupo_id')
+        $grupos = GrupoUser::where('user_id', auth()->user()->id)
+                ->join('grupo', 'grupo.id', '=', 'grupo_user.grupo_id')
                 ->get();
 
         $amigos = User::join('amizades', 'amizades.user_id1', '=', 'users.id')
@@ -54,9 +54,9 @@ class GrupoController extends Controller {
 //Verifica se o grupo existe
             if (($grupo->expiracao > \Carbon\Carbon::today()) or ( $grupo->expiracao == null)) {
                 //Verifica se é expirado
-                if (GrupoUsuario::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) { //Verifica se o usuário é integrante e não está banido
+                if (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) { //Verifica se o usuário é integrante e não está banido
                     return view('grupo.home', $dados = $this->getGroupData($grupo));
-                } elseif (GrupoUsuario::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) { //Verifica se o usuário é banido, já que a seleção anterior falhou
+                } elseif (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) { //Verifica se o usuário é banido, já que a seleção anterior falhou
                     return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]); //Retorna a view com os dados
                 } else {
 //O usuário não é integrante do grupo
@@ -64,9 +64,9 @@ class GrupoController extends Controller {
                 }
             } else {
 //O grupo expirou.
-                if (GrupoUsuario::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
+                if (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
                     return view('grupo.home', $dados = $this->getGroupDataExp($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
-                } elseif (GrupoUsuario::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) {
+                } elseif (GrupoUser::where('user_id', auth()->user()->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) {
 
                     return view('grupo.home', $this->getGroupDataBan($grupo))->with(['msgsUnread' => Mensagens::countUnread()]);
                 } else {
@@ -112,7 +112,7 @@ class GrupoController extends Controller {
      */
     public function addAluno($grupo_id, $alunos) {
         foreach ($alunos as $aluno) {
-            GrupoUsuario::create([
+            GrupoUser::create([
                 'grupo_id' => $grupo_id,
                 'user_id' => $aluno
             ]);
@@ -126,8 +126,8 @@ class GrupoController extends Controller {
      * EDITADO
      */
     public function addAlunoDir(Request $request) {
-        if (!GrupoUsuario::where('grupo_id', $request->grupo_id)->where('user_id', $request->id_amigo)->first()) {
-            if (GrupoUsuario::create([
+        if (!GrupoUser::where('grupo_id', $request->grupo_id)->where('user_id', $request->id_amigo)->first()) {
+            if (GrupoUser::create([
                         'grupo_id' => $request->grupo_id,
                         'user_id' => $request->id_amigo
                     ])) {
@@ -145,7 +145,7 @@ class GrupoController extends Controller {
     }
 
 //    public function addProfDir(Request $request) { //CRIA A NOTIFICAÇÃO PARA O PROFESSOR
-    //        $add = new GrupoUsuario;
+    //        $add = new GrupoUser;
     //        $add->grupo_id = $request->grupo_id;
     //        $add->user_id = $request->id_prof;
     //        if ($add->save()) {
@@ -156,8 +156,8 @@ class GrupoController extends Controller {
 
     public function addProfGrupo(Request $request) {
         //SALVA NO DB APÓS CONFIRMAÇÃO (ou nao)
-        if (!GrupoUsuario::where('user_id', $request->id_professor)->where('grupo_id', $request->grupo_id)->first()) {
-            return GrupoUsuario::create([
+        if (!GrupoUser::where('user_id', $request->id_professor)->where('grupo_id', $request->grupo_id)->first()) {
+            return GrupoUser::create([
                         'grupo_id' => $request->grupo_id,
                         'user_id' => $request->id_professor
                     ]) ? Response::json(['response' => 1]) : Response::json(['response' => 2]);
@@ -166,8 +166,8 @@ class GrupoController extends Controller {
 
     public function removeAlunoGrupo(Request $request) {
         // Remove o aluno do grupo
-        if (GrupoUsuario::where('user_id', $request->id_aluno)->where('grupo_id', $request->grupo_id)->first()) {
-            if (GrupoUsuario::where('user_id', $request->id_aluno)
+        if (GrupoUser::where('user_id', $request->id_aluno)->where('grupo_id', $request->grupo_id)->first()) {
+            if (GrupoUser::where('user_id', $request->id_aluno)
                             ->where('grupo_id', $request->grupo_id)
                             ->update(array('is_banido' => 1))) {
                 Notificacao::create([
@@ -197,7 +197,7 @@ class GrupoController extends Controller {
 
         $this->setAtiv($request->idgrupo, null, 'discussao', \Carbon\Carbon::now(), auth()->user()->id);
 
-        $id_dests = GrupoUsuario::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('user_id', '<>', auth()->user()->id)->get();
+        $id_dests = GrupoUser::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('user_id', '<>', auth()->user()->id)->get();
         foreach ($id_dests as $id_dest) {
             Notificacao::create([
                 'rem_id' => auth()->user()->id,
@@ -243,7 +243,7 @@ class GrupoController extends Controller {
 
         $this->setAtiv($request->idgrupo, $request->pergunta, 'pergunta', \Carbon\Carbon::now(), auth()->user()->id);
 
-        $id_dests = GrupoUsuario::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('user_id', '<>', auth()->user()->id)->get();
+        $id_dests = GrupoUser::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('user_id', '<>', auth()->user()->id)->get();
         foreach ($id_dests as $id_dest) {
             Notificacao::create([
                 'rem_id' => auth()->user()->id,
@@ -305,7 +305,7 @@ class GrupoController extends Controller {
                 $mat->tipo = 'documento';
             }
             if ($mat->save() and ( $this->setAtiv($mat->grupo_id, $mat->nome, $mat->tipo, \Carbon\Carbon::now(), auth()->user()->id))) {
-                $id_dests = GrupoUsuario::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('user_id', '<>', auth()->user()->id)->get();
+                $id_dests = GrupoUser::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('user_id', '<>', auth()->user()->id)->get();
                 foreach ($id_dests as $id_dest) {
                     Notificacao::create([
                         'rem_id' => auth()->user()->id,
@@ -344,7 +344,7 @@ class GrupoController extends Controller {
             $update = true;
         }
         if ($update != 0) {
-            $id_dests = GrupoUsuario::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('is_admin', 0);
+            $id_dests = GrupoUser::where('grupo_id', $request->idgrupo)->select(['user_id'])->where('is_admin', 0);
             foreach ($id_dests as $id_dest) {
                 Notificacao::create([
                     'rem_id' => auth()->user()->id,
@@ -361,7 +361,7 @@ class GrupoController extends Controller {
     public function getGroupData($grupo) {
         Carbon::setLocale('pt_BR');
         $info = Grupo::where('id', $grupo->id)->get();
-        $integrantes = GrupoUsuario::where('id', $grupo->id)->where('is_banido', 0)->get();
+        $integrantes = GrupoUser::where('id', $grupo->id)->where('is_banido', 0)->get();
         $discussoes = GrupoDiscussao::where('grupo_id', $grupo->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -381,7 +381,7 @@ class GrupoController extends Controller {
 
         $amigos_nao_int = array();
         foreach ($amigos as $amigo) {
-            if (!GrupoUsuario::where('user_id', $amigo->id)->where('grupo_id', $grupo->id)->first()) {
+            if (!GrupoUser::where('user_id', $amigo->id)->where('grupo_id', $grupo->id)->first()) {
                 $amigos_nao_int[] = $amigo;
             }
         }
@@ -389,21 +389,21 @@ class GrupoController extends Controller {
         $alunos = User::where('type', 1)->get();
         $alunos_int = array();
         foreach ($alunos as $aluno) {
-            if (GrupoUsuario::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
+            if (GrupoUser::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
                 $alunos_int[] = $aluno;
             }
         }
 
         $alunos_ban = array();
         foreach ($alunos as $aluno) {
-            if (GrupoUsuario::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) {
+            if (GrupoUser::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->where('is_banido', 1)->first()) {
                 $alunos_ban[] = $aluno;
             }
         }
 
         $alunos_nao_int = array();
         foreach ($alunos as $aluno) {
-            if (!GrupoUsuario::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->first()) {
+            if (!GrupoUser::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->first()) {
                 $alunos_nao_int[] = $aluno;
             }
         }
@@ -411,19 +411,19 @@ class GrupoController extends Controller {
         $professores = User::where('type', 2)->get();
         $professores_int = array();
         foreach ($professores as $professor) {
-            if (GrupoUsuario::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
+            if (GrupoUser::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
                 $professores_int[] = $professor;
             }
         }
 
         $professores_nao_int = array();
         foreach ($professores as $professor) {
-            if (!GrupoUsuario::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
+            if (!GrupoUser::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
                 $professores_nao_int[] = $professor;
             }
         }
 
-        $integrante = GrupoUsuario::where('grupo_id', $grupo->id)
+        $integrante = GrupoUser::where('grupo_id', $grupo->id)
                 ->where('user_id', auth()->user()->id)
                 ->first();
 
@@ -449,7 +449,7 @@ class GrupoController extends Controller {
 
     public function getGroupDataExp($grupo) {
         $info = Grupo::where('id', $grupo->id)->get();
-        $integrantes = GrupoUsuario::where('id', $grupo->id)->where('is_banido', 0)->get();
+        $integrantes = GrupoUser::where('id', $grupo->id)->where('is_banido', 0)->get();
         $discussoes = GrupoDiscussao::where('grupo_id', $grupo->id)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -463,7 +463,7 @@ class GrupoController extends Controller {
         $alunos = User::where('type', 1)->get();
         $alunos_int = array();
         foreach ($alunos as $aluno) {
-            if (GrupoUsuario::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
+            if (GrupoUser::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->where('is_banido', 0)->first()) {
                 $alunos_int[] = $aluno;
             }
         }
@@ -471,12 +471,12 @@ class GrupoController extends Controller {
         $professores = User::where('type', 2)->get();
         $professores_int = array();
         foreach ($professores as $professor) {
-            if (GrupoUsuario::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
+            if (GrupoUser::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
                 $professores_int[] = $professor;
             }
         }
 
-        $integrante = GrupoUsuario::where('grupo_id', $grupo->id)
+        $integrante = GrupoUser::where('grupo_id', $grupo->id)
                 ->where('user_id', auth()->user()->id)
                 ->first();
 
@@ -524,21 +524,21 @@ class GrupoController extends Controller {
 
         $amigos_nao_int = array();
         foreach ($amigos as $amigo) {
-            if (!GrupoUsuario::where('user_id', $amigo->id)->where('grupo_id', $grupo->id)->first()) {
+            if (!GrupoUser::where('user_id', $amigo->id)->where('grupo_id', $grupo->id)->first()) {
                 $amigos_nao_int[] = $amigo;
             }
         }
         $alunos = User::where('type', 1)->get();
         $alunos_nao_int = array();
         foreach ($alunos as $aluno) {
-            if (!GrupoUsuario::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->first()) {
+            if (!GrupoUser::where('user_id', $aluno->id)->where('grupo_id', $grupo->id)->first()) {
                 $alunos_nao_int[] = $aluno;
             }
         }
         $professores = User::where('type', 2)->get();
         $professores_nao_int = array();
         foreach ($professores as $professor) {
-            if (!GrupoUsuario::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
+            if (!GrupoUser::where('user_id', $professor->id)->where('grupo_id', $grupo->id)->first()) {
                 $professores_nao_int[] = $professor;
             }
         }
@@ -556,13 +556,13 @@ class GrupoController extends Controller {
     }
 
     public function sair(Request $request) {
-        if (GrupoUsuario::where('user_id', auth()->user()->id)
+        if (GrupoUser::where('user_id', auth()->user()->id)
                         ->where('grupo_id', $request->grupo_id)
                         ->delete()) {
             $texto = 'O usuário ' . User::verUser(auth()->user()->id)->nome . ' deixou o grupo "' . Grupo::verGrupo($request->grupo_id)->nome . '", pois segundo ele, ' . $request->motivo;
             if (DB::table('notificacaos')->insert([
                         'rem_id' => auth()->user()->id,
-                        'id_dest' => GrupoUsuario::where('grupo_id', $request->grupo_id)->where('is_admin', 1)->get(),
+                        'id_dest' => GrupoUser::where('grupo_id', $request->grupo_id)->where('is_admin', 1)->get(),
                         'data' => Carbon::today()->timestamp,
                         'texto' => $texto,
                     ])) {
@@ -572,7 +572,7 @@ class GrupoController extends Controller {
     }
 
     public function excluir(Request $request) {
-        if ((GrupoUsuario::where('grupo_id', $request->idgrupo)->delete()) and ( Grupo::where('id', $request->idgrupo)->delete())) {
+        if ((GrupoUser::where('grupo_id', $request->idgrupo)->delete()) and ( Grupo::where('id', $request->idgrupo)->delete())) {
             return Response::json(['status' => true]);
         } else {
             return false;

@@ -43,9 +43,7 @@ class PerfilController extends Controller {
 
         if ($u->id == auth()->user()->id) {
             Carbon::setLocale('pt_BR');
-            $tasks = DB::table('tarefas')
-                    ->select(['desc', 'data', 'checked', 'id'])
-                    ->where("user_id", auth()->user()->id)
+            $tasks = $u->tarefas()
                     ->where(function ($query) {
                         $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
                         ->orWhere('checked', false);
@@ -53,7 +51,7 @@ class PerfilController extends Controller {
                     ->orderBy('data')
                     ->limit(4)
                     ->get();
-        }
+        }     
         return view('perfil.home', [
             'user' => $u,
             'amizade' => $amizade,
@@ -61,7 +59,7 @@ class PerfilController extends Controller {
             'is_my' => (auth()->user()->id == $u->id) ? true : false,
             'posts' => $posts,
             'num_amigos' => auth()->user()->countAmigos($u->id),
-            'num_grupos' => count($u->grupos),
+            'num_grupos' => $u->grupos->count(),
             'tasks' => isset($tasks) ? $tasks : false
         ]);
     }

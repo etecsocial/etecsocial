@@ -45,6 +45,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * @return \Iluminate\Database\Elequoment\Relations\HasMany
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
+     * @return \Iluminate\Database\Elequoment\Relations\BelongsToMany
      */
     public function profInfo() {
         return $this->hasOne('App\ProfessoresInfo');
@@ -65,7 +66,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function grupos() {
-        return $this->belongsTo('App\Grupo');
+        return $this->belongsToMany('App\Grupo');
     }
 
     public function scopeTaskValid($query) {

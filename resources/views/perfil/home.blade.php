@@ -417,7 +417,7 @@
                                                             <p id="com-{{ $comentario->id }}-text">{{ $comentario->comentario }}</p>
                                                         </li>
                                                         @empty
-                                                        <li id="com-{{ $comentario->id }}" class="collection-item avatar com-{{ $comentario->post_id }}" style="height: auto; min-height:65px;max-height: 100%" data-id="{{ $comentario->id }}">
+                                                        <li class="collection-item avatar" style="height: auto; min-height:65px;max-height: 100%">
                                                             <p>Ninguém comentou esta publicação ainda.</p>
                                                         </li>
                                                         @endforelse           

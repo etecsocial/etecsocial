@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Evento;
 use App\Grupo;
-use App\GrupoUsuario;
+use App\GrupoUser;
 use App\Http\Controllers\Controller;
 use App\Mensagens;
 use App\Notificacao;
@@ -138,11 +138,11 @@ class EventoController extends Controller {
                 ])) {
             $alunos = User::where('turma_id', $turma_id)->select('id')->where('id', '<>', auth()->user()->id)->get();
             foreach ($alunos as $aluno) {
-                $grupoUsuario = new GrupoUsuario;
-                $grupoUsuario->grupo_id = $grupo->id;
-                $grupoUsuario->user_id = $aluno->id;
-                $grupoUsuario->is_admin = 0;
-                $grupoUsuario->save();
+                $grupoUser = new GrupoUser;
+                $grupoUser->grupo_id = $grupo->id;
+                $grupoUser->user_id = $aluno->id;
+                $grupoUser->is_admin = 0;
+                $grupoUser->save();
                 Notificacao::create([
                     'rem_id' => auth()->user()->id,
                     'id_dest' => $aluno->id,
