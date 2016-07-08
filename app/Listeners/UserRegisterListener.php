@@ -6,6 +6,7 @@ use App\Amizade;
 use App\Events\UserRegister;
 use App\Grupo;
 use App\GrupoUser;
+use App\GrupoTurma;
 use DB;
 use Mail;
 
@@ -34,13 +35,16 @@ class UserRegisterListener
 
         // adiciona no grupo da sala
         if ($event->user->type == 1) {
-            $turma = DB::table('alunos_info')->select('turma_id')->where('user_id', $event->user->id)->limit(1)->first();
-            $grupo = Grupo::select('id')->where('turma_id', $turma->turma_id)->limit(1)->first();
+            if($event->user->turma != null){
+              $grupo = GrupoTurma::select('grupo_id')->where('turma_id', $event->user->turma->id);
 
-            $turma_grupo           = new GrupoUser;
-            $turma_grupo->grupo_id = $grupo->id; //@TODO: checar se o grupo existe
-            $turma_grupo->user_id  = $event->user->id;
-            $turma_grupo->save();
+              if($grupo != null){
+                $turma_grupo           = new GrupoUser;
+                $turma_grupo->grupo_id = $grupo->first()->grupo_id;
+                $turma_grupo->user_id  = $event->user->id;
+                $turma_grupo->save();
+              }
+            }
         }
 
         // envia o email de confirmação

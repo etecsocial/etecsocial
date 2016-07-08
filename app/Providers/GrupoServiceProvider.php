@@ -26,9 +26,14 @@ class GrupoServiceProvider extends ServiceProvider {
 
 
         Grupo::created(function ($data) {
+            if(auth()->check()){
+                $user_id = auth()->user()->id;
+            } else {
+                $user_id = 1;
+            }
             GrupoUser::create([
                 'grupo_id' => $data->id,
-                'user_id' => auth()->user()->id,
+                'user_id' => $user_id,
                 'is_admin' => 1
             ]);
         });
@@ -62,14 +67,19 @@ class GrupoServiceProvider extends ServiceProvider {
 
     public function setGrupo($sigla) {
         //Neste caso, ele cria 3 grupos, pois, caso seja curso técnico de 3 semestres, consideramos
-        //os semestres como "anos", e quando for 6 semestres, é como se o 1º e 2º semestre 
+        //os semestres como "anos", e quando for 6 semestres, é como se o 1º e 2º semestre
         //equivalesse ao 1º semestre de curso técnico, nao sei se deu pra entender...
+        if(auth()->check()){
+            $id_criador = auth()->user()->id;
+        } else {
+            $id_criador = 1;
+        }
         for ($i = 3; $i > 0; $i--) {
             $grupos[] = Grupo::create([
                         'nome' => $sigla . ' ' . date('Y'),
                         'assunto' => "Grupo da turma " . $i . "º " . $sigla,
                         'url' => Grupo::makeUrl($sigla, $i),
-                        'id_criador' => auth()->user()->id
+                        'id_criador' => $id_criador
             ]);
         }return $grupos;
     }
