@@ -101,7 +101,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function professores() {
         return User::has('ProfInfo')->get();
     }
-    
+
 
 
     public function countAmigos($uid) {
@@ -126,7 +126,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function makeAvatar() {
-        
+
     }
 
     public static function isTeacher($id) {
@@ -171,11 +171,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             case 1:
                 //Aluno
                 if ($u->first_login == 0) {
-                    return AlunosTurma::where('user_id', $u->id)
+                    $info = AlunosTurma::where('user_id', $u->id)
                                     ->join('turmas', 'turmas.id', '=', 'alunos_turma.turma_id')
                                     ->join('escolas', 'turmas.escola_id', '=', 'escolas.id')
                                     ->select(['turmas.nome as turma', 'turmas.sigla as sigla', 'escolas.nome as etec', 'alunos_turma.modulo as modulo', 'escolas.nome as etec'])
-                                    ->get()[0];
+                                    ->get();
+                    return ($info != null) ? $info->first() : [];
                 }
                 //facebook login aqui, o first_login vai ser diferente...
                 break;
@@ -185,7 +186,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                                 where('user_id', $u->id)
                                 ->select(['escola_id as id', 'escolas.nome as escola', 'professores_info.*'])
                                 ->join('escolas', 'escolas.id', '=', 'professores_info.escola_id')
-                                ->get()[0];
+                                ->get();
+                return ($info != null) ? $info->first() : [];
                 break;
         }return $info;
     }
