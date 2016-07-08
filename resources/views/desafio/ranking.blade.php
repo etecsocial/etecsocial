@@ -39,22 +39,24 @@ Ranking | ETEC Social
    <div class="divider"></div>
    <ul class="ranking">
       @foreach($usuarios as $usuario)
-      <li class="row">
-         <div class="col l2">
-            <a href="{{ auth()->user()->avatar($usuario->user_id) }}" data-lightbox="ju">
-            <img src="{{ auth()->user()->avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
-            </a>
-         </div>
-         <div class="col l5">
-            # {{ $usuario->position }}
-            <a href="{{ url($usuario->user->username) }}">
-               <h5>{{$usuario->user->name}}</h5>
-            </a>
-            <h6>{{$usuario->pontos}} pontos</h6>
-         </div>
-      </li>
-      <div class="divider"></div>
-      @endforeach
+      @if ($usuario->user_id != null)
+        <li class="row">
+           <div class="col l2">
+              <a href="{{ auth()->user()->avatar($usuario->user_id) }}" data-lightbox="ju">
+              <img src="{{ auth()->user()->avatar($usuario->user_id) }}" alt="avatar" class="circle responsive-img valign profile-image">
+              </a>
+           </div>
+           <div class="col l5">
+              # {{ $usuario->position }}
+              <a href="{{ url($usuario->user->username) }}">
+                 <h5>{{$usuario->user->name}}</h5>
+              </a>
+              <h6>{{$usuario->pontos}} pontos</h6>
+           </div>
+        </li>
+        <div class="divider"></div>
+        @endif
+        @endforeach
    </ul>
 </div>
 @stop
