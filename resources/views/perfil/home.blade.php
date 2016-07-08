@@ -399,7 +399,7 @@
                                                             <i id="edita-comentario-{{ $comentario->id }}" onclick="exibeEditarComentario({{ $comentario->id }}, $('#com-{{ $comentario->id }}- text').text())" class="mdi-editor-mode-edit right tiny" style="color: #039be5; cursor: pointer"></i>
                                                             @else
                                                             <div id="relevancia-com-{{ $comentario->id }}">
-                                                                @if($rv = App\RelevanciaComentarios::where('id_usuario', auth()->user()->id)->where('comentario_id', $comentario->id)->first())
+                                                                @if($rv = App\RelevanciaComentarios::where('user_id', auth()->user()->id)->where('comentario_id', $comentario->id)->first())
                                                                 @if($rv->relevancia == 'up')
                                                                 <i class="mdi-hardware-keyboard-arrow-up right small-photo tooltipped" style="color: #039be5" data-tooltip='Avaliado como positivo'></i>                   
                                                                 <i onclick="comentarioRel({{ $comentario->id }}, {{ $post->id }}, 'down')" class="mdi-hardware-keyboard-arrow-down right small-photo tooltipped" style="color: #ccc; cursor: pointer" data-tooltip='Avaliar como negativo'></i>
