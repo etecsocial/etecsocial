@@ -19,7 +19,7 @@
                 <ul>
                     <li><a class="white-text" href="https://www.facebook.com/etecsoc/">facebook.com/etecsoc</a></li>
                     <li><a class="white-text" href="https://twitter.com/etecsocial">twitter.com/etecsocial</a></li>
-                    <li><a class="white-text" href="mailto:contato@etecsocial.com">contato@etecsocial.com</a></li>
+                    <li><a class="white-text" href="mailto:contato@etecsocial.com">contato@etecsocial.com.br</a></li>
                 </ul>
             </div>
         </div>
