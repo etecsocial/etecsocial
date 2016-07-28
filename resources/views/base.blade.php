@@ -16,12 +16,6 @@
 <body>
     @yield('content')
     @yield('jscript2')
-    <script src="//cdn.socket.io/socket.io-1.3.4.js"></script>
-    @if(\Auth::check())
-    <script>//var socket = io('{{ env('SOCKET') }}');     
-    //socket.emit("add-user", {"user_id": {{ auth()->user()->id }} });
-</script>
-    @endif
     @yield('jscript')
 </body>
 </html>
