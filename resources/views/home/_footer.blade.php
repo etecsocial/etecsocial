@@ -11,7 +11,6 @@
                     <li><a class="white-text modal-trigger" href="#sobre">Sobre o projeto</a></li>
                     <li><a class="white-text modal-trigger" href="#termos">Termos de uso</a></li>
                     <li><a class="white-text modal-trigger" href="#privacidade">Privacidade</a></li>
-                    <li><a class="white-text modal-trigger" href="#contato">Contato</a></li>
                 </ul>
             </div>
             <div class="col l3 s12">
