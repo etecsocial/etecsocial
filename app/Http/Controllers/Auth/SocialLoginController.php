@@ -8,16 +8,7 @@ use Socialize;
 
 class SocialLoginController extends Controller
 {
-    private $avalible_providers = ['facebook'];
     private $redirect           = '/';
-
-    // checa se pode utilizar
-    public function __construct(Request $request)
-    {
-        if (!in_array($request->provider, $this->avalible_providers)) {
-            abort(404, 'Provedor de login não suportado');
-        }
-    }
 
     /**
      * Função apenas para acionar a route de login
