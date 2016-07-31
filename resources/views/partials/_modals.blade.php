@@ -10,8 +10,8 @@
     </div>
 </div>
 
-{{-- @include('modal._conta') INCUIR DEPOIS --}}
-
 @if(auth()->user()->first_login)
-@include('feed.modal._firstLogin')
+  @include('feed.modal._firstLogin')
 @endif
+
+@include('feed.modal._conta')

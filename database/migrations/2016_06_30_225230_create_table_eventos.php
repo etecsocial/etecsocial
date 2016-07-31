@@ -19,6 +19,14 @@ class CreateTableEventos extends Migration {
                 $table->boolean('is_publico')->nullable()->default(false);
                 $table->date('start')->nullable();
                 $table->date('end')->nullable();
+
+                // adiciona temporariamente
+                $table->integer('user_id')->unsigned();
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+                $table->integer('turma_id')->unsigned();
+                $table->foreign('turma_id')->references('id')->on('turmas')->onDelete('cascade');
+
                 $table->timestamps();
             });
 
