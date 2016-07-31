@@ -4,7 +4,7 @@
     <div class="loader-section section-left"></div>
     <div class="loader-section section-right"></div>
 </div>
-{{ session()->put('loading_screen', 'true') }} 
+{{ session()->put('loading_screen', 'true') }}
 @endunless
 <style>
 @media only screen and (min-width:992px) {
@@ -76,7 +76,7 @@
                 </li>
                 <li class="bold {!! active_class_path(['/']) !!}"><a href="{{ url('/') }}" class="waves-effect waves-cyan"><i class="mdi-action-dashboard color-sec-darken-text"></i> Página Inicial</a>
                 </li>
-                
+
                 <li class="bold">
                     @if(isset($grupos[0]))
                     <a class="waves-effect waves-cyan collapsible-header">
@@ -97,12 +97,13 @@
                     @endif
                 </li>
                 <li class="bold {!! active_class_path(['mensagens']) !!}">
-                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens 
+                    <a href="{{ url('/mensagens') }}" class="waves-effect waves-cyan"><i class="mdi-content-mail color-sec-darken-text"></i> Mensagens
                         @if($msgsUnread)
                         <span class="new badge">{{ $msgsUnread }}</span>
                         @endif
                     </a>
                 </li>
+                <li class="bold {!! active_class_path(['tarefas']) !!}"><a href="{{ url('/tarefas') }}" class="waves-effect waves-cyan"><i class="mdi-action-done-all color-sec-darken-text"></i> Tarefas</a>
                 <li class="bold {!! active_class_path(['agenda']) !!}"><a href="{{ url('/agenda') }}" class="waves-effect waves-cyan"><i class="mdi-editor-insert-invitation color-sec-darken-text"></i> Agenda de estudos</a>
                     <li>
                         <div class="divider"></div>
@@ -188,7 +189,7 @@
                                             @endif
                                         </span>
                                     </small>
-                                    
+
                                 </li>
                                 @else
                                 <li class="nota collection-item avatar transparent" data-date="{{ $not->data }}">
@@ -206,13 +207,13 @@
                                 @endif @endforeach @endif
                             </ul>
                         </div>
-                        
+
                     <div id="tarefas" class="col s12 white-text" style="display: block;">
                         <p>Suas tarefas</p>
                         <div class="col s12 m12 transparent white-text">
                             <ul id="task-card" class="collection white-text" style="margin-left: -10px">
 
-                                
+
                                  @foreach(\App\Tarefa::carrega() as $task)
                             <li class="tarefa collection-item dismissable none-bg" data-id="{{ $task->id }}" data-date="{{ $task->data }}">
                                 @if($task->checked)
@@ -226,15 +227,15 @@
                                 <span class="task-cat red darken-3">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
                             </li>
                             @endforeach
-                            
-                             
-                                
+
+
+
                             </ul>
                         </div>
                         <a class="btn-flat waves-effect blue accent-2 white-text"><i class="mdi-editor-mode-edit right"></i>Adicionar tarefa</a>
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>
