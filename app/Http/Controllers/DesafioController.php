@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Pontuacao;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,8 +15,8 @@ use Input;
 
 class DesafioController extends Controller
 {
-  public $anexos = ['jpg', 'png', 'docx', 'pdf', 'xlsx', 'txt'];
-  public $anexos_path = 'midia/anexos';
+    public $anexos = ['jpg', 'png', 'docx', 'pdf', 'xlsx', 'txt'];
+    public $anexos_path = 'midia/anexos';
 
     public function index()
     {
@@ -56,7 +55,7 @@ class DesafioController extends Controller
                                       ->join('desafio_respostas', 'desafio_respostas.desafio_id', '=', 'desafios.id')
                                       ->where('desafio_respostas.aluno_id', auth()->user()->id)
                                       ->first();
-        if($desafio == null){
+        if ($desafio == null) {
             return 'Não existe desafios!';
         }
 
@@ -94,19 +93,20 @@ class DesafioController extends Controller
         }
     }
 
-    public function responderEditar(Request $request){
-      if (DesafioResposta::find($request->id)) {
-          $check_responsability = DesafioResposta::where('aluno_id', auth()->user()->id);
-          if ($check_responsability) {
-              $check_responsability->resposta = $request->resposta;
+    public function responderEditar(Request $request)
+    {
+        if (DesafioResposta::find($request->id)) {
+            $check_responsability = DesafioResposta::where('aluno_id', auth()->user()->id);
+            if ($check_responsability) {
+                $check_responsability->resposta = $request->resposta;
 
-              return response()->json(['status' => true, 'text' => 'Resposta do desafio editada']);
-          } else {
-              return response()->json(['status' => false, 'text' => 'Você não pode editar uma resposta de um desafio que não é seu!']);
-          }
-      } else {
-          return response()->json(['status' => false, 'text' => 'Resposta não existe']);
-      }
+                return response()->json(['status' => true, 'text' => 'Resposta do desafio editada']);
+            } else {
+                return response()->json(['status' => false, 'text' => 'Você não pode editar uma resposta de um desafio que não é seu!']);
+            }
+        } else {
+            return response()->json(['status' => false, 'text' => 'Resposta não existe']);
+        }
     }
 
     public function corrigirResposta(Request $request)
@@ -196,19 +196,21 @@ class DesafioController extends Controller
               ]);
             }
         }
+
         return redirect('/desafios');
     }
 
-    protected function addAnexo($anexo, $desafio) {
+    protected function addAnexo($anexo, $desafio)
+    {
         $ext = strtolower($anexo->getClientOriginalExtension());
 
         if (!in_array($ext, $this->anexos)) {
             return false;
         }
 
-        Input::file('file')->move($this->anexos_path, md5($desafio->id) . '.' . $ext);
+        Input::file('file')->move($this->anexos_path, md5($desafio->id).'.'.$ext);
 
-        $desafio->file = $this->anexos_path . '/' . md5($desafio->id) . '.' . $ext;
+        $desafio->file = $this->anexos_path.'/'.md5($desafio->id).'.'.$ext;
         $desafio->save();
     }
 

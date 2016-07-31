@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Evento;
 use App\Grupo;
 use App\GrupoUser;
-
 use App\Notificacao;
 use App\User;
 use Illuminate\Http\Request;

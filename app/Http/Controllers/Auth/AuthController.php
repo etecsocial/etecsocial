@@ -13,7 +13,8 @@ use App\ProfessoresInfo;
 use App\GrupoUser;
 use App\GrupoTurma;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
       | Registration & Login Controller
@@ -37,21 +38,21 @@ use AuthenticatesAndRegistersUsers,
 
     /**
      * Create a new authentication controller instance.
-     *
-     * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
     }
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data) {
-
+    protected function validator(array $data)
+    {
         switch ($data['type']) {
             case 1: //ALUNO
                 $validator = [
@@ -60,7 +61,7 @@ use AuthenticatesAndRegistersUsers,
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'escola_id' => 'required|exists:escolas,id|integer',
                     'turma_id' => 'required|exists:turmas,id',
-                    'modulo' => 'required|max:6'
+                    'modulo' => 'required|max:6',
                 ];
                 break;
             case 2: //PROFESSOR
@@ -69,7 +70,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'escola_id' => 'required|exists:escolas,id|integer',
-                    'cod_prof' => 'required|exists:escolas,cod_prof,id,' . $data['escola_id']
+                    'cod_prof' => 'required|exists:escolas,cod_prof,id,'.$data['escola_id'],
                 ];
                 break;
             case 3: //COORDENADOR
@@ -78,7 +79,7 @@ use AuthenticatesAndRegistersUsers,
                     'email' => 'required|email|unique:users',
                     'password' => 'required|min:6|confirmed|regex:^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$^',
                     'escola_id' => 'required|exists:escolas,id|integer',
-                    'cod_coord' => 'required|exists:escolas,cod_coord,id,' . $data['escola_id']
+                    'cod_coord' => 'required|exists:escolas,cod_coord,id,'.$data['escola_id'],
                 ];
                 break;
 
@@ -92,10 +93,12 @@ use AuthenticatesAndRegistersUsers,
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return User
      */
-    protected function create(array $data) {
+    protected function create(array $data)
+    {
         $user = User::create([
                     'name' => $data['name'],
                     'username' => User::create_username($data['name']),
@@ -108,11 +111,12 @@ use AuthenticatesAndRegistersUsers,
         ]);
         //return abort(404);
         $data['type'] == 1 ? $this->create_aluno($user, $data) : $this->create_prof($user, $data);
+
         return $user;
     }
 
-    protected function create_aluno($user, $data) {
-
+    protected function create_aluno($user, $data)
+    {
         AlunosTurma::create([
             'user_id' => $user->id,
             'turma_id' => $data['turma_id'],
@@ -127,35 +131,40 @@ use AuthenticatesAndRegistersUsers,
         }
     }
 
-    public function addGrupo($data, $user) {
+    public function addGrupo($data, $user)
+    {
         $q = GrupoTurma::select('grupo_id')->where('turma_id', $data['turma_id'])->where('modulo', $data['modulo'])->firstOrFail();
         GrupoUser::create([
             'grupo_id' => $q->grupo_id,
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
     }
 
-    protected function create_prof($user, $data) {
+    protected function create_prof($user, $data)
+    {
         ProfessoresInfo::create([
             'user_id' => $user->id,
-            'escola_id' => $data['escola_id']]);
+            'escola_id' => $data['escola_id'], ]);
         DB::table('users')
                 ->where('id', $user->id)
                 ->update(['type' => $data['type']]);
     }
 
-    protected function logout() {
+    protected function logout()
+    {
         auth()->logout();
         session()->flush();
+
         return redirect('/');
     }
 
-    public function showRegistrationForm() {
+    public function showRegistrationForm()
+    {
         return redirect('/#register');
     }
 
-    public function showLoginForm() {
+    public function showLoginForm()
+    {
         return redirect('/#login');
     }
-
 }

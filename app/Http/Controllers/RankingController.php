@@ -20,7 +20,7 @@ class RankingController extends Controller
 
     public function etec()
     {
-        if(auth()->user()->turma != null){
+        if (auth()->user()->turma != null) {
             $turma_id = auth()->user()->turma->turma_id;
             $escola_id = Turma::select('escola_id')->where('id', $turma_id)->first()->escola_id;
         } else {
@@ -42,10 +42,10 @@ class RankingController extends Controller
 
     public function turma()
     {
-        if(auth()->user()->turma != null){
-          $turma_id = auth()->user()->turma->turma_id;
+        if (auth()->user()->turma != null) {
+            $turma_id = auth()->user()->turma->turma_id;
         } else {
-          return "Não é possível visualizar turma por turma, veja o ranking geral de sua escola";
+            return 'Não é possível visualizar turma por turma, veja o ranking geral de sua escola';
         }
         DB::statement(DB::raw('set @position:=0')); // numero da posição
 

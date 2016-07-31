@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use App\Post;
-use App\Mensagens;
 
 class TagController extends Controller
 {
-
     public function index($tag)
     {
         $this->show($tag);
@@ -27,8 +24,8 @@ class TagController extends Controller
             ->where('amizades.user_id2', auth()->user()->id)
             ->orWhere('posts.is_publico', 1)
             ->distinct()
-            ->get();        
-        return view('tags.home', ['posts' => $posts, name=> $tag]);
-    }
+            ->get();
 
+        return view('tags.home', ['posts' => $posts, name => $tag]);
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Amizade;
-
 use App\Post;
 use App\User;
 use Carbon\Carbon;

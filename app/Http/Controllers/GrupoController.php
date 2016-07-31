@@ -8,7 +8,6 @@ use App\GrupoDiscussao;
 use App\GrupoMaterial;
 use App\GrupoPergunta;
 use App\GrupoUser;
-
 use App\Notificacao;
 use App\User;
 use Carbon\Carbon;

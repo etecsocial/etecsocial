@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\ComentarioDiscussao;
-use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;
 
-class DiscussaoController extends Controller {
-
+class DiscussaoController extends Controller
+{
     /**
      * Store a newly created resource in storage.
      *
      * @return Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         Carbon::setLocale('pt_BR');
         if ($request->comentario == '') {
             return 'empty';
@@ -30,17 +30,19 @@ class DiscussaoController extends Controller {
         ]);
 
         return view('comentarios.discussao', ['discussao_id' => $request->discussao_id,
-            'comentario_id' => $request->comentario_id
+            'comentario_id' => $request->comentario_id,
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy($comentario_id) {
+    public function destroy($comentario_id)
+    {
         Carbon::setLocale('pt_BR');
         if (ComentarioDiscussao::where('id', $comentario_id)->limit(1)->delete()) {
             return Response::json(['status' => true, 'id' => $comentario_id]);
@@ -48,5 +50,4 @@ class DiscussaoController extends Controller {
 
         return Response::json(['status' => false]);
     }
-
 }

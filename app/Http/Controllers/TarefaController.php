@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTaskRequest;
-use App\Mensagens;
 use App\Tarefa;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Response;
 
-class TarefaController extends Controller {
-
+class TarefaController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         Carbon::setLocale('pt_BR');
         $tasks = Tarefa::select(['desc', 'data', 'checked', 'id'])
                 ->where('user_id', auth()->user()->id)
@@ -31,16 +30,18 @@ class TarefaController extends Controller {
                 ->get();
 
         return view('tarefas.tasks', compact('tasks'));
-        }
+    }
 
-        public function scopeValid($query){
+    public function scopeValid($query)
+    {
         return $query->where(function ($query) {
-            $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
+            $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
                     ->orWhere('checked', false);
         });
     }
 
-    public function moretask(Request $request) {
+    public function moretask(Request $request)
+    {
         Carbon::setLocale('pt_BR');
         $tasks = DB::table('tarefas')
                 ->select(['desc', 'data', 'checked', 'id'])
@@ -57,9 +58,10 @@ class TarefaController extends Controller {
         return view('tarefas.more', compact('tasks'));
     }
 
-    public function check(Request $request) {
+    public function check(Request $request)
+    {
         Carbon::setLocale('pt_BR');
-        $task = new Tarefa;
+        $task = new Tarefa();
         $is_check = $task->where('id', $request->id)->where('checked', true)->count();
 
         if ($is_check) {
@@ -67,7 +69,8 @@ class TarefaController extends Controller {
 
             return Response::json(['status' => false]);
         } else {
-            $task->where('id', $request->id)->update(['checked' => true, 'data_checked' => strtotime(date("Y-m-d"))]);
+            $task->where('id', $request->id)->update(['checked' => true, 'data_checked' => strtotime(date('Y-m-d'))]);
+
             return Response::json(['status' => true]);
         }
     }
@@ -77,7 +80,8 @@ class TarefaController extends Controller {
      *
      * @return Response
      */
-    public function store(CreateTaskRequest $request) {
+    public function store(CreateTaskRequest $request)
+    {
         Carbon::setLocale('pt_BR');
 
         $exists = DB::table('tarefas')
@@ -86,24 +90,23 @@ class TarefaController extends Controller {
                 ->count();
 
         if (!strtotime($request->data)) {
-            $request->data = strtotime(date("Y-m-d"));
-        } else if (strtotime($request->data) <= strtotime(date("Y-m-d"))) {
+            $request->data = strtotime(date('Y-m-d'));
+        } elseif (strtotime($request->data) <= strtotime(date('Y-m-d'))) {
             return Response::json(['data' => 'invalid']);
         } else {
             $request->data = strtotime($request->data);
         }
 
         if (!$exists) {
-            $task = new Tarefa;
+            $task = new Tarefa();
             $task->data = $request->data;
             $task->desc = $request->desc;
             $task->user_id = auth()->user()->id;
             $task->save();
 
-            return Response::json(['desc' => $task->desc, 'data' => Carbon::createFromTimeStamp($task->data)->format("d/m/Y"), 'cont' => Carbon::createFromTimeStamp($task->data)->diffForHumans(), 'id' => $task->id]);
+            return Response::json(['desc' => $task->desc, 'data' => Carbon::createFromTimeStamp($task->data)->format('d/m/Y'), 'cont' => Carbon::createFromTimeStamp($task->data)->diffForHumans(), 'id' => $task->id]);
         } else {
             return Response::json(['exists' => true]);
         }
     }
-
 }

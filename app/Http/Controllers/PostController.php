@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Mensagens;
+
 use App\Pontuacao;
 use App\Post;
 use App\Tag;
@@ -11,10 +10,9 @@ use DB;
 use Illuminate\Http\Request;
 use Input;
 use Response;
-use App\Http\Requests\PostRequest;
 
-class PostController extends Controller {
-
+class PostController extends Controller
+{
     public $extensionImages = ['jpg', 'JPG', 'png', 'PNG'];
     public $extensionVideos = ['flv', 'FLV', 'mp4', 'MP4'];
     public $destinationPath = 'midia/posts';
@@ -24,16 +22,14 @@ class PostController extends Controller {
      *
      * @return Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'publicacao' => 'required|min:10',
-            'midia' => 'image'
+            'midia' => 'image',
         ]);
 
-
-
-
-        $post = new Post;
+        $post = new Post();
         $post->user_id = auth()->user()->id;
         $post->titulo = $request->has('titulo') ? $request->titulo : 'Sem título';
         $post->publicacao = $request->publicacao;
@@ -55,16 +51,18 @@ class PostController extends Controller {
         //Pontuacao::pontuar(10, 'novo post');
         //Colocar como event.
 
-        return Response::json(["id" => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
+        return Response::json(['id' => $post->id, 'num_posts' => Post::count(), 'pontuacao' => Pontuacao::total()]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         $post = Post::join('users', 'users.id', '=', 'posts.user_id')
                         ->join('amizades', 'amizades.user_id1', '=', 'users.id')
                         ->orderBy('created_at', 'desc')
@@ -76,16 +74,18 @@ class PostController extends Controller {
 
         return isset($post) ? view('post.home', [
                     'post' => $post,
-                    'tags' => $post->tags()]) : abort(404);
+                    'tags' => $post->tags(), ]) : abort(404);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function update($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $post = Post::where('id', $id)->first();
         if (isset($request->titulo)) {
             $post->titulo = $request->titulo;
@@ -103,10 +103,12 @@ class PostController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $post = Post::where('id', $id)->first();
 
         if ($post->user_id !== auth()->user()->id) {
@@ -117,7 +119,8 @@ class PostController extends Controller {
         return Response::json(['status' => true, 'id' => $id]);
     }
 
-    public function favoritar(Request $request) {
+    public function favoritar(Request $request)
+    {
         $post = Post::where('id', $request->post_id)->first();
 
         try {
@@ -142,13 +145,13 @@ class PostController extends Controller {
         }
     }
 
-    public function addFile($midia, $post) {
+    public function addFile($midia, $post)
+    {
         $ext = $midia->getClientOriginalExtension();
 
         if (in_array($ext, $this->extensionImages)) {
             $post->is_imagem = true;
-        } else
-        if (in_array($ext, $this->extensionVideos)) {
+        } elseif (in_array($ext, $this->extensionVideos)) {
             $post->is_video = true;
         } else {
             return 'Erro ao adicionar mídia';
@@ -156,15 +159,16 @@ class PostController extends Controller {
 
         Input::file('midia')->move($this->destinationPath, md5($post->id));
 
-        $post->url_midia = $this->destinationPath . '/' . md5($post->id);
+        $post->url_midia = $this->destinationPath.'/'.md5($post->id);
         $post->save();
     }
 
-    public function addTags($tags, $post) {
+    public function addTags($tags, $post)
+    {
         $array = str_replace('#', '', explode(' ', $tags));
         $n = (count($array) > 3) ? 3 : count($array);
 
-        for ($i = 0; $i < $n; $i++) {
+        for ($i = 0; $i < $n; ++$i) {
             if (!str_is($array[$i], '')) {
                 $tag = Tag::where('name', $array[$i])->get();
                 $tag = isset($tag[0]) ? $tag[0] : Tag::create(['name' => $array[$i]]);
@@ -172,15 +176,16 @@ class PostController extends Controller {
                 isset($tag) ? $post->tags()->attach($tag->id) : false;
             }
         }
+
         return $array; //não deixar coisar tag vazia!!!
     }
 
-    public function addIcon($tags, $post) {
+    public function addIcon($tags, $post)
+    {
         foreach ($tags as $tag) {
             if ((strtolower($tag) == 'ajuda') || ($tag == 'Dúvida') || ($tag == 'socorro') || ($tag == 'pergunta') || ($tag == 'dúvida') || ($tag == 'duvida')) {
                 $post->url_midia = 'images/place-help.jpg';
-            } else
-            if (strtolower($tag) == 'link') {
+            } elseif (strtolower($tag) == 'link') {
                 $post->url_midia = 'images/place-link.jpg';
             } else {
                 $post->url_midia = 'images/place-post.jpg';
@@ -190,12 +195,13 @@ class PostController extends Controller {
         }
     }
 
-    public function repost(Request $request) {
+    public function repost(Request $request)
+    {
         $post1 = Post::where('id', $request->post_id)->first();
         $post1->num_reposts += 1;
         $post1->save();
 
-        $post2 = new Post;
+        $post2 = new Post();
         $post2->user_id = auth()->user()->id;
         $post2->titulo = $post1->titulo;
         $post2->publicacao = $post1->publicacao;
@@ -210,5 +216,4 @@ class PostController extends Controller {
 
         return Response::json(['id' => $post2->id, 'num' => $post1->num_reposts]);
     }
-
 }

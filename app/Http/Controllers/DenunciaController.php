@@ -6,35 +6,35 @@ use App\DenunciaGrupo;
 use App\GrupoDiscussao;
 use App\GrupoPergunta;
 use App\GrupoUser;
-use App\Http\Controllers\Controller;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 use Response;
 
 class DenunciaController extends Controller
 {
-
     /**
      * Classe de denúncia, cria, avalia e faz controle das publicações.
-     *
      */
     public function createDenunciaGrupo(Request $request)
     {
         Carbon::setLocale('pt_BR');
         if (!DenunciaGrupo::where('grupo_id', $request->grupo_id)->where('tipo', $request->tipo_pub)->where('denuncia', $request->motivo)->where('autor_id_denuncia', auth()->user()->id)->first()) {
-            $denuncia                    = new DenunciaGrupo;
-            $denuncia->id_pub            = $request->id_pub;
-            $denuncia->tipo              = $request->tipo_pub;
-            $denuncia->denuncia          = $request->motivo;
-            $denuncia->grupo_id          = $request->grupo_id;
+            $denuncia = new DenunciaGrupo();
+            $denuncia->id_pub = $request->id_pub;
+            $denuncia->tipo = $request->tipo_pub;
+            $denuncia->denuncia = $request->motivo;
+            $denuncia->grupo_id = $request->grupo_id;
             $denuncia->autor_id_denuncia = auth()->user()->id;
-            $denuncia->autor_id_pub      = $request->autor_id_pub;
-            $denuncia->data              = Carbon::today();
+            $denuncia->autor_id_pub = $request->autor_id_pub;
+            $denuncia->data = Carbon::today();
             if ($denuncia->save()) {
                 return Response::json(['response' => 1]);
-            }return Response::json(['response' => 2]);
-        }return Response::json(['response' => 3]);
+            }
+
+            return Response::json(['response' => 2]);
+        }
+
+        return Response::json(['response' => 3]);
     }
 
     public function analisaDenunciaGrupo(Request $request)
@@ -59,8 +59,12 @@ class DenunciaController extends Controller
             ->update(array('visto' => 1))) {
             if (isset($a)) {
                 return Response::json(['response' => 1, 'id' => $request->id_pub, 'tipo' => $request->tipo_pub, 'user_id' => $request->autor_id_pub]);
-            }return Response::json(['response' => 1]);
-        }return Response::json(['response' => 2]);
+            }
+
+            return Response::json(['response' => 1]);
+        }
+
+        return Response::json(['response' => 2]);
     }
 
 //    public function store(Request $request) {
@@ -84,7 +88,8 @@ class DenunciaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function getDenunciasGrupo(Request $request)
@@ -94,5 +99,4 @@ class DenunciaController extends Controller
             ->orderBy('created_at', 'desc')
             ->save();
     }
-
 }

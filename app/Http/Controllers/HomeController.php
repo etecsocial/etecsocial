@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Escola;
 use App\GrupoUser;
-use App\Http\Controllers\Controller;
 use App\Post;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller {
-
-    public function index() {
+class HomeController extends Controller
+{
+    public function index()
+    {
         return auth()->check() ? $this->feed() : view('home.home', [
                     'escolas' => Escola::all('escolas.id', 'escolas.nome'),
-                    'escolasCad' => Escola::has('turmas')->get()
+                    'escolasCad' => Escola::has('turmas')->get(),
         ]);
     }
 
-    public function feed($id = 0) {
-
+    public function feed($id = 0)
+    {
         $posts = Post::join('users', 'users.id', '=', 'posts.user_id')
                 ->join('amizades', 'amizades.user_id1', '=', 'users.id')
                 ->where('amizades.aceitou', 1)
@@ -29,8 +29,6 @@ class HomeController extends Controller {
                 ->latest()
                 ->select(['posts.id', 'posts.user_id', 'posts.publicacao', 'posts.titulo', 'posts.num_favoritos', 'posts.num_reposts', 'posts.num_comentarios', 'posts.url_midia', 'posts.is_imagem', 'posts.is_video', 'posts.is_repost', 'posts.id_repost', 'posts.user_repost', 'posts.created_at', 'users.name'])
                 ->get();
-       
-
 
         $grupos = GrupoUser::where('user_id', auth()->user()->id)
                 ->join('grupo', 'grupo.id', '=', 'grupo_user.grupo_id')
@@ -60,8 +58,8 @@ class HomeController extends Controller {
         ]);
     }
 
-    public function newpost(Request $request) {
-
+    public function newpost(Request $request)
+    {
         $posts = DB::table('posts')
                 ->join('users', 'users.id', '=', 'posts.user_id')
                 ->join('amizades', 'amizades.user_id1', '=', 'users.id')
@@ -75,7 +73,8 @@ class HomeController extends Controller {
         return view('feed.posts', compact('posts'));
     }
 
-    public function morepost(Request $request) {
+    public function morepost(Request $request)
+    {
         $n = 9 - $request->tamanho % 9;
 
         $posts = DB::table('posts')
@@ -91,5 +90,4 @@ class HomeController extends Controller {
 
         return view('feed.posts', compact('posts'));
     }
-
 }

@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Notificacao;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Response;
-
-//use Event;
-//use App\Events\Notificacao;
 
 class NotificacaoController extends Controller
 {
@@ -31,12 +27,12 @@ class NotificacaoController extends Controller
     public function create($texto, $id_dest)
     {
         DB::table('notificacao')->insert([
-            'rem_id'  => auth()->user()->id,
+            'rem_id' => auth()->user()->id,
             'id_dest' => $id_dest,
-            'data'    => Carbon::today()->timestamp,
-            'texto'   => $texto,
+            'data' => Carbon::today()->timestamp,
+            'texto' => $texto,
         ]);
-        
+
         //Event::fire(new Notificacao($id_dest));
     }
 
@@ -53,7 +49,8 @@ class NotificacaoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function show($id)
@@ -64,7 +61,8 @@ class NotificacaoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function edit($id)
@@ -75,7 +73,8 @@ class NotificacaoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function update($id)
@@ -86,7 +85,8 @@ class NotificacaoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return Response
      */
     public function destroy($id)
@@ -109,6 +109,6 @@ class NotificacaoController extends Controller
     {
         Notificacao::where(['id_dest' => auth()->user()->id, 'visto' => 0])->update(['visto' => 1]);
 
-        return Response::json(["status" => true]);
+        return Response::json(['status' => true]);
     }
 }

@@ -2,31 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Http\Request;
 
 class PoliticaController extends Controller
 {
-
     public function index(Request $request) // @no use
-
     {
         $dados = DB::table('alunos_pfa')->where('rm', $request->rm)->first();
 
-        $nomes    = explode(' ', $dados->nome);
-        $nome     = ucfirst(strtolower($nomes[0])) . ' ' . ucfirst(strtolower($nomes[count($nomes)]));
-        $username = strtolower($nomes[0] . $nomes[count($nomes)]);
-        $senha    = str_random(30);
+        $nomes = explode(' ', $dados->nome);
+        $nome = ucfirst(strtolower($nomes[0])).' '.ucfirst(strtolower($nomes[count($nomes)]));
+        $username = strtolower($nomes[0].$nomes[count($nomes)]);
+        $senha = str_random(30);
 
         User::create([
-            'email'             => $dados->email,
-            'tipo'              => 1,
-            'password'          => bcrypt($senha),
-            'username'          => $username,
-            'birthday'          => $dados->birthday,
-            'nome'              => $nome,
-            'confirmed'         => 1,
+            'email' => $dados->email,
+            'tipo' => 1,
+            'password' => bcrypt($senha),
+            'username' => $username,
+            'birthday' => $dados->birthday,
+            'nome' => $nome,
+            'confirmed' => 1,
             'confirmation_code' => null,
         ]);
     }
@@ -43,7 +40,7 @@ class PoliticaController extends Controller
         if ($aluno) {
             return response()->json($aluno);
         } else {
-            return response('Nenhum aluno com o rm ' . $request->rm . ' encontrado');
+            return response('Nenhum aluno com o rm '.$request->rm.' encontrado');
         }
     }
 }

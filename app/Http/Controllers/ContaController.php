@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Escola;
-use App\Http\Controllers\Controller;
 use App\Turma;
 use App\User;
 use Carbon\Carbon;
@@ -14,18 +13,20 @@ use App\Notificacao;
 use App\ProfessoresTurma;
 use Illuminate\Http\Request;
 
-class ContaController extends Controller {
-
+class ContaController extends Controller
+{
     public $avatar_ext = ['jpg', 'JPG', 'png', 'PNG'];
     public $avatar_path = 'midia/avatar/';
 
-    public function getEscolas(Request $request) {
+    public function getEscolas(Request $request)
+    {
         return Escola::select(['id', 'nome'])
-                        ->where('nome', 'LIKE', '%' . $request->termo . '%')
+                        ->where('nome', 'LIKE', '%'.$request->termo.'%')
                         ->get();
     }
 
-    public function hasCoord($request) {
+    public function hasCoord($request)
+    {
         return ProfessoresTurma::where('escola_id', $request->escola)
                         ->join('users', 'professores_turma.user_id', '=', 'users.id')
                         ->select('users.id')
@@ -33,15 +34,18 @@ class ContaController extends Controller {
                         ->get();
     }
 
-    public function getTurmas(Request $request) {
+    public function getTurmas(Request $request)
+    {
         $this->validate($request, ['escola_id' => 'integer|exists:escolas,id']);
-            $turmas = Turma::where('turmas.escola_id', $request->escola_id)
+        $turmas = Turma::where('turmas.escola_id', $request->escola_id)
                     ->select(['turmas.id as id', 'turmas.sigla as sigla', 'turmas.nome as nome'])
                     ->get();
+
         return view('ajax.turmas', ['turmas' => $turmas]);
     }
 
-    public function getTurmasProfDisp(Request $request) {
+    public function getTurmasProfDisp(Request $request)
+    {
         $this->validate($request, ['escola_id' => 'integer|exists:escolas,id']);
 
             //IMPORTANTE:: FAZER SELECIONAR APENAS AS TURMAS QUE ELE JA NAO TENHA CADASTRADO)
@@ -52,7 +56,8 @@ class ContaController extends Controller {
         return view('ajax.turmas', ['turmas' => $turmas]);
     }
 
-    public function getModulos(Request $request) {
+    public function getModulos(Request $request)
+    {
         $this->validate($request, ['turma_id' => 'integer']);
 
         $modulos = Turma::select('modulos')
@@ -67,7 +72,8 @@ class ContaController extends Controller {
      *
      * @return Response
      */
-    public function editar(Request $request) {
+    public function editar(Request $request)
+    {
         $user = User::find(auth()->user()->id);
 
         if ($request->hasFile('foto')) {
@@ -86,13 +92,13 @@ class ContaController extends Controller {
 
         $user->name = $request->name;
         $user->username = $request->username;
-        $user->birthday = Carbon::createFromTimeStamp(strtotime($request->birthday))->format("Y-m-d");
+        $user->birthday = Carbon::createFromTimeStamp(strtotime($request->birthday))->format('Y-m-d');
         $user->email = $request->email;
 
         if ($request->has('senha')) {
             if (bcrypt($request->senha_atual) != auth()->user()->password) {
                 return Response::json(['status' => false, 'msg' => 'Senha atual incorreta']);
-            } else if ($request->senha != $request->senha_confirmation) {
+            } elseif ($request->senha != $request->senha_confirmation) {
                 return Response::json(['status' => false, 'msg' => 'Senha não correspondem']);
             } else {
                 $user->password = bcrypt($request->senha);
@@ -104,19 +110,20 @@ class ContaController extends Controller {
         return Response::json(['status' => true, 'msg' => 'Dados alterados com sucesso!']);
     }
 
-    public function setProfilePhoto($midia) {
+    public function setProfilePhoto($midia)
+    {
         $ext = $midia->getClientOriginalExtension();
 
         if (!in_array($ext, $this->avatar_ext)) {
             return 'Formato inválido';
         }
 
-        $path = $this->avatar_path . md5(auth()->user()->id) . '.jpg';
+        $path = $this->avatar_path.md5(auth()->user()->id).'.jpg';
         $avatar = Image::make(Input::file('foto'))->fit(200, 200)->save($path);
     }
 
-    public function setTurmaProfessor(Request $request) {
-
+    public function setTurmaProfessor(Request $request)
+    {
         $this->validate($request, ['turma_id' => 'required', 'modulo' => 'required']);
 
         ProfessoresTurma::create([
@@ -130,7 +137,8 @@ class ContaController extends Controller {
         return response()->json(['status' => true]);
     }
 
-    public function setTurmas(\App\Http\Requests\CreateTurmaRequest $request) {
+    public function setTurmas(\App\Http\Requests\CreateTurmaRequest $request)
+    {
         //Cadastra as turmas
         Turma::create(Input::all());
         $this->doneTurmas();
@@ -138,14 +146,16 @@ class ContaController extends Controller {
         return response()->json(['status' => true]);
     }
 
-    public function doneTurmas() {
+    public function doneTurmas()
+    {
         auth()->user()->first_login = 2;
         auth()->user()->save();
     }
 
 // @TODO
 
-    public function confirmEmail(Request $request) {
+    public function confirmEmail(Request $request)
+    {
         $confirmation_code = $request->confirmation_code;
         if (!empty($confirmation_code)) {
             $user = User::where('confirmation_code', '=', $confirmation_code)->first();
@@ -153,18 +163,16 @@ class ContaController extends Controller {
             $user->confirmation_code = null;
             $user->save();
 
-            $notifica = new Notificacao;
+            $notifica = new Notificacao();
             $notifica->id_dest = $user->id;
             $notifica->rem_id = $user->id;
 
             $notifica->data = '';
             $notifica->texto = 'Você confirmou seu email!';
 
-
             auth()->login($user);
         }
 
         return redirect('/');
     }
-
 }
