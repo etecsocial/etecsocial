@@ -70,6 +70,9 @@ Route::group(['middleware' => 'web'], function () {
 
     //AJAX
     Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
+        //AGENDA
+        Route::get('/agenda', 'EventoController@show');
+
         //CONTA
         Route::post('/config', 'ContaController@editar');
         Route::post('/professor', 'ContaController@professor');
