@@ -100,7 +100,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/arquivarMensagem', 'MensagemController@arquivarMensagem');
         });
         //PESQUISAR
-        Route::get('/buscar', 'PesquisaController@buscaRapida');
+        Route::get('/buscar/{termo}', 'PesquisaController@buscaRapida');
         //STATUS
         Route::post('/status', 'PerfilController@status');
         //NEWPOST

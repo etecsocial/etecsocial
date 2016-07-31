@@ -135,8 +135,15 @@ function buscar(busca) {
         $("#results-search").fadeIn(2000);
     });
 
-    $.get("/ajax/buscar?termo=" + busca, function (data) {
-        $(".busca").html(data);
+    $.ajax({
+      url: '/ajax/buscar/' + busca,
+      dataType: 'html',
+      success: function(data){
+            $(".busca").html(data);
+      },
+      error: function(){
+            $(".busca").html('<p>Não foi encontrado nada</p>');
+      }
     });
 }
 
