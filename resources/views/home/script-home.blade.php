@@ -84,7 +84,7 @@ function scaleBannerVideoSize(element){
         var escola = $('#escola_id').val();
         if (escola) {
             $.ajax({
-             url: '/ajax/cadastro/getTurmas?escola_id=' + escola,
+             url: '/ajax/cadastro/getTurmas/' + escola,
              dataType: "html",
              success: function(data){
                  $('#loadturmas').html(data).material_select();
@@ -99,7 +99,7 @@ function scaleBannerVideoSize(element){
         var turma_id = $('#loadturmas').val();
         if (turma_id) {
             $.ajax({
-             url: '/ajax/cadastro/getModulos?turma_id=' + turma_id,
+             url: '/ajax/cadastro/getModulos/' + turma_id,
              dataType: "html",
              success: function(data){
                  $('#loadmodulos').html(data).material_select();
