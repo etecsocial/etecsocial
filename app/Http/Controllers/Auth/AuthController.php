@@ -128,7 +128,7 @@ use AuthenticatesAndRegistersUsers,
     }
 
     public function addGrupo($data, $user) {
-        $q = GrupoTurma::where('turma_id', $data['turma_id'])->where('modulo', $data['modulo'])->select('grupo_id')->get()[0];
+        $q = GrupoTurma::select('grupo_id')->where('turma_id', $data['turma_id'])->where('modulo', $data['modulo'])->firstOrFail();
         GrupoUser::create([
             'grupo_id' => $q->grupo_id,
             'user_id' => $user->id
