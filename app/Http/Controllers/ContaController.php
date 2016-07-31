@@ -34,15 +34,15 @@ class ContaController extends Controller {
     }
 
     public function getTurmas(Request $request) {
-        $this->validate($request, ['escola_id' => 'required|integer|exists:escolas,id']);
+        $this->validate($request, ['escola_id' => 'integer|exists:escolas,id']);
             $turmas = Turma::where('turmas.escola_id', $request->escola_id)
                     ->select(['turmas.id as id', 'turmas.sigla as sigla', 'turmas.nome as nome'])
                     ->get();
         return view('ajax.turmas', ['turmas' => $turmas]);
     }
-    
+
     public function getTurmasProfDisp(Request $request) {
-        $this->validate($request, ['escola_id' => 'required|integer|exists:escolas,id']);
+        $this->validate($request, ['escola_id' => 'integer|exists:escolas,id']);
 
             //IMPORTANTE:: FAZER SELECIONAR APENAS AS TURMAS QUE ELE JA NAO TENHA CADASTRADO)
             $turmas = Turma::where('escola_id', $request->escola_id)
@@ -53,7 +53,7 @@ class ContaController extends Controller {
     }
 
     public function getModulos(Request $request) {
-        $this->validate($request, ['turma_id' => 'required']);
+        $this->validate($request, ['turma_id' => 'integer']);
 
         $modulos = Turma::select('modulos')
                 ->where('id', $request->turma_id)
@@ -134,7 +134,7 @@ class ContaController extends Controller {
         //Cadastra as turmas
         Turma::create(Input::all());
         $this->doneTurmas();
-        
+
         return response()->json(['status' => true]);
     }
 
