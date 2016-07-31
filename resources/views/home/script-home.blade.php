@@ -1,7 +1,4 @@
-   
 <script>
-    
-    //jQuery is required to run this code
 $( document ).ready(function() {
 
     scaleVideoContainer();
@@ -45,8 +42,6 @@ function scaleBannerVideoSize(element){
     videoWidth,
     videoHeight;
 
-    console.log(windowHeight);
-
     $(element).each(function(){
         var videoAspectRatio = $(this).data('height')/$(this).data('width');
 
@@ -84,24 +79,33 @@ function scaleBannerVideoSize(element){
     @if (old('type')) $('.singup').openModal(); @endif
 
     });
+
     function getTurmas() {
-    var escola = $('#escola_id').val();
-    if (escola) {
-    var url = '/ajax/cadastro/getTurmas?escola_id=' + escola;
-    $.get(url, function (dataReturn) {
-    $('#loadturmas').html(dataReturn).material_select();
-    $('#loadmodulos').html('');
-    $('.caret').hide();
-    });
-    }
-    }
-    function getModulos() {
-    var turma_id = $('#loadturmas').val();
-    var url = '/ajax/cadastro/getModulos?turma_id=' + turma_id;
-    $.get(url, function (dataReturn) {
-    $('#loadmodulos').html(dataReturn).material_select();
-    $('.caret').hide();
-    });
+        var escola = $('#escola_id').val();
+        if (escola) {
+            $.ajax({
+             url: '/ajax/cadastro/getTurmas?escola_id=' + escola,
+             dataType: "html",
+             success: function(data){
+                 $('#loadturmas').html(data).material_select();
+                 $('#loadmodulos').html('');
+                 $('.caret').hide();
+             }
+          });
+        }
     }
 
+    function getModulos() {
+        var turma_id = $('#loadturmas').val();
+        if (turma_id) {
+            $.ajax({
+             url: '/ajax/cadastro/getModulos?turma_id=' + turma_id,
+             dataType: "html",
+             success: function(data){
+                 $('#loadmodulos').html(data).material_select();
+                 $('.caret').hide();
+             }
+          });
+        }
+    }
 </script>

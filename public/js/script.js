@@ -24,27 +24,8 @@ $('#edit-perfil').ajaxForm({
         }
     }
 });
-function getModulos() {
-    var turma_id = $('#loadturmas').val();
-    var url = '/ajax/cadastro/getModulos?turma_id=' + turma_id;
-    $.get(url, function (dataReturn) {
-        $('#loadmodulos').html(dataReturn).material_select();
-        $('.caret').hide();
-    });
-}
 
-function getTurmas() {
-    //pega as turmas existentes em determinada escola
-    var escola = $('#escola_id').val();
-    if (escola) {
-        var url = '/ajax/cadastro/getTurmas?escola_id=' + escola;
-        $.get(url, function (dataReturn) {
-            $('#loadturmas').html(dataReturn).material_select();
-            $('#loadmodulos').html('');
-            $('.caret').hide();
-        });
-    }
-}
+
 function getTurmasProfDisp(escola_id) {
     //pega as turmas da quela escola que o professor ainda nao tenha cadastrado
     if (escola_id) {
