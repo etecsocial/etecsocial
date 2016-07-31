@@ -24,10 +24,9 @@ class Pontuacao extends Model
         $pontuacao = Pontuacao::selectRaw('sum(pontos) as pontos')
             ->where('user_id', auth()->user()->id)
             ->orderBy('created_at', 'DESC')
-            ->limit(1)
             ->first();
-
-        return ($pontuacao == null) ? 0 : $pontuacao->pontos;
+            
+        return ($pontuacao->pontos == null) ? 0 : $pontuacao->pontos;
     }
 
     public function user() {

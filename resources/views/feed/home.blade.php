@@ -1,13 +1,13 @@
 @extends('base')
 @section('title') Início | ETEC Social @stop
 
-@section('style') 
+@section('style')
 {!! Minify::stylesheet([
 '/css/font.css',
 '/css/asset.css',
-'/css/style.css', 
+'/css/style.css',
 '/js/plugins/fullcalendar/css/fullcalendar.min.css',
-])->withFullURL() !!} 
+])->withFullURL() !!}
 @stop
 
 @section('jscript')
@@ -65,9 +65,9 @@
                             </a>
                         </label>
                         @if($task->data > time() + 3*24*60*60)
-                        <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> 
+                        <span class="task-cat green darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                         @elseif($task->data > time())
-                        <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> 
+                        <span class="task-cat yellow darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span>
                         @else
                         <span class="task-cat red darken-1">{{ \Carbon\Carbon::createFromTimeStamp($task->data)->format("d/m/Y") }}</span> @endif
                     </li>
@@ -80,12 +80,12 @@
                     <!--Colocar esse form em uma modal, fica feio assim.-->
                     <!--                    <li class="tarefa collection-item dismissable">
                                             Nova tarefa
-                                            {!! Form::open(array('url' => '/task')) !!}        
+                                            {!! Form::open(array('url' => '/task')) !!}
                                             <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Até quando sua tarefa deve ser concluída?" data-position="right" data-delay="1000">
                                                 <input id="cc" type="date"  required name="date" class="datepicker validate">
                                                 <label for="date" data-error="Data inválida" data-success="Tudo bem. Lembraremos você!" style="width: 350px" class="left-align">Selecione a data</label>
                                             </div>
-                    
+
                                             <div class="input-field col s12 m12 l12 tooltipped" data-tooltip="Informe seu email pessoal" data-position="right" data-delay="1000">
                                                 <input type="text" lenght="50" required name="desc" placeholder="O que você tem que fazer, {{ explode(' ',auth()->user()->name)[0] }}?" class="validate">
                                                 <label for="desc" data-error="Sua descrição parece ser muito curta." style="width: 350px" class="left-align">Tarefa</label>
@@ -99,7 +99,7 @@
                     <ul class="tabs tab-profile cyan">
                         <li class="tab col s4"><a class="white-text waves-light">Publicar conteúdo</a></li>
                     </ul>
-                    {!! Form::open(array('url' => '/ajax/post', 'id' => 'publicar')) !!}         
+                    {!! Form::open(array('url' => '/ajax/post', 'id' => 'publicar')) !!}
                     <div class="row">
                         <div class="col s2 hide-on-med-and-down">
                             <img src="{{ auth()->user()->myAvatar() }}" alt="" class="circle responsive-img valign profile-image-post">
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                         <div class="col s2 l4" style="margin-bottom:10px">
-                            {!! Form::submit('Publicar', ['class' => 'btn red right-align']) !!}                        
+                            {!! Form::submit('Publicar', ['class' => 'btn red right-align']) !!}
                         </div>
                     </div>
                     <div id="modalMidia" class="modal">
@@ -195,22 +195,6 @@
                     <div class="card-content blue white-text center">
                         <p class="card-stats-title"><i class="mdi-social-group-add hide-on-med-and-down"></i> Pontuação</p>
                         <h4 class="card-stats-number" id="pontuacao">{{ \App\Pontuacao::total() }}</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col s6 m6 l6">
-                <div class="card">
-                    <div class="card-content purple white-text center">
-                        <p class="card-stats-title"><i class="mdi-editor-attach-money hide-on-med-and-down"></i>Desafios</p>
-                        <h4 class="card-stats-number">@if( isset(auth()->user()->num_desafios) ) {{ auth()->user()->num_desafios }} @else 0 @endif</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col s6 m6 l6">
-                <div class="card">
-                    <div class="card-content orange white-text center">
-                        <p class="card-stats-title"><i class="mdi-action-trending-up hide-on-med-and-down"></i> Auxílios</p>
-                        <h4 class="card-stats-number">@if( isset(auth()->user()->num_auxilios) ) {{ auth()->user()->num_auxilios }} @else 0 @endif</h4>
                     </div>
                 </div>
             </div>
