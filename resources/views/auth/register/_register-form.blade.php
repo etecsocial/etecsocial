@@ -1,7 +1,7 @@
 @for($type = 1; $type < 4; $type++)
 
-<div id="{{ $type }}" class="col s12">
-    {!! Form::open(array('url' => '/register')) !!}        
+<div id="{{ $type }}" class="col s12" style="margin-top: 30px">
+    {!! Form::open(array('url' => '/register')) !!}
     {!! Form::hidden('type', $type) !!}
     <div class="input-field col s12 m6 l6 tooltipped" data-tooltip="Seus amigos encontrarão você por este nome!" data-position="top" data-delay="1000">
         <input value="{{ old('name') }}" id="name" type="text"  required name="name" placeholder="Ex. Antônio Carlos" class="validate @if($errors->has('name')) invalid  @elseif($errors->any()) valid @endif">
@@ -44,14 +44,13 @@
     </div>
     @if($type == 2)
     <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Solicite o código na coordenação de sua escola" data-position="top" data-delay="1000">
-        <input placeholder="O código deve corresponder à escola selecionada" id="cod_prof" type="number"  required name="cod_prof" class="validate @if($errors->has('cod_prof')) invalid  @elseif($errors->any()) valid @endif">
+        <input placeholder="O código deve corresponder à escola selecionada" id="cod_prof" type="number"  required name="cod_prof" class="validate @if($errors->has('cod_prof')) invalid  @elseif($errors->any()) valid @endif" value="{{ old('cod_prof')}}">
         <label for="cod_prof" data-error="{{ $errors->first('cod_prof') ? $errors->first('cod_prof') : 'Código inválido.'}}" style="width: 350px" class="left-align">Código do professor</label>
     </div>
     @elseif($type == 3)
     <div class="input-field col s12 m6 l6 validate tooltipped" data-tooltip="Obtenha o código entrando em contato conosco através do e-mail contato@etecsocial.com.br" data-position="top" data-delay="1000">
-        <input placeholder="O código deve corresponder à escola selecionada" id="cod_coord" type="number"  required name="cod_coord" class="validate @if($errors->has('cod_coord')) invalid  @elseif($errors->any()) valid @endif">
+        <input placeholder="O código deve corresponder à escola selecionada" id="cod_coord" type="number"  required name="cod_coord" class="validate @if($errors->has('cod_coord')) invalid  @elseif($errors->any()) valid @endif" value="{{ old('cod_coord')}}">
         <label for="cod_coord" data-error="{{ $errors->first('cod_coord') ? $errors->first('cod_coord') : 'Código inválido.'}}" style="width: 350px" class="left-align">Código do coordenador</label>
-
     </div>
     @else
     <div class="input-field col s6 m3 l3 tooltipped" data-position="top" data-delay="2000" data-tooltip="Caso sua turma não esteja listada, procure a coordenação de sua escola." id="turmas">
@@ -66,9 +65,9 @@
     </div>
     @endif
     <div class="modal-footer">
-        <button class="btn waves-effect waves-light" type="submit" id="btn-submit-singup-form">Vamos lá!
+        <button class="btn waves-effect waves-light" type="submit" id="btn-submit-singup-form">Criar Conta
             <i class="material-icons right">send</i>
-        </button>  
+        </button>
     </div>
 
     {!! Form::close() !!}
