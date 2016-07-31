@@ -74,11 +74,11 @@ class MensagemController extends Controller {
             if (Input::hasFile('midia')) {
                 $ext = Input::file('midia')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionImg)) {
-                    Input::file('midia')->move($this->ImgDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $midia = $this->ImgDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('midia')->move($this->ImgDestinationPath, md5(auth()->user()->id . Carbon::now()) . '.' . $ext);
+                    $midia = $this->ImgDestinationPath . '/' . md5(auth()->user()->id . Carbon::now()) . '.' . $ext;
                 } elseif (in_array($ext, $this->extensionVideos)) {
-                    Input::file('midia')->move($this->VideoDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $midia = $this->VideoDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('midia')->move($this->VideoDestinationPath, md5(auth()->user()->id . Carbon::now()) . '.' . $ext);
+                    $midia = $this->VideoDestinationPath . '/' . md5(auth()->user()->id . Carbon::now()) . '.' . $ext;
                 } else {
                     return Response::json(['status' => false]);
                 }
@@ -86,8 +86,8 @@ class MensagemController extends Controller {
             if (Input::hasFile('doc')) {
                 $ext = Input::file('doc')->getClientOriginalExtension();
                 if (in_array($ext, $this->extensionDocs)) {
-                    Input::file('doc')->move($this->DocsDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                    $doc = $this->DocsDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                    Input::file('doc')->move($this->DocsDestinationPath, md5(auth()->user()->id . Carbon::now()) . '.' . $ext);
+                    $doc = $this->DocsDestinationPath . '/' . md5(auth()->user()->id . Carbon::now()) . '.' . $ext;
                 } else {
                     return Response::json(['status' => false]);
                 }
@@ -164,8 +164,8 @@ class MensagemController extends Controller {
         if (Input::hasFile('midia')) {
             $ext = Input::file('midia')->getClientOriginalExtension();
             if (in_array($ext, $this->extensionImg)) {
-                Input::file('midia')->move($this->ImgDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                $caminho = $this->ImgDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                Input::file('midia')->move($this->ImgDestinationPath, md5(auth()->user()->id . Carbon::now()) . '.' . $ext);
+                $caminho = $this->ImgDestinationPath . '/' . md5(auth()->user()->id . Carbon::now()) . '.' . $ext;
             } else {
                 return 1; //Não é imagem válidda!!
             }
@@ -177,8 +177,8 @@ class MensagemController extends Controller {
         if (Input::hasFile('doc')) {
             $ext = Input::file('doc')->getClientOriginalExtension();
             if (in_array($ext, $this->extensionDocs)) {
-                Input::file('doc')->move($this->DocsDestinationPath, md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext);
-                $caminho = $this->DocsDestinationPath . '/' . md5(auth()->user()->id . \Carbon\Carbon::now()) . '.' . $ext;
+                Input::file('doc')->move($this->DocsDestinationPath, md5(auth()->user()->id . Carbon::now()) . '.' . $ext);
+                $caminho = $this->DocsDestinationPath . '/' . md5(auth()->user()->id . Carbon::now()) . '.' . $ext;
             } else {
                 return 1; //Não é documento válido!!
             }

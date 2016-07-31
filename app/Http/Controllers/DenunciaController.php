@@ -30,7 +30,7 @@ class DenunciaController extends Controller
             $denuncia->grupo_id          = $request->grupo_id;
             $denuncia->autor_id_denuncia = auth()->user()->id;
             $denuncia->autor_id_pub      = $request->autor_id_pub;
-            $denuncia->data              = \Carbon\Carbon::today();
+            $denuncia->data              = Carbon::today();
             if ($denuncia->save()) {
                 return Response::json(['response' => 1]);
             }return Response::json(['response' => 2]);

@@ -133,7 +133,7 @@ class EventoController extends Controller {
                     'assunto' => isset($desc) ? $desc : 'Grupo de estudos',
                     'url' => $this->makeUrl($titulo),
                     'id_criador' => auth()->user()->id,
-                    'criacao' => \Carbon\Carbon::today(),
+                    'criacao' => Carbon::today(),
                     'expiracao' => isset($end) ? $end : $start
                 ])) {
             $alunos = User::where('turma_id', $turma_id)->select('id')->where('id', '<>', auth()->user()->id)->get();
