@@ -3,30 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Amizade;
-use App\Http\Controllers\Controller;
-use App\Mensagens;
+
 use App\Post;
 use App\User;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 use Response;
 
-class PerfilController extends Controller {
-
+class PerfilController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index($username) {
-        $u = User::firstOrFail()->where('username', $username)->get()[0];
+    public function index($username)
+    {
+        $u = User::where('username', $username)->firstOrFail();
         $amizade = Amizade::verificar($u->id);
         if ($amizade['status']) {
             $posts = $u->posts()
                             ->orderBy('created_at', 'desc')
                             ->limit(5)
-                            ->with(['comentarios' => function($query) {
+                            ->with(['comentarios' => function ($query) {
                                     $query->orderBy('created_at', 'desc');
                                     $query->orderBy('relevancia', 'desc');
                                 }])->get();
@@ -35,7 +34,7 @@ class PerfilController extends Controller {
                             ->where('is_publico', true)
                             ->orderBy('created_at', 'desc')
                             ->limit(5)
-                            ->with(['comentarios' => function($query) {
+                            ->with(['comentarios' => function ($query) {
                                     $query->orderBy('created_at', 'desc');
                                     $query->orderBy('relevancia', 'desc');
                                 }])->get();
@@ -45,13 +44,14 @@ class PerfilController extends Controller {
             Carbon::setLocale('pt_BR');
             $tasks = $u->tarefas()
                     ->where(function ($query) {
-                        $query->where("data_checked", ">", time() - 3 * 24 * 60 * 60)
+                        $query->where('data_checked', '>', time() - 3 * 24 * 60 * 60)
                         ->orWhere('checked', false);
                     })
                     ->orderBy('data')
                     ->limit(4)
                     ->get();
-        }     
+        }
+
         return view('perfil.home', [
             'user' => $u,
             'amizade' => $amizade,
@@ -60,7 +60,7 @@ class PerfilController extends Controller {
             'posts' => $posts,
             'num_amigos' => auth()->user()->countAmigos($u->id),
             'num_grupos' => $u->grupos->count(),
-            'tasks' => isset($tasks) ? $tasks : false
+            'tasks' => isset($tasks) ? $tasks : false,
         ]);
     }
 
@@ -84,11 +84,13 @@ class PerfilController extends Controller {
 //    }
     //QUE HORROR!
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         //
     }
 
-    public function status(Request $request) {
+    public function status(Request $request)
+    {
         $request->status = htmlspecialchars($request->status);
         $this->validate($request, ['status' => 'required|max:180']);
 
@@ -98,7 +100,7 @@ class PerfilController extends Controller {
 
         if (in_array($request->status, $pro1)) {
             return Response::json(['error' => 'Que triste...']);
-        } else if (in_array($request->status, $pro2)) {
+        } elseif (in_array($request->status, $pro2)) {
             return Response::json(['error' => 'Então compartilhe com seus amigos!']);
         }
 
@@ -107,7 +109,8 @@ class PerfilController extends Controller {
         return Response::json(['error' => false, 'status' => $request->status]);
     }
 
-    public function newpost(Request $request) {
+    public function newpost(Request $request)
+    {
         Carbon::setLocale('pt_BR');
 
         $posts = Post::where('user_id', $request->user_id)
@@ -120,7 +123,8 @@ class PerfilController extends Controller {
         return view('perfil.posts', ['posts' => $posts]);
     }
 
-    public function morepost(Request $request) {
+    public function morepost(Request $request)
+    {
         Carbon::setLocale('pt_BR');
 
         $n = 5 - $request->tamanho % 5;
@@ -136,34 +140,40 @@ class PerfilController extends Controller {
         return view('perfil.posts', ['posts' => $posts]);
     }
 
-    public function addAmigo(Request $request) {
-        $amizade = new Amizade;
+    public function addAmigo(Request $request)
+    {
+        $amizade = new Amizade();
         $verifica = Amizade::verificar($request->id);
 
         if ($verifica['status']) {
             $amizade->desfazer($request->id);
+
             return Response::json(['status' => 'cancel']);
         }
 
-        if ($verifica['error'] == "NAO_ACEITOU") {
+        if ($verifica['error'] == 'NAO_ACEITOU') {
             $amizade->desfazer($request->id);
+
             return Response::json(['status' => 'enable']);
         }
 
-        if ($verifica['error'] == "VOCE_NAO_ACEITOU") {
+        if ($verifica['error'] == 'VOCE_NAO_ACEITOU') {
             $amizade->aceitar($request->id);
+
             return Response::json(['status' => 'success']);
         }
 
-        if ($verifica['error'] == "NAO_AMIGO") {
+        if ($verifica['error'] == 'NAO_AMIGO') {
             $amizade->novo($request->id);
+
             return Response::json(['status' => 'disable']);
         }
     }
 
-    public function recusarAmigo(Request $request) {
+    public function recusarAmigo(Request $request)
+    {
         Amizade::recusar($request->id);
+
         return Response::json(['status' => 'success']);
     }
-
 }
