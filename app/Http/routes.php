@@ -71,7 +71,10 @@ Route::group(['middleware' => 'web'], function () {
     //AJAX
     Route::group(['prefix' => 'ajax', 'middleware' => 'auth'], function () {
         //AGENDA
-        Route::resource('/agenda', 'EventoController');
+        Route::get('/agenda', 'EventoController@show');
+        Route::delete('/agenda/{id}', 'EventoController@destroy');
+        Route::patch('/agenda/{id}', 'EventoController@edit');
+
 
         //CONTA
         Route::post('/config', 'ContaController@editar');
