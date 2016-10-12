@@ -33,7 +33,7 @@
             <div class="col l3 s12">
                 <h5 class="white-text">Contato</h5>
                 <ul>
-                    <li><a class="white-text" href="https://www.facebook.com/etecsoc/">facebook.com/etecsoc</a></li>
+                    <li><a class="white-text" href="https://www.facebook.com/EtecSocialOficial/">facebook.com/EtecSocialOficial/</a></li>
                     <li><a class="white-text" href="https://twitter.com/etecsocial">twitter.com/etecsocial</a></li>
                     <li><a class="white-text" href="mailto:contato@etecsocial.com">contato@etecsocial.com.br</a></li>
                 </ul>
