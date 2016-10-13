@@ -34,11 +34,11 @@ class Post extends Model {
         return $this->HasMany('App\Comentario');
     }
     public function tags() {
-        return $this->BelongsToMany('App\Tag');
+        return $this->belongsToMany('App\Tag');
     }
 
-    
-    
+
+
     public static function favoritou($id) {
         $count = DB::table('favoritos')
                 ->where(["post_id" => $id, "user_id" => auth()->user()->id])

@@ -77,7 +77,7 @@ class ContaController extends Controller
         $user = User::find(auth()->user()->id);
 
         if ($request->hasFile('foto')) {
-            $this->addfoto($request->foto);
+            $this->setProfilePhoto($request->foto);
         }
 
         if (auth()->user()->username != $request->username &&
