@@ -89,11 +89,20 @@ class ContaController extends Controller
                 User::where('email', $request->email)->limit(1)->first()) {
             return Response::json(['status' => false, 'msg' => 'Esse email já está sendo usado']);
         }
+        if (!empty($request->name)) {
+            $user->name = $request->name;
+        }
+        if (!empty($request->username)) {
+            $user->username = $request->username;
+        }
 
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->birthday = Carbon::createFromTimeStamp(strtotime($request->birthday))->format('Y-m-d');
-        $user->email = $request->email;
+        if (!empty($user->birthday)) {
+            $user->birthday = Carbon::createFromTimeStamp(strtotime($request->birthday))->format('Y-m-d');
+        }
+
+        if (!empty($request->email)) {
+            $user->email = $request->email;
+        }
 
         if ($request->has('senha')) {
             if (bcrypt($request->senha_atual) != auth()->user()->password) {
