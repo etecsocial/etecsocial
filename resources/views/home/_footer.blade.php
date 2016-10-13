@@ -1,14 +1,23 @@
 <div class="container">
     <div class="row center-align">
         <h4>Patrocinadores</h4>
-        <div class="col l6 s12">
 
+        <div class="col l3 s12">
             <a href="https://www.facebook.com/njespaconatural/">
                 <img src="{{ asset('images/nj.png')}}" alt="NJ Espaço Natural logo" width="230">
             </a>
         </div>
-        <div class="col l6 s12">
-
+        <div class="col l3 s12">
+            <a href="https://www.facebook.com/profile.php?id=100002244722410">
+                <img src="{{ asset('images/tiago_silva.jpg')}}" alt="Tiago Silva logo" width="230">
+            </a>
+        </div>
+        <div class="col l3 s12">
+            <a href="https://www.facebook.com/sarajgraficadigital/">
+                <img src="{{ asset('images/sara_julia.png')}}" alt="Sara Digital Gráfica logo" width="230">
+            </a>
+        </div>
+        <div class="col l3 s12">
             <a href="https://www.facebook.com/damasereis.eventos/">
                 <img src="{{ asset('images/damasereis.png')}}" alt="Damas e Reis Iluminação Profissional" width="200">
             </a>
