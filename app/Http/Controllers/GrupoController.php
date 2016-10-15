@@ -625,7 +625,7 @@ class GrupoController extends Controller
             'tipo' => $tipo,
             'desc' => $desc ? $desc : null,
             'data_evento' => $data_evento ? $data_evento : null,
-            'd_rem' => $rem_id ? $rem_id : null,
+            'rem_id' => $rem_id ? $rem_id : null,
         ]);
     }
 

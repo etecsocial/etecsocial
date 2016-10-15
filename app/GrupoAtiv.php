@@ -13,6 +13,8 @@ class GrupoAtiv extends Model {
         'desc',
         'created_at',
         'updated_at',
+        'rem_id',
+        'data_evento',
     ];
 
     /**
