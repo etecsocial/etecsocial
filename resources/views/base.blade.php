@@ -9,8 +9,8 @@
     <meta property="og:site_name" content="ETEC Social">
     <meta property="og:title" content="ETEC Social - Entre, conheça ou cadastre-se.">
     <title>@yield('title')</title>
-    {!! MaterializeCSS::include_css() !!} 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    {!! MaterializeCSS::include_css() !!}
+    <link href="{{ asset('fonts/material-icons.css')}}" rel="stylesheet"> 
     @yield('style')
 </head>
 <body>

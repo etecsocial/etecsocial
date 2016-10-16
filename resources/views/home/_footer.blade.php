@@ -1,6 +1,20 @@
-<div class="container">
+<style>
+.patrocinadores {
+  width: 90%;
+}
+.patrocinadores > .row .col.l3 {
+  width: 20%;
+}
+</style>
+<div class="container patrocinadores">
     <div class="row center-align">
         <h4>Patrocinadores</h4>
+
+        <div class="col l3 s12">
+            <a href="http://www.buffetsantacruz.com.br/">
+                <img src="{{ asset('images/buffet.jpg')}}" alt="Buffet Santa Cruz" width="230">
+            </a>
+        </div>
 
         <div class="col l3 s12">
             <a href="https://www.facebook.com/njespaconatural/">
