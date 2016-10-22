@@ -1,6 +1,7 @@
 <style>
 .patrocinadores {
   width: 90%;
+  margin-top: -50px !important;
 }
 .patrocinadores > .row .col.l3 {
   width: 20%;
@@ -8,32 +9,32 @@
 </style>
 <div class="container patrocinadores">
     <div class="row center-align">
-        <h4>Patrocinadores</h4>
+        <h4>Apoio</h4>
 
         <div class="col l3 s12">
             <a href="http://www.buffetsantacruz.com.br/">
-                <img src="{{ asset('images/buffet.jpg')}}" alt="Buffet Santa Cruz" width="230">
+                <img src="{{ asset('images/buffet.jpg')}}" alt="Buffet Santa Cruz" width="200">
             </a>
         </div>
 
         <div class="col l3 s12">
             <a href="https://www.facebook.com/njespaconatural/">
-                <img src="{{ asset('images/nj.png')}}" alt="NJ Espaço Natural logo" width="230">
+                <img src="{{ asset('images/nj.png')}}" alt="NJ Espaço Natural logo" width="200">
             </a>
         </div>
         <div class="col l3 s12">
             <a href="https://www.facebook.com/profile.php?id=100002244722410">
-                <img src="{{ asset('images/tiago_silva.jpg')}}" alt="Tiago Silva logo" width="230">
+                <img src="{{ asset('images/tiago_silva.jpg')}}" alt="Tiago Silva logo" width="200">
             </a>
         </div>
         <div class="col l3 s12">
             <a href="https://www.facebook.com/sarajgraficadigital/">
-                <img src="{{ asset('images/sara_julia.png')}}" alt="Sara Digital Gráfica logo" width="230">
+                <img src="{{ asset('images/sara_julia.png')}}" alt="Sara Digital Gráfica logo" width="180">
             </a>
         </div>
         <div class="col l3 s12">
             <a href="https://www.facebook.com/damasereis.eventos/">
-                <img src="{{ asset('images/damasereis.png')}}" alt="Damas e Reis Iluminação Profissional" width="200">
+                <img src="{{ asset('images/damasereis.png')}}" alt="Damas e Reis Iluminação Profissional" width="160">
             </a>
         </div>
     </div>

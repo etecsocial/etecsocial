@@ -33,6 +33,22 @@
 '/js/plugins.js'
 ])->withFullURL() !!}
 
+<script>
+$(document).ready(function(){
+  $('#excluirEvento').ajaxForm({
+      type: "DELETE",
+      dataType: 'JSON',
+      success: function (data) {
+          if (data.status) {
+              $('#calendar').fullCalendar('refetchEvents');
+          } else {
+              Materialize.toast('<span>Você não pode excluir esse evento</span>', 3000);
+          }
+      }
+  });
+});
+</script>
+
 @if(auth()->user()->first_login != 0)
 <script>
     $(document).ready(function() {
@@ -299,6 +315,23 @@
             </div>
             <div><a class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a></div>
         </div>
+    </div>
+</div>
+<div id="evento" class="modal" data-target="evento">
+    <div class="modal-content">
+        <h4 id="evento-title"></h4>
+        <i id="opcoes" style="display:none">
+      <i id="data-opcoes"></i>
+        </i>
+        <i id="user"></i>
+        <p id="evento-content"></p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-red btn-flat">Fechar</a>
+        <form id="excluirEvento" method="DELETE">
+            <input type="hidden" id="iduser" value="{{ auth()->user()->id }}">
+            <button type="submit" class="modal-action modal-close waves-effect waves-red btn-flat">Excluir</button>
+        </form>
     </div>
 </div>
 @include('partials._footer')

@@ -29,7 +29,7 @@ $('#edit-perfil').ajaxForm({
 function getTurmasProfDisp(escola_id) {
     //pega as turmas da quela escola que o professor ainda nao tenha cadastrado
     if (escola_id) {
-        var url = '/ajax/cadastro/getTurmasProfDisp?escola_id=' + escola_id;
+        var url = '/ajax/cadastro/getTurmasProfDisp/' + escola_id;
         $.get(url, function (dataReturn) {
             $('#loadturmas').html(dataReturn).material_select();
             $('#loadmodulos').html('');
@@ -37,6 +37,20 @@ function getTurmasProfDisp(escola_id) {
         });
     } else {
         Materialize.toast('<span>Escola não selecionada ou inexistente.</span>', 3000);
+    }
+}
+
+function getModulos() {
+    var turma_id = $('#loadturmas').val();
+    if (turma_id) {
+        $.ajax({
+         url: '/ajax/cadastro/getModulos/' + turma_id,
+         dataType: "html",
+         success: function(data){
+             $('#loadmodulos').html(data).material_select();
+             $('.caret').hide();
+         }
+      });
     }
 }
 

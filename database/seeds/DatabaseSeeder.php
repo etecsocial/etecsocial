@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Escolas oficiais inseridas no banco de dados');
 
         // factories tests, executa apenas em ambiente de test (local)
-        if(env('APP_ENV') == 'local'){
+        if(env('APP_ENV') == 'local_nao'){
           factory(App\User::class, 'coordenador', 10)->create();
           $this->command->info('Inserindo 10 coordenadores aleatorios');
 
