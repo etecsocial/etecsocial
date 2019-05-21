@@ -59,7 +59,7 @@ class Grupo extends Model {
         if (Grupo::where('url', $url)->select('id')->first()) {
             $nova = $url . $cont;
             while (Grupo::where('url', $nova)->select('id')->first()) {
-//falta deixar usar url de grupo expirado
+            //@todo falta deixar usar url de grupo expirado
                 $cont++;
                 $nova = $url . $cont;
             }

@@ -1,6 +1,6 @@
 #index .section {
     background: url('../images/bg1.jpg') no-repeat center center / cover;
-    padding-bottom: 50px;
+    padding-bottom: 10%;
     margin-top: -80px;
     color: #000;
 }
@@ -12,9 +12,8 @@
 }
 
 .content-video{
-    position: absolute;
-    top: 50px;
-    left: 50px
+    position: relative;
+    text-align: center;
 }
 .homepage-hero-module {
     border-right: none;
