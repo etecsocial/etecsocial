@@ -15,7 +15,7 @@ class Grupo extends Model {
         'materia',
         'assunto',
         'id_criador',
-        //tirar esses tres campos, somos melhores que isso.
+        //@todo tirar esses tres campos, somos melhores que isso.
         'num_participantes',
         'num_discussoes',
         'num_perguntas',
@@ -48,7 +48,7 @@ class Grupo extends Model {
     
 
     public static function verGrupo($id) {
-        return Grupo::where('id', $id)->limit(1)->first();
+        return Grupo::find($id);
     }
     
     
