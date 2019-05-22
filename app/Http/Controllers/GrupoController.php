@@ -190,6 +190,7 @@ class GrupoController extends Controller
 
     public function setDisc(Request $request)
     {
+        //@todo passar isso para o controlador certo
         $this->validate($request, ['assunto' => 'required']);
         $this->validate($request, ['discussao' => 'required']);
 
@@ -630,7 +631,7 @@ class GrupoController extends Controller
     }
 
     public function getAtiv($grupo_id)
-    {
+        {
         $atv[] = GrupoAtiv::where('grupo_id', $grupo_id)
                 ->where('tipo', 'discussao')
                 ->orderBy('created_at', 'desc')
