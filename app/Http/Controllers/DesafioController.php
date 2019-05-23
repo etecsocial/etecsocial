@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Pontuacao;
-use App\User;
 use Illuminate\Http\Request;
 use App\Desafio;
 use App\DesafioTurma;

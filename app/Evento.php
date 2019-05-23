@@ -32,7 +32,7 @@ class Evento extends Model {
         return $this->belongsTo('App\Escola')->withTimestamps();
     }
 
-    public static function loada() {
+    public static function loada() { //@todo vai saber o que é isso que o marcio fez kkkkk
         $age = Evento::where('user_id', auth()->user()->id)->where('start', '>', time())->get()->first();
 
         return (empty($age)) ? false : $age;

@@ -7,12 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Escola extends Model {
 
     public $timestamps = false;
-    protected $fillable = [
-        'id',
-        'nome',
-        'cod_prof',
-        'cod_coord',
-    ];
+    protected $guarded = [];
+
 
     /**
      * @return \Iluminate\Database\Elequoment\Relations\HasMany

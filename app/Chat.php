@@ -8,20 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Chat extends Model
 {
 
-    protected $fillable = [
-        'remetente_id',
-        'destinatario_id',
-        'msg',
-        'created_at',
-        'data',
-        'visto',
-        'video',
-        'img',
-        'doc',
-        'copia_dest',
-        'copia_rem',
-        'visto',
-    ];
+    protected $guarded = [];
+
 
     public static function loadConversas()
     {

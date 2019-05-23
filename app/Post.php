@@ -7,20 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model {
 
-    protected $fillable = [
-        'id',
-        'user_id',
-        'titulo',
-        'publicacao',
-        'num_favoritos',
-        'num_reposts',
-        'num_comentarios',
-        'url_midia',
-        'is_imagem',
-        'is_video',
-        'is_publico',
-        'is_repost',
-    ];
+    protected $guarded = [];
 
     /**
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Amizade extends Model {
 
-    protected $fillable = [
-        'user_id1',
-        'user_id2',
-        'aceitou',
+    protected $guarded = [
+        'created_at',
+        'updated_at'
     ];
+
     
     
     
@@ -36,7 +36,7 @@ class Amizade extends Model {
                     'user_id2' => auth()->user()->id,
         ]);
 
-        if ($amizade2->count()) {
+        if ($amizade2->count()) {//@socorro arrumar isso kkk
             return ['status' => false, 'error' => 'VOCE_NAO_ACEITOU'];
         } else {
             return ['status' => false, 'error' => 'NAO_AMIGO'];

@@ -132,7 +132,7 @@ use AuthenticatesAndRegistersUsers,
     }
 
     public function addGrupo($data, $user)
-    {
+    {// @todo isso deveria ser criado sozinho pelo eloquent.
         $q = GrupoTurma::select('grupo_id')->where('turma_id', $data['turma_id'])->where('modulo', $data['modulo'])->firstOrFail();
         GrupoUser::create([
             'grupo_id' => $q->grupo_id,

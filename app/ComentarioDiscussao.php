@@ -7,13 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ComentarioDiscussao extends Model {
 
     protected $table = 'comentarios_discussao';
-    protected $fillable = [
-        'id',
-        'grupo_id',
-        'user_id',
-        'discussao_id',
-        'comentario',
-    ];
+    protected $guarded = [];
 
     /**
      * @return \Iluminate\Database\Elequoment\Relations\BelongsTo
