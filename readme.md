@@ -9,7 +9,9 @@ Em 2019, foi retomado o desenvolvimento da plataforma.
 # Resumo
 
 Visando criar um ambiente comum de interação entre alunos e professores, o sistema contará com uma série de ferramentas e funcionalidades que auxiliarão o aluno durante todo o período letivo, estimulando-o a aprender dentro e fora da escola, através de recursos interativos e inovadores.
+
 ![Página Inicial](HomeScreenshot.PNG)
+![Feed](FeedScreenshot.PNG)
 Tecnologias utilizadas: PHP 7, Laravel, Materialize-CSS, jQuery, HTML5, CSS3, MySQL
 
 - Saiba mais sobre o projeto através do link http://etecsocial.github.io
